@@ -4,9 +4,6 @@
 /.vscode/
 /.idea/
 
-# yarn
-/.yarn/
-
 # dependencies
 /node_modules
 /.pnp
