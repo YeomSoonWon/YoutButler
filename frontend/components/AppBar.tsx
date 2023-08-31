@@ -10,6 +10,10 @@ const AppBar = () => {
     console.log(session);
   },[session])
 
+  const ultSignOut=()=>{
+    signOut();
+  }
+
   return (
     <div>
       <Link href={"/"}>
@@ -24,6 +28,9 @@ const AppBar = () => {
             <p> {session.user.name}</p>
             <button onClick={() => signOut()}>
               Sign Out
+            </button>
+            <button onClick={() => ultSignOut()}>
+              Ult Sign Out
             </button>
           </>
         ) : (
