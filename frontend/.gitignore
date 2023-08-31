@@ -4,6 +4,15 @@
 /.vscode/
 /.idea/
 
+#yarn
+./yarn/*
+!.yarn/cache
+!.yarn/sdks
+!.yarn/unplugged
+!.yarn/patches
+!.yarn/releases
+!.yarn/versions
+
 # dependencies
 /node_modules
 /.pnp
