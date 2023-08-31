@@ -2,10 +2,11 @@ import { NextAuthOptions } from "next-auth"
 import NaverProvider from "next-auth/providers/naver"
 
 const authOptions : NextAuthOptions = {
+    secret: process.env.SECRET,
     providers: [
         NaverProvider({
-          clientId: process.env.NAVER_ID || "",
-          clientSecret: process.env.NAVER_SECRET || "",
+          clientId: process.env.NEXT_PUBLIC_NAVER_ID || "",
+          clientSecret: process.env.NEXT_PUBLIC_NAVER_SECRET || "",
         }),
       ],
       pages:{
