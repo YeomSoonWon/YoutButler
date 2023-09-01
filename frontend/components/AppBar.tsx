@@ -34,9 +34,14 @@ const AppBar = () => {
             </button>
           </>
         ) : (
+          <div>
           <button onClick={() => signIn("naver")}>
-            Sign In
+            Naver SignIn
           </button>
+          <button onClick={() => signIn("kakao")}>
+          Kakao SignIn
+        </button>
+        </div>
         )}
       </div>
     </div>
