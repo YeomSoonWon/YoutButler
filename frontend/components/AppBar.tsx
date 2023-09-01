@@ -25,7 +25,7 @@ const AppBar = () => {
             <img
               src={session.user.image || ""}
             />
-            <p> {session.user.nickname}</p>
+            <p> {session.user.name}</p>
             <button onClick={() => signOut()}>
               Sign Out
             </button>
