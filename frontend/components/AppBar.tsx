@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 
 const AppBar = () => {
-  const { data: session } = useSession();
+  const {data:session, status} = useSession();
   useEffect(()=>{
     if(!session) return;
     console.log(session);
@@ -25,7 +25,7 @@ const AppBar = () => {
             <img
               src={session.user.image || ""}
             />
-            <p> {session.user.name}</p>
+            <p> {session.user.nickname}</p>
             <button onClick={() => signOut()}>
               Sign Out
             </button>
