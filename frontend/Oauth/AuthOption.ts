@@ -35,6 +35,7 @@ const authOptions : NextAuthOptions = {
         async jwt({ token, user, account, profile, isNewUser }) {
           // console.log("user : ", user);
           // console.log("account : ", account);
+          console.log("jwt account : ", account)
           console.log("jwt token : ", token);
           console.log("jwt profile : ", profile);
           // console.log("isnewUser : ", isNewUser);
