@@ -3,7 +3,9 @@ import Recoil from "@/recoil";
 import ReactQuery from "@/react-query";
 import StyledComponentsRegistry from '@/lib/registry';
 import AuthSession from "@/Oauth/AuthSession";
+import { GlobalCssProvider } from '@/styles/GlobalCssProvider';
 import React from "react";
+
 
 export const metadata: Metadata = {
   title: '당신의집사',
@@ -22,14 +24,16 @@ const RootLayout=({
       <body>
       <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"></script>
       <Recoil><ReactQuery>
-        <StyledComponentsRegistry>
           <AuthSession>
+        <StyledComponentsRegistry>
+            <GlobalCssProvider>
       <nav>
         당신의집사
       </nav>
       {children}
-          </AuthSession>
+            </GlobalCssProvider>
       </StyledComponentsRegistry>
+          </AuthSession>
       </ReactQuery>
       </Recoil>
       </body>
