@@ -22,6 +22,10 @@ const AppBar = () => {
     console.log(session);
   }, [session]);
 
+  const ultSignOut = () => {
+    signOut();
+  }
+
   return (
     <ContainerDiv>
       <Logo href={"/"}>당신의집사</Logo>
