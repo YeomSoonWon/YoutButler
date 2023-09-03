@@ -30,6 +30,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["@babel/core", "npm:7.22.10"],\
             ["@babel/preset-env", "virtual:55f3f91d3ccf261f748015f8f85225d09dcfad303a36553439f6b542b96e73bff0e6cc10fee3eca2b342bce3e1a97096d1bd1c5feb5e58c7330c8b1c8a5c423c#npm:7.22.10"],\
+            ["@next/font", "npm:13.4.19"],\
             ["@swc/plugin-styled-components", "npm:1.5.73"],\
             ["@tanstack/react-query", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:4.33.0"],\
             ["@types/d3", "npm:7.4.0"],\
@@ -53,7 +54,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["styled-component", "npm:2.8.0"],\
             ["styled-components", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:6.0.7"],\
             ["styled-reset", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:4.5.1"],\
-            ["typescript", "patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"]\
+            ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -4540,6 +4541,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageLocation": "./.yarn/cache/@next-env-npm-13.4.19-b5a63a2ff8-ace4f82890.zip/node_modules/@next/env/",\
           "packageDependencies": [\
             ["@next/env", "npm:13.4.19"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["@next/font", [\
+        ["npm:13.4.19", {\
+          "packageLocation": "./.yarn/cache/@next-font-npm-13.4.19-37b24aeaee-3fa5ede3f9.zip/node_modules/@next/font/",\
+          "packageDependencies": [\
+            ["@next/font", "npm:13.4.19"]\
           ],\
           "linkType": "HARD"\
         }]\
@@ -9648,6 +9658,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["firstnext", "workspace:."],\
             ["@babel/core", "npm:7.22.10"],\
             ["@babel/preset-env", "virtual:55f3f91d3ccf261f748015f8f85225d09dcfad303a36553439f6b542b96e73bff0e6cc10fee3eca2b342bce3e1a97096d1bd1c5feb5e58c7330c8b1c8a5c423c#npm:7.22.10"],\
+            ["@next/font", "npm:13.4.19"],\
             ["@swc/plugin-styled-components", "npm:1.5.73"],\
             ["@tanstack/react-query", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:4.33.0"],\
             ["@types/d3", "npm:7.4.0"],\
@@ -9671,7 +9682,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["styled-component", "npm:2.8.0"],\
             ["styled-components", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:6.0.7"],\
             ["styled-reset", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:4.5.1"],\
-            ["typescript", "patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"]\
+            ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"]\
           ],\
           "linkType": "SOFT"\
         }]\
@@ -16667,10 +16678,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         }]\
       ]],\
       ["typescript", [\
-        ["patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071", {\
-          "packageLocation": "./.yarn/cache/typescript-patch-bd21d74a9d-f53bfe97f7.zip/node_modules/typescript/",\
+        ["patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441", {\
+          "packageLocation": "./.yarn/cache/typescript-patch-2e8dbfb8ab-0f4da2f15e.zip/node_modules/typescript/",\
           "packageDependencies": [\
-            ["typescript", "patch:typescript@npm%3A5.1.6#~builtin<compat/typescript>::version=5.1.6&hash=5da071"]\
+            ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=f3b441"]\
           ],\
           "linkType": "HARD"\
         }]\
