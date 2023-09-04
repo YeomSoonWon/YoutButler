@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth"
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
+import userApi from "@/api/userApi";
 
 const authOptions : NextAuthOptions = {
     secret: process.env.SECRET,
@@ -29,7 +30,10 @@ const authOptions : NextAuthOptions = {
           console.log("jwt token : ", token);
           console.log("jwt profile : ", profile);
           console.log("jwt isnewUser : ", isNewUser);
-          
+
+          const getUserResult = await userApi.getUser();
+          console.log("jwt getUserResult : " + getUserResult);
+          token = {...token, ...profile};
           // if(profile){
             //   token = profile;
             // }
