@@ -10,6 +10,7 @@ import colors from "@/constants/colors";
 import ItemEach from "@/components/List/ItemEach";
 import Checkbox from "@/components/Input/Checkbox";
 import RangeSlider from "@/components/Input/RangeSlider";
+import Footer from "@/components/Footer";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -124,6 +125,7 @@ const Search = () => {
           </ContentDiv>
         </RightContainer>
       </Container>
+      <Footer />
     </main>
   );
 };
