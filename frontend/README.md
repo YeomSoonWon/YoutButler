@@ -1,3 +1,9 @@
+# Frontend
+
+* 박준홍
+* 김보연
+* 염순원
+
 # boilerplate with
 
 - yarn berry

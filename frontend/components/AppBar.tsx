@@ -62,7 +62,7 @@ const AppBar = ({ backgroundColor, color }) => {
         ) : (
           <>
             <StyledLink href="">회원가입</StyledLink>
-            <YellowBtn onClick={() => signIn("naver")}>로그인</YellowBtn>
+            <YellowBtn onClick={() => signIn()}>로그인</YellowBtn>
           </>
         )}
       </NavDiv>
