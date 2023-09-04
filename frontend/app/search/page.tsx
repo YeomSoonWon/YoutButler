@@ -39,7 +39,7 @@ const Search = () => {
             <TitleDiv>
               <TitleP>검색 조건에 맞는 집</TitleP>
               <AboutDiv>
-                <p>현재 자금으로</p>
+                <p>현재 자금으로 </p>
                 <ColorDot color={colors.blue} />
                 <p>구입 가능 / </p>
                 <ColorDot color={colors.red} />
