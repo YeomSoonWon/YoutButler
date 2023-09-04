@@ -15,7 +15,7 @@ const sunFlower = Sunflower({
   subsets: ["latin"],
 });
 
-const AppBar = () => {
+const AppBar = ({ backgroundColor, color }) => {
   const { data: session } = useSession();
   useEffect(() => {
     if (!session) return;
@@ -24,14 +24,34 @@ const AppBar = () => {
 
   const ultSignOut = () => {
     signOut();
-  }
+  };
+
+  const ContainerDiv = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    background-color: ${backgroundColor || "#334835"};
+  `;
+
+  const Logo = styled(Link)`
+    font-size: 1.5rem;
+    color: ${color || "white"};
+    text-decoration-line: none;
+    ${({ theme }) => theme.logoFont || ""};
+  `;
+
+  const StyledLink = styled(Link)`
+    color: ${color || "white"};
+    text-decoration-line: none;
+  `;
 
   return (
     <ContainerDiv>
       <Logo href={"/"}>당신의집사</Logo>
       <NavDiv className={notoSansKr.className}>
-        <StyledLink href="">지도</StyledLink>
-        <StyledLink href="">마이페이지</StyledLink>
+        <StyledLink href="/search">지도</StyledLink>
+        <StyledLink href="/profile">마이페이지</StyledLink>
         <StyledLink href="">알림</StyledLink>
         {session?.user ? (
           <>
@@ -49,21 +69,6 @@ const AppBar = () => {
     </ContainerDiv>
   );
 };
-
-const ContainerDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1.5rem 4rem;
-  background-color: #334835;
-`;
-
-const Logo = styled(Link)`
-  font-size: 1.5rem;
-  color: white;
-  text-decoration-line: none;
-  ${({ theme }) => theme.logoFont || ""};
-`;
 
 const YellowBtn = styled.button`
   background-color: #ffc436;
@@ -84,11 +89,6 @@ const NavDiv = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-`;
-
-const StyledLink = styled(Link)`
-  color: white;
-  text-decoration-line: none;
 `;
 
 export default AppBar;
