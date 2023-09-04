@@ -8,8 +8,8 @@ import NaverLogoutBtn from "@/components/NaverLogoutBtn";
 import styled from "styled-components";
 import Image from "next/image";
 import mainImg from "../assets/mainImg.png";
-import { IBM_Plex_Sans_KR, Noto_Sans_KR } from "next/font/google";
 import ItemEach from "@/components/List/ItemEach";
+import { IBM_Plex_Sans_KR, Noto_Sans_KR } from "next/font/google";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
