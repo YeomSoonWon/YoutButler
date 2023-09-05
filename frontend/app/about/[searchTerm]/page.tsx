@@ -1,5 +1,7 @@
 import React from 'react'
-import {useRouter} from "next/navigation";
+import { getServerSession } from "next-auth/next";
+import authOptions from '@/Oauth/AuthOption';
+import { DummyBtn } from '@/components/Button/DummyBtn';
 
 type Props = {
     params: {
@@ -33,6 +35,8 @@ const search = async (searchTerm: string) => {
 const SearchResult=async({ params: { searchTerm } }: Props)=> {
     // useEffect 대신 서버단에서 async/await 메서드로 데이터 페칭 가능
     const searchResults = await search(searchTerm);
+    const session = await getServerSession(authOptions);
+    console.log("session :",session);
     console.log(searchResults);
     return (
         <div>
@@ -47,6 +51,8 @@ const SearchResult=async({ params: { searchTerm } }: Props)=> {
                     </li>
                 ))}
             </ol>
+            <p>{JSON.stringify(session.user)}</p>
+            <DummyBtn>good?</DummyBtn>
         </div>
     )
 }
