@@ -33,7 +33,7 @@ const authOptions : NextAuthOptions = {
 
           const getUserResult = await userApi.getUser();
           console.log("jwt getUserResult : " + getUserResult);
-          token = {...token, ...profile};
+          token = {...token, ...profile, ...account};
           // if(profile){
             //   token = profile;
             // }
