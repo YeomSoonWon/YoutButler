@@ -4,13 +4,13 @@ import AppBar from "@/components/AppBar";
 import styled from "styled-components";
 import Button from "@/components/Button/Button";
 import Map from "@/components/Map";
-import { IBM_Plex_Sans_KR } from "next/font/google";
 import ColorDot from "@/components/List/ColorDot";
 import colors from "@/constants/colors";
 import ItemEach from "@/components/List/ItemEach";
 import Checkbox from "@/components/Input/Checkbox";
 import RangeSlider from "@/components/Input/RangeSlider";
 import Footer from "@/components/Footer";
+import { IBM_Plex_Sans_KR } from "next/font/google";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -27,7 +27,7 @@ const Search = () => {
             <TitleP>매물 찾기</TitleP>
             <InputDiv>
               <StyledInput type="number" placeholder="보유 자산" />
-              <StyledInput type="number" placeholder="대출 희망 금액" />
+              <StyledInput type="number" placeholder="추가 가용 자산" />
               <Button Kind="extraSmall" Variant="yellowTonal" Rounded="square">
                 설정
               </Button>
@@ -92,14 +92,16 @@ const Search = () => {
           <ContentDiv>
             <SubtitleP>방 종류</SubtitleP>
             <CheckboxDiv>
+              <Checkbox label="아파트" />
+              <Checkbox label="오피스텔" />
+              <Checkbox label="단독·다가구" />
               <Checkbox
-                label="원룸"
+                label="원·투룸"
                 // isChecked={isChecked}
                 // onChange={handleCheckboxChange}
               />
-              <Checkbox label="투·쓰리룸" />
-              <Checkbox label="아파트" />
-              <Checkbox label="오피스텔·도시형생활주택" />
+              <Checkbox label="빌라·연립" />
+              <Checkbox label="주택" />
             </CheckboxDiv>
           </ContentDiv>
           <ContentDiv>
