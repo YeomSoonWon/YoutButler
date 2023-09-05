@@ -2,9 +2,6 @@
 
 // Nextjs 13 부터는 app directory 기반 라우팅 진행 - 이번 버전부터 베타로 진행하는 만큼
 import AppBar from "@/components/AppBar";
-import Chart from "@/components/Chart";
-import NaverLoginBtn from "@/components/NaverLoginBtn";
-import NaverLogoutBtn from "@/components/NaverLogoutBtn";
 import styled from "styled-components";
 import Image from "next/image";
 import mainImg from "../assets/mainImg.png";
@@ -24,6 +21,8 @@ const notoSansKr = Noto_Sans_KR({
 
 // 어렵거나 아니다싶으면 언제든 Next12로 돌아갈 수 있어야(다행히도 하위호환 지원)
 const Home = () => {
+  // const session = await getServerSession(authOptions);
+
   return (
     <ContainerDiv>
       <AppBar />

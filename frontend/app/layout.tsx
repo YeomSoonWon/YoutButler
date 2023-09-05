@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Recoil from "@/recoil";
 import ReactQuery from "@/react-query";
-import StyledComponentsRegistry from "@/lib/registry";
+import RootStyleRegistry from "@/lib/registry";
 import AuthSession from "@/Oauth/AuthSession";
 import { GlobalCssProvider } from "@/styles/GlobalCssProvider";
 import React from "react";
@@ -21,12 +21,11 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <Recoil>
           <ReactQuery>
             <AuthSession>
-              <StyledComponentsRegistry>
+              <RootStyleRegistry>
                 <GlobalCssProvider>
-                  {/* <nav>당신의집사</nav> */}
                   {children}
                 </GlobalCssProvider>
-              </StyledComponentsRegistry>
+              </RootStyleRegistry>
             </AuthSession>
           </ReactQuery>
         </Recoil>
