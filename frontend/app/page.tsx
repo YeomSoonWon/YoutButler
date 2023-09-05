@@ -29,13 +29,14 @@ const Home = () => {
       <AppBar />
       <UpperDiv>
         <MainImg src={mainImg} layout="fill" alt="Main Picture" />
-        <PDiv className={notoSansKr.className}>
+        <PDiv className={ibmPlexSansKR.className}>
           <FirstP>어떤 집을 원하시나요?</FirstP>
           <SecondP>당신의 집사가 찾아드립니다!</SecondP>
           <InputDiv>
             <StyledInput
               type="text"
               placeholder="원하시는 지역 또는 단지명을 입력해주세요"
+              className={ibmPlexSansKR.className}
             />
             <SearchBtn>
               <StyledSvg
@@ -195,6 +196,11 @@ const StyledInput = styled.input`
   border-radius: 5rem;
   border: none;
   font-size: 1rem;
+
+  &:focus {
+    box-shadow: 0 0 1rem 0.4rem rgba(255, 255, 255);
+    outline-color: transparent;
+  }
 `;
 
 const MainImg = styled(Image)`
