@@ -51,7 +51,7 @@ const AppBar = ({ backgroundColor, color }) => {
       <Logo href={"/"}>당신의집사</Logo>
       <NavDiv className={notoSansKr.className}>
         <StyledLink href="/search">지도</StyledLink>
-        <StyledLink href="/profile">마이페이지</StyledLink>
+        <StyledLink href="/mypage">마이페이지</StyledLink>
         <StyledLink href="">알림</StyledLink>
         {session?.user ? (
           <>

@@ -26,16 +26,16 @@ const Home = () => {
   return (
     <ContainerDiv>
       <AppBar />
-      <UpperDiv>
+      <UpperDiv className={ibmPlexSansKR.className}>
         <MainImg src={mainImg} layout="fill" alt="Main Picture" />
-        <PDiv className={ibmPlexSansKR.className}>
+        <PDiv>
           <FirstP>어떤 집을 원하시나요?</FirstP>
           <SecondP>당신의 집사가 찾아드립니다!</SecondP>
           <InputDiv>
             <StyledInput
               type="text"
               placeholder="원하시는 지역 또는 단지명을 입력해주세요"
-              className={ibmPlexSansKR.className}
+              // className={ibmPlexSansKR.className}
             />
             <SearchBtn>
               <StyledSvg
@@ -83,10 +83,10 @@ const Home = () => {
             </NextSvg>
           </NextSvgDiv>
           <ListDiv>
-            <ItemEach />
-            <ItemEach />
-            <ItemEach />
-            <ItemEach />
+            <ItemEach height="19rem" width="18rem" />
+            <ItemEach height="19rem" width="18rem" />
+            <ItemEach height="19rem" width="18rem" />
+            <ItemEach height="19rem" width="18rem" />
           </ListDiv>
           <NextSvgDiv>
             <NextSvg

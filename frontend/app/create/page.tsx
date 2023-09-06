@@ -5,15 +5,16 @@ import Footer from "@/components/Footer";
 import styled from "styled-components";
 import colors from "@/constants/colors";
 
-const Modify = () => {
+const Create = () => {
   return (
     <Container>
       <AppBar backgroundColor="transparent" color="#334835" />
       <CenterDiv>
         <MiddleDiv>
           <TitleDiv>
-            <TitleP>추가 정보 수정</TitleP>
+            <TitleP>추가 정보 입력</TitleP>
             <SubDiv>
+              <SubP>당신의 집사에 오신 것을 환영합니다!</SubP>
               <SubP>
                 더 정확한 추천을 위해 최대한 많은 정보를 입력해주세요 :)
               </SubP>
@@ -41,8 +42,7 @@ const Modify = () => {
             <StyledInput type="number" placeholder="월 가용자산" />
             <StyledInput type="number" placeholder="신용도" />
           </InputDiv>
-          <YellowBtn>수정</YellowBtn>
-          <YellowBtn>취소</YellowBtn>
+          <YellowBtn>완료</YellowBtn>
         </MiddleDiv>
       </CenterDiv>
       <Footer />
@@ -149,13 +149,8 @@ const YellowBtn = styled.button`
   padding: 0.7rem 0;
   width: 20rem;
   border-radius: 0.4rem;
-  margin-top: 0.3rem;
+  margin-top: 1rem;
   font-weight: 600;
-  cursor: pointer;
-
-  &:hover {
-    background-color: transparent;
-  }
 `;
 
-export default Modify;
+export default Create;

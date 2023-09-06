@@ -2,7 +2,22 @@ import styled from "styled-components";
 import estate1 from "../../assets/estate1.png";
 import Image from "next/image";
 
-export default function ItemEach() {
+export default function ItemEach({ width, height }) {
+  const EstateDiv = styled.div`
+    height: ${height};
+    width: ${width};
+    padding: 0 1rem 1.8rem 1rem;
+    border: solid 1px lightgray;
+    border-radius: 1rem;
+    cursor: pointer;
+
+    p {
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  `;
   return (
     <EstateDiv>
       <ImageDiv>
@@ -27,18 +42,9 @@ export default function ItemEach() {
   );
 }
 
-const EstateDiv = styled.div`
-  height: 19rem;
-  width: 18rem;
-  padding: 0 1rem 1.8rem 1rem;
-  border: solid 1px lightgray;
-  border-radius: 1rem;
-  cursor: pointer;
-`;
-
 const ImageDiv = styled.div`
   width: 100%;
-  height: 13rem;
+  height: 65%;
   overflow: hidden;
 `;
 
@@ -55,10 +61,6 @@ const AboutEstateDiv = styled.div`
 const DetailP = styled.p`
   font-size: 0.9rem;
   color: darkgray;
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 `;
 
 const RoomP = styled.p`
@@ -71,10 +73,6 @@ const PriceP = styled.p`
   font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 0.6rem;
-  display: block;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 `;
 
 const HeartSvg = styled.svg`
