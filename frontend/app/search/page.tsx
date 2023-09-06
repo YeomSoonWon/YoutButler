@@ -64,12 +64,12 @@ const Search = () => {
               </AboutDiv>
             </TitleDiv>
             <ItemDiv>
-              <ItemEach />
-              <ItemEach />
-              <ItemEach />
-              <ItemEach />
-              <ItemEach />
-              <ItemEach />
+              <ItemEach width="18rem" height="19rem" />
+              <ItemEach width="18rem" height="19rem" />
+              <ItemEach width="18rem" height="19rem" />
+              <ItemEach width="18rem" height="19rem" />
+              <ItemEach width="18rem" height="19rem" />
+              <ItemEach width="18rem" height="19rem" />
             </ItemDiv>
           </Lower>
         </LeftContainer>
