@@ -25,20 +25,22 @@ const PrivateUserApi:Axios = axios.create({
 });
 
 const userApi = {
-    getUser : async(token:String)=>{
-        console.log(token);
-        return "getuser result";
+    getUser : async(accessToken:String, provider:String)=>{
+        console.log("accessToken : "+accessToken+"provider : "+provider);
+        // TODO : accessToken과 provider를 이용한 당신의집사 서버에서 유저 가져오기/유저 추가 로직
+        // 리턴 형식 User로 변경 필요
+        return {
+            "provider" : provider,
+            "accessToken" : accessToken,
+        }
     },
 
     signUp : async()=>{
         return "signup result";
     },
 
-    signIn : async() => {
-        return "signin result";
-    },
-
-    modify : async(user:User) =>{
+    modify : async(user:User, access_token:String) =>{
+        // TODO : accessToken과 변경 데이터(자산, 월급, 나이, 성별)를 이용한 유저 정보 수정 로직
         let res = await PrivateUserApi.patch("/modify",user);
         return res;
     }
