@@ -37,7 +37,7 @@ export default function ItemEach({ width, height }) {
             fill="none"
             viewBox="0 0 24 24"
             strokeWidth="1.5"
-            stroke="red"
+            stroke="white"
             className="w-6 h-6"
           >
             <path
@@ -64,7 +64,7 @@ export default function ItemEach({ width, height }) {
         )}
       </div>
       <ImageDiv>
-        <EstateImage src={estate1} />
+        <EstateImage src={estate1} alt="image" />
       </ImageDiv>
       <AboutEstateDiv>
         <RoomP>쓰리룸 이상</RoomP>

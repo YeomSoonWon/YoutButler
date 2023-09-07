@@ -6,18 +6,13 @@ import styled from "styled-components";
 import Image from "next/image";
 import mainImg from "../assets/mainImg.png";
 import ItemEach from "@/components/List/ItemEach";
-import { IBM_Plex_Sans_KR, Noto_Sans_KR } from "next/font/google";
+import { IBM_Plex_Sans_KR } from "@next/font/google";
 import Footer from "@/components/Footer";
 import Carousel from "@/components/Button/Carousel";
 import Link from "next/link";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
-  subsets: ["latin"],
-});
-
-const notoSansKr = Noto_Sans_KR({
-  weight: ["500"],
   subsets: ["latin"],
 });
 
@@ -52,13 +47,13 @@ const Home = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
-                stroke-width="1.5"
+                strokeWidth="1.5"
                 stroke="currentColor"
-                class="w-6 h-6"
+                className="w-6 h-6"
               >
                 <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                   d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
                 />
               </StyledSvg>
