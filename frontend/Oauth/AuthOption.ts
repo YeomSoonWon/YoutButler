@@ -1,6 +1,7 @@
 import { NextAuthOptions } from "next-auth"
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
+import GoogleProvider from "next-auth/providers/google";
 import userApi from "@/api/userApi";
 
 const authOptions : NextAuthOptions = {
@@ -14,6 +15,10 @@ const authOptions : NextAuthOptions = {
           clientId: process.env.KAKAO_ID || "",
           clientSecret: process.env.KAKAO_SECRET || "",
         }),
+        GoogleProvider({
+          clientId: process.env.GOOGLE_ID || "",
+          clientSecret : process.env.GOOGLE_SECRET || "",
+        })
       ],
       callbacks:{
         async signIn({ user, account, profile, email, credentials }) {
@@ -25,28 +30,16 @@ const authOptions : NextAuthOptions = {
         },
 
         async jwt({ token, user, account, profile, isNewUser }) {
-          console.log("jwt user : ", user);
-          console.log("jwt account : ", account)
-          console.log("jwt token : ", token);
-          console.log("jwt profile : ", profile);
-          console.log("jwt isnewUser : ", isNewUser);
-
-          const getUserResult = await userApi.getUser();
-          console.log("jwt getUserResult : " + getUserResult);
-          token = {...token, ...profile, ...account};
-          // if(profile){
-            //   token = profile;
-            // }
-            
-            console.log("after token : ", token);
-            return token
+            return {...token, ...account}
           },
 
           async session({ session, user, token }) {
             console.log("session user : ", user);
-            console.log("session token : ", token)
-            session.user = token;
-            return session
+            console.log("session token : ", token);
+            let userData = await userApi.getUser(token.access_token, token.provider);
+            session.user = {...token, ...userData};
+            // TODO : 백엔드에서 유저정보 가져오는 로직 완성되면 session.user를 userData로 완전 대체 가능
+            return session;
           },
       },
       pages:{

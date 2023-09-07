@@ -12,8 +12,10 @@ export default async function SignInPage() {
   const providers = await getProviders();
 
   return (
+    // <SocialSigninPage>
     <>
       <SocialSigninButton providers={providers}></SocialSigninButton>
     </>
+    // </SocialSigninPage>
   )
 }
