@@ -8,6 +8,8 @@ import mainImg from "../assets/mainImg.png";
 import ItemEach from "@/components/List/ItemEach";
 import { IBM_Plex_Sans_KR, Noto_Sans_KR } from "next/font/google";
 import Footer from "@/components/Footer";
+import Carousel from "@/components/Button/Carousel";
+import Link from "next/link";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -18,6 +20,14 @@ const notoSansKr = Noto_Sans_KR({
   weight: ["500"],
   subsets: ["latin"],
 });
+
+const items = [
+  // Carousel에 사용할 아이템들
+  { height: "19rem", width: "18rem" },
+  { height: "19rem", width: "18rem" },
+  { height: "19rem", width: "18rem" },
+  { height: "19rem", width: "18rem" },
+];
 
 // 어렵거나 아니다싶으면 언제든 Next12로 돌아갈 수 있어야(다행히도 하위호환 지원)
 const Home = () => {
@@ -60,43 +70,29 @@ const Home = () => {
         <ListAboutDiv>
           <FirstP>우리동네 인기 매물</FirstP>
           <ViewMoreDiv>
-            <p>더 많은 매물 보러가기</p>
+            <Link
+              href="/search"
+              rel="noopener noreferrer"
+              style={{ textDecoration: "none", color: "#3f3d3d" }}
+              passHref
+            >
+              <p>더 많은 매물 보러가기</p>
+            </Link>
             <NextSvgDiv>
-              <NextSvg
-                xmlns="http://www.w3.org/2000/svg"
-                height="1em"
-                viewBox="0 0 320 512"
-              >
-                <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
-              </NextSvg>
+              <Link href="/search" rel="noopener noreferrer" passHref>
+                <NextSvg
+                  xmlns="http://www.w3.org/2000/svg"
+                  height="1em"
+                  viewBox="0 0 320 512"
+                >
+                  <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
+                </NextSvg>
+              </Link>
             </NextSvgDiv>
           </ViewMoreDiv>
         </ListAboutDiv>
         <ListContainerDiv>
-          <NextSvgDiv>
-            <NextSvg
-              xmlns="http://www.w3.org/2000/svg"
-              height="1em"
-              viewBox="0 0 320 512"
-            >
-              <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
-            </NextSvg>
-          </NextSvgDiv>
-          <ListDiv>
-            <ItemEach height="19rem" width="18rem" />
-            <ItemEach height="19rem" width="18rem" />
-            <ItemEach height="19rem" width="18rem" />
-            <ItemEach height="19rem" width="18rem" />
-          </ListDiv>
-          <NextSvgDiv>
-            <NextSvg
-              xmlns="http://www.w3.org/2000/svg"
-              height="1em"
-              viewBox="0 0 320 512"
-            >
-              <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
-            </NextSvg>
-          </NextSvgDiv>
+          <Carousel items={items} />
         </ListContainerDiv>
       </MiddleDiv>
       <LowerDiv className={ibmPlexSansKR.className}>
@@ -258,7 +254,7 @@ const ContentP = styled.p`
 `;
 
 const ContentDiv = styled.div`
-  width: 90%;
+  width: 80%;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -331,7 +327,9 @@ const AboutSvg = styled.svg`
 const ListContainerDiv = styled.div`
   height: 23rem;
   display: flex;
-  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  justify-content: space-around;
   align-items: center;
   background-color: white;
   padding: 1rem;

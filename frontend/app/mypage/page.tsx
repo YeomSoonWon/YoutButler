@@ -124,7 +124,9 @@ const NameP = styled.p`
   color: ${colors.darkgreen};
 `;
 
-const LeftUpperDiv = styled.div``;
+const LeftUpperDiv = styled.div`
+  margin-top: 1.5rem;
+`;
 
 const RightUpperDiv = styled.div`
   height: 25rem;
