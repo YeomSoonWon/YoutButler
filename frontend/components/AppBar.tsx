@@ -46,6 +46,11 @@ const AppBar = ({ backgroundColor, color }) => {
     text-decoration-line: none;
   `;
 
+  const StyledUserName = styled.p`
+  color: ${color || "white"};
+  text-decoration-line: none;
+  `;
+
   return (
     <ContainerDiv>
       <Logo href={"/"}>당신의집사</Logo>
@@ -56,7 +61,7 @@ const AppBar = ({ backgroundColor, color }) => {
         {session?.user ? (
           <>
             <img src={session.user.image || ""} />
-            <p> {session.user.name}</p>
+            <StyledUserName>{session.user.name}</StyledUserName>
             <YellowBtn onClick={() => signOut()}>로그아웃</YellowBtn>
           </>
         ) : (
