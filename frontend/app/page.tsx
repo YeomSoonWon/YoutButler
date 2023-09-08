@@ -4,7 +4,7 @@
 import AppBar from "@/components/AppBar";
 import styled from "styled-components";
 import Image from "next/image";
-import mainImg from "../assets/mainImg.png";
+import mainImg from "@/public/assets/mainImg.png";
 import ItemEach from "@/components/List/ItemEach";
 import { IBM_Plex_Sans_KR } from "@next/font/google";
 import Footer from "@/components/Footer";
