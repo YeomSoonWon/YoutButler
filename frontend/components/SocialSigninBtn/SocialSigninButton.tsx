@@ -1,3 +1,5 @@
+"use client";
+
 import { useSearchParams } from "next/navigation";
 import { ClientSafeProvider, signIn } from "next-auth/react";
 import styled from "styled-components";
