@@ -2,7 +2,7 @@ import { NextAuthOptions } from "next-auth"
 import NaverProvider from "next-auth/providers/naver";
 import KakaoProvider from "next-auth/providers/kakao";
 import GoogleProvider from "next-auth/providers/google";
-import userApi from "@/api/userApi";
+import authApi from "@/api/authApi";
 
 const authOptions : NextAuthOptions = {
     secret: process.env.SECRET,
@@ -36,7 +36,7 @@ const authOptions : NextAuthOptions = {
           async session({ session, user, token }) {
             console.log("session user : ", user);
             console.log("session token : ", token);
-            let userData = await userApi.getUser(token.access_token, token.provider);
+            let userData = await authApi.getUser(token.access_token, token.provider);
             session.user = {...token, ...userData};
             // TODO : 백엔드에서 유저정보 가져오는 로직 완성되면 session.user를 userData로 완전 대체 가능
             return session;
