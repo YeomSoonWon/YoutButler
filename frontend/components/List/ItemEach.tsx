@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import styled from "styled-components";
-import estate1 from "../../assets/estate1.png";
+import estate1 from "@/public/assets/estate1.png";
 import Image from "next/image";
 
 export default function ItemEach({ width, height }) {
