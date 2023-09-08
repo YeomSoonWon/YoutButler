@@ -9,6 +9,7 @@ const privateChatApi = axios.create({
 })
 
 const chatApi = {
+}
 
 
 export default chatApi;
