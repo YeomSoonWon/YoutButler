@@ -67,7 +67,7 @@ export default function ItemEach({ width, height }) {
         <EstateImage src={estate1} alt="image" />
       </ImageDiv>
       <AboutEstateDiv>
-        <RoomP>쓰리룸 이상</RoomP>
+        <RoomP>강남구 역삼동 아파트</RoomP>
         <PriceP>월세 3000/415</PriceP>
         <DetailP>4층, 29.79㎡, 관리비 10만</DetailP>
         <DetailP>
