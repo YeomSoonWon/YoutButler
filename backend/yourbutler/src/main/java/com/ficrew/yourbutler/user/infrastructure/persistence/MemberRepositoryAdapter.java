@@ -1,26 +1,26 @@
 package com.ficrew.yourbutler.user.infrastructure.persistence;
 
-import com.ficrew.yourbutler.user.domain.entity.User;
-import com.ficrew.yourbutler.user.domain.repository.UserRepository;
-import com.ficrew.yourbutler.user.infrastructure.persistence.jpa.JpaUserRepository;
+import com.ficrew.yourbutler.user.domain.entity.Member;
+import com.ficrew.yourbutler.user.domain.repository.MemberRepository;
+import com.ficrew.yourbutler.user.infrastructure.persistence.jpa.JpaMemberRepository;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 @Repository
 @RequiredArgsConstructor
-public class UserRepositoryAdapter implements UserRepository {
+public class MemberRepositoryAdapter implements MemberRepository {
 
-    private final JpaUserRepository userRepository;
+    private final JpaMemberRepository userRepository;
 
 
     @Override
-    public User save(User user) {
-        return userRepository.save(user);
+    public Member save(Member member) {
+        return userRepository.save(member);
     }
 
     @Override
-    public User findByEmail(String email) {
+    public Member findByEmail(String email) {
         return this.userRepository.findByEmail(email)
             .orElseThrow(()-> new EntityNotFoundException("User Entity Not found."));
     }
