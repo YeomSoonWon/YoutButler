@@ -32,7 +32,12 @@ const Home = () => {
     <ContainerDiv>
       <AppBar backgroundColor="green" color="white" />
       <UpperDiv className={ibmPlexSansKR.className}>
-        <MainImg src={mainImg} alt="Main Picture" priority={true}/>
+        <MainImg
+          src={mainImg}
+          alt="Main Picture"
+          priority={true}
+          layout="fill"
+        />
         <PDiv>
           <FirstP>어떤 집을 원하시나요?</FirstP>
           <SecondP>당신의 집사가 찾아드립니다!</SecondP>

@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import AppBar from "@/components/AppBar";
 import Footer from "@/components/Footer";
 import styled from "styled-components";
 import Image from "next/image";
-import Img1 from "@/assets/estate1.png";
+import Img1 from "@/public/assets/estate1.png";
 import { IBM_Plex_Sans_KR } from "next/font/google";
 import Chart from "@/components/Chart";
 import Carousel from "@/components/Button/Carousel";
@@ -14,23 +15,95 @@ const ibmPlexSansKR = IBM_Plex_Sans_KR({
   subsets: ["latin"],
 });
 
-const items = [
-  // Carousel에 사용할 아이템들
-  { height: "19rem", width: "19rem" },
-  { height: "19rem", width: "19rem" },
-  { height: "19rem", width: "19rem" },
-  { height: "19rem", width: "19rem" },
-];
-
 const Detail = () => {
+  // 사진 캐러셀 기능
+  const [currentIdx, setCurrentIdx] = useState(0);
+
+  const images = [Img1, Img1, Img1, Img1, Img1];
+
+  const prevImage = () => {
+    setCurrentIdx((prevIdx) =>
+      prevIdx === 0 ? images.length - 1 : prevIdx - 1
+    );
+  };
+
+  const nextImage = () => {
+    setCurrentIdx((prevIdx) =>
+      prevIdx === images.length - 1 ? 0 : prevIdx + 1
+    );
+  };
+
+  // 사진 눌렀을 때 사진 원본 보여주는 모달창
+  const [popupVisible, setPopupVisible] = useState(false);
+  const [clickedImageIndex, setClickedImageIndex] = useState(0);
+
+  const openPopup = (index) => {
+    console.log("사진 인덱스:", index);
+    setClickedImageIndex(index);
+    setPopupVisible(true);
+  };
+
+  const closePopup = () => {
+    setPopupVisible(false);
+  };
+
   return (
     <main>
       <AppBar backgroundColor="transparent" color="#334835" />
       <Container className={ibmPlexSansKR.className}>
         <TopDiv>
+          <NextSvgDiv className="prev" onClick={prevImage}>
+            <NextSvg
+              xmlns="http://www.w3.org/2000/svg"
+              height="1em"
+              viewBox="0 0 320 512"
+            >
+              <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
+            </NextSvg>
+          </NextSvgDiv>
           <ImgDiv>
-            <Carousel items={items} />
+            {images.map((image, index) => (
+              <StyledImg
+                key={index}
+                src={image}
+                alt="estate"
+                onClick={() => openPopup(index)}
+                style={{
+                  transform: `translateX(-${currentIdx * 25}%)`,
+                  cursor: "pointer",
+                }}
+              />
+            ))}
           </ImgDiv>
+          {popupVisible && (
+            <Popup>
+              <CloseButton
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-6 h-6"
+                onClick={closePopup}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </CloseButton>
+              <PopupImage src={images[clickedImageIndex]} alt="estate" />
+            </Popup>
+          )}
+          <NextSvgDiv className="next" onClick={nextImage}>
+            <NextSvg
+              xmlns="http://www.w3.org/2000/svg"
+              height="1em"
+              viewBox="0 0 320 512"
+            >
+              <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
+            </NextSvg>
+          </NextSvgDiv>
         </TopDiv>
         <BottomDiv className={ibmPlexSansKR.className}>
           <LeftDiv>
@@ -178,9 +251,10 @@ const TopDiv = styled.div`
 
 const ImgDiv = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 88%;
   gap: 1rem;
+  overflow-x: hidden;
 `;
 
 const BottomDiv = styled.div`
@@ -323,6 +397,69 @@ const AskDiv = styled.div`
   border-radius: 2rem 2rem 0 2rem;
   padding: 1.2rem;
   width: 9.8rem;
+`;
+
+const NextSvgDiv = styled.div`
+  cursor: pointer;
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+  z-index: 2;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+  &.prev {
+    left: 10px; // 왼쪽 버튼 위치 조정
+  }
+
+  &.next {
+    right: 10px; // 오른쪽 버튼 위치 조정
+  }
+`;
+
+const NextSvg = styled.svg`
+  fill: #333;
+`;
+
+const Popup = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+`;
+
+const CloseButton = styled.svg`
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+  width: 2.5rem;
+  height: 2.5rem;
+`;
+
+const PopupImage = styled.img`
+  max-width: 90%;
+  max-height: 90%;
 `;
 
 export default Detail;
