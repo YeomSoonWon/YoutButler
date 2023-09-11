@@ -18,6 +18,7 @@ import io.jsonwebtoken.security.SignatureException;
 import java.util.Date;
 
 @Slf4j
+@RequiredArgsConstructor
 public class JwtMaker implements JWTProvider {
     @Value("${jwt.secret_key}")
     private String jwtSecret;
@@ -29,8 +30,10 @@ public class JwtMaker implements JWTProvider {
     @Value("${jwt.issuer}")
     private String issuer;
 
+    private final AuthenticationManager authenticationManager;
+
     @Override
-    public Token generateTokens(AuthenticationManager authenticationManager, String userId, String password) {
+    public Token generateTokens(String userId, String password) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userId, password));
 
@@ -39,7 +42,7 @@ public class JwtMaker implements JWTProvider {
     }
 
     @Override
-    public Token reissueAccessToken(AuthenticationManager authenticationManager, String userId, String password) {
+    public Token reissueAccessToken(String userId, String password) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(userId, password));
 

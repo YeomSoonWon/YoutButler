@@ -29,13 +29,12 @@ public class MemberController {
     }
 
     private final JWTProvider jwtProvider;
-    private final AuthenticationManager authenticationManager;
     private final PasswordEncoder passwordEncoder;
     @GetMapping("/test")
     public ResponseEntity<Token> signin(
             @RequestBody @Valid CreateMemberRequest request
     ) {
         System.out.println(passwordEncoder.encode(request.getPassword()));
-        return new ResponseEntity<>(jwtProvider.generateTokens(authenticationManager, request.getEmail(), request.getPassword()), HttpStatus.OK);
+        return new ResponseEntity<>(jwtProvider.generateTokens(request.getEmail(), request.getPassword()), HttpStatus.OK);
     }
 }
