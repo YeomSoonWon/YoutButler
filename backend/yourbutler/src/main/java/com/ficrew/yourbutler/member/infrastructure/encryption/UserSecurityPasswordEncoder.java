@@ -1,4 +1,4 @@
-package com.ficrew.yourbutler.user.infrastructure.encryption;
+package com.ficrew.yourbutler.member.infrastructure.encryption;
 
 import com.ficrew.yourbutler.global.auth.PasswordEncrypter;
 import lombok.RequiredArgsConstructor;
