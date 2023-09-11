@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import AppBar from "@/components/AppBar";
 import Footer from "@/components/Footer";
 import styled from "styled-components";
@@ -11,6 +12,11 @@ import RightChat from "@/components/Chat/RightChat";
 import ItemEach from "@/components/List/ItemEach";
 
 const Profile = () => {
+  const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
+
+  const handleTitleClick = (index) => {
+    setSelectedTitleIndex(index);
+  };
   return (
     <main>
       <AppBar backgroundColor="transparent" color="#334835" />
@@ -36,28 +42,28 @@ const Profile = () => {
                 <ChatTitleDiv>
                   <ChatTitleEach
                     title="송파아이파크 107동 · 중층"
-                    color="#E8F9E9"
-                    weight="600"
+                    isSelected={selectedTitleIndex === 0}
+                    onClick={() => handleTitleClick(0)}
                   />
                   <ChatTitleEach
                     title="반포롯데캐슬오스카 1동 고층"
-                    color="white"
-                    weight="500"
+                    isSelected={selectedTitleIndex === 1}
+                    onClick={() => handleTitleClick(1)}
                   />
                   <ChatTitleEach
                     title="더샵반포리버파크(도시형) 3동 저층"
-                    color="white"
-                    weight="500"
+                    isSelected={selectedTitleIndex === 2}
+                    onClick={() => handleTitleClick(2)}
                   />
                   <ChatTitleEach
                     title="반포센트럴자이 107동 7층 아파트"
-                    color="white"
-                    weight="500"
+                    isSelected={selectedTitleIndex === 3}
+                    onClick={() => handleTitleClick(3)}
                   />
                   <ChatTitleEach
                     title="아크로리버뷰신반포 103동 7층"
-                    color="white"
-                    weight="500"
+                    isSelected={selectedTitleIndex === 4}
+                    onClick={() => handleTitleClick(4)}
                   />
                 </ChatTitleDiv>
                 <ChatDiv>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import AppBar from "@/components/AppBar";
 import styled from "styled-components";
 import Button from "@/components/Button/Button";
@@ -19,6 +20,16 @@ const ibmPlexSansKR = IBM_Plex_Sans_KR({
 });
 
 const Search = () => {
+  const [placeholder, setPlaceHolder] = useState("추가 가용 자산");
+
+  const handleMonthlyClick = () => {
+    setPlaceHolder("월 여유자금 입력");
+  };
+
+  const handleCharterClick = () => {
+    setPlaceHolder("추가 가용 자산");
+  };
+
   return (
     <main>
       <AppBar backgroundColor="transparent" color="#334835" />
@@ -28,7 +39,7 @@ const Search = () => {
             <TitleP>매물 찾기</TitleP>
             <InputDiv>
               <StyledInput type="number" placeholder="보유 자산" />
-              <StyledInput type="number" placeholder="추가 가용 자산" />
+              <StyledInput type="number" placeholder={placeholder} />
               <Button Kind="extraSmall" Variant="yellowTonal" Rounded="square">
                 설정
               </Button>
@@ -81,13 +92,28 @@ const Search = () => {
           <ContentDiv>
             <SubtitleP>거래 유형</SubtitleP>
             <ButtonDiv>
-              <Button Kind="small" Variant="grayOutline" Rounded="square">
+              <Button
+                Kind="small"
+                Variant="grayOutline"
+                Rounded="square"
+                onClick={handleMonthlyClick}
+              >
                 월세
               </Button>
-              <Button Kind="small" Variant="grayOutline" Rounded="square">
+              <Button
+                Kind="small"
+                Variant="grayOutline"
+                Rounded="square"
+                onClick={handleCharterClick}
+              >
                 전세
               </Button>
-              <Button Kind="small" Variant="grayOutline" Rounded="square">
+              <Button
+                Kind="small"
+                Variant="grayOutline"
+                Rounded="square"
+                onClick={handleCharterClick}
+              >
                 매매
               </Button>
             </ButtonDiv>
