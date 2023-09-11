@@ -6,7 +6,7 @@ plugins {
 }
 
 group = 'com.ficrew'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 
 java {
 	sourceCompatibility = '11'
@@ -50,4 +50,8 @@ tasks.named('test') {
 tasks.named('asciidoctor') {
 	inputs.dir snippetsDir
 	dependsOn test
+}
+
+jar {
+	enabled = false
 }
