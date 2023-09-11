@@ -9,7 +9,7 @@ spring:
             ddl-auto: create
         defer-datasource-initialization: true
 
-        open-in-view: false # SSE ?? ? HTTP Connection ???? ? ??
+        open-in-view: false # HTTP Connection setting
 
     h2:
         console:
@@ -20,9 +20,12 @@ spring:
         username: sa
         password:
 
-# JWT ??
+# JWT setting
 jwt:
     issuer: petmeetingservice
     secret_key: ca972315c2dd67fe07bc289e0280a9c103566f27409416e2249ab7bfd233398c0154cdac5e2b81661576b32ecfb5c2c17d7c5112776a940fb73498171b40e1cb
     access_expiration_ms: 10000000
     refresh_expiration_ms: 2592000000
+
+server:
+    port: 5000
