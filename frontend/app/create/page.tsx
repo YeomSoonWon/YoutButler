@@ -32,7 +32,7 @@ const Create = () => {
             </StyledSelect>
             <StyledInput
               type="number"
-              required=""
+              required
               placeholder="부동산 거래 예산"
             />
             <SubTitleP>

@@ -51,7 +51,7 @@ const SearchResult=async({ params: { searchTerm } }: Props)=> {
                     </li>
                 ))}
             </ol>
-            <p>{JSON.stringify(session.user)}</p>
+            {/* <p>{JSON.stringify(session.user)}</p> */}
             <DummyBtn>good?</DummyBtn>
         </div>
     )

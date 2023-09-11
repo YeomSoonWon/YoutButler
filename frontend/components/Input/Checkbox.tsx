@@ -2,9 +2,9 @@ import React, { useState, ChangeEvent } from "react";
 import styled from "styled-components";
 
 interface CheckboxProps {
-  label: string;
-  isChecked: boolean;
-  onChange: (isChecked: boolean) => void;
+  label?: string;
+  isChecked?: boolean;
+  onChange?: (isChecked: boolean) => void;
 }
 
 const Checkbox: React.FC<CheckboxProps> = ({ label, isChecked, onChange }) => {
