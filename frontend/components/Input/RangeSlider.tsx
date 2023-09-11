@@ -32,7 +32,7 @@ export default function RangeSlider({ title, end }) {
         value={value}
         onChange={handleChange}
         valueLabelDisplay="auto"
-        ariaLabelledby="range-slider"
+        aria-labelledby="range-slider"
         getAriaValueText={valuetext}
       />
     </div>

@@ -30,7 +30,7 @@ const Home = () => {
 
   return (
     <ContainerDiv>
-      <AppBar />
+      <AppBar backgroundColor="green" color="white" />
       <UpperDiv className={ibmPlexSansKR.className}>
         <MainImg
           src={mainImg}

@@ -3,7 +3,7 @@ import Recoil from "@/recoil";
 import ReactQuery from "@/react-query";
 import RootStyleRegistry from "@/lib/registry";
 import AuthSession from "@/Oauth/AuthSession";
-import { GlobalCssProvider } from "@/styles/GlobalCssProvider";
+import { GlobalCssProvider } from "@/styles/GlobalCSSProvider";
 import React from "react";
 
 
