@@ -1,6 +1,8 @@
 import json
 import requests
 import os
+from pymongo import MongoClient
+
 # from bs4 import BeautifulSoup
 # from lxml import html
 from urllib.request import Request, urlopen
@@ -9,6 +11,11 @@ import pandas as pd
 # import openpyxl
 from pandas import DataFrame
 from datetime import datetime
+
+uri = f"mongodb+srv://ssafy:{os.environ.get('MONGO_DB_PASSWORD')}@cluster0.cehixkx.mongodb.net/?retryWrites=true&w=majority"
+client = MongoClient(uri)
+db = client.loan
+collection = db.leaseloan
 
 column_mapping = {
     "dcls_month": "공시 제출월",
@@ -84,11 +91,12 @@ for grp in fin_grp_list:
         combined_product = {**base_product, **option_product}
         combined_saving_list.append(combined_product)
 
-json_str = json.dumps(combined_saving_list, ensure_ascii=False, indent=4)
-
-# JSON 문자열을 파일로 저장
-with open('jeonsae_combined_saving_list.json', 'w', encoding='utf-8') as json_file:
-    json_file.write(json_str)
+collection.insert_many(combined_saving_list)
+# json_str = json.dumps(combined_saving_list, ensure_ascii=False, indent=4)
+#
+# # JSON 문자열을 파일로 저장
+# with open('jeonsae_combined_saving_list.json', 'w', encoding='utf-8') as json_file:
+#     json_file.write(json_str)
 
 # # 리스트를 데이터프레임 형태로 변환
 # print(f"combined_saving_list: {combined_saving_list}")

@@ -1,6 +1,8 @@
 import json
 import requests
 import os
+from pymongo import MongoClient
+
 # from bs4 import BeautifulSoup
 # from lxml import html
 from urllib.request import Request, urlopen
@@ -9,6 +11,12 @@ import pandas as pd
 # import openpyxl
 from pandas import DataFrame
 from datetime import datetime
+
+# MONGODB_URI = f"mongodb+srv://SSAFY:{os.environ.get('MONGO_DB_PASSWORD')}@cluster0.cehixkx.mongodb.net/local"
+uri = f"mongodb+srv://ssafy:{os.environ.get('MONGO_DB_PASSWORD')}@cluster0.cehixkx.mongodb.net/?retryWrites=true&w=majority"
+client = MongoClient(uri)
+db = client.loan
+collection = db.creditloan
 
 column_mapping = {
     'dcls_month': "공시 제출월 [YYYYMM]",
@@ -87,11 +95,14 @@ for grp in fin_grp_list:
         combined_product = {**base_product, **option_product}
         combined_saving_list.append(combined_product)
 
-json_str = json.dumps(combined_saving_list, ensure_ascii=False, indent=4)
+# 이게 있으면 직렬화에 적합하지 않은 값이 생기기 떄문에 오류가 발생함
+collection.insert_many(combined_saving_list)
+
+# json_str = json.dumps(combined_saving_list, ensure_ascii=False, indent=4)
 
 # JSON 문자열을 파일로 저장
-with open('combined_saving_list.json', 'w', encoding='utf-8') as json_file:
-    json_file.write(json_str)
+# with open('combined_saving_list.json', 'w', encoding='utf-8') as json_file:
+#     json_file.write(json_str)
 
 # # 리스트를 데이터프레임 형태로 변환
 # print(f"combined_saving_list: {combined_saving_list}")

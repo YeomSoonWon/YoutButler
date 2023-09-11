@@ -9,6 +9,8 @@ black = "*"
 flask = "*"
 requests = "*"
 pandas = "*"
+pymongo = "*"
+dnspython = "*"
 
 [dev-packages]
 
