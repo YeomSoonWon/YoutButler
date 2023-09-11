@@ -11,7 +11,7 @@ import lombok.Getter;
 
 @Entity
 @Getter
-public class User {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +23,12 @@ public class User {
     private Role role;
 
 
-    public User(String email, String encryptedPassword) {
+    public Member(String email, String encryptedPassword) {
         this.email = email;
         this.password = encryptedPassword;
         this.role = Role.USER;
     }
 
-    protected User() {
+    protected Member() {
     }
 }

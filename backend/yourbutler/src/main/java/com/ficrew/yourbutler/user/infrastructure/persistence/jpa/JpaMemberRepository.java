@@ -1,12 +1,12 @@
 package com.ficrew.yourbutler.user.infrastructure.persistence.jpa;
 
-import com.ficrew.yourbutler.user.domain.entity.User;
+import com.ficrew.yourbutler.user.domain.entity.Member;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface JpaUserRepository extends JpaRepository<User, Long> {
+public interface JpaMemberRepository extends JpaRepository<Member, Long> {
 
-    Optional<User> findByEmail(String email);
+    Optional<Member> findByEmail(String email);
 
     boolean existsByEmail(String email);
 }
