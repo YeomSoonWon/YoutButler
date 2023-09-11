@@ -9,9 +9,11 @@ const ListDiv = styled.div`
   gap: 1rem;
 `;
 
+/* height: ${(props) => props.height || "200px"};
+width: ${(props) => props.width || "200px"}; */
 const ItemEach = styled.div`
-  height: ${(props) => props.height || "200px"};
-  width: ${(props) => props.width || "200px"};
+  height: "200px";
+  width: "200px";
   background-color: #ccc;
   margin: 0 5px;
 `;
@@ -76,7 +78,8 @@ const Carousel = ({ items }) => {
       {/* {items} */}
       <ListDiv style={{ transform: `translateX(-${currentIndex * 25}%)` }}>
         {items.map((item, index) => (
-          <ItemEach key={index} height={item.height} width={item.width} />
+          // <ItemEach key={index} height={item.height} width={item.width} />
+          <ItemEach key={index} />
         ))}
       </ListDiv>
       <NextSvgDiv className="next" onClick={handleNextClick}>
