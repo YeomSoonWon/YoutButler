@@ -1,55 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-
-const ListDiv = styled.div`
-  display: flex;
-  transition: transform 0.3s ease;
-  width: 95%;
-  display: flex;
-  gap: 1rem;
-`;
-
-/* height: ${(props) => props.height || "200px"};
-width: ${(props) => props.width || "200px"}; */
-const ItemEach = styled.div`
-  height: "200px";
-  width: "200px";
-  background-color: #ccc;
-  margin: 0 5px;
-`;
-
-const NextSvgDiv = styled.div`
-  height: 100%;
-  padding: 0.5rem;
-  display: flex;
-  align-items: center;
-
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 30px;
-  justify-content: center;
-  background-color: rgba(255, 255, 255, 0.5);
-  transition: background-color 0.3s ease;
-  z-index: 2;
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.8);
-  }
-
-  &.prev {
-    left: 0px; // 왼쪽 버튼 위치 조정
-  }
-
-  &.next {
-    right: 0px; // 오른쪽 버튼 위치 조정
-  }
-`;
-
-const NextSvg = styled.svg`
-  fill: #333;
-`;
+import ItemEach from "@/components/List/ItemEach";
 
 const Carousel = ({ items }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -78,8 +29,7 @@ const Carousel = ({ items }) => {
       {/* {items} */}
       <ListDiv style={{ transform: `translateX(-${currentIndex * 25}%)` }}>
         {items.map((item, index) => (
-          // <ItemEach key={index} height={item.height} width={item.width} />
-          <ItemEach key={index} />
+          <ItemEach height={item.height} width={item.width} />
         ))}
       </ListDiv>
       <NextSvgDiv className="next" onClick={handleNextClick}>

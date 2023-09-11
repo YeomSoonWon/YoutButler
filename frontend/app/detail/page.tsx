@@ -92,7 +92,7 @@ const Detail = () => {
                   d="M6 18L18 6M6 6l12 12"
                 />
               </CloseButton>
-              <PopupImage src={images[clickedImageIndex]} alt="estate" />
+              <PopupImage src={images[clickedImageIndex].src} alt="estate" />
             </Popup>
           )}
           <NextSvgDiv className="next" onClick={nextImage}>
