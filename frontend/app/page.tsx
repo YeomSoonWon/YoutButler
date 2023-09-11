@@ -10,6 +10,7 @@ import { IBM_Plex_Sans_KR } from "@next/font/google";
 import Footer from "@/components/Footer";
 import Carousel from "@/components/Button/Carousel";
 import Link from "next/link";
+import colors from "@/constants/colors";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -30,7 +31,7 @@ const Home = () => {
 
   return (
     <ContainerDiv>
-      <AppBar backgroundColor="green" color="white" />
+      <AppBar backgroundColor={colors.darkgreen} color="white" />
       <UpperDiv className={ibmPlexSansKR.className}>
         <MainImg
           src={mainImg}
