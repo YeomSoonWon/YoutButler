@@ -1,6 +1,6 @@
 package com.ficrew.yourbutler.global.auth;
 
-import com.ficrew.yourbutler.user.domain.repository.MemberRepository;
+import com.ficrew.yourbutler.member.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,6 +1,6 @@
 package com.ficrew.yourbutler.global.auth;
 
-import com.ficrew.yourbutler.user.domain.entity.Member;
+import com.ficrew.yourbutler.member.domain.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;

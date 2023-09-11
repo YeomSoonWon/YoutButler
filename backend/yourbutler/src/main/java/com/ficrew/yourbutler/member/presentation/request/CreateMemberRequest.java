@@ -1,6 +1,6 @@
-package com.ficrew.yourbutler.user.presentation.request;
+package com.ficrew.yourbutler.member.presentation.request;
 
-import com.ficrew.yourbutler.user.application.command.CreateMemberCommand;
+import com.ficrew.yourbutler.member.application.command.CreateMemberCommand;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;

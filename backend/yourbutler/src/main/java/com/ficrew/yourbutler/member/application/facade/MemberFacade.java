@@ -1,7 +1,7 @@
-package com.ficrew.yourbutler.user.application.facade;
+package com.ficrew.yourbutler.member.application.facade;
 
-import com.ficrew.yourbutler.user.application.CreateMemberProcessor;
-import com.ficrew.yourbutler.user.application.command.CreateMemberCommand;
+import com.ficrew.yourbutler.member.application.CreateMemberProcessor;
+import com.ficrew.yourbutler.member.application.command.CreateMemberCommand;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

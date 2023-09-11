@@ -1,4 +1,4 @@
-package com.ficrew.yourbutler.user.domain.entity;
+package com.ficrew.yourbutler.member.domain.entity;
 
 import com.ficrew.yourbutler.global.auth.Role;
 import javax.persistence.Entity;

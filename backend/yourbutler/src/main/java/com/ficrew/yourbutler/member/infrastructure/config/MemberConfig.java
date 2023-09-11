@@ -1,8 +1,8 @@
-package com.ficrew.yourbutler.user.infrastructure.config;
+package com.ficrew.yourbutler.member.infrastructure.config;
 
-import com.ficrew.yourbutler.user.application.CreateMemberProcessor;
-import com.ficrew.yourbutler.user.domain.repository.MemberRepository;
-import com.ficrew.yourbutler.user.infrastructure.encryption.UserSecurityPasswordEncoder;
+import com.ficrew.yourbutler.member.application.CreateMemberProcessor;
+import com.ficrew.yourbutler.member.domain.repository.MemberRepository;
+import com.ficrew.yourbutler.member.infrastructure.encryption.UserSecurityPasswordEncoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

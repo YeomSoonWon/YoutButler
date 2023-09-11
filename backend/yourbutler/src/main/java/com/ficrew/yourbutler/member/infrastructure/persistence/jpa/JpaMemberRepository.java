@@ -1,6 +1,6 @@
-package com.ficrew.yourbutler.user.infrastructure.persistence.jpa;
+package com.ficrew.yourbutler.member.infrastructure.persistence.jpa;
 
-import com.ficrew.yourbutler.user.domain.entity.Member;
+import com.ficrew.yourbutler.member.domain.entity.Member;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

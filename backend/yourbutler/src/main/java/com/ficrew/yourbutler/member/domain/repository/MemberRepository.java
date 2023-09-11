@@ -1,6 +1,6 @@
-package com.ficrew.yourbutler.user.domain.repository;
+package com.ficrew.yourbutler.member.domain.repository;
 
-import com.ficrew.yourbutler.user.domain.entity.Member;
+import com.ficrew.yourbutler.member.domain.entity.Member;
 
 public interface MemberRepository {
 

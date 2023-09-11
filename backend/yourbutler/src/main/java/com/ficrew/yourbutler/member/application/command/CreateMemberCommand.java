@@ -1,6 +1,6 @@
-package com.ficrew.yourbutler.user.application.command;
+package com.ficrew.yourbutler.member.application.command;
 
-import com.ficrew.yourbutler.user.domain.entity.Member;
+import com.ficrew.yourbutler.member.domain.entity.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
