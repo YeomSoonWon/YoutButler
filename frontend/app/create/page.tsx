@@ -130,7 +130,9 @@ const StyledSelect = styled.select`
   border: solid 1px #334835;
 `;
 
-const SubTitleP = styled.p`
+// Nextjs 문법은 <p> 태그 안에 <p/>넣을 시 오류 발생합니다.
+// 컴포넌트 이름은 바꾸지 않는 선에서 p만 div로 바꿔서 일단 해결
+const SubTitleP = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
