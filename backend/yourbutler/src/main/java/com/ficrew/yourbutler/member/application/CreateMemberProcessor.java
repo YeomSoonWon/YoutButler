@@ -1,9 +1,9 @@
-package com.ficrew.yourbutler.user.application;
+package com.ficrew.yourbutler.member.application;
 
 import com.ficrew.yourbutler.global.auth.PasswordEncrypter;
-import com.ficrew.yourbutler.user.application.command.CreateMemberCommand;
-import com.ficrew.yourbutler.user.domain.exception.DuplicatedUserEmailException;
-import com.ficrew.yourbutler.user.domain.repository.MemberRepository;
+import com.ficrew.yourbutler.member.application.command.CreateMemberCommand;
+import com.ficrew.yourbutler.member.domain.exception.DuplicatedUserEmailException;
+import com.ficrew.yourbutler.member.domain.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor

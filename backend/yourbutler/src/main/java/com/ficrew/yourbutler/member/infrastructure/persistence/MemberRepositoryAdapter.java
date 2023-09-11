@@ -1,8 +1,8 @@
-package com.ficrew.yourbutler.user.infrastructure.persistence;
+package com.ficrew.yourbutler.member.infrastructure.persistence;
 
-import com.ficrew.yourbutler.user.domain.entity.Member;
-import com.ficrew.yourbutler.user.domain.repository.MemberRepository;
-import com.ficrew.yourbutler.user.infrastructure.persistence.jpa.JpaMemberRepository;
+import com.ficrew.yourbutler.member.domain.entity.Member;
+import com.ficrew.yourbutler.member.domain.repository.MemberRepository;
+import com.ficrew.yourbutler.member.infrastructure.persistence.jpa.JpaMemberRepository;
 import javax.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

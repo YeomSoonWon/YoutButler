@@ -1,9 +1,8 @@
-package com.ficrew.yourbutler.user.infrastructure.jwt;
+package com.ficrew.yourbutler.member.infrastructure.jwt;
 
 import com.ficrew.yourbutler.global.auth.AuthenticatedMember;
 import com.ficrew.yourbutler.global.auth.JWTProvider;
 import com.ficrew.yourbutler.global.auth.Token;
-import com.ficrew.yourbutler.global.auth.filter.AuthTokenFilter;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +11,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 import io.jsonwebtoken.security.SignatureException;
 
 import java.util.Date;

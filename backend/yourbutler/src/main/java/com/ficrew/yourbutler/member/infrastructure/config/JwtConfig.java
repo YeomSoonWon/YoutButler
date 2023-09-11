@@ -1,13 +1,10 @@
-package com.ficrew.yourbutler.user.infrastructure.config;
+package com.ficrew.yourbutler.member.infrastructure.config;
 
-import com.ficrew.yourbutler.global.auth.JWTProvider;
-import com.ficrew.yourbutler.user.infrastructure.jwt.JwtMaker;
+import com.ficrew.yourbutler.member.infrastructure.jwt.JwtMaker;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.authentication.AuthenticationManagerFactoryBean;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 
 @Configuration
 public class JwtConfig {
