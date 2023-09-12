@@ -1,5 +1,6 @@
 "use client";
-import { signIn, signOut, useSession, getSession } from "next-auth/react";
+
+import { signIn, signOut, } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import styled from "styled-components";
@@ -15,16 +16,10 @@ const sunFlower = Sunflower({
   subsets: ["latin"],
 });
 
-const AppBar = ({ backgroundColor, color }) => {
-  const { data: session } = useSession();
-  useEffect(() => {
-    if (!session) return;
-    console.log(session);
-  }, [session]);
-
-  const ultSignOut = () => {
-    signOut();
-  };
+const AppBar = ({ backgroundColor, color, user }) => {
+  // useEffect(()=>{
+  //   console.log(user);
+  // },[user]);
 
   const ContainerDiv = styled.div`
     display: flex;
@@ -58,15 +53,14 @@ const AppBar = ({ backgroundColor, color }) => {
         <StyledLink href="/search">지도</StyledLink>
         <StyledLink href="/mypage">마이페이지</StyledLink>
         <StyledLink href="">알림</StyledLink>
-        {session?.user ? (
+        {user ? (
           <>
-            <img src={session.user.image || ""} />
-            <StyledUserName>{session.user.name}</StyledUserName>
+            <img src={user?.picture || ""} />
+            <StyledUserName>{user?.name}</StyledUserName>
             <YellowBtn onClick={() => signOut()}>로그아웃</YellowBtn>
           </>
         ) : (
           <>
-            <StyledLink href="">회원가입</StyledLink>
             <YellowBtn onClick={() => signIn()}>로그인</YellowBtn>
           </>
         )}
