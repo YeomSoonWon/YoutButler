@@ -10,13 +10,9 @@ public class CreateMemberCommand {
 
     private String email;
     private String nickname;
-
-
-    public Member toEntity(String encryptedPassword) {
-        return new Member(
-            this.email,
-            this.nickname,
-            encryptedPassword
-        );
-    }
+    private Integer age;
+    private Integer holdingAsset;
+    private Integer creditRating;
+    private Integer monthlyAvailableAsset;
+    private String numberOfHouses;
 }

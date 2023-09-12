@@ -1,5 +1,6 @@
 package com.ficrew.yourbutler.member.infrastructure.config;
 
+import com.ficrew.yourbutler.global.auth.JWTProvider;
 import com.ficrew.yourbutler.member.application.CreateMemberProcessor;
 import com.ficrew.yourbutler.member.application.SignInMemberProcessor;
 import com.ficrew.yourbutler.member.domain.repository.MemberRepository;
@@ -17,17 +18,19 @@ public class MemberConfig {
         MemberRepository memberRepository
     ) {
         return new CreateMemberProcessor(
-                memberRepository,
-            new UserSecurityPasswordEncoder(userEncodingAlgorithm())
+                memberRepository
         );
     }
 
     @Bean
     public SignInMemberProcessor signInMemberProcessor(
-
+        MemberRepository memberRepository,
+        JWTProvider jwtProvider
     ) {
         return new SignInMemberProcessor(
-
+                memberRepository,
+                new UserSecurityPasswordEncoder(userEncodingAlgorithm()),
+                jwtProvider
         );
     }
 

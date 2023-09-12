@@ -33,13 +33,13 @@ public class CreateMemberRequest {
     private Integer creditRating;
 
     @Nullable
-    private Long monthlyAvailableAsset;
+    private Integer monthlyAvailableAsset;
 
     @Nullable
     @Pattern(regexp = "^(NONE|ONE|TWO|MORE_THAN_TWO)$", message = "주택 수에 올바른 값을 입력해주세요")
     private String numberOfHouses;
 
     public CreateMemberCommand toCommand() {
-        return new CreateMemberCommand(email, nickname);
+        return new CreateMemberCommand(email, nickname, age, holdingAsset, creditRating, monthlyAvailableAsset, numberOfHouses);
     }
 }

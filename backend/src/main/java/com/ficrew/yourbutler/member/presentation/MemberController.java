@@ -18,6 +18,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -34,9 +35,7 @@ public class MemberController {
             @RequestBody @Valid SignInRequest signInRequest
     ) {
         SignInResponse signInResponse = memberFacade.signInMember(signInRequest.toCommand()).toResponse();
-
-        return new ResponseEntity<>(signInResponse,
-                signInResponse.isActiveMember() ? HttpStatus.OK : HttpStatus.CONTINUE);
+        return new ResponseEntity<>(signInResponse, signInResponse.isActivated() ? HttpStatus.OK : HttpStatus.ACCEPTED);
     }
 
     @PostMapping("/signup")
@@ -45,7 +44,6 @@ public class MemberController {
         @AuthenticationPrincipal UserDetails user
     ) {
         memberFacade.createMember(request.toCommand(), user);
-
         return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
     }
 }

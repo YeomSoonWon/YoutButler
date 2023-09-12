@@ -7,12 +7,12 @@ import lombok.Getter;
 public class SignInResponse {
     Token token;
     MemberResponse memberResponse;
-
     public SignInResponse(Token token, MemberResponse memberResponse) {
         this.token = token;
         this.memberResponse = memberResponse;
     }
-    public boolean isActiveMember() {
-        return this.memberResponse.getAge() != null;
+
+    public boolean isActivated() {
+        return this.memberResponse.age == null ? false : true;
     }
 }

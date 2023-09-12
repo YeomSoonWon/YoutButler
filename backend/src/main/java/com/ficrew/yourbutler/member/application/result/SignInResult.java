@@ -7,6 +7,10 @@ import com.ficrew.yourbutler.member.presentation.response.SignInResponse;
 public class SignInResult {
     Token token;
     MemberResponse memberResponse;
+    public SignInResult(Token token, MemberResponse memberResponse) {
+        this.token = token;
+        this.memberResponse = memberResponse;
+    }
 
     public SignInResponse toResponse() {
         return new SignInResponse(token, memberResponse);
