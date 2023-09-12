@@ -8,9 +8,11 @@ from pymongo import MongoClient
 from urllib.request import Request, urlopen
 from urllib.parse import urlencode, quote_plus, unquote
 import pandas as pd
+
 # import openpyxl
 from pandas import DataFrame
 from datetime import datetime
+
 uri = f"mongodb+srv://ssafy:{os.environ.get('MONGO_DB_PASSWORD')}@cluster0.cehixkx.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(uri)
 db = client.loan
@@ -38,7 +40,7 @@ column_mapping = {
     "lend_rate_type_nm": "대출금리유형",
     "lend_rate_min": "대출금리_최저",
     "lend_rate_max": "대출금리_최고",
-    "lend_rate_avg": "전월 취급 평균금리"
+    "lend_rate_avg": "전월 취급 평균금리",
 }
 
 
@@ -48,8 +50,8 @@ def get_product(KEY, FINGROUP, PAGE):
     url = f"http://finlife.fss.or.kr/finlifeapi/mortgageLoanProductsSearch.json?auth={KEY}&topFinGrpNo={FINGROUP}&pageNo={PAGE}"
     response = requests.get(url)
     data = response.json()
-    base_list = data['result']['baseList']
-    option_list = data['result']['optionList']
+    base_list = data["result"]["baseList"]
+    option_list = data["result"]["optionList"]
 
     for item in base_list:
         for eng_key in list(item.keys()):
@@ -70,11 +72,11 @@ def get_product(KEY, FINGROUP, PAGE):
 # API 호출에 필요한 파라미터(필수)
 # 금융기관별 코드 list: 데이터 명세 참고
 fin_grp_list = [
-    '020000'  # 은행
-    , '030200'  # 여신전문
-    , '030300'  # 저축은행
-    , '050000'  # 보험회사
-    , '060000'  # 금융투자
+    "020000",  # 은행
+    "030200",  # 여신전문
+    "030300",  # 저축은행
+    "050000",  # 보험회사
+    "060000",  # 금융투자
 ]
 
 # API 호출에 필요한 파라미터(필수)

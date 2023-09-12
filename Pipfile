@@ -4,13 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-langchain = "*"
 black = "*"
 flask = "*"
 requests = "*"
 pandas = "*"
 pymongo = "*"
 dnspython = "*"
+pypdf2 = "*"
+pypdf = "*"
+openai = "*"
+langchain = "*"
 
 [dev-packages]
 

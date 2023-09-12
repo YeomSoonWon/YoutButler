@@ -8,6 +8,7 @@ from pymongo import MongoClient
 from urllib.request import Request, urlopen
 from urllib.parse import urlencode, quote_plus, unquote
 import pandas as pd
+
 # import openpyxl
 from pandas import DataFrame
 from datetime import datetime
@@ -19,29 +20,29 @@ db = client.loan
 collection = db.creditloan
 
 column_mapping = {
-    'dcls_month': "공시 제출월 [YYYYMM]",
-    'fin_co_no': "금융회사 코드",
-    'kor_co_nm': "금융회사 명",
-    'fin_prdt_cd': "금융상품 코드",
-    'fin_prdt_nm': "금융 상품명",
-    'join_way': "가입 방법",
-    'crdt_prdt_type': "대출종류 코드",
-    'crdt_prdt_type_nm': "대출종류명",
-    'cb_name': "CB 회사명",
-    'dcls_strt_day': "공시 시작일",
-    'dcls_end_day': "공시 종료일",
-    'fin_co_subm_day': "금융회사 제출일 [YYYYMMDDHH24MI]",
-    'crdt_lend_rate_type': "금리구분 코드",
-    'crdt_lend_rate_type_nm': "금리구분",
-    'crdt_grad_1': "900점 초과 [소수점 2자리]",
-    'crdt_grad_4': "801~900점 [소수점 2자리]",
-    'crdt_grad_5': "701~800점 [소수점 2자리]",
-    'crdt_grad_6': "601~700점 [소수점 2자리]",
-    'crdt_grad_10': "501~600점 [소수점 2자리]",
-    'crdt_grad_11': "401~500점 [소수점 2자리]",
-    'crdt_grad_12': "301~400점 [소수점 2자리]",
-    'crdt_grad_13': "300점 이하 [소수점 2자리]",
-    'crdt_grad_avg': "평균 금리 [소수점 2자리]"
+    "dcls_month": "공시 제출월 [YYYYMM]",
+    "fin_co_no": "금융회사 코드",
+    "kor_co_nm": "금융회사 명",
+    "fin_prdt_cd": "금융상품 코드",
+    "fin_prdt_nm": "금융 상품명",
+    "join_way": "가입 방법",
+    "crdt_prdt_type": "대출종류 코드",
+    "crdt_prdt_type_nm": "대출종류명",
+    "cb_name": "CB 회사명",
+    "dcls_strt_day": "공시 시작일",
+    "dcls_end_day": "공시 종료일",
+    "fin_co_subm_day": "금융회사 제출일 [YYYYMMDDHH24MI]",
+    "crdt_lend_rate_type": "금리구분 코드",
+    "crdt_lend_rate_type_nm": "금리구분",
+    "crdt_grad_1": "900점 초과 [소수점 2자리]",
+    "crdt_grad_4": "801~900점 [소수점 2자리]",
+    "crdt_grad_5": "701~800점 [소수점 2자리]",
+    "crdt_grad_6": "601~700점 [소수점 2자리]",
+    "crdt_grad_10": "501~600점 [소수점 2자리]",
+    "crdt_grad_11": "401~500점 [소수점 2자리]",
+    "crdt_grad_12": "301~400점 [소수점 2자리]",
+    "crdt_grad_13": "300점 이하 [소수점 2자리]",
+    "crdt_grad_avg": "평균 금리 [소수점 2자리]",
 }
 
 
@@ -51,8 +52,8 @@ def get_product(KEY, FINGROUP, PAGE):
     url = f"http://finlife.fss.or.kr/finlifeapi/creditLoanProductsSearch.json?auth={KEY}&topFinGrpNo={FINGROUP}&pageNo={PAGE}"
     response = requests.get(url)
     data = response.json()
-    base_list = data['result']['baseList']
-    option_list = data['result']['optionList']
+    base_list = data["result"]["baseList"]
+    option_list = data["result"]["optionList"]
 
     for item in base_list:
         for eng_key in list(item.keys()):
@@ -73,11 +74,11 @@ def get_product(KEY, FINGROUP, PAGE):
 # API 호출에 필요한 파라미터(필수)
 # 금융기관별 코드 list: 데이터 명세 참고
 fin_grp_list = [
-    '020000'  # 은행
-    , '030200'  # 여신전문
-    , '030300'  # 저축은행
-    , '050000'  # 보험회사
-    , '060000'  # 금융투자
+    "020000",  # 은행
+    "030200",  # 여신전문
+    "030300",  # 저축은행
+    "050000",  # 보험회사
+    "060000",  # 금융투자
 ]
 
 # API 호출에 필요한 파라미터(필수)
