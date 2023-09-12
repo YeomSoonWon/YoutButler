@@ -1,17 +1,12 @@
-// "use client";
-
 // Nextjs 13 부터는 app directory 기반 라우팅 진행 - 이번 버전부터 베타로 진행하는 만큼
 import AppBar from "@/components/AppBar";
-// import styled from "styled-components";
-import Image from "next/image";
 import mainImg from "@/public/assets/mainImg.png";
-import ItemEach from "@/components/List/ItemEach";
 import { IBM_Plex_Sans_KR } from "@next/font/google";
 import Footer from "@/components/Footer";
 import Carousel from "@/components/Button/Carousel";
 import Link from "next/link";
 import colors from "@/constants/colors";
-import { ContainerDiv, UpperDiv, MainImg, PDiv, FirstP, SecondP, InputDiv, StyledInput, SearchBtn, StyledSvg, MiddleDiv, ListAboutDiv, ViewMoreDiv, NextSvgDiv, NextSvg, ListContainerDiv, LowerDiv, TitleP, ContentP, ContentDiv, FirstDiv, CircleDiv, AboutSvg, AboutTitleP, AboutContentP, SecondDiv, CircleSecondDiv } from "@/components/MainPage";
+import { ContainerDiv, UpperDiv, MainImg, PDiv, FirstP, SecondP, InputDiv, StyledInput, SearchBtn, StyledSvg, MiddleDiv, ListAboutDiv, ViewMoreDiv, NextSvgDiv, NextSvg, ListContainerDiv, LowerDiv, TitleP, ContentP, ContentDiv, FirstDiv, CircleDiv, AboutSvg, AboutTitleP, AboutContentP, SecondDiv, CircleSecondDiv } from "@/components/MainPage/MainPage";
 import { getServerSession } from "next-auth/next"
 import authOptions from "@/Oauth/AuthOption";
 
@@ -31,11 +26,15 @@ const items = [
 // 어렵거나 아니다싶으면 언제든 Next12로 돌아갈 수 있어야(다행히도 하위호환 지원)
 const Home = async () => {
   const session = await getServerSession(authOptions);
-  console.log(session.user);
+  console.log(session?.user);
+  let user = null;
+  if(session?.user){
+    user = session.user;
+  }
 
   return (
     <ContainerDiv>
-      <AppBar backgroundColor={colors.darkgreen} color="white" />
+      <AppBar backgroundColor={colors.darkgreen} color="white" user={user}/>
       <UpperDiv className={ibmPlexSansKR.className}>
         <MainImg
           src={mainImg}
@@ -50,7 +49,6 @@ const Home = async () => {
             <StyledInput
               type="text"
               placeholder="원하시는 지역 또는 단지명을 입력해주세요"
-              // className={ibmPlexSansKR.className}
             />
             <SearchBtn>
               <StyledSvg
