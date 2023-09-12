@@ -1,6 +1,8 @@
 package com.ficrew.yourbutler.member.infrastructure.config;
 
+import com.ficrew.yourbutler.global.auth.JWTProvider;
 import com.ficrew.yourbutler.member.application.CreateMemberProcessor;
+import com.ficrew.yourbutler.member.application.SignInMemberProcessor;
 import com.ficrew.yourbutler.member.domain.repository.MemberRepository;
 import com.ficrew.yourbutler.member.infrastructure.encryption.UserSecurityPasswordEncoder;
 import org.springframework.context.annotation.Bean;
@@ -16,8 +18,19 @@ public class MemberConfig {
         MemberRepository memberRepository
     ) {
         return new CreateMemberProcessor(
+                memberRepository
+        );
+    }
+
+    @Bean
+    public SignInMemberProcessor signInMemberProcessor(
+        MemberRepository memberRepository,
+        JWTProvider jwtProvider
+    ) {
+        return new SignInMemberProcessor(
                 memberRepository,
-            new UserSecurityPasswordEncoder(userEncodingAlgorithm())
+                new UserSecurityPasswordEncoder(userEncodingAlgorithm()),
+                jwtProvider
         );
     }
 

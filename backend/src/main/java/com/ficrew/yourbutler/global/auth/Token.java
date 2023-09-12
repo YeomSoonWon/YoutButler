@@ -7,6 +7,9 @@ public class Token {
     private String accessToken;
     private String refreshToken;
 
+    public void removeRefresh() {
+        this.refreshToken = null;
+    }
     public Token(String accessToken) {
         this.accessToken = accessToken;
     }

@@ -9,13 +9,10 @@ import lombok.Getter;
 public class CreateMemberCommand {
 
     private String email;
-    private String password;
-
-
-    public Member toEntity(String encryptedPassword) {
-        return new Member(
-            this.email,
-            encryptedPassword
-        );
-    }
+    private String nickname;
+    private Integer age;
+    private Integer holdingAsset;
+    private Integer creditRating;
+    private Integer monthlyAvailableAsset;
+    private String numberOfHouses;
 }
