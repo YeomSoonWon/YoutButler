@@ -18,15 +18,21 @@ public class Member {
     private Long id;
 
     private String email;
+    private String nickname;
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
+    private Integer age;
+    private Integer holdingAsset;
+    private Integer creditRating;
+    private Integer monthlyAvailableAsset;
+    private NumberOfHouses numberOfHouses;
 
-
-    public Member(String email, String encryptedPassword) {
+    public Member(String email, String nickname, String encryptedPassword) {
         this.email = email;
+        this.nickname = nickname;
         this.password = encryptedPassword;
-        this.role = Role.USER;
+        this.role = Role.MEMBER;
     }
 
     protected Member() {
