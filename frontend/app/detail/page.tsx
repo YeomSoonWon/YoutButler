@@ -49,7 +49,7 @@ const Detail = () => {
 
   return (
     <main>
-      <AppBar backgroundColor="transparent" color="#334835" />
+      <AppBar backgroundColor="transparent" color="#334835" user={null}/>
       <Container className={ibmPlexSansKR.className}>
         <TopDiv>
           <NextSvgDiv className="prev" onClick={prevImage}>
