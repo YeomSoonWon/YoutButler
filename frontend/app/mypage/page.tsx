@@ -7,11 +7,10 @@ import styled from "styled-components";
 import colors from "@/constants/colors";
 import UserInfoEach from "@/components/List/UserInfoEach";
 import ChatTitleEach from "@/components/List/ChatTitleEach";
-import LeftChat from "@/components/Chat/LeftChat";
-import RightChat from "@/components/Chat/RightChat";
 import ItemEach from "@/components/List/ItemEach";
 import Button from "@/components/Button/Button";
 import Link from "next/link";
+import Chatting from "@/components/Chat/Chatting";
 
 const Profile = () => {
   const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
@@ -19,9 +18,23 @@ const Profile = () => {
   const handleTitleClick = (index) => {
     setSelectedTitleIndex(index);
   };
+
+  const chatMessages = [
+    { text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?", isRight: false },
+    { text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?", isRight: false },
+    { text: "어쩌고 .. 저쩌고...", isRight: true },
+    { text: "어쩌고 .. 저쩌고...", isRight: true },
+    { text: "어쩌고 .. 저쩌고...", isRight: true },
+    { text: "어쩌고 .. 저쩌고...", isRight: true },
+    {
+      text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?ssssssssssssssssssssssss",
+      isRight: false,
+    },
+  ];
+
   return (
     <main>
-      <AppBar backgroundColor="transparent" color="#334835" user={null}/>
+      <AppBar backgroundColor="transparent" color="#334835" user={null} />
       <Container>
         <TitleDiv>
           <NameP>김싸피님,</NameP>
@@ -79,11 +92,7 @@ const Profile = () => {
                   />
                 </ChatTitleDiv>
                 <ChatDiv>
-                  <LeftChat message="안녕하세요 당신의 집사입니다 :)" />
-                  <LeftChat message="대출 상품 추천을 도와드릴까요?" />
-                  <RightChat message="네 금리 가장 낮은 상품으로 찾아주세요...." />
-                  <RightChat message="국민은행 대출 상품으로 찾아주세요!" />
-                  <RightChat message="금리인하요구권은 언제부터 신청가능한가요??" />
+                  <Chatting messages={chatMessages} />
                 </ChatDiv>
               </ChatListDiv>
             </RightUpperDiv>
@@ -179,7 +188,7 @@ const ChatListDiv = styled.div`
 const ChatDiv = styled.div`
   width: 65%;
   overflow-y: scroll;
-  padding: 1rem;
+  padding: 0 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;

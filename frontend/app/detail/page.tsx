@@ -12,8 +12,7 @@ import Chart from "@/components/Chart";
 import Carousel from "@/components/Button/Carousel";
 import InfoBubble from "@/components/List/InfoBubble";
 import Button from "@/components/Button/Button";
-import RightChat from "@/components/Chat/RightChat";
-import LeftChat from "@/components/Chat/LeftChat";
+import Chatting from "@/components/Chat/Chatting";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -60,9 +59,22 @@ const Detail = () => {
     console.log("눌렸다!");
   };
 
+  const chatMessages = [
+    { text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?", isRight: false },
+    { text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?", isRight: false },
+    { text: "어쩌고 .. 저쩌고...", isRight: true },
+    { text: "어쩌고 .. 저쩌고...", isRight: true },
+    { text: "어쩌고 .. 저쩌고...", isRight: true },
+    { text: "어쩌고 .. 저쩌고...", isRight: true },
+    {
+      text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?ssssssssssssssssssssssss",
+      isRight: false,
+    },
+  ];
+
   return (
     <main>
-      <AppBar backgroundColor="transparent" color="#334835" user={null}/>
+      <AppBar backgroundColor="transparent" color="#334835" user={null} />
       <Container className={ibmPlexSansKR.className}>
         <TopDiv>
           <NextSvgDiv className="prev" onClick={prevImage}>
@@ -250,7 +262,9 @@ const Detail = () => {
                 <div>
                   <AskP isVisible={isChatOpen}>집사에게 물어보세요!</AskP>
                 </div>
-                <ChatMiddleDiv isVisible={isChatOpen}></ChatMiddleDiv>
+                <ChatMiddleDiv isVisible={isChatOpen}>
+                  <Chatting messages={chatMessages} />
+                </ChatMiddleDiv>
                 <ChatBottomDiv isVisible={isChatOpen}>
                   <MessageInput
                     type="text"
@@ -325,8 +339,28 @@ const TitleP = styled.p`
 
 const ChatMiddleDiv = styled.div`
   height: 80%;
-  padding: 0.5rem 0%;
+  padding: 0.5rem 0;
   display: ${(props) => (props.isVisible ? "block" : "none")};
+  flex-direction: column;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    background-color: #e8e2d9;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #acb4a8;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #818a7e;
+  }
+
+  &::-webkit-scrollbar-thumb:active {
+    background-color: #656c62;
+  }
 `;
 
 const ChatBottomDiv = styled.div`
@@ -334,7 +368,7 @@ const ChatBottomDiv = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 100%;
+  margin-top: 1rem;
   display: ${(props) => (props.isVisible ? "block" : "none")};
 `;
 
@@ -477,8 +511,9 @@ const AskDiv = styled.div`
   border-radius: 0 2rem 2rem 2rem;
   padding: 1.2rem;
   width: ${(props) => (props.expanded ? "24rem" : "12rem")};
-  height: ${(props) => (props.expanded ? "30rem" : "auto")};
+  height: ${(props) => (props.expanded ? "33rem" : "auto")};
   transition: all 0.3s ease-in-out;
+  margin-left: 3rem;
 `;
 
 const NextSvgDiv = styled.div`
