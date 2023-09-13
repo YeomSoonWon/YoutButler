@@ -49,17 +49,23 @@ public class SignInMemberProcessor {
         Member member;
 
         try {
-            member = memberRepository.findByEmail(emailAndNickname.email);
+            member = memberRepository.findBySocialTypeAndIdentifier(signInCommand.getSocialType(), emailAndNickname.identifier);
         } catch (JpaObjectRetrievalFailureException e) {
             member = new Member(
+                            emailAndNickname.identifier,
+                            signInCommand.getSocialType(),
                             emailAndNickname.email,
                             emailAndNickname.nickname,
-                            passwordEncrypter.encrypt(emailAndNickname.email));
+                            passwordEncrypter.encrypt(emailAndNickname.identifier));
 
             memberRepository.save(member);
         }
 
-        Token token = jwtProvider.generateTokens(emailAndNickname.email, emailAndNickname.email);
+        Token token = jwtProvider.generateTokens(
+                member.getSocialType() + " " + member.getIdentifier(),
+                member.getIdentifier()
+        );
+
         token.removeRefresh();
 
         MemberResponse memberResponse = new MemberResponse(member);
@@ -93,10 +99,26 @@ public class SignInMemberProcessor {
 
         return new EmailAndNickname(
                 kakaoLoginResult.getKakaoAccount().getEmail(),
+                kakaoLoginResult.getKakaoAccount().getEmail(),
                 kakaoLoginResult.getProperties().getNickname()
         );
     }
     private EmailAndNickname naver_login(String token) {
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization", "Bearer " + token);
+        httpHeaders.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+
+        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(httpHeaders);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                "https://kapi.kakao.com/v2/user/me",
+                HttpMethod.POST,
+                kakaoProfileRequest,
+                String.class
+        );
+
         return null;
     }
     private EmailAndNickname google_login(String token) {
@@ -104,8 +126,9 @@ public class SignInMemberProcessor {
     }
 
     private class EmailAndNickname {
-        String email, nickname;
-        public EmailAndNickname(String email, String nickname) {
+        String identifier, email, nickname;
+        public EmailAndNickname(String identifier, String email, String nickname) {
+            this.identifier = identifier;
             this.email = email;
             this.nickname = nickname;
         }

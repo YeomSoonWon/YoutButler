@@ -1,14 +1,12 @@
 package com.ficrew.yourbutler.member.application.facade;
 
+import com.ficrew.yourbutler.global.auth.AuthenticatedMember;
 import com.ficrew.yourbutler.member.application.CreateMemberProcessor;
 import com.ficrew.yourbutler.member.application.SignInMemberProcessor;
 import com.ficrew.yourbutler.member.application.command.CreateMemberCommand;
 import com.ficrew.yourbutler.member.application.command.SignInCommand;
 import com.ficrew.yourbutler.member.application.result.SignInResult;
-import com.ficrew.yourbutler.member.presentation.request.SignInRequest;
-import com.ficrew.yourbutler.member.presentation.response.SignInResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +18,8 @@ public class MemberFacade {
     private final SignInMemberProcessor signInMemberProcessor;
 
     @Transactional
-    public void createMember(CreateMemberCommand command, UserDetails user) {
-        createMemberProcessor.execute(command, user);
+    public void createMember(CreateMemberCommand command, AuthenticatedMember member) {
+        createMemberProcessor.execute(command, member);
     }
     @Transactional
     public SignInResult signInMember(SignInCommand signInCommand) {

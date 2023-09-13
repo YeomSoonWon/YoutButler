@@ -1,7 +1,6 @@
 package com.ficrew.yourbutler.global.auth.filter;
 
 import com.ficrew.yourbutler.global.auth.JWTProvider;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
