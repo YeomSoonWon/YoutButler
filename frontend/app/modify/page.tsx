@@ -8,7 +8,7 @@ import colors from "@/constants/colors";
 const Modify = () => {
   return (
     <Container>
-      <AppBar backgroundColor="transparent" color="#334835" />
+      <AppBar backgroundColor="transparent" color="#334835" user={null}/>
       <CenterDiv>
         <MiddleDiv>
           <TitleDiv>

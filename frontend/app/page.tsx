@@ -26,7 +26,7 @@ const items = [
 // 어렵거나 아니다싶으면 언제든 Next12로 돌아갈 수 있어야(다행히도 하위호환 지원)
 const Home = async () => {
   const session = await getServerSession(authOptions);
-  console.log(session?.user);
+  // console.log(session?.user);
   let user = null;
   if(session?.user){
     user = session.user;
