@@ -1,19 +1,26 @@
 package com.ficrew.yourbutler.member.presentation.request;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ficrew.yourbutler.member.application.command.CreateMemberCommand;
-
-import javax.validation.constraints.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import reactor.util.annotation.Nullable;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateMemberRequest {
+
+    @NotBlank(message = "식별자가 필요합니다.")
+    private String identifier;
+
+    @NotBlank(message = "소셜 타입이 필요합니다.")
+    private String socialType;
 
     @NotBlank(message = "이메일을 입력해주세요.")
     @Email(message = "이메일 형식에 맞춰 주세요.")
@@ -40,6 +47,6 @@ public class CreateMemberRequest {
     private String numberOfHouses;
 
     public CreateMemberCommand toCommand() {
-        return new CreateMemberCommand(email, nickname, age, holdingAsset, creditRating, monthlyAvailableAsset, numberOfHouses);
+        return new CreateMemberCommand(identifier, socialType, email, nickname, age, holdingAsset, creditRating, monthlyAvailableAsset, numberOfHouses);
     }
 }

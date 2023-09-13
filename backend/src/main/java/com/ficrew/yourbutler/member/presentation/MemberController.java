@@ -1,27 +1,20 @@
 package com.ficrew.yourbutler.member.presentation;
 
-import com.ficrew.yourbutler.global.auth.JWTProvider;
-import com.ficrew.yourbutler.global.auth.Token;
+import com.ficrew.yourbutler.global.auth.AuthenticatedMember;
 import com.ficrew.yourbutler.member.application.facade.MemberFacade;
 import com.ficrew.yourbutler.member.presentation.request.CreateMemberRequest;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
 import com.ficrew.yourbutler.member.presentation.request.SignInRequest;
 import com.ficrew.yourbutler.member.presentation.response.SignInResponse;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/members")
@@ -41,9 +34,9 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<String> signup(
         @RequestBody @Valid CreateMemberRequest request,
-        @AuthenticationPrincipal UserDetails user
+        @AuthenticationPrincipal AuthenticatedMember member
     ) {
-        memberFacade.createMember(request.toCommand(), user);
+        memberFacade.createMember(request.toCommand(), member);
         return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
     }
 }
