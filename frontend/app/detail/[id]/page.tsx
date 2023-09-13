@@ -1,29 +1,64 @@
-import { getServerSession } from "next-auth/next"
+import { getServerSession } from "next-auth/next";
 import authOptions from "@/Oauth/AuthOption";
 import AppBar from "@/components/AppBar";
 import Footer from "@/components/Footer";
 import { IBM_Plex_Sans_KR } from "next/font/google";
 import Chart from "@/components/Chart";
 import DetailCarousel from "@/components/DetailPage/DetailCarousel";
-import { Container, BottomDiv, LeftDiv, ContainerP, SubP, AboutDiv, AboutP, AboutEachDiv, AboutDetailDiv, PriceP, RightDiv, InfoDiv, InfoDetailDiv, BlueP, LineHr, LightPDiv, LightP, ChatDiv, AskDiv, AskP, ChatBotDiv, ChatSvg, TitleP, AboutTitleP } from "@/components/DetailPage/DetailPage";
+import {
+  Container,
+  BottomDiv,
+  LeftDiv,
+  ContainerP,
+  SubP,
+  AboutDiv,
+  AboutP,
+  AboutEachDiv,
+  AboutDetailDiv,
+  PriceP,
+  RightDiv,
+  InfoDiv,
+  InfoDetailDiv,
+  BlueP,
+  LineHr,
+  LightPDiv,
+  LightP,
+  ChatDiv,
+  AskDiv,
+  AskP,
+  ChatBotDiv,
+  ChatSvg,
+  TitleP,
+  AboutTitleP,
+} from "@/components/DetailPage/DetailPage";
+import { useState } from "react";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
 });
 
-const DetailWithID = async() => {
+const DetailWithID = async () => {
   const session = await getServerSession(authOptions);
   console.log(session?.user);
   let user = null;
-  if(session?.user){
+  if (session?.user) {
     user = session.user;
   }
+
+  // 챗봇 open
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const handleChatClick = () => {
+    setIsChatOpen(!isChatOpen);
+    console.log("눌렸다!");
+  };
+
   return (
     <main className={ibmPlexSansKR.className}>
-      <AppBar backgroundColor="transparent" color="#334835" user={user}/>
+      <AppBar backgroundColor="transparent" color="#334835" user={user} />
       <Container className={ibmPlexSansKR.className}>
-        <DetailCarousel/>
+        <DetailCarousel />
         <BottomDiv className={ibmPlexSansKR.className}>
           <LeftDiv>
             <ContainerP>
@@ -126,10 +161,10 @@ const DetailWithID = async() => {
               </InfoDetailDiv>
             </InfoDiv>
             <ChatDiv>
-              <AskDiv>
+              <AskDiv expanded={isChatOpen}>
                 <AskP>집사에게 물어보세요!</AskP>
               </AskDiv>
-              <ChatBotDiv>
+              <ChatBotDiv onclick={handleChatClick}>
                 <ChatSvg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
