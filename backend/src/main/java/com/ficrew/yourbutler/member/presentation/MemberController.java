@@ -5,34 +5,45 @@ import com.ficrew.yourbutler.global.auth.Token;
 import com.ficrew.yourbutler.member.application.facade.MemberFacade;
 import com.ficrew.yourbutler.member.presentation.request.CreateMemberRequest;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+
+import com.ficrew.yourbutler.member.presentation.request.SignInRequest;
+import com.ficrew.yourbutler.member.presentation.response.SignInResponse;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("/api/v1/members")
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberFacade memberFacade;
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> signup(
-        @RequestBody @Valid CreateMemberRequest request
+    @PostMapping("/signin")
+    public ResponseEntity<SignInResponse> signin(
+            @RequestBody @Valid SignInRequest signInRequest
     ) {
-        memberFacade.createUser(request.toCommand());
-        return new ResponseEntity<>("ok", HttpStatus.OK);
+        SignInResponse signInResponse = memberFacade.signInMember(signInRequest.toCommand()).toResponse();
+        return new ResponseEntity<>(signInResponse, signInResponse.isActivated() ? HttpStatus.OK : HttpStatus.ACCEPTED);
     }
 
-    private final JWTProvider jwtProvider;
-    private final PasswordEncoder passwordEncoder;
-    @GetMapping("/test")
-    public ResponseEntity<Token> signin(
-            @RequestBody @Valid CreateMemberRequest request
+    @PostMapping("/signup")
+    public ResponseEntity<String> signup(
+        @RequestBody @Valid CreateMemberRequest request,
+        @AuthenticationPrincipal UserDetails user
     ) {
-        System.out.println(passwordEncoder.encode(request.getPassword()));
-        return new ResponseEntity<>(jwtProvider.generateTokens(request.getEmail(), request.getPassword()), HttpStatus.OK);
+        memberFacade.createMember(request.toCommand(), user);
+        return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
     }
 }
