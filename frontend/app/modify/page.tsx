@@ -8,7 +8,7 @@ import colors from "@/constants/colors";
 const Modify = () => {
   return (
     <Container>
-      <AppBar backgroundColor="transparent" color="#334835" user={null}/>
+      <AppBar backgroundColor="transparent" color="#334835" user={null} />
       <CenterDiv>
         <MiddleDiv>
           <TitleDiv>
@@ -97,6 +97,7 @@ const InputDiv = styled.div`
   flex-direction: column;
   width: 20rem;
   gap: 0.5rem;
+  margin-bottom: 1rem;
 `;
 
 const InputTitleP = styled.p`
@@ -108,12 +109,13 @@ const InputTitleP = styled.p`
 const StyledInput = styled.input`
   height: 2rem;
   padding: 0.3rem 0.7rem;
+  border: solid 1px #f1f1f1;
+  background-color: #f1f1f1;
   border-radius: 0.4rem;
-  border: solid 1px #334835;
 
   &:focus {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-    outline-color: transparent;
+    outline-color: #f1f1f1;
   }
 
   &::-webkit-outer-spin-button,
@@ -126,8 +128,9 @@ const StyledInput = styled.input`
 const StyledSelect = styled.select`
   height: 2.7rem;
   padding: 0.3rem 0.5rem;
+  border: solid 1px #f1f1f1;
+  background-color: #f1f1f1;
   border-radius: 0.4rem;
-  border: solid 1px #334835;
 `;
 
 const SubTitleP = styled.p`

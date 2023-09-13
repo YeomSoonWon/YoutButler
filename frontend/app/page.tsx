@@ -6,8 +6,36 @@ import Footer from "@/components/Footer";
 import Carousel from "@/components/Button/Carousel";
 import Link from "next/link";
 import colors from "@/constants/colors";
-import { ContainerDiv, UpperDiv, MainImg, PDiv, FirstP, SecondP, InputDiv, StyledInput, SearchBtn, StyledSvg, MiddleDiv, ListAboutDiv, ViewMoreDiv, NextSvgDiv, NextSvg, ListContainerDiv, LowerDiv, TitleP, ContentP, ContentDiv, FirstDiv, CircleDiv, AboutSvg, AboutTitleP, AboutContentP, SecondDiv, CircleSecondDiv } from "@/components/MainPage/MainPage";
-import { getServerSession } from "next-auth/next"
+import {
+  ContainerDiv,
+  UpperDiv,
+  MainImg,
+  PDiv,
+  FirstP,
+  SecondP,
+  InputDiv,
+  StyledInput,
+  SearchBtn,
+  StyledSvg,
+  MiddleDiv,
+  ListAboutDiv,
+  ViewMoreDiv,
+  NextSvgDiv,
+  NextSvg,
+  ListContainerDiv,
+  LowerDiv,
+  TitleP,
+  ContentP,
+  ContentDiv,
+  FirstDiv,
+  CircleDiv,
+  AboutSvg,
+  AboutTitleP,
+  AboutContentP,
+  SecondDiv,
+  CircleSecondDiv,
+} from "@/components/MainPage/MainPage";
+import { getServerSession } from "next-auth/next";
 import authOptions from "@/Oauth/AuthOption";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
@@ -28,13 +56,13 @@ const Home = async () => {
   const session = await getServerSession(authOptions);
   // console.log(session?.user);
   let user = null;
-  if(session?.user){
+  if (session?.user) {
     user = session.user;
   }
 
   return (
     <ContainerDiv>
-      <AppBar backgroundColor={colors.darkgreen} color="white" user={user}/>
+      <AppBar backgroundColor={colors.darkgreen} color="white" user={user} />
       <UpperDiv className={ibmPlexSansKR.className}>
         <MainImg
           src={mainImg}
@@ -377,4 +405,3 @@ const Home = async () => {
 //   cursor: pointer;
 // `;
 export default Home;
-
