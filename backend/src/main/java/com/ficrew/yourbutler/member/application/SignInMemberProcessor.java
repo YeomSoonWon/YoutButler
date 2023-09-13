@@ -6,6 +6,7 @@ import com.ficrew.yourbutler.global.auth.JWTProvider;
 import com.ficrew.yourbutler.global.auth.PasswordEncrypter;
 import com.ficrew.yourbutler.global.auth.Token;
 import com.ficrew.yourbutler.member.application.command.SignInCommand;
+import com.ficrew.yourbutler.member.application.result.GoogleLoginResult;
 import com.ficrew.yourbutler.member.application.result.KakaoLoginResult;
 import com.ficrew.yourbutler.member.application.result.NaverLoginResult;
 import com.ficrew.yourbutler.member.application.result.SignInResult;
@@ -30,23 +31,30 @@ public class SignInMemberProcessor {
     private final JWTProvider jwtProvider;
     private final String KAKAO_OAUTH2_URL = "https://kapi.kakao.com/v2/user/me";
     private final String NAVER_OAUTH2_URL = "https://openapi.naver.com/v1/nid/me";
-    private final String GOOGLE_OAUTH2_URL = "";
+    private final String GOOGLE_OAUTH2_URL = "https://www.googleapis.com/oauth2/v1/userinfo";
+    private RestTemplate restTemplate = new RestTemplate();
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Transactional
     public SignInResult execute(SignInCommand signInCommand) {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Authorization", "Bearer " + signInCommand.getToken());
+        httpHeaders.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
+
         EmailAndNickname emailAndNickname;
+
+        HttpEntity<MultiValueMap<String, String>> profileRequest = new HttpEntity<>(httpHeaders);
 
         switch (signInCommand.getSocialType()) {
             case "KAKAO":
-                emailAndNickname = kakao_login(signInCommand.getToken());
+                emailAndNickname = kakao_login(profileRequest);
                 break;
             case "GOOGLE":
-                emailAndNickname = google_login(signInCommand.getToken());
+                emailAndNickname = google_login(profileRequest);
                 break;
             case "NAVER":
-                emailAndNickname = naver_login(signInCommand.getToken());
+                emailAndNickname = naver_login(profileRequest);
                 break;
             default:
                 throw new InvalidSocialTypeException();
@@ -79,15 +87,7 @@ public class SignInMemberProcessor {
         return new SignInResult(token, memberResponse);
     }
 
-    private EmailAndNickname kakao_login(String token) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Authorization", "Bearer " + token);
-        httpHeaders.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-
-        HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest = new HttpEntity<>(httpHeaders);
-
+    private EmailAndNickname kakao_login(HttpEntity<MultiValueMap<String, String>> kakaoProfileRequest) {
         ResponseEntity<String> response = restTemplate.exchange(
                 KAKAO_OAUTH2_URL,
                 HttpMethod.POST,
@@ -108,15 +108,7 @@ public class SignInMemberProcessor {
                 kakaoLoginResult.getProperties().getNickname()
         );
     }
-    private EmailAndNickname naver_login(String token) {
-        RestTemplate restTemplate = new RestTemplate();
-
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("Authorization", "Bearer " + token);
-        httpHeaders.add("Content-Type", "application/x-www-form-urlencoded;charset=utf-8");
-
-        HttpEntity<MultiValueMap<String, String>> naverProfileRequest = new HttpEntity<>(httpHeaders);
-
+    private EmailAndNickname naver_login(HttpEntity<MultiValueMap<String, String>> naverProfileRequest) {
         ResponseEntity<String> response = restTemplate.exchange(
                 NAVER_OAUTH2_URL,
                 HttpMethod.GET,
@@ -137,8 +129,26 @@ public class SignInMemberProcessor {
                 naverLoginResult.getResponse().getNickname()
         );
     }
-    private EmailAndNickname google_login(String token) {
-        return null;
+    private EmailAndNickname google_login(HttpEntity<MultiValueMap<String, String>> googleProfileRequest) {
+        ResponseEntity<String> response = restTemplate.exchange(
+                GOOGLE_OAUTH2_URL,
+                HttpMethod.GET,
+                googleProfileRequest,
+                String.class
+        );
+
+        GoogleLoginResult googleLoginResult;
+        try {
+            googleLoginResult = objectMapper.readValue(response.getBody(), GoogleLoginResult.class);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        return new EmailAndNickname(
+                googleLoginResult.getIdentifier(),
+                googleLoginResult.getEmail(),
+                googleLoginResult.getNickname()
+        );
     }
 
     private class EmailAndNickname {
