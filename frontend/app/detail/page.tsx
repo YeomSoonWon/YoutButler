@@ -6,9 +6,14 @@ import Footer from "@/components/Footer";
 import styled from "styled-components";
 import Image from "next/image";
 import Img1 from "@/public/assets/estate1.png";
+import butler from "@/public/assets/butler.png";
 import { IBM_Plex_Sans_KR } from "next/font/google";
 import Chart from "@/components/Chart";
 import Carousel from "@/components/Button/Carousel";
+import InfoBubble from "@/components/List/InfoBubble";
+import Button from "@/components/Button/Button";
+import RightChat from "@/components/Chat/RightChat";
+import LeftChat from "@/components/Chat/LeftChat";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -47,6 +52,14 @@ const Detail = () => {
     setPopupVisible(false);
   };
 
+  // 챗봇 open
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
+  const handleChatClick = () => {
+    setIsChatOpen(!isChatOpen);
+    console.log("눌렸다!");
+  };
+
   return (
     <main>
       <AppBar backgroundColor="transparent" color="#334835" />
@@ -69,7 +82,7 @@ const Detail = () => {
                 alt="estate"
                 onClick={() => openPopup(index)}
                 style={{
-                  transform: `translateX(-${currentIdx * 25}%)`,
+                  transform: `translateX(-${currentIdx * 75}%)`,
                   cursor: "pointer",
                 }}
               />
@@ -183,7 +196,25 @@ const Detail = () => {
               </AboutEachDiv>
             </AboutDiv>
             <AboutDiv>
-              <AboutP>시세(현재 + 예상)</AboutP>
+              <AboutInfoDiv>
+                <AboutP>시세(현재 + 예상)</AboutP>
+                <InfoBubble>
+                  <StyledSvg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="gray"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                    />
+                  </StyledSvg>
+                </InfoBubble>
+              </AboutInfoDiv>
               <PriceP>매매 7억 3,000 ~ 17억 4,000</PriceP>
               <SubP>평균 4,866만/3.3㎡</SubP>
             </AboutDiv>
@@ -207,25 +238,35 @@ const Detail = () => {
               </InfoDetailDiv>
             </InfoDiv>
             <ChatDiv>
-              <AskDiv>
-                <AskP>집사에게 물어보세요!</AskP>
-              </AskDiv>
               <ChatBotDiv>
-                <ChatSvg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="white"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"
-                  />
-                </ChatSvg>
+                <Image
+                  src={butler}
+                  height="50"
+                  width="50"
+                  onClick={handleChatClick}
+                />
               </ChatBotDiv>
+              <AskDiv expanded={isChatOpen}>
+                <div>
+                  <AskP isVisible={isChatOpen}>집사에게 물어보세요!</AskP>
+                </div>
+                <ChatMiddleDiv isVisible={isChatOpen}></ChatMiddleDiv>
+                <ChatBottomDiv isVisible={isChatOpen}>
+                  <MessageInput
+                    type="text"
+                    placeholder="메시지를 입력해주세요.."
+                  />
+                  <SvgBtn>
+                    <SendSvg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1em"
+                      viewBox="0 0 512 512"
+                    >
+                      <path d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376V479.3c0 18.1 14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9 7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448 256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8 116.6 403.3 425.4z" />
+                    </SendSvg>
+                  </SvgBtn>
+                </ChatBottomDiv>
+              </AskDiv>
             </ChatDiv>
           </RightDiv>
         </BottomDiv>
@@ -280,6 +321,36 @@ const StyledImg = styled(Image)`
 const TitleP = styled.p`
   font-size: 1.3rem;
   font-weight: 600;
+`;
+
+const ChatMiddleDiv = styled.div`
+  height: 80%;
+  padding: 0.5rem 0%;
+  display: ${(props) => (props.isVisible ? "block" : "none")};
+`;
+
+const ChatBottomDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  display: ${(props) => (props.isVisible ? "block" : "none")};
+`;
+
+const MessageInput = styled.input`
+  padding: 0.2rem 0.6rem;
+  height: 1.7rem;
+  width: 85%;
+  border: solid 1px #f1f1f1;
+  background-color: #f1f1f1;
+  border-radius: 0.4rem;
+  /* float: left; */
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    outline-color: #f1f1f1;
+  }
 `;
 
 const ContainerP = styled.div``;
@@ -371,16 +442,14 @@ const ChatBotDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 3.5rem;
-  width: 3.5rem;
+  height: 3.8rem;
+  width: 3.8rem;
   border-radius: 5rem;
   background-color: #ffc436;
   cursor: pointer;
-`;
-
-const ChatSvg = styled.svg`
-  height: 2rem;
-  width: 2rem;
+  box-shadow: rgba(27, 15, 3, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(23, 17, 2, 0.35) 0px -2px 6px 0px inset;
 `;
 
 const ChatDiv = styled.div`
@@ -388,15 +457,28 @@ const ChatDiv = styled.div`
   flex-direction: column;
   padding: 3rem;
   gap: 0.6rem;
+  position: sticky;
+  top: 1px;
 `;
 
-const AskP = styled.p``;
+const AskP = styled.p`
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.3rem;
+  padding-bottom: ${(props) => (props.isVisible ? "1rem" : "none")};
+  border-bottom: ${(props) =>
+    props.isVisible ? "solid 1px lightgray" : "none"};
+`;
 
 const AskDiv = styled.div`
-  border: solid 3px #ffc436;
-  border-radius: 2rem 2rem 0 2rem;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+  border-radius: 0 2rem 2rem 2rem;
   padding: 1.2rem;
-  width: 9.8rem;
+  width: ${(props) => (props.expanded ? "24rem" : "12rem")};
+  height: ${(props) => (props.expanded ? "30rem" : "auto")};
+  transition: all 0.3s ease-in-out;
 `;
 
 const NextSvgDiv = styled.div`
@@ -460,6 +542,33 @@ const CloseButton = styled.svg`
 const PopupImage = styled.img`
   max-width: 90%;
   max-height: 90%;
+`;
+
+const StyledSvg = styled.svg`
+  height: 1.3rem;
+  width: 1.3rem;
+  cursor: pointer;
+`;
+
+const SendSvg = styled.svg`
+  height: 1.3rem;
+  width: 1.3rem;
+  fill: #ffc436;
+  align-items: center;
+  display: flex;
+`;
+
+const SvgBtn = styled.button`
+  background-color: transparent;
+  border: transparent;
+  cursor: pointer;
+  align-items: center;
+`;
+
+const AboutInfoDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;
 
 export default Detail;

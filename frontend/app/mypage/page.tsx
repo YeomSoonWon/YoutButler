@@ -10,6 +10,8 @@ import ChatTitleEach from "@/components/List/ChatTitleEach";
 import LeftChat from "@/components/Chat/LeftChat";
 import RightChat from "@/components/Chat/RightChat";
 import ItemEach from "@/components/List/ItemEach";
+import Button from "@/components/Button/Button";
+import Link from "next/link";
 
 const Profile = () => {
   const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
@@ -34,6 +36,16 @@ const Profile = () => {
             <UserInfoEach title="부동산 거래 예산" value="15700만원" />
             <UserInfoEach title="월 가용자산" value="120만원" />
             <UserInfoEach title="신용도" value="972" />
+            <BtnDiv>
+              <Link href="/modify">
+                <Button Kind="small" Rounded="square" Variant="yellowFilled">
+                  회원정보 수정
+                </Button>
+              </Link>
+              <Button Kind="small" Rounded="square" Variant="redOutline">
+                회원 탈퇴
+              </Button>
+            </BtnDiv>
           </LeftDiv>
           <RightDiv>
             <RightUpperDiv>
@@ -146,7 +158,7 @@ const RightDiv = styled.div`
 const LeftDiv = styled.div`
   border: solid 1px ${colors.lightgray};
   width: 30%;
-  height: 47.2rem;
+  height: 53rem;
   position: sticky;
   top: 1rem;
 `;
@@ -250,6 +262,14 @@ const LikeListDiv = styled.div`
   &::-webkit-scrollbar-thumb:active {
     background-color: #656c62; /* 스크롤바 thumb 클릭 색상 */
   }
+`;
+
+const BtnDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5.5rem;
+  gap: 1rem;
 `;
 
 export default Profile;
