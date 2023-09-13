@@ -4,11 +4,20 @@ import AppBar from "@/components/AppBar";
 import Footer from "@/components/Footer";
 import styled from "styled-components";
 import colors from "@/constants/colors";
+import {useSession} from "next-auth/react";
+import {useEffect} from 'react';
 
 const Create = () => {
+  const {data:session} = useSession();
+
+  useEffect(()=>{
+    if(session){
+      console.log(session);
+    }
+  },[session]);
   return (
     <Container>
-      <AppBar backgroundColor="transparent" color="#334835" />
+      <AppBar backgroundColor="transparent" color="#334835" user={null}/>
       <CenterDiv>
         <MiddleDiv>
           <TitleDiv>

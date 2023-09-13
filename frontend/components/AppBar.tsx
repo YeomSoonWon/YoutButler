@@ -5,6 +5,7 @@ import Link from "next/link";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Noto_Sans_KR, Sunflower } from "next/font/google";
+import favicon from "@/app/favicon.ico";
 
 const notoSansKr = Noto_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -33,8 +34,8 @@ const AppBar = ({ backgroundColor, color, user }) => {
     font-size: 1.5rem;
     color: ${color || "white"};
     text-decoration-line: none;
-    ${({ theme }) => theme.logoFont || ""};
-  `;
+    `;
+    /* ${({ theme }) => theme.logoFont || ""}; */
 
   const StyledLink = styled(Link)`
     color: ${color || "white"};
@@ -55,7 +56,10 @@ const AppBar = ({ backgroundColor, color, user }) => {
         <StyledLink href="">알림</StyledLink>
         {user ? (
           <>
-            <img src={user?.picture || ""} />
+            <img
+            // src={user?.picture || ""}
+            src={user?.picture ? user?.picture: favicon.src}
+            style={{width:"30px", height:"30px", backgroundColor:"white"}}/>
             <StyledUserName>{user?.name}</StyledUserName>
             <YellowBtn onClick={() => signOut()}>로그아웃</YellowBtn>
           </>

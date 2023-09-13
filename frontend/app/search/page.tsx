@@ -32,7 +32,7 @@ const Search = () => {
 
   return (
     <main>
-      <AppBar backgroundColor="transparent" color="#334835" />
+      <AppBar backgroundColor="transparent" color="#334835" user={null}/>
       <Container className={ibmPlexSansKR.className}>
         <LeftContainer>
           <Upper>

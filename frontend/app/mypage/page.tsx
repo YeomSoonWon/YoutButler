@@ -19,7 +19,7 @@ const Profile = () => {
   };
   return (
     <main>
-      <AppBar backgroundColor="transparent" color="#334835" />
+      <AppBar backgroundColor="transparent" color="#334835" user={null}/>
       <Container>
         <TitleDiv>
           <NameP>김싸피님,</NameP>
