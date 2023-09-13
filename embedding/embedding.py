@@ -4,7 +4,11 @@ from langchain import FAISS, LLMChain
 from langchain.chat_models import ChatOpenAI
 from langchain.document_loaders import TextLoader
 from langchain.embeddings import OpenAIEmbeddings
-from langchain.prompts import SystemMessagePromptTemplate, HumanMessagePromptTemplate, ChatPromptTemplate
+from langchain.prompts import (
+    SystemMessagePromptTemplate,
+    HumanMessagePromptTemplate,
+    ChatPromptTemplate,
+)
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.document_loaders import PyPDFLoader
 from PyPDF2 import PdfReader
@@ -36,6 +40,7 @@ def get_response_from_query(vector_db, query):
     Answer the questions referring to the documents which you Retrieved from DB as much as possible.
     If you fell like you don't have enough-information to answer the question, say "제가 알고 있는 정보가 없습니다."
     """
+    # If you fell like you don't have enough-information to answer the question, say "제가 알고 있는 정보가 없습니다."
     system_message_prompt = SystemMessagePromptTemplate.from_template(template)
 
     human_template = "Answer the following question IN KOREAN: {question}"
@@ -116,5 +121,5 @@ def txt_to_vector():
 # pdf_to_txt()
 embedding = OpenAIEmbeddings(openai_api_key=os.environ.get("OPENAI_API_KEY"))
 vector_db = FAISS.load_local("../DB/vector/korea_bank_700_information", embedding)
-query = "부동산을 매매하려는데 LTV가 80%라고 하네. 이게 무엇을 의미하는거야?"
+query = "원리금상환대출이 뭐야?"
 print(get_response_from_query(vector_db, query))
