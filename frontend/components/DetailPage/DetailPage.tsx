@@ -162,14 +162,14 @@ export const ChatDiv = styled.div`
 
 export const AskP = styled.p``;
 
-export const AskDiv = styled.div`
+export const AskDiv = styled.div<{ expanded: Boolean }>`
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   border-radius: 0 2rem 2rem 2rem;
   padding: 1.2rem;
-  width: ${(props) => (props.expanded ? "24rem" : "9.8rem")};
-  height: ${(props) => (props.expanded ? "30rem" : "auto")};
+  width: ${{ expanded: Boolean } ? "24rem" : "9.8rem"};
+  height: ${{ expanded: Boolean } ? "30rem" : "auto"};
   transition: all 0.3s ease-in-out;
 `;
 
