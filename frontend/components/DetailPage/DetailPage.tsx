@@ -50,6 +50,56 @@ export const TitleP = styled.p`
   font-weight: 600;
 `;
 
+export const ChatMiddleDiv = styled.div<AskPprops>`
+  height: 80%;
+  padding: 0.5rem 0;
+  display: ${(props) => (props.isVisible ? "block" : "none")};
+  flex-direction: column;
+  overflow-y: scroll;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+    background-color: #e8e2d9;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #acb4a8;
+    border-radius: 3px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #818a7e;
+  }
+
+  &::-webkit-scrollbar-thumb:active {
+    background-color: #656c62;
+  }
+`;
+
+export const ChatBottomDiv = styled.div<AskPprops>`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1rem;
+  display: ${(props) => (props.isVisible ? "block" : "none")};
+`;
+
+export const MessageInput = styled.input`
+  padding: 0.2rem 0.6rem;
+  height: 1.7rem;
+  width: 85%;
+  border: solid 1px #f1f1f1;
+  background-color: #f1f1f1;
+  border-radius: 0.4rem;
+  /* float: left; */
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    outline-color: #f1f1f1;
+  }
+`;
+
 export const ContainerP = styled.div``;
 
 export const SubP = styled.p`
@@ -139,16 +189,14 @@ export const ChatBotDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 3.5rem;
-  width: 3.5rem;
+  height: 3.8rem;
+  width: 3.8rem;
   border-radius: 5rem;
   background-color: #ffc436;
   cursor: pointer;
-`;
-
-export const ChatSvg = styled.svg`
-  height: 2rem;
-  width: 2rem;
+  box-shadow: rgba(27, 15, 3, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(23, 17, 2, 0.35) 0px -2px 6px 0px inset;
 `;
 
 export const ChatDiv = styled.div`
@@ -160,7 +208,19 @@ export const ChatDiv = styled.div`
   top: 1px;
 `;
 
-export const AskP = styled.p``;
+interface AskPprops{
+  children:any;
+  isVisible:Boolean;
+}
+
+export const AskP = styled.p<AskPprops>`
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.3rem;
+  padding-bottom: ${(props) => (props.isVisible ? "1rem" : "none")};
+  border-bottom: ${(props) =>
+    props.isVisible ? "solid 1px lightgray" : "none"};
+`;
 
 export const AskDiv = styled.div<{ expanded: Boolean }>`
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
@@ -168,9 +228,10 @@ export const AskDiv = styled.div<{ expanded: Boolean }>`
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   border-radius: 0 2rem 2rem 2rem;
   padding: 1.2rem;
-  width: ${{ expanded: Boolean } ? "24rem" : "9.8rem"};
-  height: ${{ expanded: Boolean } ? "30rem" : "auto"};
+  width: ${(props) => props.expanded ? "24rem" : "12rem"};
+  height: ${(props) => props.expanded ? "33rem" : "auto"};
   transition: all 0.3s ease-in-out;
+  margin-left: 3rem;
 `;
 
 export const NextSvgDiv = styled.div`
@@ -234,4 +295,31 @@ export const CloseButton = styled.svg`
 export const PopupImage = styled.img`
   max-width: 90%;
   max-height: 90%;
+`;
+
+export const StyledSvg = styled.svg`
+  height: 1.3rem;
+  width: 1.3rem;
+  cursor: pointer;
+`;
+
+export const SendSvg = styled.svg`
+  height: 1.3rem;
+  width: 1.3rem;
+  fill: #ffc436;
+  align-items: center;
+  display: flex;
+`;
+
+export const SvgBtn = styled.button`
+  background-color: transparent;
+  border: transparent;
+  cursor: pointer;
+  align-items: center;
+`;
+
+export const AboutInfoDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 `;

@@ -19,7 +19,11 @@ const ChatMiddleDiv = styled.div`
   flex-direction: column; /* column 방향으로 변경 */
 `;
 
-const MessageContainer = styled.div`
+interface MessageConatinerProps{
+  isRight:Boolean;
+}
+
+const MessageContainer = styled.div<MessageConatinerProps>`
   display: flex;
   flex-direction: ${(props) =>
     props.isRight
@@ -29,7 +33,7 @@ const MessageContainer = styled.div`
   padding-right: 0.5rem;
 `;
 
-const Message = styled.div`
+const Message = styled.div<MessageConatinerProps>`
   padding: 1rem 1.5rem;
   width: fit-content;
   max-width: 13rem;
