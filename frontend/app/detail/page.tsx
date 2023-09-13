@@ -74,7 +74,7 @@ const Detail = () => {
 
   return (
     <main>
-      <AppBar backgroundColor="transparent" color="#334835" user={null} />
+      {/* <AppBar backgroundColor="transparent" color="#334835" user={null} />
       <Container className={ibmPlexSansKR.className}>
         <TopDiv>
           <NextSvgDiv className="prev" onClick={prevImage}>
@@ -256,6 +256,7 @@ const Detail = () => {
                   height="50"
                   width="50"
                   onClick={handleChatClick}
+                  alt="no image"
                 />
               </ChatBotDiv>
               <AskDiv expanded={isChatOpen}>
@@ -285,325 +286,325 @@ const Detail = () => {
           </RightDiv>
         </BottomDiv>
       </Container>
-      <Footer />
+      <Footer /> */}
     </main>
   );
 };
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: center; */
-  padding: 3rem;
-`;
+// const Container = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   /* justify-content: center; */
+//   /* align-items: center; */
+//   padding: 3rem;
+// `;
 
-const TopDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
+// const TopDiv = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
 
-const ImgDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 88%;
-  gap: 1rem;
-  overflow-x: hidden;
-`;
+// const ImgDiv = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   width: 88%;
+//   gap: 1rem;
+//   overflow-x: hidden;
+// `;
 
-const BottomDiv = styled.div`
-  display: flex;
-  padding: 1rem 5rem;
-`;
+// const BottomDiv = styled.div`
+//   display: flex;
+//   padding: 1rem 5rem;
+// `;
 
-const LeftDiv = styled.div`
-  width: 50%;
-`;
+// const LeftDiv = styled.div`
+//   width: 50%;
+// `;
 
-const RightDiv = styled.div`
-  width: 50%;
-`;
+// const RightDiv = styled.div`
+//   width: 50%;
+// `;
 
-const StyledImg = styled(Image)`
-  height: 19rem;
-  width: 19rem;
-  border-radius: 1rem;
-  object-fit: cover;
-`;
+// const StyledImg = styled(Image)`
+//   height: 19rem;
+//   width: 19rem;
+//   border-radius: 1rem;
+//   object-fit: cover;
+// `;
 
-const TitleP = styled.p`
-  font-size: 1.3rem;
-  font-weight: 600;
-`;
+// const TitleP = styled.p`
+//   font-size: 1.3rem;
+//   font-weight: 600;
+// `;
 
-const ChatMiddleDiv = styled.div`
-  height: 80%;
-  padding: 0.5rem 0;
-  display: ${(props) => (props.isVisible ? "block" : "none")};
-  flex-direction: column;
-  overflow-y: scroll;
+// const ChatMiddleDiv = styled.div`
+//   height: 80%;
+//   padding: 0.5rem 0;
+//   display: ${(props) => (props.isVisible ? "block" : "none")};
+//   flex-direction: column;
+//   overflow-y: scroll;
 
-  &::-webkit-scrollbar {
-    width: 8px;
-    background-color: #e8e2d9;
-  }
+//   &::-webkit-scrollbar {
+//     width: 8px;
+//     background-color: #e8e2d9;
+//   }
 
-  &::-webkit-scrollbar-thumb {
-    background-color: #acb4a8;
-    border-radius: 3px;
-  }
+//   &::-webkit-scrollbar-thumb {
+//     background-color: #acb4a8;
+//     border-radius: 3px;
+//   }
 
-  &::-webkit-scrollbar-thumb:hover {
-    background-color: #818a7e;
-  }
+//   &::-webkit-scrollbar-thumb:hover {
+//     background-color: #818a7e;
+//   }
 
-  &::-webkit-scrollbar-thumb:active {
-    background-color: #656c62;
-  }
-`;
+//   &::-webkit-scrollbar-thumb:active {
+//     background-color: #656c62;
+//   }
+// `;
 
-const ChatBottomDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1rem;
-  display: ${(props) => (props.isVisible ? "block" : "none")};
-`;
+// const ChatBottomDiv = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+//   justify-content: center;
+//   margin-top: 1rem;
+//   display: ${(props) => (props.isVisible ? "block" : "none")};
+// `;
 
-const MessageInput = styled.input`
-  padding: 0.2rem 0.6rem;
-  height: 1.7rem;
-  width: 85%;
-  border: solid 1px #f1f1f1;
-  background-color: #f1f1f1;
-  border-radius: 0.4rem;
-  /* float: left; */
+// const MessageInput = styled.input`
+//   padding: 0.2rem 0.6rem;
+//   height: 1.7rem;
+//   width: 85%;
+//   border: solid 1px #f1f1f1;
+//   background-color: #f1f1f1;
+//   border-radius: 0.4rem;
+//   /* float: left; */
 
-  &:focus {
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-    outline-color: #f1f1f1;
-  }
-`;
+//   &:focus {
+//     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+//     outline-color: #f1f1f1;
+//   }
+// `;
 
-const ContainerP = styled.div``;
+// const ContainerP = styled.div``;
 
-const SubP = styled.p`
-  color: gray;
-  font-weight: 600;
-  margin-top: 0.5rem;
-`;
+// const SubP = styled.p`
+//   color: gray;
+//   font-weight: 600;
+//   margin-top: 0.5rem;
+// `;
 
-const AboutDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-top: 2rem;
-`;
+// const AboutDiv = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: space-between;
+//   margin-top: 2rem;
+// `;
 
-const AboutP = styled.p`
-  font-weight: 600;
-  margin-top: 2rem;
-  margin-bottom: 1.2rem;
-  font-size: 1.1rem;
-`;
+// const AboutP = styled.p`
+//   font-weight: 600;
+//   margin-top: 2rem;
+//   margin-bottom: 1.2rem;
+//   font-size: 1.1rem;
+// `;
 
-const AboutEachDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`;
+// const AboutEachDiv = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   gap: 1rem;
+// `;
 
-const AboutTitleP = styled.p`
-  font-weight: 600;
-  color: gray;
-`;
+// const AboutTitleP = styled.p`
+//   font-weight: 600;
+//   color: gray;
+// `;
 
-const AboutDetailDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 85%;
-  border-bottom: solid 1px lightgray;
-  padding: 0.7rem 0;
-`;
+// const AboutDetailDiv = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   width: 85%;
+//   border-bottom: solid 1px lightgray;
+//   padding: 0.7rem 0;
+// `;
 
-const PriceP = styled.p`
-  font-size: 1.7rem;
-  font-weight: 600;
-`;
+// const PriceP = styled.p`
+//   font-size: 1.7rem;
+//   font-weight: 600;
+// `;
 
-const InfoDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  position: sticky;
-  height: 16rem;
-  border-radius: 1rem;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-`;
+// const InfoDiv = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   position: sticky;
+//   height: 16rem;
+//   border-radius: 1rem;
+//   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+// `;
 
-const BlueP = styled.p`
-  color: #436fe9;
-  font-weight: 600;
-  font-size: 1.8rem;
-`;
+// const BlueP = styled.p`
+//   color: #436fe9;
+//   font-weight: 600;
+//   font-size: 1.8rem;
+// `;
 
-const InfoDetailDiv = styled.div`
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.8rem;
-`;
+// const InfoDetailDiv = styled.div`
+//   width: 50%;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 0.8rem;
+// `;
 
-const LightP = styled.p`
-  color: lightgray;
-  font-weight: 600;
-  font-size: 0.8rem;
-`;
+// const LightP = styled.p`
+//   color: lightgray;
+//   font-weight: 600;
+//   font-size: 0.8rem;
+// `;
 
-const LightPDiv = styled.div`
-  text-align: center;
-  line-height: 1.2rem;
-`;
+// const LightPDiv = styled.div`
+//   text-align: center;
+//   line-height: 1.2rem;
+// `;
 
-const LineHr = styled.hr`
-  border: solid 1px #f6f6f6;
-`;
+// const LineHr = styled.hr`
+//   border: solid 1px #f6f6f6;
+// `;
 
-const ChatBotDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 3.8rem;
-  width: 3.8rem;
-  border-radius: 5rem;
-  background-color: #ffc436;
-  cursor: pointer;
-  box-shadow: rgba(27, 15, 3, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-    rgba(23, 17, 2, 0.35) 0px -2px 6px 0px inset;
-`;
+// const ChatBotDiv = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   height: 3.8rem;
+//   width: 3.8rem;
+//   border-radius: 5rem;
+//   background-color: #ffc436;
+//   cursor: pointer;
+//   box-shadow: rgba(27, 15, 3, 0.25) 0px 50px 100px -20px,
+//     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+//     rgba(23, 17, 2, 0.35) 0px -2px 6px 0px inset;
+// `;
 
-const ChatDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  padding: 3rem;
-  gap: 0.6rem;
-  position: sticky;
-  top: 1px;
-`;
+// const ChatDiv = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   padding: 3rem;
+//   gap: 0.6rem;
+//   position: sticky;
+//   top: 1px;
+// `;
 
-const AskP = styled.p`
-  font-weight: 600;
-  font-size: 1.1rem;
-  padding: 0.3rem;
-  padding-bottom: ${(props) => (props.isVisible ? "1rem" : "none")};
-  border-bottom: ${(props) =>
-    props.isVisible ? "solid 1px lightgray" : "none"};
-`;
+// const AskP = styled.p<{isVisible: Boolean}>`
+//   font-weight: 600;
+//   font-size: 1.1rem;
+//   padding: 0.3rem;
+//   padding-bottom: ${(props) => (props.isVisible ? "1rem" : "none")};
+//   border-bottom: ${(props) =>
+//     props.isVisible ? "solid 1px lightgray" : "none"};
+// `;
 
-const AskDiv = styled.div<{ expanded?: Boolean }>`
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
-    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
-  border-radius: 0 2rem 2rem 2rem;
-  padding: 1.2rem;
-  width: ${{ expanded: Boolean } ? "24rem" : "12rem"};
-  height: ${{ expanded: Boolean } ? "33rem" : "auto"};
-  transition: all 0.3s ease-in-out;
-  margin-left: 3rem;
-`;
+// const AskDiv = styled.div<{ expanded: Boolean }>`
+//   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+//     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+//     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+//   border-radius: 0 2rem 2rem 2rem;
+//   padding: 1.2rem;
+//   width: ${(props) => props.expanded ? "24rem" : "12rem"};
+//   height: ${(props) => props.expanded ? "33rem" : "auto"};
+//   transition: all 0.3s ease-in-out;
+//   margin-left: 3rem;
+// `;
 
-const NextSvgDiv = styled.div`
-  cursor: pointer;
-  position: absolute;
-  top: 40%;
-  transform: translateY(-50%);
-  width: 30px;
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 50%;
-  transition: background-color 0.3s ease;
-  z-index: 2;
+// const NextSvgDiv = styled.div`
+//   cursor: pointer;
+//   position: absolute;
+//   top: 40%;
+//   transform: translateY(-50%);
+//   width: 30px;
+//   height: 30px;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   background-color: rgba(255, 255, 255, 0.5);
+//   border-radius: 50%;
+//   transition: background-color 0.3s ease;
+//   z-index: 2;
 
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.8);
-  }
+//   &:hover {
+//     background-color: rgba(255, 255, 255, 0.8);
+//   }
 
-  &.prev {
-    left: 10px; // 왼쪽 버튼 위치 조정
-  }
+//   &.prev {
+//     left: 10px; // 왼쪽 버튼 위치 조정
+//   }
 
-  &.next {
-    right: 10px; // 오른쪽 버튼 위치 조정
-  }
-`;
+//   &.next {
+//     right: 10px; // 오른쪽 버튼 위치 조정
+//   }
+// `;
 
-const NextSvg = styled.svg`
-  fill: #333;
-`;
+// const NextSvg = styled.svg`
+//   fill: #333;
+// `;
 
-const Popup = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-`;
+// const Popup = styled.div`
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   right: 0;
+//   bottom: 0;
+//   background-color: rgba(0, 0, 0, 0.8);
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   z-index: 1000;
+// `;
 
-const CloseButton = styled.svg`
-  position: absolute;
-  top: 30px;
-  right: 30px;
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
-  width: 2.5rem;
-  height: 2.5rem;
-`;
+// const CloseButton = styled.svg`
+//   position: absolute;
+//   top: 30px;
+//   right: 30px;
+//   background: transparent;
+//   border: none;
+//   color: white;
+//   font-size: 20px;
+//   cursor: pointer;
+//   width: 2.5rem;
+//   height: 2.5rem;
+// `;
 
-const PopupImage = styled.img`
-  max-width: 90%;
-  max-height: 90%;
-`;
+// const PopupImage = styled.img`
+//   max-width: 90%;
+//   max-height: 90%;
+// `;
 
-const StyledSvg = styled.svg`
-  height: 1.3rem;
-  width: 1.3rem;
-  cursor: pointer;
-`;
+// const StyledSvg = styled.svg`
+//   height: 1.3rem;
+//   width: 1.3rem;
+//   cursor: pointer;
+// `;
 
-const SendSvg = styled.svg`
-  height: 1.3rem;
-  width: 1.3rem;
-  fill: #ffc436;
-  align-items: center;
-  display: flex;
-`;
+// const SendSvg = styled.svg`
+//   height: 1.3rem;
+//   width: 1.3rem;
+//   fill: #ffc436;
+//   align-items: center;
+//   display: flex;
+// `;
 
-const SvgBtn = styled.button`
-  background-color: transparent;
-  border: transparent;
-  cursor: pointer;
-  align-items: center;
-`;
+// const SvgBtn = styled.button`
+//   background-color: transparent;
+//   border: transparent;
+//   cursor: pointer;
+//   align-items: center;
+// `;
 
-const AboutInfoDiv = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
+// const AboutInfoDiv = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   align-items: center;
+// `;
 
 export default Detail;
