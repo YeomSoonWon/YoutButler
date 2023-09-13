@@ -15,6 +15,7 @@ pypdf = "*"
 openai = "*"
 langchain = "*"
 pymysql = "*"
+langchain-experimental = "*"
 
 [dev-packages]
 
