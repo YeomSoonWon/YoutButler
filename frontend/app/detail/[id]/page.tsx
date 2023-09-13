@@ -1,52 +1,33 @@
 "use client";
 
-import { getServerSession } from "next-auth/next";
-import authOptions from "@/Oauth/AuthOption";
+// import { getServerSession } from "next-auth/next";
+// import authOptions from "@/Oauth/AuthOption";
+import Image from "next/image";
 import AppBar from "@/components/AppBar";
 import Footer from "@/components/Footer";
 import { IBM_Plex_Sans_KR } from "next/font/google";
 import Chart from "@/components/Chart";
 import DetailCarousel from "@/components/DetailPage/DetailCarousel";
-import {
-  Container,
-  BottomDiv,
-  LeftDiv,
-  ContainerP,
-  SubP,
-  AboutDiv,
-  AboutP,
-  AboutEachDiv,
-  AboutDetailDiv,
-  PriceP,
-  RightDiv,
-  InfoDiv,
-  InfoDetailDiv,
-  BlueP,
-  LineHr,
-  LightPDiv,
-  LightP,
-  ChatDiv,
-  AskDiv,
-  AskP,
-  ChatBotDiv,
-  ChatSvg,
-  TitleP,
-  AboutTitleP,
-} from "@/components/DetailPage/DetailPage";
+import butler from "@/public/assets/butler.png";
 import { useState } from "react";
+import Chatting from "@/components/Chat/Chatting";
+import { Container, BottomDiv, LeftDiv, ContainerP, SubP, AboutDiv, AboutP, AboutEachDiv, AboutDetailDiv, AboutInfoDiv, PriceP, RightDiv, InfoDiv, InfoDetailDiv, BlueP, LineHr, LightPDiv, LightP, ChatDiv, ChatBotDiv, AskDiv, AskP, ChatMiddleDiv, ChatBottomDiv, MessageInput, SvgBtn, SendSvg } from "@/components/DetailPage/DetailPage";
+import InfoBubble from "@/components/List/InfoBubble";
+import { TitleP, AboutTitleP, StyledSvg } from "@/components/MainPage/MainPage";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
 });
 
-const DetailWithID = async () => {
-  const session = await getServerSession(authOptions);
-  console.log(session?.user);
-  let user = null;
-  if (session?.user) {
-    user = session.user;
-  }
+// const DetailWithID = async () => {
+const DetailWithID = () => {
+  // const session = await getServerSession(authOptions);
+  // console.log(session?.user);
+  // let user = null;
+  // if (session?.user) {
+  // user = session.user;
+  // }
 
   // 챗봇 open
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -56,9 +37,22 @@ const DetailWithID = async () => {
     console.log("눌렸다!");
   };
 
+  const chatMessages = [
+    { text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?", isRight: false },
+    { text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?", isRight: false },
+    { text: "어쩌고 .. 저쩌고...", isRight: true },
+    { text: "어쩌고 .. 저쩌고...", isRight: true },
+    { text: "어쩌고 .. 저쩌고...", isRight: true },
+    { text: "어쩌고 .. 저쩌고...", isRight: true },
+    {
+      text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?ssssssssssssssssssssssss",
+      isRight: false,
+    },
+  ];
+
   return (
     <main className={ibmPlexSansKR.className}>
-      <AppBar backgroundColor="transparent" color="#334835" user={user} />
+      <AppBar backgroundColor="transparent" color="#334835" user={null} />
       <Container className={ibmPlexSansKR.className}>
         <DetailCarousel />
         <BottomDiv className={ibmPlexSansKR.className}>
@@ -139,7 +133,25 @@ const DetailWithID = async () => {
               </AboutEachDiv>
             </AboutDiv>
             <AboutDiv>
-              <AboutP>시세(현재 + 예상)</AboutP>
+              <AboutInfoDiv>
+                <AboutP>시세(현재 + 예상)</AboutP>
+                <InfoBubble>
+                  <StyledSvg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="gray"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                    />
+                  </StyledSvg>
+                </InfoBubble>
+              </AboutInfoDiv>
               <PriceP>매매 7억 3,000 ~ 17억 4,000</PriceP>
               <SubP>평균 4,866만/3.3㎡</SubP>
             </AboutDiv>
@@ -163,25 +175,38 @@ const DetailWithID = async () => {
               </InfoDetailDiv>
             </InfoDiv>
             <ChatDiv>
-              <AskDiv expanded={isChatOpen}>
-                <AskP>집사에게 물어보세요!</AskP>
-              </AskDiv>
-              <ChatBotDiv onclick={handleChatClick}>
-                <ChatSvg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="white"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M20.25 8.511c.884.284 1.5 1.128 1.5 2.097v4.286c0 1.136-.847 2.1-1.98 2.193-.34.027-.68.052-1.02.072v3.091l-3-3c-1.354 0-2.694-.055-4.02-.163a2.115 2.115 0 01-.825-.242m9.345-8.334a2.126 2.126 0 00-.476-.095 48.64 48.64 0 00-8.048 0c-1.131.094-1.976 1.057-1.976 2.192v4.286c0 .837.46 1.58 1.155 1.951m9.345-8.334V6.637c0-1.621-1.152-3.026-2.76-3.235A48.455 48.455 0 0011.25 3c-2.115 0-4.198.137-6.24.402-1.608.209-2.76 1.614-2.76 3.235v6.226c0 1.621 1.152 3.026 2.76 3.235.577.075 1.157.14 1.74.194V21l4.155-4.155"
-                  />
-                </ChatSvg>
+              <ChatBotDiv>
+                <Image
+                  src={butler}
+                  height="50"
+                  width="50"
+                  onClick={handleChatClick}
+                  alt="이미지 없음"
+                />
               </ChatBotDiv>
+              <AskDiv expanded={isChatOpen}>
+                <div>
+                  <AskP isVisible={isChatOpen}>집사에게 물어보세요!</AskP>
+                </div>
+                <ChatMiddleDiv isVisible={isChatOpen}>
+                  <Chatting messages={chatMessages} />
+                </ChatMiddleDiv>
+                <ChatBottomDiv isVisible={isChatOpen}>
+                  <MessageInput
+                    type="text"
+                    placeholder="메시지를 입력해주세요.."
+                  />
+                  <SvgBtn>
+                    <SendSvg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="1em"
+                      viewBox="0 0 512 512"
+                    >
+                      <path d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376V479.3c0 18.1 14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9 7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448 256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8 116.6 403.3 425.4z" />
+                    </SendSvg>
+                  </SvgBtn>
+                </ChatBottomDiv>
+              </AskDiv>
             </ChatDiv>
           </RightDiv>
         </BottomDiv>
