@@ -5,14 +5,14 @@ import lombok.Getter;
 
 @Getter
 public class SignInResponse {
-    Token token;
-    MemberResponse memberResponse;
+    private Token token;
+    private MemberResponse memberResponse;
     public SignInResponse(Token token, MemberResponse memberResponse) {
         this.token = token;
         this.memberResponse = memberResponse;
     }
 
     public boolean isActivated() {
-        return this.memberResponse.age == null ? false : true;
+        return this.memberResponse.getAge() == null ? false : true;
     }
 }

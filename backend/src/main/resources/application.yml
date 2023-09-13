@@ -29,14 +29,3 @@ jwt:
 
 server:
     port: 5000
-
-oauth:
-    naver:
-        id: "RmJYEr9vg1ZjQUZrYc2P"
-        secret: "49govNvOqT"
-    kakao:
-        id: "4765b472873cc9716940578b8f5ed7f5"
-        secret: "7bdqzxWe5szrZZ0eJMe6sjvu56KsyFxX"
-    google:
-        id: "467033647312-n87e1g3gd4t76t33j08p5bg8ur79gp63.apps.googleusercontent.com"
-        secret: "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"

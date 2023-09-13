@@ -5,15 +5,19 @@ import lombok.Getter;
 
 @Getter
 public class MemberResponse {
-    String email;
-    String nickname;
-    Integer age;
-    Integer holdingAsset;
-    Integer creditRating;
-    Integer monthlyAvailableAsset;
-    String numberOfHouses;
+    private String identifier;
+    private String socialType;
+    private String email;
+    private String nickname;
+    private Integer age;
+    private Integer holdingAsset;
+    private Integer creditRating;
+    private Integer monthlyAvailableAsset;
+    private String numberOfHouses;
 
     public MemberResponse(Member member) {
+        this.identifier = member.getIdentifier();
+        this.socialType = member.getSocialType();
         this.email = member.getEmail();
         this.nickname = member.getNickname();
         this.age = member.getAge();
