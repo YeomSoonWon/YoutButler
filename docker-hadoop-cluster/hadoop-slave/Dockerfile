@@ -13,9 +13,10 @@
 # Creates multi node hadoop cluster on Docker
 
 FROM lewuathe/hadoop-base:latest
-MAINTAINER lewuathe
 
 ADD bootstrap.sh /etc/bootstrap.sh
+# 권한 설정
+RUN chmod +x /etc/bootstrap.sh 
 RUN chown root:root /etc/bootstrap.sh
 RUN chmod 700 /etc/bootstrap.sh
 
