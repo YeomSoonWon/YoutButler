@@ -22,49 +22,41 @@ const authOptions : NextAuthOptions = {
       ],
       callbacks:{
         async signIn({ user, account, profile, email }) {
-          console.log("account : ", account);
-          // account의 엑세스토큰과 provider 정보를 서버에 통신하여 있는 사용자인지 확인.
+          const res = await authApi.getUser(account.access_token, account.provider.toString());
 
-          //있는 유저면 true반환하고 계속 진행
-          // 없는 유저면 create return하여 추가입력 페이지로 전송
+          // @ts-ignore
+          user.userData = {
+            token : account.access_token,
+            ...res.data.memberResponse,
+            status : res.status
+          };
           
+          // if(res.status === 202){
           // return `http://localhost:3000/create`;
-          return true;
-          // true/false 반환 시 로그인 가능/불가능 여부만,
-          // 문자열 반환 시 리다이렉트 url 반환으로 인식되어 redirect 함수의 url 인자로 전달
-        },
-
-        //redirect 핸들링으로 추가 정보 입력 페이지로 보내자.
-        async redirect({url, baseUrl}) {
-          console.log("url : ",url);
-          console.log("baseUrl : ",baseUrl);
-          // console.log("baseurl : ",baseUrl);
-          // API통신을 통해 첫 로그인 유저 여부 판단 후
-          const parsedUrl = new URL(url);
-          console.log("parsedUrl : ",parsedUrl);
-
-          const parsedBaseUrl = new URL(baseUrl);
-          console.log("pardedBaseUrl : ",parsedBaseUrl);
-          // const isNew = parsedUrl.searchParams.get("isNewUser");
-          // console.log("isNew : ", isNew);
-          // if(isNew){
-          //   return "localhost:3000/create";
           // }
 
+          return true;
+        },
+
+        async redirect({url, baseUrl}) {
           return baseUrl;
         },
 
-        async jwt({ token, user, account, profile, isNewUser }) {
-            // console.log("isNewUser : ", isNewUser);
-            return {...token, ...account}
+        async jwt({ token, user, account, profile }) {
+
+            // @ts-ignore
+            if(user?.userData){
+              // @ts-ignore
+              token.userData = user.userData;
+            }
+            return token;
           },
 
         async session({ session, user, token }) {
-          // console.log("session user : ", user);
-          // console.log("session token : ", token);
-          session.user = {...token};
-          // TODO : 백엔드에서 유저토큰 가져오는 로직 완성되면 session.user를 userData로 완전 대체 가능
-          return session;
+          console.log("session callback called");
+          // @ts-ignore
+          session = token;
+          return session
         },
       },
       pages:{

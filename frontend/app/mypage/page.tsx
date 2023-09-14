@@ -11,9 +11,25 @@ import ItemEach from "@/components/List/ItemEach";
 import Button from "@/components/Button/Button";
 import Link from "next/link";
 import Chatting from "@/components/Chat/Chatting";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 const Profile = () => {
   const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
+  const {data:session, status}  = useSession();
+  const [user, setUser] = useState(null);
+
+  useEffect(()=>{
+    // @ts-ignore
+    setUser(session?.userData);
+  },[session]);
+
+  useEffect(()=>{
+    if(status === "unauthenticated"){
+      alert("잘못된 접근입니다.")
+      window.location.href="/";
+    }
+  },[status]);
 
   const handleTitleClick = (index) => {
     setSelectedTitleIndex(index);
@@ -34,7 +50,7 @@ const Profile = () => {
 
   return (
     <main>
-      <AppBar backgroundColor="transparent" color="#334835" user={null} />
+      <AppBar backgroundColor="transparent" color="#334835" user={user} />
       <Container>
         <TitleDiv>
           <NameP>김싸피님,</NameP>

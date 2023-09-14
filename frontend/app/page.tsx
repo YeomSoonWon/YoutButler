@@ -37,6 +37,7 @@ import {
 } from "@/components/MainPage/MainPage";
 import { getServerSession } from "next-auth/next";
 import authOptions from "@/Oauth/AuthOption";
+import authApi from "@/api/authApi";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -54,12 +55,15 @@ const items = [
 // 어렵거나 아니다싶으면 언제든 Next12로 돌아갈 수 있어야(다행히도 하위호환 지원)
 const Home = async () => {
   const session = await getServerSession(authOptions);
-  // console.log(session?.user);
   let user = null;
-  if (session?.user) {
-    user = session.user;
-  }
 
+  // @ts-ignore
+  if(session?.userData){
+    // @ts-ignore
+    let res = await authApi.getUser(session.userData.token, session.userData.socialType);
+    console.log(res.data);
+    user = res.data.memberResponse;
+  }
   return (
     <ContainerDiv>
       <AppBar backgroundColor={colors.darkgreen} color="white" user={user} />

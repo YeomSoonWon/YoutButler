@@ -18,49 +18,45 @@ const sunFlower = Sunflower({
 });
 
 const AppBar = ({ backgroundColor, color, user }) => {
-  // useEffect(()=>{
-  //   console.log(user);
-  // },[user]);
 
-  const ContainerDiv = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1.5rem 4rem;
-    background-color: ${backgroundColor || "#334835"};
-  `;
+  // const ContainerDiv = styled.div`
+  //   display: flex;
+  //   justify-content: space-between;
+  //   align-items: center;
+  //   padding: 1.5rem 4rem;
+  //   background-color: ${backgroundColor || "#334835"};
+  // `;
 
-  const Logo = styled(Link)`
-    font-size: 1.5rem;
-    color: ${color || "white"};
-    text-decoration-line: none;
-    `;
-    /* ${({ theme }) => theme.logoFont || ""}; */
+  // const Logo = styled(Link)`
+  //   font-size: 1.5rem;
+  //   color: ${color || "white"};
+  //   text-decoration-line: none;
+  //   `;
+  //   /* ${({ theme }) => theme.logoFont || ""}; */
 
-  const StyledLink = styled(Link)`
-    color: ${color || "white"};
-    text-decoration-line: none;
-  `;
+  // const StyledLink = styled(Link)`
+  //   color: ${color || "white"};
+  //   text-decoration-line: none;
+  // `;
 
-  const StyledUserName = styled.p`
-  color: ${color || "white"};
-  text-decoration-line: none;
-  `;
+  // const StyledUserName = styled.p`
+  // color: ${color || "white"};
+  // text-decoration-line: none;
+  // `;
 
   return (
-    <ContainerDiv>
-      <Logo href={"/"}>당신의집사</Logo>
+    <ContainerDiv backgroundColor={backgroundColor}>
+      <Logo href={"/"} color={color}>당신의집사</Logo>
       <NavDiv className={notoSansKr.className}>
-        <StyledLink href="/search">지도</StyledLink>
-        <StyledLink href="/mypage">마이페이지</StyledLink>
-        <StyledLink href="">알림</StyledLink>
+        <StyledLink href="/search" color={color}>지도</StyledLink>
+        <StyledLink href="/mypage" color={color}>마이페이지</StyledLink>
+        <StyledLink href="" color={color}>알림</StyledLink>
         {user ? (
           <>
             <img
-            // src={user?.picture || ""}
             src={user?.picture ? user?.picture: favicon.src}
             style={{width:"30px", height:"30px", backgroundColor:"white"}}/>
-            <StyledUserName>{user?.name}</StyledUserName>
+            <StyledUserName color={color}>{user?.nickname}</StyledUserName>
             <YellowBtn onClick={() => signOut()}>로그아웃</YellowBtn>
           </>
         ) : (
@@ -72,6 +68,39 @@ const AppBar = ({ backgroundColor, color, user }) => {
     </ContainerDiv>
   );
 };
+
+interface BgProp{
+  backgroundColor?:string;
+}
+
+interface ColorProp{
+  color?:string;
+}
+
+const ContainerDiv = styled.div<BgProp>`
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 1.5rem 4rem;
+background-color: ${(props)=>props.backgroundColor || "#334835"};
+`;
+
+const Logo = styled(Link)<ColorProp>`
+font-size: 1.5rem;
+color: ${(props)=>props.color || "white"};
+text-decoration-line: none;
+`;
+/* ${({ theme }) => theme.logoFont || ""}; */
+
+const StyledLink = styled(Link)<ColorProp>`
+color: ${(props)=>props.color || "white"};
+text-decoration-line: none;
+`;
+
+const StyledUserName = styled.p<ColorProp>`
+color: ${(props)=>props.color || "white"};
+text-decoration-line: none;
+`;
 
 const YellowBtn = styled.button`
   background-color: #ffc436;

@@ -13,23 +13,23 @@ export default function ItemEach({ width, height }) {
     setIsFilled(!isFilled);
   };
 
-  const EstateDiv = styled.div`
-    height: ${height};
-    width: ${width};
-    padding: 0 1rem 1.8rem 1rem;
-    border: solid 1px lightgray;
-    border-radius: 1rem;
-    position: relative;
+  // const EstateDiv = styled.div`
+  //   height: ${height};
+  //   width: ${width};
+  //   padding: 0 1rem 1.8rem 1rem;
+  //   border: solid 1px lightgray;
+  //   border-radius: 1rem;
+  //   position: relative;
 
-    p {
-      display: block;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-  `;
+  //   p {
+  //     display: block;
+  //     white-space: nowrap;
+  //     overflow: hidden;
+  //     text-overflow: ellipsis;
+  //   }`;
+
   return (
-    <EstateDiv>
+    <EstateDiv onClick={()=>{window.location.href="/detail/123"}}>
       <div onClick={handleHeartClick}>
         {!isFilled ? (
           <HeartSvg
@@ -77,6 +77,26 @@ export default function ItemEach({ width, height }) {
     </EstateDiv>
   );
 }
+
+interface EstateDivProps{
+  height?:string,
+  width?:string
+}
+
+const EstateDiv = styled.div<EstateDivProps>`
+height: ${(props)=>props.height};
+width: ${(props)=>props.width};
+padding: 0 1rem 1.8rem 1rem;
+border: solid 1px lightgray;
+border-radius: 1rem;
+position: relative;
+
+p {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}`;
 
 const ImageDiv = styled.div`
   width: 100%;
