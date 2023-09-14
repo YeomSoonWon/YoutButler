@@ -11,9 +11,40 @@ import DetailCarousel from "@/components/DetailPage/DetailCarousel";
 import butler from "@/public/assets/butler.png";
 import { useState } from "react";
 import Chatting from "@/components/Chat/Chatting";
-import { Container, BottomDiv, LeftDiv, ContainerP, SubP, AboutDiv, AboutP, AboutEachDiv, AboutDetailDiv, AboutInfoDiv, PriceP, RightDiv, InfoDiv, InfoDetailDiv, BlueP, LineHr, LightPDiv, LightP, ChatDiv, ChatBotDiv, AskDiv, AskP, ChatMiddleDiv, ChatBottomDiv, MessageInput, SvgBtn, SendSvg } from "@/components/DetailPage/DetailPage";
+import {
+  TitleP,
+  AboutTitleP,
+  StyledSvg,
+  Container,
+  BottomDiv,
+  LeftDiv,
+  ContainerP,
+  SubP,
+  AboutDiv,
+  AboutP,
+  AboutEachDiv,
+  AboutDetailDiv,
+  AboutInfoDiv,
+  PriceP,
+  RightDiv,
+  InfoDiv,
+  InfoDetailDiv,
+  BlueP,
+  LineHr,
+  LightPDiv,
+  LightP,
+  ChatDiv,
+  ChatBotDiv,
+  AskDiv,
+  AskP,
+  ChatMiddleDiv,
+  ChatBottomDiv,
+  MessageInput,
+  SvgBtn,
+  SendSvg,
+} from "@/components/DetailPage/DetailPage";
 import InfoBubble from "@/components/List/InfoBubble";
-import { TitleP, AboutTitleP, StyledSvg } from "@/components/MainPage/MainPage";
+// import { TitleP, AboutTitleP, StyledSvg } from "@/components/MainPage/MainPage";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 
@@ -24,13 +55,13 @@ const ibmPlexSansKR = IBM_Plex_Sans_KR({
 
 // const DetailWithID = async () => {
 const DetailWithID = () => {
-  const {data:session, status}  = useSession();
+  const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
 
-  useEffect(()=>{
+  useEffect(() => {
     // @ts-ignore
     setUser(session?.userData);
-  },[session]);
+  }, [session]);
 
   // 챗봇 open
   const [isChatOpen, setIsChatOpen] = useState(user);
