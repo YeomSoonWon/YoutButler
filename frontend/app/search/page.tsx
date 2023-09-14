@@ -13,6 +13,8 @@ import RangeSlider from "@/components/Input/RangeSlider";
 import Footer from "@/components/Footer";
 import { IBM_Plex_Sans_KR } from "next/font/google";
 import InfoBubble from "@/components/List/InfoBubble";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -21,6 +23,20 @@ const ibmPlexSansKR = IBM_Plex_Sans_KR({
 
 const Search = () => {
   const [placeholder, setPlaceHolder] = useState("추가 가용 자산");
+  const {data:session, status}  = useSession();
+  const [user, setUser] = useState(null);
+
+  useEffect(()=>{
+    // @ts-ignore
+    setUser(session?.userData);
+  },[session]);
+
+  useEffect(()=>{
+    if(status === "unauthenticated"){
+      // alert("잘못된 접근입니다.")
+      // window.location.href="/";
+    }
+  },[status]);
 
   const handleMonthlyClick = () => {
     setPlaceHolder("월 여유자금 입력");
@@ -32,7 +48,7 @@ const Search = () => {
 
   return (
     <main>
-      <AppBar backgroundColor="transparent" color="#334835" user={null}/>
+      <AppBar backgroundColor="transparent" color="#334835" user={user}/>
       <Container className={ibmPlexSansKR.className}>
         <LeftContainer>
           <Upper>
