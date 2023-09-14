@@ -39,7 +39,7 @@ def insert_db(data):
         data["crdt_grad_11"],
         data["crdt_grad_12"],
         data["crdt_grad_13"],
-        data["crdt_grad_avg"]
+        data["crdt_grad_avg"],
     )
 
     cursor.execute(insert_query, values)

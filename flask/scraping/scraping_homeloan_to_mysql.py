@@ -3,6 +3,8 @@ import requests
 import os
 
 
+print(os.environ.get("MYSQL_PASSWORD"))
+
 def insert_db(data):
     for dt in data:
         print(dt)
@@ -37,7 +39,7 @@ def insert_db(data):
         data["lend_rate_type_nm"],
         data["lend_rate_min"],
         data["lend_rate_max"],
-        data["lend_rate_avg"]
+        data["lend_rate_avg"],
     )
 
     cursor.execute(insert_query, values)
