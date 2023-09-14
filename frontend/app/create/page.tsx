@@ -5,16 +5,28 @@ import Footer from "@/components/Footer";
 import styled from "styled-components";
 import colors from "@/constants/colors";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const Create = () => {
-  const { data: session } = useSession();
+  const {data:session, status}  = useSession();
 
   useEffect(() => {
-    if (session) {
-      console.log(session);
+    console.log(status);
+    if((status === "unauthenticated")){
+      alert("비정상적인 접근입니다.");
+      window.location.href="/";
     }
-  }, [session]);
+  }, [status]);
+
+  useEffect(()=>{
+    console.log(session);
+    // @ts-ignore
+    if(session && session?.userData.status === 200){
+      alert("이미 가입된 회원입니다.");
+      window.location.href="/";
+    }
+  },[session])
+
   return (
     <Container>
       <AppBar backgroundColor="transparent" color="#334835" user={null} />
