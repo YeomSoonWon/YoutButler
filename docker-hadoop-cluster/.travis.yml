@@ -1,0 +1,39 @@
+language: java
+sudo: required
+
+env:
+  global:
+    - MAVEN_OPTS="-Xmx512M"
+    - PATH="$HOME/build/Lewuathe/docker-hadoop-cluster/apache-maven-3.5.2/bin:$PATH"
+
+services:
+  - docker
+
+before_install:
+  - docker info
+  - git submodule update --init
+
+install:
+  - sudo apt-get install autoconf automake libtool curl make g++ unzip
+  - wget https://github.com/google/protobuf/releases/download/v2.5.0/protobuf-2.5.0.tar.gz
+  - tar -xzvf protobuf-2.5.0.tar.gz
+  - cd protobuf-2.5.0
+  - ./configure && make && sudo make install && sudo ldconfig
+  - cd ..
+  - wget http://ftp.jaist.ac.jp/pub/apache/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.zip
+  - unzip apache-maven-3.5.4-bin.zip
+  - mvn -version
+  - cd hadoop
+  - mvn clean package -DskipTests -Pdist -Dtar | grep "Building Apache Hadoop"
+  - cp hadoop-dist/target/hadoop-3.2.0-SNAPSHOT.tar.gz ../hadoop-base
+
+script:
+  - make
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+    docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    docker push lewuathe/hadoop-base:latest;
+    docker push lewuathe/hadoop-master:latest;
+    docker push lewuathe/hadoop-slave:latest;
+    fi
