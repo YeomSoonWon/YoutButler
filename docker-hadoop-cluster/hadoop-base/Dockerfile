@@ -40,7 +40,12 @@ ENV PATH $PATH:$JAVA_HOME/bin
 
 # download native support
 RUN mkdir -p /tmp/native
-RUN curl -Ls http://dl.bintray.com/sequenceiq/sequenceiq-bin/hadoop-native-64-2.7.0.tar | tar -x -C /tmp/native
+# RUN curl -Ls https://lab.ssafy.com/s09-fintech-finance-sub2/S09P22A405/-/raw/feat/develop-back-hadoop-setting/docker-hadoop-cluster/hadoop-native-64-2.7.0.tar | tar -x -C /tmp/native
+
+# 이미 로컬에 있는 파일을 /tmp/native로 복사합니다.
+COPY hadoop-native-64-2.7.0.tar /tmp/native/
+# /tmp/native로 복사한 파일을 압축 해제합니다.
+RUN tar -x -C /tmp/native -f /tmp/native/hadoop-native-64-2.7.0.tar
 
 ENV HADOOP_VERSION=3.3.2
 ADD hadoop-${HADOOP_VERSION}.tar.gz /usr/local/
