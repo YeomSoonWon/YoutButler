@@ -58,9 +58,12 @@ const Home = async () => {
   let user = null;
 
   // @ts-ignore
-  if(session?.userData){
+  if (session?.userData) {
     // @ts-ignore
-    let res = await authApi.getUser(session.userData.token, session.userData.socialType);
+    let res = await authApi.getUser(
+      session.userData.token,
+      session.userData.socialType
+    );
     console.log(res.data);
     user = res.data.memberResponse;
   }
