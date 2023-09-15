@@ -3,7 +3,7 @@ import User from "@/types/User";
 
 // 비로그인 시 가능한 로직
 const PublicAuthApi:Axios = axios.create({
-    baseURL: `${process.env.API_BASE_URL}/members`,
+    baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/members`,
     headers:{
         "Content-Type" : "application/json",
     }
@@ -11,7 +11,7 @@ const PublicAuthApi:Axios = axios.create({
 
 // 로그인 시 가능한 로직
 const PrivateAuthApi:Axios = axios.create({
-    baseURL: `${process.env.API_BASE_URL}/members`,
+    baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/members`,
     headers:{
         "Content-Type" : "application/json",
     }
@@ -32,7 +32,35 @@ const authApi = {
         return res;
     },
 
-    signUp : async()=>{
+    // authorization 추가 필요 : 우리 서버에서 준 accessToken 사용
+    signUp : async(userData:any | null, age:Number|null, houses:String|null, budget:Number|null, jasan:Number|null, credit:Number|null)=>{
+        console.log({
+            identifier : userData?.identifier,
+            socialType : userData?.socialType,
+            email : userData?.email,
+            nickname : userData?.nickname,
+            age:age,
+            holdingAsset:budget,
+            creditRating : credit,
+            monthlyAvailableAsset : jasan,
+            numberOfHouses : houses.toUpperCase()
+        });
+        let res = await PublicAuthApi.post("signup", {
+            identifier : userData?.identifier,
+            socialType : userData?.socialType,
+            email : userData?.email,
+            nickname : userData?.nickname,
+            age: age,
+            holdingAsset:budget,
+            creditRating : credit,
+            monthlyAvailableAsset : jasan,
+            numberOfHouses : houses.toUpperCase()
+        });
+
+        return res;
+
+        // console.log("res data : ",res.data);
+        return res;
         return "signup result";
     },
 }

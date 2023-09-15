@@ -4,8 +4,40 @@ import AppBar from "@/components/AppBar";
 import Footer from "@/components/Footer";
 import styled from "styled-components";
 import colors from "@/constants/colors";
+import {React, useState} from 'react';
 
 const Modify = () => {
+  const [age, setAge] = useState<Number | null>();
+  const [houses, setHouses] = useState<string>("none");
+  const [budget, setBudget] = useState<Number | null>();
+  const [jasan, setJasan] = useState<Number | null>();
+  const [credit, setCredit] = useState<Number | null>();
+
+  const handleAge = (e:React.ChangeEvent<HTMLInputElement>) => {
+    console.log("age : ", e.target.value);
+    setAge(e.target.value);
+  }
+
+  const handleHouses = (e:React.ChangeEvent<HTMLInputElement>) => {
+    console.log("houses : ", e.target.value);
+    setHouses(e.target.value);
+  }
+
+  const handleBudget = (e:React.ChangeEvent<HTMLInputElement>) => {
+    console.log("budget : ", e.target.value);
+    setBudget(e.target.value);
+  }
+
+  const handleJasan = (e:React.ChangeEvent<HTMLInputElement>) => {
+    console.log("jasan : ", e.target.value);
+    setJasan(e.target.value);
+  }
+
+  const handleCredit = (e:React.ChangeEvent<HTMLInputElement>) => {
+    console.log("credit : ", e.target.value);
+    setCredit(e.target.value);
+  }
+  
   return (
     <Container>
       <AppBar backgroundColor="transparent" color="#334835" user={null} />
