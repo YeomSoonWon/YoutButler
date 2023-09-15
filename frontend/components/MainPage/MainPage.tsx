@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import styled from "styled-components";
 import Image from "next/image";
@@ -55,6 +55,7 @@ export const PDiv = styled.div`
 export const InputDiv = styled.div`
   align-items: center;
   display: flex;
+  flex-direction: column;
   height: 5rem;
 `;
 
@@ -211,6 +212,8 @@ export const SearchBtn = styled.button`
   background: none;
   border: none;
   position: relative;
-  left: -3.1rem;
+  right: -18.7rem;
+  top: -2.4rem;
   cursor: pointer;
+  background-color: white;
 `;
