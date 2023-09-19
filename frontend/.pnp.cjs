@@ -45,10 +45,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:1.5.0"],\
             ["babel-loader", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:9.1.3"],\
             ["babel-plugin-styled-components", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:2.1.4"],\
+            ["chart.js", "npm:4.4.0"],\
             ["d3", "npm:7.8.5"],\
             ["next", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:13.4.19"],\
             ["next-auth", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:4.23.1"],\
             ["react", "npm:18.2.0"],\
+            ["react-chartjs-2", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:5.2.0"],\
             ["react-cookie", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:6.1.0"],\
             ["react-dom", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:18.2.0"],\
             ["react-kakao-maps-sdk", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:1.1.15"],\
@@ -4141,6 +4143,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["@kurkle/color", [\
+        ["npm:0.3.2", {\
+          "packageLocation": "./.yarn/cache/@kurkle-color-npm-0.3.2-98f2086013-79e97b31f8.zip/node_modules/@kurkle/color/",\
+          "packageDependencies": [\
+            ["@kurkle/color", "npm:0.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["@material-ui/core", [\
         ["npm:4.12.4", {\
           "packageLocation": "./.yarn/cache/@material-ui-core-npm-4.12.4-5b6f139342-96b48deccd.zip/node_modules/@material-ui/core/",\
@@ -5650,6 +5661,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["chart.js", [\
+        ["npm:4.4.0", {\
+          "packageLocation": "./.yarn/cache/chart.js-npm-4.4.0-ccf7d4ad14-5ee2d99b78.zip/node_modules/chart.js/",\
+          "packageDependencies": [\
+            ["chart.js", "npm:4.4.0"],\
+            ["@kurkle/color", "npm:0.3.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["chokidar", [\
         ["npm:3.5.3", {\
           "packageLocation": "./.yarn/cache/chokidar-npm-3.5.3-c5f9b0a56a-b49fcde401.zip/node_modules/chokidar/",\
@@ -6491,10 +6512,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["axios", "npm:1.5.0"],\
             ["babel-loader", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:9.1.3"],\
             ["babel-plugin-styled-components", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:2.1.4"],\
+            ["chart.js", "npm:4.4.0"],\
             ["d3", "npm:7.8.5"],\
             ["next", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:13.4.19"],\
             ["next-auth", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:4.23.1"],\
             ["react", "npm:18.2.0"],\
+            ["react-chartjs-2", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:5.2.0"],\
             ["react-cookie", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:6.1.0"],\
             ["react-dom", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:18.2.0"],\
             ["react-kakao-maps-sdk", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:1.1.15"],\
@@ -7897,6 +7920,32 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "packageDependencies": [\
             ["react", "npm:18.2.0"],\
             ["loose-envify", "npm:1.4.0"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["react-chartjs-2", [\
+        ["npm:5.2.0", {\
+          "packageLocation": "./.yarn/cache/react-chartjs-2-npm-5.2.0-03632f5179-ace702185b.zip/node_modules/react-chartjs-2/",\
+          "packageDependencies": [\
+            ["react-chartjs-2", "npm:5.2.0"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:5.2.0", {\
+          "packageLocation": "./.yarn/__virtual__/react-chartjs-2-virtual-3722a6a1ea/0/cache/react-chartjs-2-npm-5.2.0-03632f5179-ace702185b.zip/node_modules/react-chartjs-2/",\
+          "packageDependencies": [\
+            ["react-chartjs-2", "virtual:d7588894da7b8546793d9620d4dc1a99dd270fde146e78f6602cde502b3cd12a3cfc2cf72487f2157acc49b7f66e1e3953945847eec6dcc68cc8fa2af1545c26#npm:5.2.0"],\
+            ["@types/chart.js", null],\
+            ["@types/react", "npm:18.2.21"],\
+            ["chart.js", "npm:4.4.0"],\
+            ["react", "npm:18.2.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/chart.js",\
+            "@types/react",\
+            "chart.js",\
+            "react"\
           ],\
           "linkType": "HARD"\
         }]\
