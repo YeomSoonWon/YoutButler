@@ -38,6 +38,7 @@ import {
 import { getServerSession } from "next-auth/next";
 import authOptions from "@/Oauth/AuthOption";
 import authApi from "@/api/authApi";
+import ActivatedCheck from "@/components/Authorization/ActivatedCheck";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -56,19 +57,23 @@ const items = [
 const Home = async () => {
   const session = await getServerSession(authOptions);
   let user = null;
+  let isActivated = null;
 
   // @ts-ignore
   if (session?.userData) {
     // @ts-ignore
-    let res = await authApi.getUser(
-      session.userData.token,
-      session.userData.socialType
-    );
-    console.log(res.data);
-    user = res.data.memberResponse;
+    try{
+      let res = await authApi.getUser(session.userData.token, session.userData.socialType);
+      console.log("Mainpage get User",res.data);
+      user = res.data.memberResponse;
+      isActivated = res.data.activated;
+    }catch(e){
+      user = null;
+    }
   }
   return (
     <ContainerDiv>
+      <ActivatedCheck isActivated={isActivated}/>
       <AppBar backgroundColor={colors.darkgreen} color="white" user={user} />
       <UpperDiv className={ibmPlexSansKR.className}>
         <MainImg

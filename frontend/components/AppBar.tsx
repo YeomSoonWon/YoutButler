@@ -17,36 +17,14 @@ const sunFlower = Sunflower({
   subsets: ["latin"],
 });
 
-const AppBar = ({ backgroundColor, color, user }) => {
-
-  // const ContainerDiv = styled.div`
-  //   display: flex;
-  //   justify-content: space-between;
-  //   align-items: center;
-  //   padding: 1.5rem 4rem;
-  //   background-color: ${backgroundColor || "#334835"};
-  // `;
-
-  // const Logo = styled(Link)`
-  //   font-size: 1.5rem;
-  //   color: ${color || "white"};
-  //   text-decoration-line: none;
-  //   `;
-  //   /* ${({ theme }) => theme.logoFont || ""}; */
-
-  // const StyledLink = styled(Link)`
-  //   color: ${color || "white"};
-  //   text-decoration-line: none;
-  // `;
-
-  // const StyledUserName = styled.p`
-  // color: ${color || "white"};
-  // text-decoration-line: none;
-  // `;
-
+const AppBar = ({ backgroundColor, color, user, logoLogout = false }) => {
   return (
     <ContainerDiv backgroundColor={backgroundColor}>
-      <Logo href={"/"} color={color}>당신의집사</Logo>
+      {
+      logoLogout ? 
+      <LogoutLogo color={color} onClick={()=>signOut()}>당신의집사</LogoutLogo>
+      :<Logo href={"/"} color={color}>당신의집사</Logo>
+      }
       <NavDiv className={notoSansKr.className}>
         <StyledLink href="/search" color={color}>지도</StyledLink>
         <StyledLink href="/mypage" color={color}>마이페이지</StyledLink>
@@ -86,6 +64,12 @@ background-color: ${(props)=>props.backgroundColor || "#334835"};
 `;
 
 const Logo = styled(Link)<ColorProp>`
+font-size: 1.5rem;
+color: ${(props)=>props.color || "white"};
+text-decoration-line: none;
+`;
+
+const LogoutLogo = styled.div<ColorProp>`
 font-size: 1.5rem;
 color: ${(props)=>props.color || "white"};
 text-decoration-line: none;
