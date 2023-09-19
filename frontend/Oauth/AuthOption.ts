@@ -28,12 +28,13 @@ const authOptions : NextAuthOptions = {
           user.userData = {
             token : account.access_token,
             ...res.data.memberResponse,
-            status : res.status
+            status : res.status,
+            accessToken : res.data.token.accessToken
           };
           
-          // if(res.status === 202){
+          if(res.status === 202){
           // return `http://localhost:3000/create`;
-          // }
+          }
 
           return true;
         },

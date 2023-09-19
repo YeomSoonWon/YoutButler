@@ -5,10 +5,53 @@ import Footer from "@/components/Footer";
 import styled from "styled-components";
 import colors from "@/constants/colors";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, React } from "react";
+import authApi from "@/api/authApi";
 
 const Create = () => {
   const {data:session, status}  = useSession();
+  const [age, setAge] = useState<Number | null>(null);
+  const [houses, setHouses] = useState<string | null>(null);
+  const [budget, setBudget] = useState<Number | null>(null);
+  const [jasan, setJasan] = useState<Number | null>(null);
+  const [credit, setCredit] = useState<Number | null>(null);
+
+  const handleAge = (e:React.ChangeEvent<HTMLInputElement>) => {
+    console.log("age : ", e.target.value);
+    setAge(e.target.value);
+  }
+
+  const handleHouses = (e:React.ChangeEvent<HTMLInputElement>) => {
+    console.log("houses : ", e.target.value);
+    setHouses(e.target.value);
+  }
+
+  const handleBudget = (e:React.ChangeEvent<HTMLInputElement>) => {
+    console.log("budget : ", e.target.value);
+    setBudget(e.target.value);
+  }
+
+  const handleJasan = (e:React.ChangeEvent<HTMLInputElement>) => {
+    console.log("jasan : ", e.target.value);
+    setJasan(e.target.value);
+  }
+
+  const handleCredit = (e:React.ChangeEvent<HTMLInputElement>) => {
+    console.log("credit : ", e.target.value);
+    setCredit(e.target.value);
+  }
+
+  const createUser = async (userData:any | null) =>{
+    if( !age || !houses ||!budget){
+      alert("나이, 주택 수, 예산은 필수입니다.");
+      return;
+    }
+    let res = await authApi.signUp(session?.userData, age, houses, budget, jasan, credit );
+    if(res.status === 200){
+      alert("회원가입 완료");
+      window.location.href="/";
+    }
+  }
 
   useEffect(() => {
     console.log(status);
@@ -19,7 +62,8 @@ const Create = () => {
   }, [status]);
 
   useEffect(()=>{
-    console.log(session);
+    console.log(session?.userData);
+
     // @ts-ignore
     if(session && session?.userData.status === 200){
       alert("이미 가입된 회원입니다.");
@@ -29,7 +73,7 @@ const Create = () => {
 
   return (
     <Container>
-      <AppBar backgroundColor="transparent" color="#334835" user={null} />
+      <AppBar backgroundColor="transparent" color="#334835" user={null} logoLogout={true}/>
       <CenterDiv>
         <MiddleDiv>
           <TitleDiv>
@@ -43,8 +87,16 @@ const Create = () => {
           </TitleDiv>
           <InputDiv>
             <InputTitleP>필수</InputTitleP>
-            <StyledInput type="number" placeholder="나이" required />
-            <StyledSelect required>
+            <StyledInput
+              type="number"
+              placeholder="나이"
+              onChange={(e)=>{handleAge(e)}}
+              required
+            />
+            <StyledSelect
+              onChange={(e)=>{handleHouses(e)}}
+              required
+              >
               <option value="">-- 주택 수를 선택하세요 --</option>
               <option value="none">무주택</option>
               <option value="one">1주택</option>
@@ -53,6 +105,7 @@ const Create = () => {
             </StyledSelect>
             <StyledInput
               type="number"
+              onChange={(e)=>{handleBudget(e)}}
               required
               placeholder="부동산 거래 예산"
             />
@@ -60,10 +113,18 @@ const Create = () => {
               <InputTitleP>선택</InputTitleP>
               <GrayP>(월세 매물 추천 시 활용됩니다.)</GrayP>
             </SubTitleP>
-            <StyledInput type="number" placeholder="월 가용자산" />
-            <StyledInput type="number" placeholder="신용도" />
+            <StyledInput
+              type="number"
+              placeholder="월 가용자산"
+              onChange={(e)=>{handleJasan(e)}}
+              />
+            <StyledInput
+              type="number"
+              placeholder="신용도"
+              onChange={(e)=>{handleCredit(e)}}
+              />
           </InputDiv>
-          <YellowBtn>완료</YellowBtn>
+          <YellowBtn onClick={()=>{createUser(session?.userData)}}>완료</YellowBtn>
         </MiddleDiv>
       </CenterDiv>
       <Footer />
