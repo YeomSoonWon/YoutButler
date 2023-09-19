@@ -1,5 +1,5 @@
 import axios, {Axios, AxiosRequestConfig} from "axios";
-import User from "@/types/User";
+// import User from "@/types/User";
 
 // 비로그인 시 가능한 로직
 const PublicAuthApi:Axios = axios.create({
@@ -43,7 +43,8 @@ const authApi = {
             holdingAsset:budget,
             creditRating : credit,
             monthlyAvailableAsset : jasan,
-            numberOfHouses : houses.toUpperCase()
+            numberOfHouses : houses.toUpperCase(),
+            token : userData?.token
         });
         let res = await PublicAuthApi.post("signup", {
             identifier : userData?.identifier,
@@ -55,13 +56,13 @@ const authApi = {
             creditRating : credit,
             monthlyAvailableAsset : jasan,
             numberOfHouses : houses.toUpperCase()
+        },{
+            headers:{
+                Authorization : `Bearer ${userData?.accessToken}`
+            }
         });
 
         return res;
-
-        // console.log("res data : ",res.data);
-        return res;
-        return "signup result";
     },
 }
 

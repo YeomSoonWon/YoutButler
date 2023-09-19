@@ -47,7 +47,10 @@ const Create = () => {
       return;
     }
     let res = await authApi.signUp(session?.userData, age, houses, budget, jasan, credit );
-    console.log(res);
+    if(res.status === 200){
+      alert("회원가입 완료");
+      window.location.href="/";
+    }
   }
 
   useEffect(() => {
@@ -60,6 +63,7 @@ const Create = () => {
 
   useEffect(()=>{
     console.log(session?.userData);
+
     // @ts-ignore
     if(session && session?.userData.status === 200){
       alert("이미 가입된 회원입니다.");
@@ -69,7 +73,7 @@ const Create = () => {
 
   return (
     <Container>
-      <AppBar backgroundColor="transparent" color="#334835" user={null} />
+      <AppBar backgroundColor="transparent" color="#334835" user={null} logoLogout={true}/>
       <CenterDiv>
         <MiddleDiv>
           <TitleDiv>
