@@ -60,7 +60,7 @@ const Home = async () => {
   let isActivated = null;
 
   // @ts-ignore
-  if(session?.userData){
+  if (session?.userData) {
     // @ts-ignore
     try{
       let res = await authApi.getUser(session.userData.token, session.userData.socialType);
