@@ -63,13 +63,24 @@ const Create = () => {
 
   useEffect(()=>{
     console.log(session?.userData);
-
     // @ts-ignore
-    if(session && session?.userData.status === 200){
-      alert("이미 가입된 회원입니다.");
+    if(session){
+        configureUser(session?.userData.token, session?.userData.socialType);
+      }
+    },[session]);
+
+  const configureUser=async(token:String, provider:String)=>{
+    try{
+      let res = await authApi.getUser(token, provider);
+      if(res.status === 200){
+        alert("이미 존재하는 회원입니다.");
+        window.location.href="/";
+      }
+    }catch{
+      alert("비정상적인 접근입니다.");
       window.location.href="/";
     }
-  },[session])
+  }
 
   return (
     <Container>
