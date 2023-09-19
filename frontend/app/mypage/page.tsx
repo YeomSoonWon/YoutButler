@@ -13,6 +13,7 @@ import Link from "next/link";
 import Chatting from "@/components/Chat/Chatting";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
+import authApi from "@/api/authApi";
 
 const Profile = () => {
   const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
@@ -22,6 +23,10 @@ const Profile = () => {
   useEffect(()=>{
     // @ts-ignore
     setUser(session?.userData);
+    if(session){
+      configureUser(session?.userData.token, session?.userData.socialType);
+    }
+
   },[session]);
 
   useEffect(()=>{
@@ -30,6 +35,22 @@ const Profile = () => {
       window.location.href="/";
     }
   },[status]);
+
+  const configureUser=async(token:String, provider:String)=>{
+    try{
+      let res = await authApi.getUser(token, provider);
+      if(res.status === 200){
+        console.log(res.data);
+        setUser(res.data.memberResponse);
+      }else{
+        alert("비정상적인 접근입니다.");
+        window.location.href="/";
+      }
+    }catch{
+      alert("비정상적인 접근입니다.");
+      window.location.href="/";
+    }
+  }
 
   const handleTitleClick = (index) => {
     setSelectedTitleIndex(index);
@@ -53,18 +74,18 @@ const Profile = () => {
       <AppBar backgroundColor="transparent" color="#334835" user={user} />
       <Container>
         <TitleDiv>
-          <NameP>김싸피님,</NameP>
+          <NameP>{user?.nickname}님,</NameP>
           <p>당신의집사 마이페이지에 오신 것을 환영합니다.</p>
         </TitleDiv>
         <ContentDiv>
           <LeftDiv>
-            <UserInfoEach title="아이디" value="ssafy123" />
-            <UserInfoEach title="이메일" value="ssafykim1@gmail.com" />
-            <UserInfoEach title="나이" value="29세" />
-            <UserInfoEach title="주택 수" value="무주택" />
-            <UserInfoEach title="부동산 거래 예산" value="15700만원" />
-            <UserInfoEach title="월 가용자산" value="120만원" />
-            <UserInfoEach title="신용도" value="972" />
+            <UserInfoEach title="아이디" value={user?.nickname} />
+            <UserInfoEach title="이메일" value={user?.email} />
+            <UserInfoEach title="나이" value={user?.age} />
+            <UserInfoEach title="주택 수" value={user?.numberOfHouses} />
+            <UserInfoEach title="부동산 거래 예산" value={user?.holdingAsset} />
+            <UserInfoEach title="월 가용자산" value={user?.monthlyAvailableAsset} />
+            <UserInfoEach title="신용도" value={user?.creditRating} />
             <BtnDiv>
               <Link href="/modify">
                 <Button Kind="small" Rounded="square" Variant="yellowFilled">

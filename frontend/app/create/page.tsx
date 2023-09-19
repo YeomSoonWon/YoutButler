@@ -46,7 +46,7 @@ const Create = () => {
       alert("나이, 주택 수, 예산은 필수입니다.");
       return;
     }
-    let res = await authApi.signUp(session?.userData, age, houses, budget, jasan, credit );
+    let res = await authApi.signUp(userData, age, houses, budget, jasan, credit );
     if(res.status === 200){
       alert("회원가입 완료");
       window.location.href="/";
@@ -56,7 +56,7 @@ const Create = () => {
   useEffect(() => {
     console.log(status);
     if((status === "unauthenticated")){
-      alert("비정상적인 접근입니다.");
+      alert("잘못된 접근입니다.");
       window.location.href="/";
     }
   }, [status]);

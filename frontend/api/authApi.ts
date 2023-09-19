@@ -64,6 +64,34 @@ const authApi = {
 
         return res;
     },
+
+    modify : async(userData:any | null, age:Number|null, houses:String|null, budget:Number|null, jasan:Number|null, credit:Number|null)=>{
+        console.log({
+            identifier : userData?.identifier,
+            socialType : userData?.socialType,
+            email : userData?.email,
+            nickname : userData?.nickname,
+            age:age,
+            holdingAsset:budget,
+            creditRating : credit,
+            monthlyAvailableAsset : jasan,
+            numberOfHouses : houses.toUpperCase(),
+            token : userData?.token
+        });
+        let res = await PublicAuthApi.put("",{
+            age: age,
+            holdingAsset:budget,
+            creditRating : credit,
+            monthlyAvailableAsset : jasan,
+            numberOfHouses : houses.toUpperCase()
+        },{
+            headers:{
+                Authorization : `Bearer ${userData?.accessToken}`
+            }
+        });
+
+        return res;
+    },
 }
 
 export default authApi;
