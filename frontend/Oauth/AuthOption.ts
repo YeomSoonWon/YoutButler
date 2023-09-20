@@ -5,7 +5,7 @@ import GoogleProvider from "next-auth/providers/google";
 import authApi from "@/api/authApi";
 
 const authOptions : NextAuthOptions = {
-    secret: process.env.SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
     providers: [
         NaverProvider({
           clientId: process.env.NAVER_ID || "",
@@ -21,26 +21,44 @@ const authOptions : NextAuthOptions = {
         })
       ],
       callbacks:{
-        async signIn({ user, account, profile, email, credentials }) {
-          return true
+        async signIn({ user, account, profile, email }) {
+          const res = await authApi.getUser(account.access_token, account.provider.toString());
+
+          // @ts-ignore
+          user.userData = {
+            token : account.access_token,
+            ...res.data.memberResponse,
+            status : res.status,
+            accessToken : res.data.token.accessToken
+          };
+          
+          if(res.status === 202){
+          // return `http://localhost:3000/create`;
+          }
+
+          return true;
         },
 
-        async redirect({ url, baseUrl }) {
-          return baseUrl
+        async redirect({url, baseUrl}) {
+          return baseUrl;
         },
 
-        async jwt({ token, user, account, profile, isNewUser }) {
-            return {...token, ...account}
+        async jwt({ token, user, account, profile }) {
+
+            // @ts-ignore
+            if(user?.userData){
+              // @ts-ignore
+              token.userData = user.userData;
+            }
+            return token;
           },
 
-          async session({ session, user, token }) {
-            console.log("session user : ", user);
-            console.log("session token : ", token);
-            // let userData = await authApi.getUser(token.access_token, token.provider);
-            session.user = {...token};
-            // TODO : 백엔드에서 유저정보 가져오는 로직 완성되면 session.user를 userData로 완전 대체 가능
-            return session;
-          },
+        async session({ session, user, token }) {
+          console.log("session callback called");
+          // @ts-ignore
+          session = token;
+          return session
+        },
       },
       pages:{
         signIn:"/auth/signin"

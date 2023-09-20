@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, PropsWithChildren } from "react";
 import styled from "styled-components";
 
 interface Props{
   visible:Boolean
 }
 
-const InfoBubble = ({ children }) => {
+const InfoBubble = ({ children }: PropsWithChildren) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleMouseEnter = () => {
@@ -25,6 +25,7 @@ const InfoBubble = ({ children }) => {
       {children}
       <Bubble visible={isVisible}>
         여기에 구입 가능, 불가능, 조금 부족 기준 작성하기
+        {children}
       </Bubble>
     </div>
   );

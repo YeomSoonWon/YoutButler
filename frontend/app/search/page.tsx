@@ -13,6 +13,9 @@ import RangeSlider from "@/components/Input/RangeSlider";
 import Footer from "@/components/Footer";
 import { IBM_Plex_Sans_KR } from "next/font/google";
 import InfoBubble from "@/components/List/InfoBubble";
+import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import authApi from "@/api/authApi";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -21,6 +24,15 @@ const ibmPlexSansKR = IBM_Plex_Sans_KR({
 
 const Search = () => {
   const [placeholder, setPlaceHolder] = useState("추가 가용 자산");
+  const {data:session, status}  = useSession();
+  const [user, setUser] = useState(null);
+
+  useEffect(()=>{
+    if(session){
+      // @ts-ignore
+      configureUser(session?.userData.token, session?.userData.socialType);
+    }
+  },[session]);
 
   const handleMonthlyClick = () => {
     setPlaceHolder("월 여유자금 입력");
@@ -30,9 +42,22 @@ const Search = () => {
     setPlaceHolder("추가 가용 자산");
   };
 
+  const configureUser=async(token:String, provider:String)=>{
+    try{
+      let res = await authApi.getUser(token, provider);
+      if(res.status === 200){
+        setUser(res.data.memberResponse);
+      }else{
+        setUser(null);
+      }
+    }catch{
+      setUser(null);
+    }
+  }
+
   return (
     <main>
-      <AppBar backgroundColor="transparent" color="#334835" />
+      <AppBar backgroundColor="transparent" color="#334835" user={user}/>
       <Container className={ibmPlexSansKR.className}>
         <LeftContainer>
           <Upper>
