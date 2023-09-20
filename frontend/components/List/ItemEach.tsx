@@ -9,7 +9,8 @@ export default function ItemEach({ width, height }) {
   // 하트 아이콘 클릭 시 색상 변경
   const [isFilled, setIsFilled] = useState(false);
 
-  const handleHeartClick = () => {
+  const handleHeartClick = (e:React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
     setIsFilled(!isFilled);
   };
 
@@ -34,7 +35,7 @@ export default function ItemEach({ width, height }) {
         window.location.href = "/detail/123";
       }}
     >
-      <div onClick={handleHeartClick}>
+      <div onClick={(e:React.MouseEvent<HTMLElement>)=>handleHeartClick(e)}>
         {!isFilled ? (
           <HeartSvg
             xmlns="http://www.w3.org/2000/svg"
@@ -143,6 +144,6 @@ const HeartSvg = styled.svg`
   right: 30px;
   height: 1.5rem;
   width: 1.5rem;
-  z-index: 9999;
+  /* z-index: 9999; */
   cursor: pointer;
 `;
