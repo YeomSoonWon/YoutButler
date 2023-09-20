@@ -1,6 +1,7 @@
 import pymysql
 import os
 from langchain.chat_models import ChatOpenAI
+from langchain.memory import ConversationBufferMemory
 from langchain.utilities import SQLDatabase
 from langchain.prompts.prompt import PromptTemplate
 from langchain.llms import OpenAI
@@ -53,6 +54,8 @@ def query_loan(chat):
     If someone asks for the table 개인신용대출, 최저금리를 조회하기 위해 사용되는 열 이름을 신용점수에 따라 적절히 선택하여야 한다.
 
     Question: {input}"""
+
+    # memory = ConversationBufferMemory(memory_key="chat_history", memory_type="list", max_len=10)
 
     PROMPT = PromptTemplate(
         input_variables=["input", "table_info", "dialect"], template=_DEFAULT_TEMPLATE
