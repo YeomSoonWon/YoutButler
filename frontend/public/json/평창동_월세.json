@@ -1,0 +1,125 @@
+{
+    "realEstateTypeName": "월세",
+    "roomTypeList": [
+        {
+            "roomType": "빌라",
+            "complexNo": 2339853885,
+            "complexName": "빌라",
+            "sidoName": "서울시",
+            "guName": "종로구",
+            "dongName": "평창동",
+            "latitude": 37.606499,
+            "longitude": 126.97059,
+            "descriptionTagList": [
+                "25년이상",
+                "융자금없는",
+                "방세개",
+                "화장실한개"
+            ],
+            "floor": "고",
+            "pyeong": "24",
+            "supplyArea": 80,
+            "exclusiveArea": 59,
+            "maintenanceFee": 30000,
+            "color": "red",
+            "checked": true,
+            "imageSrc": "/20230918_90/land_naver_16950265260885E7H4_JPEG/170851202309181353350.jpg"
+        },
+        {
+            "roomType": "빌라",
+            "complexNo": 2340239754,
+            "complexName": "빌라",
+            "sidoName": "서울시",
+            "guName": "종로구",
+            "dongName": "평창동",
+            "latitude": 37.606499,
+            "longitude": 126.97059,
+            "descriptionTagList": [
+                "25년이상",
+                "융자금없는",
+                "올수리",
+                "방세개"
+            ],
+            "floor": 3,
+            "pyeong": "24",
+            "supplyArea": 80,
+            "exclusiveArea": 59,
+            "maintenanceFee": 30000,
+            "color": "red",
+            "checked": true,
+            "imageSrc": ""
+        },
+        {
+            "roomType": "빌라",
+            "complexNo": 2339734253,
+            "complexName": "연립",
+            "sidoName": "서울시",
+            "guName": "종로구",
+            "dongName": "평창동",
+            "latitude": 37.608895,
+            "longitude": 126.971021,
+            "descriptionTagList": [
+                "25년이내",
+                "융자금없는",
+                "1층",
+                "소형평수"
+            ],
+            "floor": 1,
+            "pyeong": "10",
+            "supplyArea": 35,
+            "exclusiveArea": 31,
+            "maintenanceFee": 30000,
+            "color": "red",
+            "checked": true,
+            "imageSrc": ""
+        },
+        {
+            "roomType": "빌라",
+            "complexNo": 2336723844,
+            "complexName": "연립",
+            "sidoName": "서울시",
+            "guName": "종로구",
+            "dongName": "평창동",
+            "latitude": 37.604927,
+            "longitude": 126.967422,
+            "descriptionTagList": [
+                "25년이내",
+                "융자금없는",
+                "화장실한개",
+                "소형평수"
+            ],
+            "floor": "저",
+            "pyeong": "13",
+            "supplyArea": 45,
+            "exclusiveArea": 36,
+            "maintenanceFee": 30000,
+            "color": "red",
+            "checked": true,
+            "imageSrc": ""
+        },
+        {
+            "roomType": "빌라",
+            "complexNo": 2336823181,
+            "complexName": "기타",
+            "sidoName": "서울시",
+            "guName": "종로구",
+            "dongName": "평창동",
+            "latitude": 37.608895,
+            "longitude": 126.971021,
+            "descriptionTagList": [
+                "25년이내",
+                "융자금적은",
+                "1층",
+                "소형평수"
+            ],
+            "floor": 1,
+            "pyeong": "10",
+            "supplyArea": 36,
+            "exclusiveArea": 31,
+            "maintenanceFee": 30000,
+            "color": "red",
+            "checked": true,
+            "imageSrc": ""
+        }
+    ]
+}
