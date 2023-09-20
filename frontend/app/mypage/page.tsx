@@ -7,107 +7,33 @@ import styled from "styled-components";
 import colors from "@/constants/colors";
 import UserInfoEach from "@/components/List/UserInfoEach";
 import ChatTitleEach from "@/components/List/ChatTitleEach";
+import LeftChat from "@/components/Chat/LeftChat";
+import RightChat from "@/components/Chat/RightChat";
 import ItemEach from "@/components/List/ItemEach";
-import Button from "@/components/Button/Button";
-import Link from "next/link";
-import Chatting from "@/components/Chat/Chatting";
-import { useSession } from "next-auth/react";
-import { useEffect } from "react";
-import authApi from "@/api/authApi";
 
 const Profile = () => {
   const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
-  const {data:session, status}  = useSession();
-  const [user, setUser] = useState(null);
-
-  useEffect(()=>{
-    if(session){
-      // @ts-ignore
-      configureUser(session?.userData.token, session?.userData.socialType);
-    }
-
-  },[session]);
-
-  useEffect(()=>{
-    if(status === "unauthenticated"){
-      alert("잘못된 접근입니다.")
-      window.location.href="/";
-    }
-  },[status]);
-
-  const configureUser=async(token:String, provider:String)=>{
-    try{
-      let res = await authApi.getUser(token, provider);
-      if(res.status === 200){
-        console.log(res.data);
-        setUser(res.data.memberResponse);
-      }else{
-        alert("비정상적인 접근입니다.");
-        window.location.href="/";
-      }
-    }catch{
-      alert("비정상적인 접근입니다.");
-      window.location.href="/";
-    }
-  }
 
   const handleTitleClick = (index) => {
     setSelectedTitleIndex(index);
-    // todo : selectedTitleIndex의 값을 통해 유저의 채팅 목록 중 매물에 맞는 채팅 출력
   };
-
-  const deleteUser = async()=>{
-    let realDelete = window.confirm("정말 탈퇴하시겠습니까?");
-    if(realDelete){
-      // @ts-ignore
-      let res = await authApi.deleteUser(session?.userData);
-      if(res.data.message === "탈퇴 완료"){
-        alert("탈퇴되었습니다.");
-        window.location.href="/";
-      }
-    }
-  }
-
-  const chatMessages = [
-    { text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?", isRight: false },
-    { text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?", isRight: false },
-    { text: "어쩌고 .. 저쩌고...", isRight: true },
-    { text: "어쩌고 .. 저쩌고...", isRight: true },
-    { text: "어쩌고 .. 저쩌고...", isRight: true },
-    { text: "어쩌고 .. 저쩌고...", isRight: true },
-    {
-      text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?ssssssssssssssssssssssss",
-      isRight: false,
-    },
-  ];
-
   return (
     <main>
-      <AppBar backgroundColor="transparent" color="#334835" user={user} />
+      <AppBar backgroundColor="transparent" color="#334835" />
       <Container>
         <TitleDiv>
-          <NameP>{user?.nickname}님,</NameP>
+          <NameP>김싸피님,</NameP>
           <p>당신의집사 마이페이지에 오신 것을 환영합니다.</p>
         </TitleDiv>
         <ContentDiv>
           <LeftDiv>
-            <UserInfoEach title="아이디" value={user?.nickname} />
-            <UserInfoEach title="이메일" value={user?.email} />
-            <UserInfoEach title="나이" value={user?.age} />
-            <UserInfoEach title="주택 수" value={user?.numberOfHouses} />
-            <UserInfoEach title="부동산 거래 예산" value={user?.holdingAsset} />
-            <UserInfoEach title="월 가용자산" value={user?.monthlyAvailableAsset} />
-            <UserInfoEach title="신용도" value={user?.creditRating} />
-            <BtnDiv>
-              <Link href="/modify">
-                <Button Kind="small" Rounded="square" Variant="yellowFilled">
-                  회원정보 수정
-                </Button>
-              </Link>
-              <Button Kind="small" Rounded="square" Variant="redOutline" onClick={deleteUser}>
-                회원 탈퇴
-              </Button>
-            </BtnDiv>
+            <UserInfoEach title="아이디" value="ssafy123" />
+            <UserInfoEach title="이메일" value="ssafykim1@gmail.com" />
+            <UserInfoEach title="나이" value="29세" />
+            <UserInfoEach title="주택 수" value="무주택" />
+            <UserInfoEach title="부동산 거래 예산" value="15700만원" />
+            <UserInfoEach title="월 가용자산" value="120만원" />
+            <UserInfoEach title="신용도" value="972" />
           </LeftDiv>
           <RightDiv>
             <RightUpperDiv>
@@ -141,7 +67,11 @@ const Profile = () => {
                   />
                 </ChatTitleDiv>
                 <ChatDiv>
-                  <Chatting messages={chatMessages} />
+                  <LeftChat message="안녕하세요 당신의 집사입니다 :)" />
+                  <LeftChat message="대출 상품 추천을 도와드릴까요?" />
+                  <RightChat message="네 금리 가장 낮은 상품으로 찾아주세요...." />
+                  <RightChat message="국민은행 대출 상품으로 찾아주세요!" />
+                  <RightChat message="금리인하요구권은 언제부터 신청가능한가요??" />
                 </ChatDiv>
               </ChatListDiv>
             </RightUpperDiv>
@@ -216,7 +146,7 @@ const RightDiv = styled.div`
 const LeftDiv = styled.div`
   border: solid 1px ${colors.lightgray};
   width: 30%;
-  height: 53rem;
+  height: 47.2rem;
   position: sticky;
   top: 1rem;
 `;
@@ -237,7 +167,7 @@ const ChatListDiv = styled.div`
 const ChatDiv = styled.div`
   width: 65%;
   overflow-y: scroll;
-  padding: 0 1rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -320,14 +250,6 @@ const LikeListDiv = styled.div`
   &::-webkit-scrollbar-thumb:active {
     background-color: #656c62; /* 스크롤바 thumb 클릭 색상 */
   }
-`;
-
-const BtnDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 5.5rem;
-  gap: 1rem;
 `;
 
 export default Profile;

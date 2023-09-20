@@ -17,7 +17,7 @@ const PrivateUserApi:Axios = axios.create({
     }
 });
 
-const userApi = {
+const authApi = {
     modify : async(userId:Number, modifyData:any) =>{
         // TODO : accessToken과 변경 데이터(자산, 월급, 나이, 성별,)를 이용한 유저 정보 수정 로직
         let res = await PrivateUserApi.patch(`/modify/${userId}`,{
@@ -27,4 +27,4 @@ const userApi = {
     }
 }
 
-export default userApi;
+export default authApi;

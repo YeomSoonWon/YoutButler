@@ -1,44 +1,16 @@
+"use client";
+
 // Nextjs 13 부터는 app directory 기반 라우팅 진행 - 이번 버전부터 베타로 진행하는 만큼
 import AppBar from "@/components/AppBar";
+import styled from "styled-components";
+import Image from "next/image";
 import mainImg from "@/public/assets/mainImg.png";
+import ItemEach from "@/components/List/ItemEach";
 import { IBM_Plex_Sans_KR } from "@next/font/google";
 import Footer from "@/components/Footer";
 import Carousel from "@/components/Button/Carousel";
 import Link from "next/link";
 import colors from "@/constants/colors";
-import {
-  ContainerDiv,
-  UpperDiv,
-  MainImg,
-  PDiv,
-  FirstP,
-  SecondP,
-  InputDiv,
-  StyledInput,
-  SearchBtn,
-  StyledSvg,
-  MiddleDiv,
-  ListAboutDiv,
-  ViewMoreDiv,
-  NextSvgDiv,
-  NextSvg,
-  ListContainerDiv,
-  LowerDiv,
-  TitleP,
-  ContentP,
-  ContentDiv,
-  FirstDiv,
-  CircleDiv,
-  AboutSvg,
-  AboutTitleP,
-  AboutContentP,
-  SecondDiv,
-  CircleSecondDiv,
-} from "@/components/MainPage/MainPage";
-import { getServerSession } from "next-auth/next";
-import authOptions from "@/Oauth/AuthOption";
-import authApi from "@/api/authApi";
-import ActivatedCheck from "@/components/Authorization/ActivatedCheck";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -53,27 +25,13 @@ const items = [
   { height: "19rem", width: "18rem" },
 ];
 
-const Home = async () => {
-  const session = await getServerSession(authOptions);
-  let user = null;
-  let isActivated = null;
+// 어렵거나 아니다싶으면 언제든 Next12로 돌아갈 수 있어야(다행히도 하위호환 지원)
+const Home = () => {
+  // const session = await getServerSession(authOptions);
 
-  // @ts-ignore
-  if (session?.userData) {
-    try{
-      // @ts-ignore
-      let res = await authApi.getUser(session.userData.token, session.userData.socialType);
-      console.log("Mainpage get User",res.data);
-      user = res.data.memberResponse;
-      isActivated = res.data.activated;
-    }catch(e){
-      user = null;
-    }
-  }
   return (
     <ContainerDiv>
-      <ActivatedCheck isActivated={isActivated}/>
-      <AppBar backgroundColor={colors.darkgreen} color="white" user={user} />
+      <AppBar backgroundColor={colors.darkgreen} color="white" />
       <UpperDiv className={ibmPlexSansKR.className}>
         <MainImg
           src={mainImg}
@@ -88,6 +46,7 @@ const Home = async () => {
             <StyledInput
               type="text"
               placeholder="원하시는 지역 또는 단지명을 입력해주세요"
+              // className={ibmPlexSansKR.className}
             />
             <SearchBtn>
               <StyledSvg
@@ -204,215 +163,215 @@ const Home = async () => {
   );
 };
 
-// const ContainerDiv = styled.main`
-//   margin: 0;
-// `;
+const ContainerDiv = styled.main`
+  margin: 0;
+`;
 
-// const UpperDiv = styled.div`
-//   height: 40rem;
-//   position: relative;
-// `;
+const UpperDiv = styled.div`
+  height: 40rem;
+  position: relative;
+`;
 
-// const FirstP = styled.p`
-//   font-size: 2.2rem;
-//   font-weight: 600;
-//   margin-bottom: 1rem;
-//   letter-spacing: 0.1rem;
-// `;
+const FirstP = styled.p`
+  font-size: 2.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  letter-spacing: 0.1rem;
+`;
 
-// const SecondP = styled.p`
-//   font-size: 2.4rem;
-//   font-weight: 600;
-//   margin-bottom: 2rem;
-//   letter-spacing: 0.2rem;
-// `;
+const SecondP = styled.p`
+  font-size: 2.4rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  letter-spacing: 0.2rem;
+`;
 
-// const StyledInput = styled.input`
-//   padding: 1rem 1.5rem;
-//   width: 38rem;
-//   border-radius: 5rem;
-//   border: none;
-//   font-size: 1rem;
+const StyledInput = styled.input`
+  padding: 1rem 1.5rem;
+  width: 38rem;
+  border-radius: 5rem;
+  border: none;
+  font-size: 1rem;
 
-//   &:focus {
-//     box-shadow: 0 0 1rem 0.4rem rgba(255, 255, 255);
-//     outline-color: transparent;
-//   }
-// `;
+  &:focus {
+    box-shadow: 0 0 1rem 0.4rem rgba(255, 255, 255);
+    outline-color: transparent;
+  }
+`;
 
-// const MainImg = styled(Image)`
-//   vertical-align: middle;
-// `;
+const MainImg = styled(Image)`
+  vertical-align: middle;
+`;
 
-// const PDiv = styled.div`
-//   text-align: center;
-//   position: absolute;
-//   top: 50%;
-//   left: 50%;
-//   transform: translate(-50%, -50%);
-//   color: white;
-// `;
+const PDiv = styled.div`
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+`;
 
-// const InputDiv = styled.div`
-//   align-items: center;
-//   display: flex;
-//   height: 5rem;
-// `;
+const InputDiv = styled.div`
+  align-items: center;
+  display: flex;
+  height: 5rem;
+`;
 
-// const StyledSvg = styled.svg`
-//   height: 1.5rem;
-//   width: 1.5rem;
-// `;
+const StyledSvg = styled.svg`
+  height: 1.5rem;
+  width: 1.5rem;
+`;
 
-// const MiddleDiv = styled.div`
-//   height: 30rem;
-//   background-color: #e8f9e9;
-//   display: flex;
-//   flex-direction: column;
-//   padding: 5rem 10rem;
-// `;
+const MiddleDiv = styled.div`
+  height: 30rem;
+  background-color: #e8f9e9;
+  display: flex;
+  flex-direction: column;
+  padding: 5rem 10rem;
+`;
 
-// const LowerDiv = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   text-align: center;
-//   align-items: center;
-//   gap: 1rem;
-//   padding: 5rem 5rem 10rem 5rem;
-// `;
+const LowerDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  gap: 1rem;
+  padding: 5rem 5rem 10rem 5rem;
+`;
 
-// const TitleP = styled.p`
-//   font-weight: 600;
-//   font-size: 2rem;
-//   color: #312d2d;
-// `;
+const TitleP = styled.p`
+  font-weight: 600;
+  font-size: 2rem;
+  color: #312d2d;
+`;
 
-// const ContentP = styled.p`
-//   font-size: 1.2rem;
-//   width: 30rem;
-//   line-height: 1.5rem;
-//   color: #5d5d5d;
-// `;
+const ContentP = styled.p`
+  font-size: 1.2rem;
+  width: 30rem;
+  line-height: 1.5rem;
+  color: #5d5d5d;
+`;
 
-// const ContentDiv = styled.div`
-//   width: 80%;
-//   display: flex;
-//   flex-direction: row;
-//   justify-content: space-around;
-//   padding-top: 2rem;
-// `;
+const ContentDiv = styled.div`
+  width: 80%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding-top: 2rem;
+`;
 
-// const FirstDiv = styled.div`
-//   width: 20rem;
-//   height: 24rem;
-//   background-color: #e8f9e9;
-//   border-radius: 0.8rem;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   gap: 1rem;
-// `;
+const FirstDiv = styled.div`
+  width: 20rem;
+  height: 24rem;
+  background-color: #e8f9e9;
+  border-radius: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+`;
 
-// const SecondDiv = styled.div`
-//   width: 20rem;
-//   height: 24rem;
-//   border: solid 2px #e8f9e9;
-//   border-radius: 0.8rem;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   gap: 1rem;
-// `;
+const SecondDiv = styled.div`
+  width: 20rem;
+  height: 24rem;
+  border: solid 2px #e8f9e9;
+  border-radius: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+`;
 
-// const CircleDiv = styled.div`
-//   height: 8rem;
-//   width: 8rem;
-//   border-radius: 10rem;
-//   box-shadow: 0 5px 5px 2px #a6baa7 inset;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `;
+const CircleDiv = styled.div`
+  height: 8rem;
+  width: 8rem;
+  border-radius: 10rem;
+  box-shadow: 0 5px 5px 2px #a6baa7 inset;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
-// const CircleSecondDiv = styled.div`
-//   height: 8rem;
-//   width: 8rem;
-//   border-radius: 10rem;
-//   box-shadow: 0 5px 5px 2px #a6baa7;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `;
+const CircleSecondDiv = styled.div`
+  height: 8rem;
+  width: 8rem;
+  border-radius: 10rem;
+  box-shadow: 0 5px 5px 2px #a6baa7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
-// const AboutTitleP = styled.p`
-//   color: #312d2d;
-//   font-size: 1.2rem;
-//   margin-top: 1rem;
-//   font-weight: 500;
-// `;
+const AboutTitleP = styled.p`
+  color: #312d2d;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  font-weight: 500;
+`;
 
-// const AboutContentP = styled.p`
-//   width: 14rem;
-//   color: #5d5d5d;
-//   line-height: 1.3rem;
-// `;
+const AboutContentP = styled.p`
+  width: 14rem;
+  color: #5d5d5d;
+  line-height: 1.3rem;
+`;
 
-// const AboutSvg = styled.svg`
-//   height: 4rem;
-//   width: 4rem;
-//   fill: #334835;
-// `;
+const AboutSvg = styled.svg`
+  height: 4rem;
+  width: 4rem;
+  fill: #334835;
+`;
 
-// const ListContainerDiv = styled.div`
-//   height: 23rem;
-//   display: flex;
-//   position: relative;
-//   overflow: hidden;
-//   justify-content: space-around;
-//   align-items: center;
-//   background-color: white;
-//   padding: 1rem;
-// `;
+const ListContainerDiv = styled.div`
+  height: 23rem;
+  display: flex;
+  position: relative;
+  overflow: hidden;
+  justify-content: space-around;
+  align-items: center;
+  background-color: white;
+  padding: 1rem;
+`;
 
-// const ListAboutDiv = styled.div`
-//   display: flex;
-//   justify-content: space-between;
-// `;
+const ListAboutDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
 
-// const NextSvg = styled.svg`
-//   cursor: pointer;
-//   fill: #3f3d3d;
-// `;
+const NextSvg = styled.svg`
+  cursor: pointer;
+  fill: #3f3d3d;
+`;
 
-// const ViewMoreDiv = styled.div`
-//   display: flex;
-//   align-items: center;
-//   cursor: pointer;
-// `;
+const ViewMoreDiv = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+`;
 
-// const NextSvgDiv = styled.div`
-//   height: 100%;
-//   padding: 0.5rem;
-//   display: flex;
-//   align-items: center;
-// `;
+const NextSvgDiv = styled.div`
+  height: 100%;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+`;
 
-// const ListDiv = styled.div`
-//   width: 95%;
-//   display: flex;
-//   gap: 1rem;
-//   overflow: hidden;
-//   flex-wrap: nowrap;
-// `;
+const ListDiv = styled.div`
+  width: 95%;
+  display: flex;
+  gap: 1rem;
+  overflow: hidden;
+  flex-wrap: nowrap;
+`;
 
-// const SearchBtn = styled.button`
-//   background: none;
-//   border: none;
-//   position: relative;
-//   left: -3.1rem;
-//   cursor: pointer;
-// `;
+const SearchBtn = styled.button`
+  background: none;
+  border: none;
+  position: relative;
+  left: -3.1rem;
+  cursor: pointer;
+`;
 export default Home;

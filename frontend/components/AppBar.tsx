@@ -1,11 +1,9 @@
 "use client";
-
-import { signIn, signOut, } from "next-auth/react";
+import { signIn, signOut, useSession, getSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Noto_Sans_KR, Sunflower } from "next/font/google";
-import favicon from "@/app/favicon.ico";
 
 const notoSansKr = Noto_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -17,28 +15,58 @@ const sunFlower = Sunflower({
   subsets: ["latin"],
 });
 
-const AppBar = ({ backgroundColor, color, user, logoLogout = false }) => {
+const AppBar = ({ backgroundColor, color }) => {
+  const { data: session } = useSession();
+  useEffect(() => {
+    if (!session) return;
+    console.log(session);
+  }, [session]);
+
+  const ultSignOut = () => {
+    signOut();
+  };
+
+  const ContainerDiv = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 4rem;
+    background-color: ${backgroundColor || "#334835"};
+  `;
+
+  const Logo = styled(Link)`
+    font-size: 1.5rem;
+    color: ${color || "white"};
+    text-decoration-line: none;
+    ${({ theme }) => theme.logoFont || ""};
+  `;
+
+  const StyledLink = styled(Link)`
+    color: ${color || "white"};
+    text-decoration-line: none;
+  `;
+
+  const StyledUserName = styled.p`
+  color: ${color || "white"};
+  text-decoration-line: none;
+  `;
+
   return (
-    <ContainerDiv backgroundColor={backgroundColor}>
-      {
-      logoLogout ? 
-      <LogoutLogo color={color} onClick={()=>signOut()}>당신의집사</LogoutLogo>
-      :<Logo href={"/"} color={color}>당신의집사</Logo>
-      }
+    <ContainerDiv>
+      <Logo href={"/"}>당신의집사</Logo>
       <NavDiv className={notoSansKr.className}>
-        <StyledLink href="/search" color={color}>매물검색</StyledLink>
-        {/* <StyledLink href="" color={color}>알림</StyledLink> */}
-        {user ? (
+        <StyledLink href="/search">지도</StyledLink>
+        <StyledLink href="/mypage">마이페이지</StyledLink>
+        <StyledLink href="">알림</StyledLink>
+        {session?.user ? (
           <>
-          <StyledLink href="/mypage" color={color}>마이페이지</StyledLink>
-            <img
-            src={user?.picture ? user?.picture: favicon.src}
-            style={{width:"30px", height:"30px", backgroundColor:"white"}}/>
-            <StyledUserName color={color}>{user?.nickname}</StyledUserName>
+            <img src={session.user.image || ""} />
+            <StyledUserName>{session.user.name}</StyledUserName>
             <YellowBtn onClick={() => signOut()}>로그아웃</YellowBtn>
           </>
         ) : (
           <>
+            <StyledLink href="">회원가입</StyledLink>
             <YellowBtn onClick={() => signIn()}>로그인</YellowBtn>
           </>
         )}
@@ -46,45 +74,6 @@ const AppBar = ({ backgroundColor, color, user, logoLogout = false }) => {
     </ContainerDiv>
   );
 };
-
-interface BgProp{
-  backgroundColor?:string;
-}
-
-interface ColorProp{
-  color?:string;
-}
-
-const ContainerDiv = styled.div<BgProp>`
-display: flex;
-justify-content: space-between;
-align-items: center;
-padding: 1.5rem 4rem;
-background-color: ${(props)=>props.backgroundColor || "#334835"};
-`;
-
-const Logo = styled(Link)<ColorProp>`
-font-size: 1.5rem;
-color: ${(props)=>props.color || "white"};
-text-decoration-line: none;
-`;
-
-const LogoutLogo = styled.div<ColorProp>`
-font-size: 1.5rem;
-color: ${(props)=>props.color || "white"};
-text-decoration-line: none;
-`;
-/* ${({ theme }) => theme.logoFont || ""}; */
-
-const StyledLink = styled(Link)<ColorProp>`
-color: ${(props)=>props.color || "white"};
-text-decoration-line: none;
-`;
-
-const StyledUserName = styled.p<ColorProp>`
-color: ${(props)=>props.color || "white"};
-text-decoration-line: none;
-`;
 
 const YellowBtn = styled.button`
   background-color: #ffc436;
@@ -101,10 +90,9 @@ const YellowBtn = styled.button`
 `;
 
 const NavDiv = styled.div`
-  /* width: 24rem; */
+  width: 24rem;
   display: flex;
   justify-content: space-between;
-  gap : 3rem;
   align-items: center;
 `;
 

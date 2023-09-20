@@ -4,89 +4,11 @@ import AppBar from "@/components/AppBar";
 import Footer from "@/components/Footer";
 import styled from "styled-components";
 import colors from "@/constants/colors";
-import { useSession } from "next-auth/react";
-import React from "react";
-import { useEffect, useState } from "react";
-import authApi from "@/api/authApi";
 
 const Create = () => {
-  const {data:session, status}  = useSession();
-  const [age, setAge] = useState<Number | null>(null);
-  const [houses, setHouses] = useState<string | null>(null);
-  const [budget, setBudget] = useState<Number | null>(null);
-  const [jasan, setJasan] = useState<Number | null>(null);
-  const [credit, setCredit] = useState<Number | null>(null);
-
-  const handleAge = (e:React.ChangeEvent<HTMLInputElement>) => {
-    console.log("age : ", e.target.value);
-    setAge(parseInt(e.target.value));
-  }
-
-  const handleHouses = (e:React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("houses : ", e.target.value);
-    setHouses(e.target.value);
-  }
-
-  const handleBudget = (e:React.ChangeEvent<HTMLInputElement>) => {
-    console.log("budget : ", e.target.value);
-    setBudget(parseInt(e.target.value));
-  }
-
-  const handleJasan = (e:React.ChangeEvent<HTMLInputElement>) => {
-    console.log("jasan : ", e.target.value);
-    setJasan(parseInt(e.target.value));
-  }
-
-  const handleCredit = (e:React.ChangeEvent<HTMLInputElement>) => {
-    console.log("credit : ", e.target.value);
-    setCredit(parseInt(e.target.value));
-  }
-
-  const createUser = async (userData:any | null) =>{
-    if( !age || !houses ||!budget){
-      alert("나이, 주택 수, 예산은 필수입니다.");
-      return;
-    }
-    let res = await authApi.signUp(userData, age, houses, budget, jasan, credit );
-    if(res.status === 200){
-      alert("회원가입 완료");
-      window.location.href="/";
-    }
-  }
-
-  useEffect(() => {
-    console.log(status);
-    if((status === "unauthenticated")){
-      alert("잘못된 접근입니다.");
-      window.location.href="/";
-    }
-  }, [status]);
-
-  useEffect(()=>{
-    // @ts-ignore
-    console.log(session?.userData);
-    if(session){
-          // @ts-ignore
-        configureUser(session?.userData.token, session?.userData.socialType);
-      }
-    },[session]);
-
-  const configureUser=async(token:String, provider:String)=>{
-    try{
-      let res = await authApi.getUser(token, provider);
-      if(res.status === 200){
-        alert("이미 존재하는 회원입니다.");
-        window.location.href="/";
-      }
-    }catch{
-      alert("비정상적인 접근입니다.");
-      window.location.href="/";
-    }
-  }
-
   return (
     <Container>
-      <AppBar backgroundColor="transparent" color="#334835" user={null} logoLogout={true}/>
+      <AppBar backgroundColor="transparent" color="#334835" />
       <CenterDiv>
         <MiddleDiv>
           <TitleDiv>
@@ -100,16 +22,8 @@ const Create = () => {
           </TitleDiv>
           <InputDiv>
             <InputTitleP>필수</InputTitleP>
-            <StyledInput
-              type="number"
-              placeholder="나이"
-              onChange={(e)=>{handleAge(e)}}
-              required
-            />
-            <StyledSelect
-              onChange={(e)=>{handleHouses(e)}}
-              required
-              >
+            <StyledInput type="number" placeholder="나이" required />
+            <StyledSelect required>
               <option value="">-- 주택 수를 선택하세요 --</option>
               <option value="none">무주택</option>
               <option value="one">1주택</option>
@@ -118,7 +32,6 @@ const Create = () => {
             </StyledSelect>
             <StyledInput
               type="number"
-              onChange={(e)=>{handleBudget(e)}}
               required
               placeholder="부동산 거래 예산"
             />
@@ -126,21 +39,10 @@ const Create = () => {
               <InputTitleP>선택</InputTitleP>
               <GrayP>(월세 매물 추천 시 활용됩니다.)</GrayP>
             </SubTitleP>
-            <StyledInput
-              type="number"
-              placeholder="월 가용자산"
-              onChange={(e)=>{handleJasan(e)}}
-              />
-            <StyledInput
-              type="number"
-              placeholder="신용도"
-              onChange={(e)=>{handleCredit(e)}}
-              />
+            <StyledInput type="number" placeholder="월 가용자산" />
+            <StyledInput type="number" placeholder="신용도" />
           </InputDiv>
-          <YellowBtn onClick={()=>{
-            // @ts-ignore
-            createUser(session?.userData)
-            }}>완료</YellowBtn>
+          <YellowBtn>완료</YellowBtn>
         </MiddleDiv>
       </CenterDiv>
       <Footer />
@@ -206,13 +108,12 @@ const InputTitleP = styled.p`
 const StyledInput = styled.input`
   height: 2rem;
   padding: 0.3rem 0.7rem;
-  border: solid 1px #f1f1f1;
-  background-color: #f1f1f1;
   border-radius: 0.4rem;
+  border: solid 1px #334835;
 
   &:focus {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-    outline-color: #f1f1f1;
+    outline-color: transparent;
   }
 
   &::-webkit-outer-spin-button,
@@ -225,14 +126,11 @@ const StyledInput = styled.input`
 const StyledSelect = styled.select`
   height: 2.7rem;
   padding: 0.3rem 0.5rem;
-  border: solid 1px #f1f1f1;
-  background-color: #f1f1f1;
   border-radius: 0.4rem;
+  border: solid 1px #334835;
 `;
 
-// Nextjs 문법은 <p> 태그 안에 <p/>넣을 시 오류 발생합니다.
-// 컴포넌트 이름은 바꾸지 않는 선에서 p만 div로 바꿔서 일단 해결
-const SubTitleP = styled.div`
+const SubTitleP = styled.p`
   display: flex;
   flex-direction: row;
   align-items: center;

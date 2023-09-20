@@ -3,10 +3,6 @@ const nextConfig = {
     compiler:{
         styledComponents:true
     },
-    env: {
-        NEXTAUTH_URL: process.env.NEXTAUTH_URL,
-        NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET
-    },
     async rewrites() {
         return [
             {
