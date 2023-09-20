@@ -5,7 +5,9 @@ import com.ficrew.yourbutler.member.domain.entity.Member;
 public interface MemberRepository {
 
     Member save(Member member);
-    Member findByEmail(String email);
+
+    Member findBySocialTypeAndIdentifier(String socialType, String identifier);
 
     boolean existsByEmail(String email);
+
 }

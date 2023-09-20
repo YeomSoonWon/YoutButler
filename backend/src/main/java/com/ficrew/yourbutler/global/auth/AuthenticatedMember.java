@@ -14,6 +14,8 @@ import java.util.Collection;
 @AllArgsConstructor
 public class AuthenticatedMember implements UserDetails {
     private Long id;
+    private String identifier;
+    private String socialType;
     private String email;
     private String password;
     private String authority;
@@ -21,6 +23,8 @@ public class AuthenticatedMember implements UserDetails {
     public static AuthenticatedMember entityToDto(Member member) {
         return new AuthenticatedMember(
                 member.getId(),
+                member.getIdentifier(),
+                member.getSocialType(),
                 member.getEmail(),
                 member.getPassword(),
                 member.getRole().name()
@@ -39,7 +43,7 @@ public class AuthenticatedMember implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email;
+        return socialType + " " + identifier;
     }
 
     @Override

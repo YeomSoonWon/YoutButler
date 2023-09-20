@@ -21,7 +21,9 @@ public enum ErrorCode {
     /*
      * User
      */
-    DUPLICATED_EMAIL(HttpStatus.BAD_REQUEST, "USER_DUPLICATED_EMAIL", "이미 존재하는 이메일입니다.");
+    DUPLICATED_EMAIL(HttpStatus.BAD_REQUEST, "USER_DUPLICATED_EMAIL", "이미 존재하는 이메일입니다."),
+    INCONSISTENCY_IDENTIFIER(HttpStatus.BAD_REQUEST, "IDENTIFIER_IS_INCONSISTENT", "입력된 식별자와 토큰이 일치하지 않습니다."),
+    INVALID_SOCIAL_TYPE(HttpStatus.BAD_REQUEST, "SOCIAL_TYPE_IS_INVALID", "소셜 타입을 확인해주세요.");
 
     private final HttpStatus status;
     private final String code;
