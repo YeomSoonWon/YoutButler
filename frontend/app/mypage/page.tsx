@@ -21,9 +21,8 @@ const Profile = () => {
   const [user, setUser] = useState(null);
 
   useEffect(()=>{
-    // @ts-ignore
-    setUser(session?.userData);
     if(session){
+      // @ts-ignore
       configureUser(session?.userData.token, session?.userData.socialType);
     }
 
@@ -54,7 +53,20 @@ const Profile = () => {
 
   const handleTitleClick = (index) => {
     setSelectedTitleIndex(index);
+    // todo : selectedTitleIndex의 값을 통해 유저의 채팅 목록 중 매물에 맞는 채팅 출력
   };
+
+  const deleteUser = async()=>{
+    let realDelete = window.confirm("정말 탈퇴하시겠습니까?");
+    if(realDelete){
+      // @ts-ignore
+      let res = await authApi.deleteUser(session?.userData);
+      if(res.data.message === "탈퇴 완료"){
+        alert("탈퇴되었습니다.");
+        window.location.href="/";
+      }
+    }
+  }
 
   const chatMessages = [
     { text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?", isRight: false },
@@ -92,7 +104,7 @@ const Profile = () => {
                   회원정보 수정
                 </Button>
               </Link>
-              <Button Kind="small" Rounded="square" Variant="redOutline">
+              <Button Kind="small" Rounded="square" Variant="redOutline" onClick={deleteUser}>
                 회원 탈퇴
               </Button>
             </BtnDiv>

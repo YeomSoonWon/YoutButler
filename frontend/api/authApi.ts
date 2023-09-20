@@ -89,9 +89,17 @@ const authApi = {
                 Authorization : `Bearer ${userData?.accessToken}`
             }
         });
-
         return res;
     },
+
+    deleteUser : async(userData:any) =>{
+        let res = await PublicAuthApi.delete("",{
+            headers : {
+                Authorization : `Bearer ${userData?.accessToken}`
+            }
+        });
+        return res;
+    }
 }
 
 export default authApi;

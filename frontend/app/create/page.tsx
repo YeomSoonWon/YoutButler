@@ -5,7 +5,8 @@ import Footer from "@/components/Footer";
 import styled from "styled-components";
 import colors from "@/constants/colors";
 import { useSession } from "next-auth/react";
-import { useEffect, useState, React } from "react";
+import React from "react";
+import { useEffect, useState } from "react";
 import authApi from "@/api/authApi";
 
 const Create = () => {
@@ -18,27 +19,27 @@ const Create = () => {
 
   const handleAge = (e:React.ChangeEvent<HTMLInputElement>) => {
     console.log("age : ", e.target.value);
-    setAge(e.target.value);
+    setAge(parseInt(e.target.value));
   }
 
-  const handleHouses = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleHouses = (e:React.ChangeEvent<HTMLSelectElement>) => {
     console.log("houses : ", e.target.value);
     setHouses(e.target.value);
   }
 
   const handleBudget = (e:React.ChangeEvent<HTMLInputElement>) => {
     console.log("budget : ", e.target.value);
-    setBudget(e.target.value);
+    setBudget(parseInt(e.target.value));
   }
 
   const handleJasan = (e:React.ChangeEvent<HTMLInputElement>) => {
     console.log("jasan : ", e.target.value);
-    setJasan(e.target.value);
+    setJasan(parseInt(e.target.value));
   }
 
   const handleCredit = (e:React.ChangeEvent<HTMLInputElement>) => {
     console.log("credit : ", e.target.value);
-    setCredit(e.target.value);
+    setCredit(parseInt(e.target.value));
   }
 
   const createUser = async (userData:any | null) =>{
@@ -62,9 +63,10 @@ const Create = () => {
   }, [status]);
 
   useEffect(()=>{
-    console.log(session?.userData);
     // @ts-ignore
+    console.log(session?.userData);
     if(session){
+          // @ts-ignore
         configureUser(session?.userData.token, session?.userData.socialType);
       }
     },[session]);
@@ -135,7 +137,10 @@ const Create = () => {
               onChange={(e)=>{handleCredit(e)}}
               />
           </InputDiv>
-          <YellowBtn onClick={()=>{createUser(session?.userData)}}>완료</YellowBtn>
+          <YellowBtn onClick={()=>{
+            // @ts-ignore
+            createUser(session?.userData)
+            }}>완료</YellowBtn>
         </MiddleDiv>
       </CenterDiv>
       <Footer />

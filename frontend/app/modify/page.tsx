@@ -4,22 +4,23 @@ import AppBar from "@/components/AppBar";
 import Footer from "@/components/Footer";
 import styled from "styled-components";
 import colors from "@/constants/colors";
-import {React, useState, useEffect} from 'react';
+import React from "react";
+import {useState, useEffect} from 'react';
 import { useSession } from "next-auth/react";
 import authApi from "@/api/authApi";
 
 const Modify = () => {
   const {data:session, status}  = useSession();
   const [user, setUser] = useState(null);
-  const [age, setAge] = useState<Number | null>();
+  const [age, setAge] = useState<number | null>();
   const [houses, setHouses] = useState<string>("none");
-  const [budget, setBudget] = useState<Number | null>();
-  const [jasan, setJasan] = useState<Number | null>();
-  const [credit, setCredit] = useState<Number | null>();
+  const [budget, setBudget] = useState<number | null>();
+  const [jasan, setJasan] = useState<number | null>();
+  const [credit, setCredit] = useState<number | null>();
 
   useEffect(()=>{
-    //@ts-ignore
     if(session){
+      //@ts-ignore
       configureUser(session?.userData.token, session?.userData.socialType);
     }
 
@@ -59,27 +60,27 @@ const Modify = () => {
 
   const handleAge = (e:React.ChangeEvent<HTMLInputElement>) => {
     console.log("age : ", e.target.value);
-    setAge(e.target.value);
+    setAge(parseInt(e.target.value));
   }
 
-  const handleHouses = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleHouses = (e:React.ChangeEvent<HTMLSelectElement>) => {
     console.log("houses : ", e.target.value);
     setHouses(e.target.value);
   }
 
   const handleBudget = (e:React.ChangeEvent<HTMLInputElement>) => {
     console.log("budget : ", e.target.value);
-    setBudget(e.target.value);
+    setBudget(parseInt(e.target.value));
   }
 
   const handleJasan = (e:React.ChangeEvent<HTMLInputElement>) => {
     console.log("jasan : ", e.target.value);
-    setJasan(e.target.value);
+    setJasan(parseInt(e.target.value));
   }
 
   const handleCredit = (e:React.ChangeEvent<HTMLInputElement>) => {
     console.log("credit : ", e.target.value);
-    setCredit(e.target.value);
+    setCredit(parseInt(e.target.value));
   }
 
   const modifyUser = async (userData:any | null) =>{
@@ -159,7 +160,10 @@ const Modify = () => {
             onChange={(e)=>{handleCredit(e)}}
             />
           </InputDiv>
-          <YellowBtn onClick={()=>{modifyUser(session?.userData)}}>수정</YellowBtn>
+          <YellowBtn onClick={()=>{
+            // @ts-ignore
+            modifyUser(session?.userData)
+            }}>수정</YellowBtn>
           <YellowBtn onClick={goHome}>취소</YellowBtn>
         </MiddleDiv>
       </CenterDiv>

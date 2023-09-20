@@ -15,6 +15,7 @@ import { IBM_Plex_Sans_KR } from "next/font/google";
 import InfoBubble from "@/components/List/InfoBubble";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
+import authApi from "@/api/authApi";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -27,16 +28,11 @@ const Search = () => {
   const [user, setUser] = useState(null);
 
   useEffect(()=>{
-    // @ts-ignore
-    setUser(session?.userData);
-  },[session]);
-
-  useEffect(()=>{
-    if(status === "unauthenticated"){
-      // alert("잘못된 접근입니다.")
-      // window.location.href="/";
+    if(session){
+      // @ts-ignore
+      configureUser(session?.userData.token, session?.userData.socialType);
     }
-  },[status]);
+  },[session]);
 
   const handleMonthlyClick = () => {
     setPlaceHolder("월 여유자금 입력");
@@ -45,6 +41,19 @@ const Search = () => {
   const handleCharterClick = () => {
     setPlaceHolder("추가 가용 자산");
   };
+
+  const configureUser=async(token:String, provider:String)=>{
+    try{
+      let res = await authApi.getUser(token, provider);
+      if(res.status === 200){
+        setUser(res.data.memberResponse);
+      }else{
+        setUser(null);
+      }
+    }catch{
+      setUser(null);
+    }
+  }
 
   return (
     <main>

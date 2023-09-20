@@ -53,7 +53,6 @@ const items = [
   { height: "19rem", width: "18rem" },
 ];
 
-// 어렵거나 아니다싶으면 언제든 Next12로 돌아갈 수 있어야(다행히도 하위호환 지원)
 const Home = async () => {
   const session = await getServerSession(authOptions);
   let user = null;
@@ -61,8 +60,8 @@ const Home = async () => {
 
   // @ts-ignore
   if (session?.userData) {
-    // @ts-ignore
     try{
+      // @ts-ignore
       let res = await authApi.getUser(session.userData.token, session.userData.socialType);
       console.log("Mainpage get User",res.data);
       user = res.data.memberResponse;

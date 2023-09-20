@@ -26,11 +26,11 @@ const AppBar = ({ backgroundColor, color, user, logoLogout = false }) => {
       :<Logo href={"/"} color={color}>당신의집사</Logo>
       }
       <NavDiv className={notoSansKr.className}>
-        <StyledLink href="/search" color={color}>지도</StyledLink>
-        <StyledLink href="/mypage" color={color}>마이페이지</StyledLink>
-        <StyledLink href="" color={color}>알림</StyledLink>
+        <StyledLink href="/search" color={color}>매물검색</StyledLink>
+        {/* <StyledLink href="" color={color}>알림</StyledLink> */}
         {user ? (
           <>
+          <StyledLink href="/mypage" color={color}>마이페이지</StyledLink>
             <img
             src={user?.picture ? user?.picture: favicon.src}
             style={{width:"30px", height:"30px", backgroundColor:"white"}}/>
@@ -101,9 +101,10 @@ const YellowBtn = styled.button`
 `;
 
 const NavDiv = styled.div`
-  width: 24rem;
+  /* width: 24rem; */
   display: flex;
   justify-content: space-between;
+  gap : 3rem;
   align-items: center;
 `;
 

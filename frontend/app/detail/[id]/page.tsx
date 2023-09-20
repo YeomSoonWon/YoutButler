@@ -44,9 +44,9 @@ import {
   SendSvg,
 } from "@/components/DetailPage/DetailPage";
 import InfoBubble from "@/components/List/InfoBubble";
-// import { TitleP, AboutTitleP, StyledSvg } from "@/components/MainPage/MainPage";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
+import authApi from "@/api/authApi";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -57,14 +57,22 @@ const ibmPlexSansKR = IBM_Plex_Sans_KR({
 const DetailWithID = () => {
   const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
+  const [house, setHouse]=  useState<any|null>(null);
+
+  // todo : url param을 이용한 매물 데이터 가져오기
+  // todo : useEffect를 사용하여 페이지 로딩 시 채팅 인스턴스 생성
+  // todo : 질문 입력 시 질문에 대한 답을 채팅으로 전송
+  // todo : 페이지 unmount 시 지금까지 한 채팅 기록을 서버에 저장
 
   useEffect(() => {
-    // @ts-ignore
-    setUser(session?.userData);
+    if(session){
+      // @ts-ignore
+      configureUser(session?.userData.token, session?.userData.socialType);
+    }
   }, [session]);
 
   // 챗봇 open
-  const [isChatOpen, setIsChatOpen] = useState(user);
+  const [isChatOpen, setIsChatOpen] = useState<Boolean>(false);
 
   const handleChatClick = () => {
     setIsChatOpen(!isChatOpen);
@@ -84,9 +92,22 @@ const DetailWithID = () => {
     },
   ];
 
+  const configureUser=async(token:String, provider:String)=>{
+    try{
+      let res = await authApi.getUser(token, provider);
+      if(res.status === 200){
+        setUser(res.data.memberResponse);
+      }else{
+        setUser(null);
+      }
+    }catch{
+      setUser(null);
+    }
+  }
+
   return (
     <main className={ibmPlexSansKR.className}>
-      <AppBar backgroundColor="transparent" color="#334835" user={null} />
+      <AppBar backgroundColor="transparent" color="#334835" user={user} />
       <Container className={ibmPlexSansKR.className}>
         <DetailCarousel />
         <BottomDiv className={ibmPlexSansKR.className}>
