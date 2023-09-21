@@ -11,20 +11,20 @@ from langchain.prompts.prompt import PromptTemplate
 
 def query_loan(chat):
     db = pymysql.connect(
-        host="127.0.0.1",
-        port=3306,
-        user="ssafy",
+        host="db",
+        port=13306,
+        user="root",
         passwd=f"{os.environ.get('MYSQL_PASSWORD')}",
         db="loan",
         charset="utf8",
         autocommit=True,
     )
 
-
-
-    db = SQLDatabase.from_uri(f"mysql+pymysql://ssafy:{os.environ.get('MYSQL_PASSWORD')}@localhost:3306/loan",
-                              include_tables=["주택담보대출", "전세자금대출", "개인신용대출"],
-                              sample_rows_in_table_info=5)
+    db = SQLDatabase.from_uri(
+        f"mysql+pymysql://db:{os.environ.get('MYSQL_PASSWORD')}@localhost:13306/loan",
+        include_tables=["주택담보대출", "전세자금대출", "개인신용대출"],
+        sample_rows_in_table_info=5,
+    )
 
     # print(db.table_info)
     # llm = OpenAI(temperature=0, verbose=True)
@@ -61,7 +61,9 @@ def query_loan(chat):
         input_variables=["input", "table_info", "dialect"], template=_DEFAULT_TEMPLATE
     )
 
-    db_chain = SQLDatabaseChain.from_llm(llm2, db, prompt=PROMPT, verbose=True, use_query_checker=True)
+    db_chain = SQLDatabaseChain.from_llm(
+        llm2, db, prompt=PROMPT, verbose=True, use_query_checker=True
+    )
     response = db_chain.run(chat)
     print(response)
     return response
@@ -72,6 +74,8 @@ def query_loan(chat):
     # print(data)
     # db.close()
 
-if __name__ == "__main__":
-    query_loan("국민은행에서 가장 낮은 금리로 받을 수 있는 전세자금대출을 2개 알려줘. 그 대출들이 어떤 금리를 가지고 있는지, 그리고 1억을 대출받아서 3년동안 원리금분할상환 방식으로 상환하면 한달마다 얼마를 갚아야 하는지도 알려줘. 대답은 한글이어야 해")
 
+if __name__ == "__main__":
+    query_loan(
+        "국민은행에서 가장 낮은 금리로 받을 수 있는 전세자금대출을 2개 알려줘. 그 대출들이 어떤 금리를 가지고 있는지, 그리고 1억을 대출받아서 3년동안 원리금분할상환 방식으로 상환하면 한달마다 얼마를 갚아야 하는지도 알려줘. 대답은 한글이어야 해"
+    )

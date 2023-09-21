@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+  flask:
+    build:
+      context: ./flask_server
+      dockerfile: Dockerfile
+    links:
+      - "db:mysqldb"
+    ports:
+      - "8000:8000"
+    container_name: flask-container
+    depends_on:
+      - db
+
+  db: # 컨테이너2 : db
+    image: mysql:8.0.32
+    volumes:
+      - ./dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=ssafy
+#      - MYSQL_DATABASE=loan
+    ports:
+      - "13306:13306"
+    container_name: db

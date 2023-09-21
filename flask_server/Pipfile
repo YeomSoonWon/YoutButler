@@ -16,6 +16,9 @@ openai = "*"
 langchain = "*"
 pymysql = "*"
 langchain-experimental = "*"
+flask-cors = "*"
+flask-sock = "*"
+sock = "*"
 
 [dev-packages]
 

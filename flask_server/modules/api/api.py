@@ -5,7 +5,7 @@ class API(NamedTuple):
     """Interface for api."""
 
     type: str
-    #func: Callable[[str], str]
+    # func: Callable[[str], str]
     signature: str
     description: Optional[str] = None
 
