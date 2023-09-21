@@ -11,9 +11,9 @@ from langchain.prompts.prompt import PromptTemplate
 
 def query_loan(chat):
     db = pymysql.connect(
-        host="127.0.0.1",
+        host="mysql-db",
         port=3306,
-        user="ssafy",
+        user="root",
         passwd=f"{os.environ.get('MYSQL_PASSWORD')}",
         db="loan",
         charset="utf8",
@@ -22,7 +22,7 @@ def query_loan(chat):
 
 
 
-    db = SQLDatabase.from_uri(f"mysql+pymysql://ssafy:{os.environ.get('MYSQL_PASSWORD')}@localhost:3306/loan",
+    db = SQLDatabase.from_uri(f"mysql+pymysql://root:{os.environ.get('MYSQL_PASSWORD')}@mysql-db:3306/loan",
                               include_tables=["주택담보대출", "전세자금대출", "개인신용대출"],
                               sample_rows_in_table_info=5)
 
