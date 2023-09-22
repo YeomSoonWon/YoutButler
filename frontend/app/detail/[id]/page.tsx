@@ -46,7 +46,9 @@ import {
 import InfoBubble from "@/components/List/InfoBubble";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
+// import {useRouter} from "next/router";
 import authApi from "@/api/authApi";
+import YeokSam from "@/public/json/역삼동_매매_아파트.json";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -54,11 +56,11 @@ const ibmPlexSansKR = IBM_Plex_Sans_KR({
 });
 
 // const DetailWithID = async () => {
-const DetailWithID = () => {
+const DetailWithID = ({params}) => {
   const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
   const [house, setHouse]=  useState<any|null>(null);
-
+  
   // todo : url param을 이용한 매물 데이터 가져오기
   // todo : useEffect를 사용하여 페이지 로딩 시 채팅 인스턴스 생성
   // todo : 질문 입력 시 질문에 대한 답을 채팅으로 전송
@@ -70,7 +72,22 @@ const DetailWithID = () => {
       configureUser(session?.userData.token, session?.userData.socialType);
     }
   }, [session]);
-
+  
+  useEffect(()=>{
+    console.log(params);
+    if(params.id){
+      for(const item of YeokSam?.roomTypeList){
+        if(parseInt(params.id) === item.complexNo){
+          setHouse(item);
+        }
+      }
+    }
+  },[params]);
+  
+  useEffect(()=>{
+    console.log(house); 
+  },[house]);
+  
   // 챗봇 open
   const [isChatOpen, setIsChatOpen] = useState<Boolean>(false);
 
@@ -113,19 +130,19 @@ const DetailWithID = () => {
         <BottomDiv className={ibmPlexSansKR.className}>
           <LeftDiv>
             <ContainerP>
-              <TitleP>송파아이파크 107동 · 중층</TitleP>
-              <SubP>서울특별시 송파구 삼전동 93-13</SubP>
+              <TitleP>{house?.complexName} · {house?.floor}층</TitleP>
+              <SubP>{house?.sidoName} {house?.guName} {house?.dongName}</SubP>
             </ContainerP>
             <AboutDiv>
               <AboutP>가격정보</AboutP>
               <AboutEachDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>전세</AboutTitleP>
-                  <p>7억 5000</p>
+                  <p>3억</p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>관리비</AboutTitleP>
-                  <p>매월 9만원</p>
+                  <p>매월 {house?.maintenanceFee/10000}만원</p>
                 </AboutDetailDiv>
               </AboutEachDiv>
             </AboutDiv>
@@ -142,7 +159,7 @@ const DetailWithID = () => {
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>전용/공급면적</AboutTitleP>
-                  <p>61.32m²/75.61m²</p>
+                  <p>{house?.exclusiveArea}m²/{house?.supplyArea}m² ({house?.pyeong}평)</p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>방 수/욕실 수</AboutTitleP>
