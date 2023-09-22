@@ -32,6 +32,7 @@ export const StyledInput = styled.input`
   border-radius: 5rem;
   border: none;
   font-size: 1rem;
+  transition: box-shadow 0.1s ease;
 
   &:focus {
     box-shadow: 0 0 1rem 0.4rem rgba(255, 255, 255);
