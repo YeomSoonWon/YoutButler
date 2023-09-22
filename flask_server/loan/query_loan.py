@@ -1,19 +1,79 @@
 import pymysql
 import os
+
+from langchain import LLMMathChain, LLMChain
+from langchain.agents import initialize_agent, AgentType
 from langchain.chat_models import ChatOpenAI
+from langchain.embeddings import OpenAIEmbeddings
 from langchain.memory import ConversationBufferMemory
+from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate, SystemMessagePromptTemplate
+from langchain.tools import Tool
 from langchain.utilities import SQLDatabase
 from langchain.prompts.prompt import PromptTemplate
 from langchain.llms import OpenAI
 from langchain_experimental.sql import SQLDatabaseChain
 from langchain.prompts.prompt import PromptTemplate
+from langchain.vectorstores.faiss import FAISS
+
+
+def wonrigum_equal(original_money, loan_year_rate, repayment_months):
+    loan_year_rate /= 100 if loan_year_rate >= 1 else loan_year_rate
+    loan_year_rate /= 12
+    return int(original_money * (loan_year_rate * (1 + loan_year_rate) ** repayment_months) / ((1 + loan_year_rate) ** repayment_months - 1))
+
+
+# def wongum_eqaul(original_money, loan_year_rate, repayment_months):
+#     return original_money * loan_year_rate * (12 *)
+
+def ilsibul(original_money, loan_year_rate, repayment_months):
+    loan_year_rate /= 100 if loan_year_rate >= 1 else loan_year_rate
+    loan_month_rate = loan_year_rate / 12
+    return original_money + (original_money * loan_month_rate * repayment_months)
+
+
+def get_response_from_query(query):
+    # FAISS 먼저 적용하고 오기
+    # docs = vector_db.similarity_search(query, k=k)
+    embedding = OpenAIEmbeddings(openai_api_key=os.environ.get("OPENAI_API_KEY"))
+
+    path = "./DB/vector/korea_bank_700_information/index.faiss"
+    print(os.getcwd())
+    if os.path.exists(path):
+        print(f"The file {path} exists.")
+    else:
+        print(f"The file {path} does not exist.")
+
+    vector_db = FAISS.load_local("./DB/vector/korea_bank_700_information", embedding)
+    docs = vector_db.similarity_search(query)
+    chat = ChatOpenAI(model_name="gpt-3.5-turbo-16k", temperature=0)
+
+    template = """
+    당신은 부동산을 구매하려는 사용자에게 금융, 부동산과 관련된 정보를 제공하는 assistant입니다.
+    Document retrieved from your DB : {docs}
+
+    Answer the questions referring to the documents which you Retrieved from DB as much as possible.
+    If you fell like you don't have enough-information to answer the question, say "제가 알고 있는 정보가 없습니다."
+    """
+    # If you fell like you don't have enough-information to answer the question, say "제가 알고 있는 정보가 없습니다."
+    system_message_prompt = SystemMessagePromptTemplate.from_template(template)
+
+    human_template = "Answer the following question IN KOREAN: {question}"
+    human_message_prompt = HumanMessagePromptTemplate.from_template(human_template)
+
+    chat_prompt = ChatPromptTemplate.from_messages(
+        [system_message_prompt, human_message_prompt]
+    )
+
+    chain = LLMChain(llm=chat, prompt=chat_prompt)
+    response = chain.run(docs=docs, question=query)
+    return response
 
 
 def query_loan(chat):
     db = pymysql.connect(
-        host="db",
-        port=13306,
-        user="root",
+        host="127.0.0.1",
+        port=3306,
+        user="ssafy",
         passwd=f"{os.environ.get('MYSQL_PASSWORD')}",
         db="loan",
         charset="utf8",
@@ -21,8 +81,8 @@ def query_loan(chat):
     )
 
     db = SQLDatabase.from_uri(
-        f"mysql+pymysql://db:{os.environ.get('MYSQL_PASSWORD')}@localhost:13306/loan",
-        include_tables=["주택담보대출", "전세자금대출", "개인신용대출"],
+        f"mysql+pymysql://ssafy:{os.environ.get('MYSQL_PASSWORD')}@localhost:3306/loan",
+        include_tables=["mortgage_loan", "jeonse_loan", "credit_loan"],
         sample_rows_in_table_info=5,
     )
 
@@ -51,7 +111,7 @@ def query_loan(chat):
 
     {table_info}
 
-    If someone asks for the table 개인신용대출, 최저금리를 조회하기 위해 사용되는 열 이름을 신용점수에 따라 적절히 선택하여야 한다.
+    If someone asks for the table credit_loan, 최저금리를 조회하기 위해 사용되는 열 이름을 신용점수에 따라 적절히 선택하여야 한다.
 
     Question: {input}"""
 
@@ -64,7 +124,46 @@ def query_loan(chat):
     db_chain = SQLDatabaseChain.from_llm(
         llm2, db, prompt=PROMPT, verbose=True, use_query_checker=True
     )
-    response = db_chain.run(chat)
+
+    llm_math_chain = LLMMathChain.from_llm(llm=llm2, verbose=True)
+
+    tools = [
+        Tool(
+            name="Database",
+            func=db_chain.run,
+            description="유저가 원하는 대출 상품을 찾기 위해 데이터베이스에 접근할 때 유용한 도구입니다."
+        ),
+        Tool(
+            name="financial_information",
+            func=get_response_from_query,
+            description="유저가 금융 용어에 대한 설명을 요구했을때 사용하기 유용한 도구입니다."
+        ),
+        Tool(
+            name="wonrigum_equal",
+            func=wonrigum_equal,
+            description="원리금 균등 상환 방식으로 대출을 받았을 때, 매달 갚아야 하는 금액을 계산해주는 도구입니다."
+        ),
+        Tool(
+            name="ilsibul",
+            func=ilsibul,
+            description="원금 만기 일시 상환 방식으로 대출을 받았을 때, 매달 갚아야 하는 금액을 계산해주는 도구입니다."
+        ),
+        # Tool(
+        #     name="wongum_eqaul",
+        #     func=wongum_eqaul,
+        #     description="원금 균등 상환 방식으로 대출을 받았을 때, 매달 갚아야 하는 금액을 계산해주는 도구입니다."
+        # )
+    ]
+
+    # response = db_chain.run(chat)
+    agent = initialize_agent(
+        tools=tools,
+        llm=llm2,
+        agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+        verbose=True,
+    )
+
+    response = agent.run(chat)
     print(response)
     return response
 

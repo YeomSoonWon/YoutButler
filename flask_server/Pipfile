@@ -19,6 +19,8 @@ langchain-experimental = "*"
 flask-cors = "*"
 flask-sock = "*"
 sock = "*"
+faiss-cpu = "*"
+tiktoken = "*"
 
 [dev-packages]
 
