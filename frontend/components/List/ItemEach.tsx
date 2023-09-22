@@ -32,7 +32,7 @@ export default function ItemEach({ width, height }) {
   return (
     <EstateDiv
       onClick={() => {
-        window.location.href = "/detail/123";
+        window.location.href = "/detail/2340033913";
       }}
     >
       <div onClick={(e:React.MouseEvent<HTMLElement>)=>handleHeartClick(e)}>
