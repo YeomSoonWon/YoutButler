@@ -5,7 +5,7 @@ import GoogleProvider from "next-auth/providers/google";
 import authApi from "@/api/authApi";
 
 const authOptions : NextAuthOptions = {
-    secret: process.env.NEXTAUTH_SECRET,
+    secret: process.env.SECRET,
     providers: [
         NaverProvider({
           clientId: process.env.NAVER_ID || "",
