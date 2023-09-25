@@ -14,7 +14,7 @@ services:
       - MYSQL_PORT=3306
       - MYSQL_USER=root
       - MYSQL_PASSWORD=ssafy
-      - MYSQL_DB=ssafy
+      # - MYSQL_DB=ssafy
 
   mysql-db:
     image: mysql:8.0.32
@@ -23,4 +23,4 @@ services:
       - "13306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=ssafy
-      - MYSQL_DATABASE=ssafy
+      # - MYSQL_DATABASE=ssafy
