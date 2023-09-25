@@ -56,11 +56,11 @@ const items = [
 const Home = async () => {
   let session = null;
   // const session = await getServerSession(authOptions);
-  try{
-    session = await getServerSession(authOptions);
-  }catch{
-    session = null;
-  }
+  session = await getServerSession(authOptions);
+  // try{
+  // }catch{
+  //   session = null;
+  // }
   let user = null;
   let isActivated = null;
 
