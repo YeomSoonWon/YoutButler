@@ -6,7 +6,6 @@ import authApi from "@/api/authApi";
 
 const authOptions : NextAuthOptions = {
     secret: process.env.SECRET,
-    site: process.env.NEXTAUTH_URL,
     providers: [
         NaverProvider({
           clientId: process.env.NAVER_ID || "",
