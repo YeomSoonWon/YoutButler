@@ -54,7 +54,13 @@ const items = [
 ];
 
 const Home = async () => {
-  const session = await getServerSession(authOptions);
+  let session = null;
+  // const session = await getServerSession(authOptions);
+  try{
+    session = await getServerSession(authOptions);
+  }catch{
+    session = null;
+  }
   let user = null;
   let isActivated = null;
 
