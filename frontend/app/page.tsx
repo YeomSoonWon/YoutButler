@@ -54,6 +54,8 @@ const items = [
 ];
 
 const Home = async () => {
+  console.log("NEXTAUTH_URL : ",process.env.NEXTAUTH_URL);
+  console.log("SECRET : ",process.env.SECRET);
   let session = null;
   // const session = await getServerSession(authOptions);
   session = await getServerSession(authOptions);
