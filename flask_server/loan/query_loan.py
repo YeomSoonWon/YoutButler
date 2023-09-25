@@ -23,7 +23,7 @@ def query_loan(chat):
 
 
     db = SQLDatabase.from_uri(f"mysql+pymysql://root:{os.environ.get('MYSQL_PASSWORD')}@mysql-db:3306/loan",
-                              include_tables=["주택담보대출", "전세자금대출", "개인신용대출"],
+                              include_tables=["mortgage_loan", "jeonse_loan", "credit_loan"],
                               sample_rows_in_table_info=5)
 
     # print(db.table_info)
