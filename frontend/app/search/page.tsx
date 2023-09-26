@@ -164,8 +164,8 @@ const Search = () => {
             <SubtitleP>가격</SubtitleP>
             <RangeDiv>
               <RangeSlider title="보증금 / 전세가" end="무제한" />
-              <RangeSlider title="월세" end="무제한" />
-              <RangeSlider title="매매가" end="2억 7천만" />
+              {selectedType === "월세" && <RangeSlider title="월세" end="무제한" />}
+              {selectedType === "매매" && <RangeSlider title="매매가" end="2억 7천만" />}
               <RangeSlider title="관리비" end="40만원" />
               <RangeSlider title="방크기(전용면적)" end="75㎡" />
             </RangeDiv>
