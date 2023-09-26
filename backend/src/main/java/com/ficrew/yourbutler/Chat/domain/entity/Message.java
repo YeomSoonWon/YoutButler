@@ -24,8 +24,9 @@ public class Message {
     @Column(nullable = false, length = 1000)  // Adjust length as needed
     private String message;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "loan_id")
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "loan_id")
+    @Embedded
     private Loan loan;
 
     @ManyToOne(fetch = FetchType.LAZY)
