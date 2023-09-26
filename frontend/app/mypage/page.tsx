@@ -14,6 +14,12 @@ import Chatting from "@/components/Chat/Chatting";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import authApi from "@/api/authApi";
+import { IBM_Plex_Sans_KR } from "@next/font/google";
+
+const ibmPlexSansKR = IBM_Plex_Sans_KR({
+  weight: ["300", "400", "500", "700"],
+  subsets: ["latin"],
+});
 
 const Profile = () => {
   const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
@@ -83,7 +89,7 @@ const Profile = () => {
   return (
     <main>
       <AppBar backgroundColor="transparent" logo="greenlogo" color="#334835" user={user} />
-      <Container>
+      <Container className={ibmPlexSansKR.className}>
         <TitleDiv>
           <NameP>{user?.nickname}님,</NameP>
           <p>당신의집사 마이페이지에 오신 것을 환영합니다.</p>

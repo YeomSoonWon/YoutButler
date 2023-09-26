@@ -214,7 +214,7 @@ export const SearchBtn = styled.button`
   border: none;
   position: relative;
   right: -18.7rem;
-  top: -2.4rem;
+  top: -2.6rem;
   cursor: pointer;
   background-color: white;
 `;
