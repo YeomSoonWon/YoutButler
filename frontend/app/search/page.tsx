@@ -192,6 +192,10 @@ const Container = styled.div`
   display: flex;
   flex-direction: row;
   margin: 1rem 1rem 8rem 1rem;
+
+  ::selection {
+    background-color: #afffe3;
+  }
 `;
 
 const TitleP = styled.p`

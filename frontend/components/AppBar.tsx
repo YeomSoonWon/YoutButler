@@ -80,6 +80,10 @@ const ContainerDiv = styled.div<BgProp>`
   align-items: center;
   padding: 1rem 4rem;
   background-color: ${(props) => props.backgroundColor || "#334835"};
+
+  ::selection {
+    background-color: #afffe3;
+  }
 `;
 
 const Logo = styled.div`
