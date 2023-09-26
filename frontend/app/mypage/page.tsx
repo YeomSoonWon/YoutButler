@@ -14,7 +14,7 @@ import Chatting from "@/components/Chat/Chatting";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import authApi from "@/api/authApi";
-import { IBM_Plex_Sans_KR } from "@next/font/google";
+import { IBM_Plex_Sans_KR } from "next/font/google";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -179,6 +179,10 @@ const Container = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  ::selection {
+    background-color: #afffe3;
   }
 `;
 

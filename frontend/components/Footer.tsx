@@ -29,6 +29,10 @@ const Container = styled.div`
   justify-content: space-between;
   color: gray;
   padding: 3rem 9rem;
+
+  ::selection {
+    background-color: #afffe3;
+  }
 `;
 
 const RightDiv = styled.div`
