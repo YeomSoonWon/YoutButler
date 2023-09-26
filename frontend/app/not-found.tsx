@@ -72,7 +72,7 @@ const TitleDiv = styled.div`
 
 const BoldP = styled.p`
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 `;
 
 const ButtonDiv = styled(Link)`
