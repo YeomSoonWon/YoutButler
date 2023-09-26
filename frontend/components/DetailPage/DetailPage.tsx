@@ -9,6 +9,10 @@ export const Container = styled.div`
   /* justify-content: center; */
   /* align-items: center; */
   padding: 3rem;
+
+  ::selection {
+    background-color: #afffe3;
+  }
 `;
 
 export const TopDiv = styled.div`
@@ -19,10 +23,12 @@ export const TopDiv = styled.div`
 
 export const ImgDiv = styled.div`
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   width: 88%;
   gap: 1rem;
   overflow-x: hidden;
+  transition: transform 0.3s ease;
+  -webkit-user-select: none;
 `;
 
 export const BottomDiv = styled.div`
