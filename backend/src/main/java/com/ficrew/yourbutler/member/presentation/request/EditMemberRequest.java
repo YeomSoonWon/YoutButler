@@ -1,5 +1,6 @@
 package com.ficrew.yourbutler.member.presentation.request;
 
+import com.ficrew.yourbutler.member.application.command.EditMemberCommand;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,5 +33,9 @@ public class EditMemberRequest {
     @Nullable
     @Max(value = 1000, message = "신용도는 1000을 넘을 수 없습니다.")
     private Integer creditRating;
+
+    public EditMemberCommand toCommand() {
+        return new EditMemberCommand(age, numberOfHouses, holdingAsset, monthlyAvailableAsset, creditRating);
+    }
 
 }
