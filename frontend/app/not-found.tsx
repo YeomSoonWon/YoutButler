@@ -4,7 +4,7 @@ import React from "react";
 import Footer from "@/components/Footer";
 import AppBar from "@/components/AppBar";
 import styled from "styled-components";
-import { IBM_Plex_Sans_KR } from "@next/font/google";
+import { IBM_Plex_Sans_KR } from "next/font/google";
 import colors from "@/constants/colors";
 import butler from "@/public/assets/butler.png";
 import Image from "next/image";
@@ -22,7 +22,7 @@ const NotFound = () => {
       {/* <AppBar backgroundColor={colors.darkgreen} logo="whitelogo" color="white" /> */}
       <MiddleDiv>
         <ImgDiv>
-          <Image src={butler} height={150} width={150} />
+          <Image src={butler} alt="butler" height={150} width={150} />
         </ImgDiv>
         <TitleDiv>
           <BoldP>죄송합니다.</BoldP>
