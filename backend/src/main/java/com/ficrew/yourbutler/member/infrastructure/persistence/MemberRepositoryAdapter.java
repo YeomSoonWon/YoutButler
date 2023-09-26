@@ -36,4 +36,9 @@ public class MemberRepositoryAdapter implements MemberRepository {
                 .orElseThrow(()-> new EntityNotFoundException("Member Entity Not found."));
     }
 
+    @Override
+    public void delete(Member member) {
+        memberRepository.delete(member);
+    }
+
 }
