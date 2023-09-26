@@ -153,11 +153,11 @@ const Profile = () => {
             <LeftUpperDiv>
               <BoldP>찜한 매물</BoldP>
               <LikeListDiv>
-                <ItemEach height="17rem" width="15rem" />
-                <ItemEach height="17rem" width="15rem" />
-                <ItemEach height="17rem" width="15rem" />
-                <ItemEach height="17rem" width="15rem" />
-                <ItemEach height="17rem" width="15rem" />
+                <ItemEach height="15rem" width="13rem" />
+                <ItemEach height="15rem" width="13rem" />
+                <ItemEach height="15rem" width="13rem" />
+                <ItemEach height="15rem" width="13rem" />
+                <ItemEach height="15rem" width="13rem" />
               </LikeListDiv>
             </LeftUpperDiv>
           </RightDiv>
