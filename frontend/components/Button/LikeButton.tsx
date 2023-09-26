@@ -30,7 +30,7 @@ const SvgButton: React.FC<{ realestateId: string }> = ({ realestateId }) => {
   };
 
   return (
-    <SvgButton onClick={toggleLike}>
+    <LikeButton onClick={toggleLike}>
       {!like ? (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +62,7 @@ const SvgButton: React.FC<{ realestateId: string }> = ({ realestateId }) => {
           />
         </svg>
       )}
-    </SvgButton>
+    </LikeButton>
   );
 };
 
