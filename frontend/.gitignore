@@ -3,6 +3,7 @@
 # IDE
 /.vscode/
 /.idea/
+.env
 
 #yarn
 ./yarn/*
