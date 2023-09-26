@@ -25,4 +25,5 @@ public class MemberFacade {
     public SignInResult signInMember(SignInCommand signInCommand) {
         return signInMemberProcessor.execute(signInCommand);
     }
+
 }

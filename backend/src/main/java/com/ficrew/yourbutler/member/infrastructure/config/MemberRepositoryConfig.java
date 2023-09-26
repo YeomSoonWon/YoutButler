@@ -13,4 +13,5 @@ public class MemberRepositoryConfig {
     public MemberRepository memberRepository(JpaMemberRepository jpaMemberRepository) {
         return new MemberRepositoryAdapter(jpaMemberRepository);
     }
+
 }
