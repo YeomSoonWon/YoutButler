@@ -12,4 +12,8 @@ public interface JpaMemberRepository extends JpaRepository<Member, Long> {
     boolean existsByEmail(String email);
     Optional<Member> findById(Long id);
 
+    // member 변수를 받아 삭제하는 연산
+    void delete(Member member);
+
+
 }
