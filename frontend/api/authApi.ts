@@ -28,7 +28,7 @@ const authApi = {
             token : accessToken
         });
 
-        // console.log("res data : ",res.data);
+        console.log("res data : ",res.data);
         return res;
     },
 
