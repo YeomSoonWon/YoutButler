@@ -21,4 +21,14 @@ public class Bank {
     @Column(nullable = false)
     private String bankSite;
 
+    public Bank(String bankName, String bankTel, String bankSite) {
+        this.bankName = bankName;
+        this.bankTel = bankTel;
+        this.bankSite = bankSite;
+    }
+
+    protected Bank() {
+
+    }
+
 }

@@ -1,18 +1,24 @@
 package com.ficrew.yourbutler.Chat.application;
 
 import com.ficrew.yourbutler.Chat.application.command.CreateMessageCommand;
+import com.ficrew.yourbutler.Chat.application.dto.FlaskResponse;
 import com.ficrew.yourbutler.Chat.domain.entity.ChatRoom;
 import com.ficrew.yourbutler.Chat.domain.entity.Message;
 import com.ficrew.yourbutler.Chat.domain.repository.ChatRepository;
 import com.ficrew.yourbutler.Chat.domain.repository.MessageRepository;
 import com.ficrew.yourbutler.global.auth.AuthenticatedMember;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.reactive.function.BodyInserters;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.HashMap;
 
 @RequiredArgsConstructor
 public class CreateMessageProcessor {
 
     private final ChatRepository chatRepository;
     private final MessageRepository messageRepository;
+    private final WebClient webClient = WebClient.create("http://localhost:5000");
 
     public Long execute(CreateMessageCommand command, AuthenticatedMember member) {
         ChatRoom chatRoom;
@@ -27,6 +33,24 @@ public class CreateMessageProcessor {
 
         Message message = new Message(command.getIsBot(), command.getMessage(), chatRoom);
         messageRepository.save(message);
+
+        // Flask 서버로 요청을 보내는 부분 추가
+        HashMap<String, String> hm = new HashMap<>();
+        hm.put("user_message", command.getMessage());
+
+        FlaskResponse flaskResponse = webClient.post()
+                .uri("/api/chat")
+                .bodyValue(hm)
+                .retrieve()
+                .bodyToMono(FlaskResponse.class)
+                .block();
+
+        if (flaskResponse == null) {
+            throw new NullPointerException("Flask 서버로부터 응답이 없습니다.");
+        }
+
+        Message botMessage = new Message(true, flaskResponse.getResponse(), chatRoom);
+
         return chatRoom.getId();
     }
 

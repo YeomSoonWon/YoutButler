@@ -11,8 +11,8 @@ public class CreateMemberCommand {
     private String email;
     private String nickname;
     private Integer age;
-    private Integer holdingAsset;
+    private Long holdingAsset;
     private Integer creditRating;
-    private Integer monthlyAvailableAsset;
+    private Long monthlyAvailableAsset;
     private String numberOfHouses;
 }

@@ -30,4 +30,10 @@ public class MemberRepositoryAdapter implements MemberRepository {
         return memberRepository.existsByEmail(email);
     }
 
+    @Override
+    public Member findById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Member Entity Not found."));
+    }
+
 }
