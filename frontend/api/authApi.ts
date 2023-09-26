@@ -3,7 +3,7 @@ import axios, {Axios, AxiosRequestConfig} from "axios";
 
 // 비로그인 시 가능한 로직
 const PublicAuthApi:Axios = axios.create({
-    baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/members`,
+    baseURL: `${process.env.API_BASE_URL}/members`,
     headers:{
         "Content-Type" : "application/json",
     }
@@ -11,7 +11,7 @@ const PublicAuthApi:Axios = axios.create({
 
 // 로그인 시 가능한 로직
 const PrivateAuthApi:Axios = axios.create({
-    baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/members`,
+    baseURL: `${process.env.API_BASE_URL}/members`,
     headers:{
         "Content-Type" : "application/json",
     }
