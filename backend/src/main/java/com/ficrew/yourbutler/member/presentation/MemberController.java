@@ -2,7 +2,9 @@ package com.ficrew.yourbutler.member.presentation;
 
 import com.ficrew.yourbutler.global.auth.AuthenticatedMember;
 import com.ficrew.yourbutler.member.application.facade.MemberFacade;
+import com.ficrew.yourbutler.member.domain.entity.Member;
 import com.ficrew.yourbutler.member.presentation.request.CreateMemberRequest;
+import com.ficrew.yourbutler.member.presentation.request.EditMemberRequest;
 import com.ficrew.yourbutler.member.presentation.request.SignInRequest;
 import com.ficrew.yourbutler.member.presentation.response.SignInResponse;
 import lombok.RequiredArgsConstructor;
@@ -39,4 +41,15 @@ public class MemberController {
         memberFacade.createMember(request.toCommand(), member);
         return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
     }
+
+    @PostMapping("/edit")
+    public ResponseEntity<String> edit(
+        @RequestBody @Valid EditMemberRequest request,
+        @AuthenticationPrincipal AuthenticatedMember member
+    ) {
+        System.out.println(member.getEmail());
+//        memberFacade.editMember(request.toCommand(), member);
+        return new ResponseEntity<>("회원정보 수정 완료", HttpStatus.OK);
+    }
+
 }
