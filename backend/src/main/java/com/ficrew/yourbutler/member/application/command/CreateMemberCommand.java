@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class CreateMemberCommand {
+
     private String identifier;
     private String socialType;
     private String email;
@@ -15,4 +16,5 @@ public class CreateMemberCommand {
     private Integer creditRating;
     private Long monthlyAvailableAsset;
     private String numberOfHouses;
+
 }

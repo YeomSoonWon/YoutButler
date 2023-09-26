@@ -43,10 +43,11 @@ public class Message {
         this.chatRoom = chatRoom;
     }
 
-    public Message(Boolean isBot, String message, Loan loan, ChatRoom chatRoom) {
+    public Message(Boolean isBot, String message, Loan loan, Bank bank, ChatRoom chatRoom) {
         this.isBot = isBot;
         this.message = message;
         this.loan = loan;
+        this.bank = bank;
         this.chatRoom = chatRoom;
     }
 

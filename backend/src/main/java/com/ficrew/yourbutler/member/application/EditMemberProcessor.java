@@ -13,6 +13,7 @@ public class EditMemberProcessor {
 
     public void execute(EditMemberCommand command, AuthenticatedMember member) {
         Member editMember = memberRepository.findById(member.getId());
+        editMember.edit(command);
         memberRepository.save(editMember);
     }
 
