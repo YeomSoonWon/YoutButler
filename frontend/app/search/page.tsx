@@ -24,40 +24,50 @@ const ibmPlexSansKR = IBM_Plex_Sans_KR({
 
 const Search = () => {
   const [placeholder, setPlaceHolder] = useState("추가 가용 자산");
-  const {data:session, status}  = useSession();
+  const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
 
-  useEffect(()=>{
-    if(session){
+  // 방 거래 유형(월세, 전세, 매매)
+  const [selectedType, setSelectedType] = useState(null);
+
+  useEffect(() => {
+    if (session) {
       // @ts-ignore
       configureUser(session?.userData.token, session?.userData.socialType);
     }
-  },[session]);
+  }, [session]);
 
   const handleMonthlyClick = () => {
     setPlaceHolder("월 여유자금 입력");
+    setSelectedType("월세");
   };
 
   const handleCharterClick = () => {
     setPlaceHolder("추가 가용 자산");
+    setSelectedType("전세");
   };
 
-  const configureUser=async(token:String, provider:String)=>{
-    try{
+  const handleSaleClick = () => {
+    setPlaceHolder("추가 가용 자산");
+    setSelectedType("매매");
+  };
+
+  const configureUser = async (token: String, provider: String) => {
+    try {
       let res = await authApi.getUser(token, provider);
-      if(res.status === 200){
+      if (res.status === 200) {
         setUser(res.data.memberResponse);
-      }else{
+      } else {
         setUser(null);
       }
-    }catch{
+    } catch {
       setUser(null);
     }
-  }
+  };
 
   return (
     <main>
-      <AppBar backgroundColor="transparent" color="#334835" user={user}/>
+      <AppBar backgroundColor="transparent" color="#334835" user={user} />
       <Container className={ibmPlexSansKR.className}>
         <LeftContainer>
           <Upper>
@@ -103,12 +113,9 @@ const Search = () => {
               </AboutDiv>
             </TitleDiv>
             <ItemDiv>
-              <ItemEach width="18rem" height="19rem" />
-              <ItemEach width="18rem" height="19rem" />
-              <ItemEach width="18rem" height="19rem" />
-              <ItemEach width="18rem" height="19rem" />
-              <ItemEach width="18rem" height="19rem" />
-              <ItemEach width="18rem" height="19rem" />
+              {selectedType === "월세" && <ItemEach width="18rem" height="19rem" />}
+              {selectedType === "전세" && <ItemEach width="18rem" height="19rem" />}
+              {selectedType === "매매" && <ItemEach width="18rem" height="19rem" />}
             </ItemDiv>
           </Lower>
         </LeftContainer>
@@ -133,12 +140,7 @@ const Search = () => {
               >
                 전세
               </Button>
-              <Button
-                Kind="small"
-                Variant="grayOutline"
-                Rounded="square"
-                onClick={handleCharterClick}
-              >
+              <Button Kind="small" Variant="grayOutline" Rounded="square" onClick={handleSaleClick}>
                 매매
               </Button>
             </ButtonDiv>
