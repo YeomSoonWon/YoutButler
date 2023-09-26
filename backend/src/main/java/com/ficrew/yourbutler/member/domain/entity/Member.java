@@ -22,9 +22,9 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
     private Integer age;
-    private Integer holdingAsset;
+    private Long holdingAsset;
     private Integer creditRating;
-    private Integer monthlyAvailableAsset;
+    private Long monthlyAvailableAsset;
     @Enumerated(EnumType.STRING)
     private NumberOfHouses numberOfHouses;
 
