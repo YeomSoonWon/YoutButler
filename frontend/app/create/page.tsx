@@ -10,92 +10,96 @@ import { useEffect, useState } from "react";
 import authApi from "@/api/authApi";
 
 const Create = () => {
-  const {data:session, status}  = useSession();
+  const { data: session, status } = useSession();
   const [age, setAge] = useState<Number | null>(null);
   const [houses, setHouses] = useState<string | null>(null);
   const [budget, setBudget] = useState<Number | null>(null);
   const [jasan, setJasan] = useState<Number | null>(null);
   const [credit, setCredit] = useState<Number | null>(null);
 
-  const handleAge = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleAge = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("age : ", e.target.value);
     setAge(parseInt(e.target.value));
-  }
+  };
 
-  const handleHouses = (e:React.ChangeEvent<HTMLSelectElement>) => {
+  const handleHouses = (e: React.ChangeEvent<HTMLSelectElement>) => {
     console.log("houses : ", e.target.value);
     setHouses(e.target.value);
-  }
+  };
 
-  const handleBudget = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleBudget = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("budget : ", e.target.value);
     setBudget(parseInt(e.target.value));
-  }
+  };
 
-  const handleJasan = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleJasan = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("jasan : ", e.target.value);
     setJasan(parseInt(e.target.value));
-  }
+  };
 
-  const handleCredit = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleCredit = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("credit : ", e.target.value);
     setCredit(parseInt(e.target.value));
-  }
+  };
 
-  const createUser = async (userData:any | null) =>{
-    if( !age || !houses ||!budget){
+  const createUser = async (userData: any | null) => {
+    if (!age || !houses || !budget) {
       alert("나이, 주택 수, 예산은 필수입니다.");
       return;
     }
-    let res = await authApi.signUp(userData, age, houses, budget, jasan, credit );
-    if(res.status === 200){
+    let res = await authApi.signUp(userData, age, houses, budget, jasan, credit);
+    if (res.status === 200) {
       alert("회원가입 완료");
-      window.location.href="/";
+      window.location.href = "/";
     }
-  }
+  };
 
   useEffect(() => {
     console.log(status);
-    if((status === "unauthenticated")){
+    if (status === "unauthenticated") {
       alert("잘못된 접근입니다.");
-      window.location.href="/";
+      window.location.href = "/";
     }
   }, [status]);
 
-  useEffect(()=>{
+  useEffect(() => {
     // @ts-ignore
     console.log(session?.userData);
-    if(session){
-          // @ts-ignore
-        configureUser(session?.userData.token, session?.userData.socialType);
-      }
-    },[session]);
-
-  const configureUser=async(token:String, provider:String)=>{
-    try{
-      let res = await authApi.getUser(token, provider);
-      if(res.status === 200){
-        alert("이미 존재하는 회원입니다.");
-        window.location.href="/";
-      }
-    }catch{
-      alert("비정상적인 접근입니다.");
-      window.location.href="/";
+    if (session) {
+      // @ts-ignore
+      configureUser(session?.userData.token, session?.userData.socialType);
     }
-  }
+  }, [session]);
+
+  const configureUser = async (token: String, provider: String) => {
+    try {
+      let res = await authApi.getUser(token, provider);
+      if (res.status === 200) {
+        alert("이미 존재하는 회원입니다.");
+        window.location.href = "/";
+      }
+    } catch {
+      alert("비정상적인 접근입니다.");
+      window.location.href = "/";
+    }
+  };
 
   return (
     <Container>
-      <AppBar backgroundColor="transparent" color="#334835" user={null} logoLogout={true}/>
+      <AppBar
+        backgroundColor="transparent"
+        logo="greenlogo"
+        color="#334835"
+        user={null}
+        logoLogout={true}
+      />
       <CenterDiv>
         <MiddleDiv>
           <TitleDiv>
             <TitleP>추가 정보 입력</TitleP>
             <SubDiv>
               <SubP>당신의 집사에 오신 것을 환영합니다!</SubP>
-              <SubP>
-                더 정확한 추천을 위해 최대한 많은 정보를 입력해주세요 :)
-              </SubP>
+              <SubP>더 정확한 추천을 위해 최대한 많은 정보를 입력해주세요 :)</SubP>
             </SubDiv>
           </TitleDiv>
           <InputDiv>
@@ -103,13 +107,17 @@ const Create = () => {
             <StyledInput
               type="number"
               placeholder="나이"
-              onChange={(e)=>{handleAge(e)}}
+              onChange={(e) => {
+                handleAge(e);
+              }}
               required
             />
             <StyledSelect
-              onChange={(e)=>{handleHouses(e)}}
+              onChange={(e) => {
+                handleHouses(e);
+              }}
               required
-              >
+            >
               <option value="">-- 주택 수를 선택하세요 --</option>
               <option value="none">무주택</option>
               <option value="one">1주택</option>
@@ -118,7 +126,9 @@ const Create = () => {
             </StyledSelect>
             <StyledInput
               type="number"
-              onChange={(e)=>{handleBudget(e)}}
+              onChange={(e) => {
+                handleBudget(e);
+              }}
               required
               placeholder="부동산 거래 예산"
             />
@@ -129,18 +139,26 @@ const Create = () => {
             <StyledInput
               type="number"
               placeholder="월 가용자산"
-              onChange={(e)=>{handleJasan(e)}}
-              />
+              onChange={(e) => {
+                handleJasan(e);
+              }}
+            />
             <StyledInput
               type="number"
               placeholder="신용도"
-              onChange={(e)=>{handleCredit(e)}}
-              />
+              onChange={(e) => {
+                handleCredit(e);
+              }}
+            />
           </InputDiv>
-          <YellowBtn onClick={()=>{
-            // @ts-ignore
-            createUser(session?.userData)
-            }}>완료</YellowBtn>
+          <YellowBtn
+            onClick={() => {
+              // @ts-ignore
+              createUser(session?.userData);
+            }}
+          >
+            완료
+          </YellowBtn>
         </MiddleDiv>
       </CenterDiv>
       <Footer />

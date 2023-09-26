@@ -67,7 +67,7 @@ const Search = () => {
 
   return (
     <main>
-      <AppBar backgroundColor="transparent" color="#334835" user={user} />
+      <AppBar backgroundColor="transparent" logo="greenlogo" color="#334835" user={user} />
       <Container className={ibmPlexSansKR.className}>
         <LeftContainer>
           <Upper>
