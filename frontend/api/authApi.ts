@@ -23,6 +23,8 @@ const authApi = {
         // TODO : accessToken과 provider를 이용한 당신의집사 서버에서 유저 가져오기/유저 추가 로직
         // 리턴 형식 User로 변경 필요
 
+        console.log("userSearchAPI : ",`${process.env.NEXT_PUBLIC_API_BASE_URL}/members/signin`);
+
         let res = await PublicAuthApi.post("signin", {
             socialType : provider.toUpperCase(),
             token : accessToken
