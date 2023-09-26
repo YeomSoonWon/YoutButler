@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class ChatFacade {
 
-    private final CreateMessageProcessor createMessageProcessor;
+//    private final CreateMessageProcessor createMessageProcessor;
 
 
 
