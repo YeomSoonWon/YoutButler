@@ -1,10 +1,16 @@
 "use client";
 
 import styled from "styled-components";
+import { IBM_Plex_Sans_KR } from "@next/font/google";
+
+const ibmPlexSansKR = IBM_Plex_Sans_KR({
+  weight: ["300", "400", "500", "700"],
+  subsets: ["latin"],
+});
 
 export default function Footer() {
   return (
-    <Container>
+    <Container className={ibmPlexSansKR.className}>
       <LeftDiv>
         <p>사이트소개</p>
         <p>이용약관</p>
