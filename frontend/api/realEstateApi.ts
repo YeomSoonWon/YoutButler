@@ -19,7 +19,7 @@ interface RealEstateSearchTerm{
 
 // 비로그인 시 가능한 로직
 const publicEstateApi:Axios = axios.create({
-    baseURL: `${process.env.API_BASE_URL}/realestates`,
+    baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/realestates`,
     headers:{
         "Content-Type" : "application/json",
     }
@@ -27,7 +27,7 @@ const publicEstateApi:Axios = axios.create({
 
 // 로그인 시 가능한 로직
 const privateEstateApi:Axios = axios.create({
-    baseURL: `${process.env.API_BASE_URL}/realestates`,
+    baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/realestates`,
     headers:{
         "Content-Type" : "application/json",
     }
