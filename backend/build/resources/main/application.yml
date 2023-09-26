@@ -1,0 +1,27 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+    database-platform: org.hibernate.dialect.MySQL8Dialect # MySQL의 버전에 따라 적절한 dialect를 선택하세요.
+    hibernate:
+      ddl-auto: update # 'create' 대신 'update'로 변경하는 것이 좋습니다. 이렇게하면 데이터베이스 구조가 변경될 때마다 테이블을 재생성하지 않습니다.
+    defer-datasource-initialization: true
+    open-in-view: false
+
+  datasource:
+    url: jdbc:mysql://${hostname}:3306/${mysql.dbname}?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useSSL=false
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: ${mysql.username}
+    password: ${mysql.password}
+
+# JWT setting
+jwt:
+  issuer: FinancialInnovationCrew
+  secret_key: ${jwt.secret.key}
+  access_expiration_ms: 10000000
+  refresh_expiration_ms: 2592000000
+
+server:
+  port: 5000
