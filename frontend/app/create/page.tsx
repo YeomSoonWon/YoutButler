@@ -8,6 +8,12 @@ import { useSession } from "next-auth/react";
 import React from "react";
 import { useEffect, useState } from "react";
 import authApi from "@/api/authApi";
+import { IBM_Plex_Sans_KR } from "@next/font/google";
+
+const ibmPlexSansKR = IBM_Plex_Sans_KR({
+  weight: ["300", "400", "500", "700"],
+  subsets: ["latin"],
+});
 
 const Create = () => {
   const { data: session, status } = useSession();
@@ -93,7 +99,7 @@ const Create = () => {
         user={null}
         logoLogout={true}
       />
-      <CenterDiv>
+      <CenterDiv className={ibmPlexSansKR.className}>
         <MiddleDiv>
           <TitleDiv>
             <TitleP>추가 정보 입력</TitleP>

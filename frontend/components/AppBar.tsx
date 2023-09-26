@@ -4,16 +4,22 @@ import { signIn, signOut } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { Noto_Sans_KR } from "next/font/google";
+// import { Noto_Sans_KR } from "next/font/google";
 import favicon from "@/app/favicon.ico";
 import greenlogo from "@/public/assets/greenlogo.png";
 import whitelogo from "@/public/assets/whitelogo.png";
 import Image from "next/image";
+import { IBM_Plex_Sans_KR } from "@next/font/google";
 
-const notoSansKr = Noto_Sans_KR({
+const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
 });
+
+// const notoSansKr = Noto_Sans_KR({
+//   weight: ["300", "400", "500", "700"],
+//   subsets: ["latin"],
+// });
 
 const AppBar = ({ backgroundColor, color, logo, user, logoLogout = false }) => {
   const logoSrc = logo === "greenlogo" ? "/assets/greenlogo.png" : "/assets/whitelogo.png";
@@ -33,7 +39,7 @@ const AppBar = ({ backgroundColor, color, logo, user, logoLogout = false }) => {
           </Logo>
         </Link>
       )}
-      <NavDiv className={notoSansKr.className}>
+      <NavDiv className={ibmPlexSansKR.className}>
         <StyledLink href="/search" color={color}>
           매물검색
         </StyledLink>
