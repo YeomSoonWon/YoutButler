@@ -11,7 +11,7 @@ import ItemEach from "@/components/List/ItemEach";
 import Button from "@/components/Button/Button";
 import Link from "next/link";
 import Chatting from "@/components/Chat/Chatting";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useEffect } from "react";
 import authApi from "@/api/authApi";
 
@@ -61,9 +61,13 @@ const Profile = () => {
     if(realDelete){
       // @ts-ignore
       let res = await authApi.deleteUser(session?.userData);
-      if(res.data.message === "탈퇴 완료"){
+      console.log(res);
+      if(res.data === "회원탈퇴 완료"){
         alert("탈퇴되었습니다.");
-        window.location.href="/";
+        // window.location.href="/";
+        signOut();
+      }else{
+        alert("오류가 발생했습니다.");
       }
     }
   }
