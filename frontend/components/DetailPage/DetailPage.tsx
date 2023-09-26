@@ -9,6 +9,10 @@ export const Container = styled.div`
   /* justify-content: center; */
   /* align-items: center; */
   padding: 3rem;
+
+  ::selection {
+    background-color: #afffe3;
+  }
 `;
 
 export const TopDiv = styled.div`
@@ -19,10 +23,12 @@ export const TopDiv = styled.div`
 
 export const ImgDiv = styled.div`
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
   width: 88%;
   gap: 1rem;
   overflow-x: hidden;
+  transition: transform 0.3s ease;
+  -webkit-user-select: none;
 `;
 
 export const BottomDiv = styled.div`
@@ -194,8 +200,7 @@ export const ChatBotDiv = styled.div`
   border-radius: 5rem;
   background-color: #ffc436;
   cursor: pointer;
-  box-shadow: rgba(27, 15, 3, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+  box-shadow: rgba(27, 15, 3, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
     rgba(23, 17, 2, 0.35) 0px -2px 6px 0px inset;
 `;
 
@@ -208,9 +213,9 @@ export const ChatDiv = styled.div`
   top: 1px;
 `;
 
-interface AskPprops{
-  children:any;
-  isVisible:Boolean;
+interface AskPprops {
+  children: any;
+  isVisible: Boolean;
 }
 
 export const AskP = styled.p<AskPprops>`
@@ -218,18 +223,16 @@ export const AskP = styled.p<AskPprops>`
   font-size: 1.1rem;
   padding: 0.3rem;
   padding-bottom: ${(props) => (props.isVisible ? "1rem" : "none")};
-  border-bottom: ${(props) =>
-    props.isVisible ? "solid 1px lightgray" : "none"};
+  border-bottom: ${(props) => (props.isVisible ? "solid 1px lightgray" : "none")};
 `;
 
 export const AskDiv = styled.div<{ expanded: Boolean }>`
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
-    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
     rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
   border-radius: 0 2rem 2rem 2rem;
   padding: 1.2rem;
-  width: ${(props) => props.expanded ? "24rem" : "12rem"};
-  height: ${(props) => props.expanded ? "33rem" : "auto"};
+  width: ${(props) => (props.expanded ? "24rem" : "12rem")};
+  height: ${(props) => (props.expanded ? "33rem" : "auto")};
   transition: all 0.3s ease-in-out;
   margin-left: 3rem;
 `;
@@ -322,4 +325,24 @@ export const AboutInfoDiv = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+`;
+
+export const LikeButton = styled.button`
+  float: right;
+  margin-right: 5.1rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  background-color: white;
+  border: solid 2px #d3d2d2;
+  border-radius: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+`;
+
+export const TitleLikeDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;

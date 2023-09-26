@@ -4,12 +4,31 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import estate1 from "@/public/assets/estate1.png";
 import Image from "next/image";
+import YeokSam from "@/public/json/역삼동_매매_아파트.json";
 
-export default function ItemEach({ width, height }) {
+interface IItem {
+  complexNo: number; // 주택번호: 1165010700
+  complexName: string; // 주택이름: 아크로리버파크
+  address: string; // 주소: 서울시 강남구 역삼동
+  realEstateTypeName: string; // 방종류: 아파트
+  tradeTypeName: string; // 거래방식: 매매
+  floorInfo: string; // 층수: 4/15
+  supplyArea: number; // 공급면적: 112.74 (제곱미터)
+  exclusiveArea: number; // 전용면적: 84.97 (제곱미터)
+  maintenanceFee: string; // 관리비: 10만
+  rentPrc: string; // 월세: 32만
+  dealOrWarrantPrc: string; // 매매가 혹은 전월세 보증금: 3억 7000
+}
+
+interface IProps {
+  item: IItem;
+}
+
+export default function ItemEach({ width, height }, { item }: IProps) {
   // 하트 아이콘 클릭 시 색상 변경
   const [isFilled, setIsFilled] = useState(false);
 
-  const handleHeartClick = (e:React.MouseEvent<HTMLElement>) => {
+  const handleHeartClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     setIsFilled(!isFilled);
   };
@@ -35,7 +54,7 @@ export default function ItemEach({ width, height }) {
         window.location.href = "/detail/2340033913";
       }}
     >
-      <div onClick={(e:React.MouseEvent<HTMLElement>)=>handleHeartClick(e)}>
+      <div onClick={(e: React.MouseEvent<HTMLElement>) => handleHeartClick(e)}>
         {!isFilled ? (
           <HeartSvg
             xmlns="http://www.w3.org/2000/svg"
@@ -73,11 +92,9 @@ export default function ItemEach({ width, height }) {
       </ImageDiv>
       <AboutEstateDiv>
         <RoomP>강남구 역삼동 아파트</RoomP>
-        <PriceP>월세 3000/415</PriceP>
+        <PriceP>{YeokSam.realEstateTypeName} 3000/415</PriceP>
         <DetailP>4층, 29.79㎡, 관리비 10만</DetailP>
-        <DetailP>
-          하이앤드 주거공간 신축첫입주 고급빌라 즉시입주sdfsdfadf/askfajwelfjlek
-        </DetailP>
+        <DetailP>하이앤드 주거공간 신축첫입주 고급빌라 즉시입주sdfsdfadf/askfajwelfjlek</DetailP>
       </AboutEstateDiv>
     </EstateDiv>
   );

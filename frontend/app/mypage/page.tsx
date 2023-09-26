@@ -14,51 +14,56 @@ import Chatting from "@/components/Chat/Chatting";
 import { useSession, signOut } from "next-auth/react";
 import { useEffect } from "react";
 import authApi from "@/api/authApi";
+import { IBM_Plex_Sans_KR } from "next/font/google";
+
+const ibmPlexSansKR = IBM_Plex_Sans_KR({
+  weight: ["300", "400", "500", "700"],
+  subsets: ["latin"],
+});
 
 const Profile = () => {
   const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
-  const {data:session, status}  = useSession();
+  const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
 
-  useEffect(()=>{
-    if(session){
+  useEffect(() => {
+    if (session) {
       // @ts-ignore
       configureUser(session?.userData.token, session?.userData.socialType);
     }
+  }, [session]);
 
-  },[session]);
-
-  useEffect(()=>{
-    if(status === "unauthenticated"){
-      alert("잘못된 접근입니다.")
-      window.location.href="/";
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      alert("잘못된 접근입니다.");
+      window.location.href = "/";
     }
-  },[status]);
+  }, [status]);
 
-  const configureUser=async(token:String, provider:String)=>{
-    try{
+  const configureUser = async (token: String, provider: String) => {
+    try {
       let res = await authApi.getUser(token, provider);
-      if(res.status === 200){
+      if (res.status === 200) {
         console.log(res.data);
         setUser(res.data.memberResponse);
-      }else{
+      } else {
         alert("비정상적인 접근입니다.");
-        window.location.href="/";
+        window.location.href = "/";
       }
-    }catch{
+    } catch {
       alert("비정상적인 접근입니다.");
-      window.location.href="/";
+      window.location.href = "/";
     }
-  }
+  };
 
   const handleTitleClick = (index) => {
     setSelectedTitleIndex(index);
     // todo : selectedTitleIndex의 값을 통해 유저의 채팅 목록 중 매물에 맞는 채팅 출력
   };
 
-  const deleteUser = async()=>{
+  const deleteUser = async () => {
     let realDelete = window.confirm("정말 탈퇴하시겠습니까?");
-    if(realDelete){
+    if (realDelete) {
       // @ts-ignore
       let res = await authApi.deleteUser(session?.userData);
       console.log(res);
@@ -70,7 +75,7 @@ const Profile = () => {
         alert("오류가 발생했습니다.");
       }
     }
-  }
+  };
 
   const chatMessages = [
     { text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?", isRight: false },
@@ -87,8 +92,8 @@ const Profile = () => {
 
   return (
     <main>
-      <AppBar backgroundColor="transparent" color="#334835" user={user} />
-      <Container>
+      <AppBar backgroundColor="transparent" logo="greenlogo" color="#334835" user={user} />
+      <Container className={ibmPlexSansKR.className}>
         <TitleDiv>
           <NameP>{user?.nickname}님,</NameP>
           <p>당신의집사 마이페이지에 오신 것을 환영합니다.</p>
@@ -152,11 +157,11 @@ const Profile = () => {
             <LeftUpperDiv>
               <BoldP>찜한 매물</BoldP>
               <LikeListDiv>
-                <ItemEach height="17rem" width="15rem" />
-                <ItemEach height="17rem" width="15rem" />
-                <ItemEach height="17rem" width="15rem" />
-                <ItemEach height="17rem" width="15rem" />
-                <ItemEach height="17rem" width="15rem" />
+                <ItemEach height="15rem" width="13rem" />
+                <ItemEach height="15rem" width="13rem" />
+                <ItemEach height="15rem" width="13rem" />
+                <ItemEach height="15rem" width="13rem" />
+                <ItemEach height="15rem" width="13rem" />
               </LikeListDiv>
             </LeftUpperDiv>
           </RightDiv>
@@ -178,6 +183,10 @@ const Container = styled.div`
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  ::selection {
+    background-color: #afffe3;
   }
 `;
 

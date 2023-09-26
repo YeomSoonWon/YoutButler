@@ -5,12 +5,18 @@ import Footer from "@/components/Footer";
 import styled from "styled-components";
 import colors from "@/constants/colors";
 import React from "react";
-import {useState, useEffect} from 'react';
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import authApi from "@/api/authApi";
+import { IBM_Plex_Sans_KR } from "@next/font/google";
+
+const ibmPlexSansKR = IBM_Plex_Sans_KR({
+  weight: ["300", "400", "500", "700"],
+  subsets: ["latin"],
+});
 
 const Modify = () => {
-  const {data:session, status}  = useSession();
+  const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
   const [age, setAge] = useState<number | null>();
   const [houses, setHouses] = useState<string>("none");
@@ -18,28 +24,27 @@ const Modify = () => {
   const [jasan, setJasan] = useState<number | null>();
   const [credit, setCredit] = useState<number | null>();
 
-  useEffect(()=>{
-    if(session){
+  useEffect(() => {
+    if (session) {
       //@ts-ignore
       configureUser(session?.userData.token, session?.userData.socialType);
     }
+  }, [session]);
 
-  },[session]);
-
-  useEffect(()=>{
-    if(status === "unauthenticated"){
-      alert("잘못된 접근입니다.")
-      window.location.href="/";
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      alert("잘못된 접근입니다.");
+      window.location.href = "/";
     }
-  },[status]);
+  }, [status]);
 
-  const configureUser=async(token:String, provider:String)=>{
-    try{
+  const configureUser = async (token: String, provider: String) => {
+    try {
       let res = await authApi.getUser(token, provider);
-      if(res.status === 200){
+      if (res.status === 200) {
         console.log(res.data);
         // setUser(res.data.memberResponse);
-        setUser(prev=>{
+        setUser((prev) => {
           setAge(res.data.memberResponse.age);
           setHouses(res.data.memberResponse.numberOfHouses);
           setBudget(res.data.memberResponse.holdingAsset);
@@ -47,73 +52,70 @@ const Modify = () => {
           setCredit(res.data.memberResponse.creditRating);
           return res.data.memberResponse;
         });
-
-      }else{
+      } else {
         alert("비정상적인 접근입니다.");
-        window.location.href="/";
+        window.location.href = "/";
       }
-    }catch{
+    } catch {
       alert("비정상적인 접근입니다.");
-      window.location.href="/";
+      window.location.href = "/";
     }
-  }
+  };
 
-  const handleAge = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleAge = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("age : ", e.target.value);
     setAge(parseInt(e.target.value));
-  }
+  };
 
-  const handleHouses = (e:React.ChangeEvent<HTMLSelectElement>) => {
+  const handleHouses = (e: React.ChangeEvent<HTMLSelectElement>) => {
     console.log("houses : ", e.target.value);
     setHouses(e.target.value);
-  }
+  };
 
-  const handleBudget = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleBudget = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("budget : ", e.target.value);
     setBudget(parseInt(e.target.value));
-  }
+  };
 
-  const handleJasan = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleJasan = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("jasan : ", e.target.value);
     setJasan(parseInt(e.target.value));
-  }
+  };
 
-  const handleCredit = (e:React.ChangeEvent<HTMLInputElement>) => {
+  const handleCredit = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("credit : ", e.target.value);
     setCredit(parseInt(e.target.value));
-  }
+  };
 
-  const modifyUser = async (userData:any | null) =>{
-    if( !age || !houses ||!budget){
+  const modifyUser = async (userData: any | null) => {
+    if (!age || !houses || !budget) {
       alert("나이, 주택 수, 예산은 필수입니다.");
       return;
     }
-    let res = await authApi.modify(userData, age, houses, budget, jasan, credit );
+    let res = await authApi.modify(userData, age, houses, budget, jasan, credit);
     console.log(res);
-    if(res.status === 200){
+    if (res.status === 200) {
       alert("수정 완료");
-      window.location.href="/";
+      window.location.href = "/";
     }
-  }
+  };
 
-  const goHome=()=>{
+  const goHome = () => {
     let flag = window.confirm("수정을 중단하고 메인 화면으로 가시겠습니까?");
-    if(flag){
-      window.location.href="/";
+    if (flag) {
+      window.location.href = "/";
     }
-  }
-  
+  };
+
   return (
     <Container>
-      <AppBar backgroundColor="transparent" color="#334835" user={user} />
-      <CenterDiv>
+      <AppBar backgroundColor="transparent" logo="greenlogo" color="#334835" user={user} />
+      <CenterDiv className={ibmPlexSansKR.className}>
         <MiddleDiv>
           <TitleDiv>
             <TitleP>추가 정보 수정</TitleP>
             <SubDiv>
-              <SubP>
-                더 정확한 추천을 위해 최대한 많은 정보를 입력해주세요 :)
-              </SubP>
+              <SubP>더 정확한 추천을 위해 최대한 많은 정보를 입력해주세요 :)</SubP>
             </SubDiv>
           </TitleDiv>
           <InputDiv>
@@ -122,13 +124,17 @@ const Modify = () => {
               type="number"
               placeholder="나이"
               defaultValue={age}
-              onChange={(e)=>{handleAge(e)}}
+              onChange={(e) => {
+                handleAge(e);
+              }}
               required
             />
             <StyledSelect
               required
               defaultValue={houses}
-              onChange={(e)=>{handleHouses(e)}}
+              onChange={(e) => {
+                handleHouses(e);
+              }}
             >
               <option value="">-- 주택 수를 선택하세요 --</option>
               <option value="none">무주택</option>
@@ -141,29 +147,39 @@ const Modify = () => {
               required
               placeholder="부동산 거래 예산"
               defaultValue={budget}
-              onChange={(e)=>{handleBudget(e)}}
+              onChange={(e) => {
+                handleBudget(e);
+              }}
             />
             <SubTitleP>
               <InputTitleP>선택</InputTitleP>
               <GrayP>(월세 매물 추천 시 활용됩니다.)</GrayP>
             </SubTitleP>
             <StyledInput
-            type="number"
-            placeholder="월 가용자산"
-            defaultValue={jasan}
-            onChange={(e)=>{handleJasan(e)}}
+              type="number"
+              placeholder="월 가용자산"
+              defaultValue={jasan}
+              onChange={(e) => {
+                handleJasan(e);
+              }}
             />
             <StyledInput
-            type="number"
-            placeholder="신용도"
-            defaultValue={credit}
-            onChange={(e)=>{handleCredit(e)}}
+              type="number"
+              placeholder="신용도"
+              defaultValue={credit}
+              onChange={(e) => {
+                handleCredit(e);
+              }}
             />
           </InputDiv>
-          <YellowBtn onClick={()=>{
-            // @ts-ignore
-            modifyUser(session?.userData)
-            }}>수정</YellowBtn>
+          <YellowBtn
+            onClick={() => {
+              // @ts-ignore
+              modifyUser(session?.userData);
+            }}
+          >
+            수정
+          </YellowBtn>
           <YellowBtn onClick={goHome}>취소</YellowBtn>
         </MiddleDiv>
       </CenterDiv>

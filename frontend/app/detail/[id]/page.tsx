@@ -42,6 +42,8 @@ import {
   MessageInput,
   SvgBtn,
   SendSvg,
+  LikeButton,
+  TitleLikeDiv,
 } from "@/components/DetailPage/DetailPage";
 import InfoBubble from "@/components/List/InfoBubble";
 import { useSession } from "next-auth/react";
@@ -49,6 +51,7 @@ import { useEffect } from "react";
 // import {useRouter} from "next/router";
 import authApi from "@/api/authApi";
 import YeokSam from "@/public/json/역삼동_매매_아파트.json";
+import axios from "axios";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -56,38 +59,65 @@ const ibmPlexSansKR = IBM_Plex_Sans_KR({
 });
 
 // const DetailWithID = async () => {
-const DetailWithID = ({params}) => {
+const DetailWithID = ({ params }) => {
   const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
-  const [house, setHouse]=  useState<any|null>(null);
-  
+  const [house, setHouse] = useState<any | null>(null);
+
+  // 찜
+  const [like, setLike] = useState(false);
+
+  const handleLike = async () => {
+    setLike((prev) => !prev);
+
+    if (!like) {
+      try {
+        await axios({
+          method: "post",
+          url: `realestates/${location.pathname.split("/")[1]}/check`,
+        }).then((response: any) => console.log(response));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    } else {
+      try {
+        await axios({
+          method: "delete",
+          url: `realestates/${location.pathname.split("/")[1]}/uncheck`,
+        }).then((response: any) => console.log(response));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    }
+  };
+
   // todo : url param을 이용한 매물 데이터 가져오기
   // todo : useEffect를 사용하여 페이지 로딩 시 채팅 인스턴스 생성
   // todo : 질문 입력 시 질문에 대한 답을 채팅으로 전송
   // todo : 페이지 unmount 시 지금까지 한 채팅 기록을 서버에 저장
 
   useEffect(() => {
-    if(session){
+    if (session) {
       // @ts-ignore
       configureUser(session?.userData.token, session?.userData.socialType);
     }
   }, [session]);
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     console.log(params);
-    if(params.id){
-      for(const item of YeokSam?.roomTypeList){
-        if(parseInt(params.id) === item.complexNo){
+    if (params.id) {
+      for (const item of YeokSam?.roomTypeList) {
+        if (parseInt(params.id) === item.complexNo) {
           setHouse(item);
         }
       }
     }
-  },[params]);
-  
-  useEffect(()=>{
-    console.log(house); 
-  },[house]);
-  
+  }, [params]);
+
+  useEffect(() => {
+    console.log(house);
+  }, [house]);
+
   // 챗봇 open
   const [isChatOpen, setIsChatOpen] = useState<Boolean>(false);
 
@@ -109,40 +139,81 @@ const DetailWithID = ({params}) => {
     },
   ];
 
-  const configureUser=async(token:String, provider:String)=>{
-    try{
+  const configureUser = async (token: String, provider: String) => {
+    try {
       let res = await authApi.getUser(token, provider);
-      if(res.status === 200){
+      if (res.status === 200) {
         setUser(res.data.memberResponse);
-      }else{
+      } else {
         setUser(null);
       }
-    }catch{
+    } catch {
       setUser(null);
     }
-  }
+  };
 
   return (
     <main className={ibmPlexSansKR.className}>
-      <AppBar backgroundColor="transparent" color="#334835" user={user} />
+      <AppBar backgroundColor="transparent" logo="greenlogo" color="#334835" user={user} />
       <Container className={ibmPlexSansKR.className}>
         <DetailCarousel />
         <BottomDiv className={ibmPlexSansKR.className}>
           <LeftDiv>
-            <ContainerP>
-              <TitleP>{house?.complexName} · {house?.floor}층</TitleP>
-              <SubP>{house?.sidoName} {house?.guName} {house?.dongName}</SubP>
-            </ContainerP>
+            <TitleLikeDiv>
+              <ContainerP>
+                <TitleP>
+                  {house?.complexName} · {house?.floor}층
+                </TitleP>
+                <SubP>
+                  {house?.sidoName} {house?.guName} {house?.dongName}
+                </SubP>
+              </ContainerP>
+              <div>
+                <LikeButton onClick={handleLike}>
+                  {!like ? (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="red"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="red"
+                      viewBox="0 0 24 24"
+                      strokeWidth="1.5"
+                      stroke="red"
+                      className="w-6 h-6"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                      />
+                    </svg>
+                  )}
+                </LikeButton>
+              </div>
+            </TitleLikeDiv>
             <AboutDiv>
               <AboutP>가격정보</AboutP>
               <AboutEachDiv>
                 <AboutDetailDiv>
-                  <AboutTitleP>전세</AboutTitleP>
+                  <AboutTitleP>{YeokSam.realEstateTypeName}</AboutTitleP>
                   <p>3억</p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>관리비</AboutTitleP>
-                  <p>매월 {house?.maintenanceFee/10000}만원</p>
+                  <p>매월 {house?.maintenanceFee / 10000}만원</p>
                 </AboutDetailDiv>
               </AboutEachDiv>
             </AboutDiv>
@@ -159,7 +230,9 @@ const DetailWithID = ({params}) => {
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>전용/공급면적</AboutTitleP>
-                  <p>{house?.exclusiveArea}m²/{house?.supplyArea}m² ({house?.pyeong}평)</p>
+                  <p>
+                    {house?.exclusiveArea}m²/{house?.supplyArea}m² ({house?.pyeong}평)
+                  </p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>방 수/욕실 수</AboutTitleP>
@@ -264,16 +337,9 @@ const DetailWithID = ({params}) => {
                   <Chatting messages={chatMessages} />
                 </ChatMiddleDiv>
                 <ChatBottomDiv isVisible={isChatOpen}>
-                  <MessageInput
-                    type="text"
-                    placeholder="메시지를 입력해주세요.."
-                  />
+                  <MessageInput type="text" placeholder="메시지를 입력해주세요.." />
                   <SvgBtn>
-                    <SendSvg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="1em"
-                      viewBox="0 0 512 512"
-                    >
+                    <SendSvg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
                       <path d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376V479.3c0 18.1 14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9 7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448 256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8 116.6 403.3 425.4z" />
                     </SendSvg>
                   </SvgBtn>
