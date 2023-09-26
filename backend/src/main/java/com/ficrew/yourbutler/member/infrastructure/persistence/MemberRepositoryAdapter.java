@@ -14,7 +14,6 @@ public class MemberRepositoryAdapter implements MemberRepository {
 
     private final JpaMemberRepository memberRepository;
 
-
     @Override
     public Member save(Member member) {
         return memberRepository.save(member);
@@ -30,4 +29,5 @@ public class MemberRepositoryAdapter implements MemberRepository {
     public boolean existsByEmail(String email) {
         return memberRepository.existsByEmail(email);
     }
+
 }

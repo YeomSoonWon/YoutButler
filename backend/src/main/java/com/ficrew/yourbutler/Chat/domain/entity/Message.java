@@ -1,4 +1,4 @@
-package com.ficrew.yourbutler.Chat.domain;
+package com.ficrew.yourbutler.Chat.domain.entity;
 
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Getter
-public class Chat {
+public class Message {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,23 +33,23 @@ public class Chat {
     private Bank bank;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "chatroom_id")
+    @JoinColumn(name = "chatroom_id", nullable = false)
     private ChatRoom chatRoom;
 
-    public Chat(Boolean isBot, String message, ChatRoom chatRoom) {
+    public Message(Boolean isBot, String message, ChatRoom chatRoom) {
         this.isBot = isBot;
         this.message = message;
         this.chatRoom = chatRoom;
     }
 
-    public Chat(Boolean isBot, String message, Loan loan, ChatRoom chatRoom) {
+    public Message(Boolean isBot, String message, Loan loan, ChatRoom chatRoom) {
         this.isBot = isBot;
         this.message = message;
         this.loan = loan;
         this.chatRoom = chatRoom;
     }
 
-    protected Chat() {
+    protected Message() {
 
     }
 
