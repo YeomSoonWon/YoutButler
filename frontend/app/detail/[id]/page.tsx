@@ -154,7 +154,7 @@ const DetailWithID = ({ params }) => {
 
   return (
     <main className={ibmPlexSansKR.className}>
-      <AppBar backgroundColor="transparent" color="#334835" user={user} />
+      <AppBar backgroundColor="transparent" logo="greenlogo" color="#334835" user={user} />
       <Container className={ibmPlexSansKR.className}>
         <DetailCarousel />
         <BottomDiv className={ibmPlexSansKR.className}>

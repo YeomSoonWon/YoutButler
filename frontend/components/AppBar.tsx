@@ -6,23 +6,32 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Noto_Sans_KR } from "next/font/google";
 import favicon from "@/app/favicon.ico";
+import greenlogo from "@/public/assets/greenlogo.png";
+import whitelogo from "@/public/assets/whitelogo.png";
+import Image from "next/image";
 
 const notoSansKr = Noto_Sans_KR({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
 });
 
-const AppBar = ({ backgroundColor, color, user, logoLogout = false }) => {
+const AppBar = ({ backgroundColor, color, logo, user, logoLogout = false }) => {
+  const logoSrc = logo === "greenlogo" ? "/assets/greenlogo.png" : "/assets/whitelogo.png";
+
   return (
     <ContainerDiv backgroundColor={backgroundColor}>
       {logoLogout ? (
-        <LogoutLogo color={color} onClick={() => signOut()}>
-          당신의집사
-        </LogoutLogo>
+        <Link href="/">
+          <Logo onClick={() => signOut()}>
+            <Image src={logoSrc} alt="Logo" width={180} height={55} />
+          </Logo>
+        </Link>
       ) : (
-        <Logo href={"/"} color={color}>
-          당신의집사
-        </Logo>
+        <Link href="/">
+          <Logo>
+            <Image src={logoSrc} alt="Logo" width={180} height={55} />
+          </Logo>
+        </Link>
       )}
       <NavDiv className={notoSansKr.className}>
         <StyledLink href="/search" color={color}>
@@ -63,14 +72,20 @@ const ContainerDiv = styled.div<BgProp>`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem 4rem;
+  padding: 1rem 4rem;
   background-color: ${(props) => props.backgroundColor || "#334835"};
 `;
 
-const Logo = styled(Link)<ColorProp>`
-  font-size: 1.5rem;
-  color: ${(props) => props.color || "white"};
-  text-decoration-line: none;
+const Logo = styled.div`
+  /* font-size: 1.5rem; */
+  /* color: ${(props) => props.color || "white"}; */
+  /* text-decoration-line: none; */
+  height: 3rem;
+  width: 10rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const LogoutLogo = styled.div<ColorProp>`

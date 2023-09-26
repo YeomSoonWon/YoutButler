@@ -12,7 +12,7 @@ export default async function SignInPage() {
 
   return (
     <>
-      <AppBar backgroundColor="transparent" color="#334835" user={null}/>
+      <AppBar backgroundColor="transparent" logo="greenlogo" color="#334835" user={null} />
       <SocialSigninButton providers={providers}></SocialSigninButton>
       <Footer />
     </>

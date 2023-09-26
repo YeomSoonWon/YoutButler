@@ -17,56 +17,55 @@ import authApi from "@/api/authApi";
 
 const Profile = () => {
   const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
-  const {data:session, status}  = useSession();
+  const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
 
-  useEffect(()=>{
-    if(session){
+  useEffect(() => {
+    if (session) {
       // @ts-ignore
       configureUser(session?.userData.token, session?.userData.socialType);
     }
+  }, [session]);
 
-  },[session]);
-
-  useEffect(()=>{
-    if(status === "unauthenticated"){
-      alert("잘못된 접근입니다.")
-      window.location.href="/";
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      alert("잘못된 접근입니다.");
+      window.location.href = "/";
     }
-  },[status]);
+  }, [status]);
 
-  const configureUser=async(token:String, provider:String)=>{
-    try{
+  const configureUser = async (token: String, provider: String) => {
+    try {
       let res = await authApi.getUser(token, provider);
-      if(res.status === 200){
+      if (res.status === 200) {
         console.log(res.data);
         setUser(res.data.memberResponse);
-      }else{
+      } else {
         alert("비정상적인 접근입니다.");
-        window.location.href="/";
+        window.location.href = "/";
       }
-    }catch{
+    } catch {
       alert("비정상적인 접근입니다.");
-      window.location.href="/";
+      window.location.href = "/";
     }
-  }
+  };
 
   const handleTitleClick = (index) => {
     setSelectedTitleIndex(index);
     // todo : selectedTitleIndex의 값을 통해 유저의 채팅 목록 중 매물에 맞는 채팅 출력
   };
 
-  const deleteUser = async()=>{
+  const deleteUser = async () => {
     let realDelete = window.confirm("정말 탈퇴하시겠습니까?");
-    if(realDelete){
+    if (realDelete) {
       // @ts-ignore
       let res = await authApi.deleteUser(session?.userData);
-      if(res.data.message === "탈퇴 완료"){
+      if (res.data.message === "탈퇴 완료") {
         alert("탈퇴되었습니다.");
-        window.location.href="/";
+        window.location.href = "/";
       }
     }
-  }
+  };
 
   const chatMessages = [
     { text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?", isRight: false },
@@ -83,7 +82,7 @@ const Profile = () => {
 
   return (
     <main>
-      <AppBar backgroundColor="transparent" color="#334835" user={user} />
+      <AppBar backgroundColor="transparent" logo="greenlogo" color="#334835" user={user} />
       <Container>
         <TitleDiv>
           <NameP>{user?.nickname}님,</NameP>
