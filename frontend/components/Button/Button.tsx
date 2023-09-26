@@ -13,12 +13,14 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | "redOutline";
   Kind?: "extraSmall" | "small" | "medium" | "big";
   Rounded?: "square" | "circle";
+  onClick?: () => void;
 }
 
 export default function Button({
   Kind = "extraSmall",
   Variant = "yellowFilled",
   Rounded,
+  onClick,
   ...props
 }: ButtonProps) {
   return (
@@ -26,6 +28,7 @@ export default function Button({
       Kind={Kind}
       Variant={Variant}
       Rounded={Rounded}
+      onClick={onClick}
       {...props}
     ></StyledButton>
   );
