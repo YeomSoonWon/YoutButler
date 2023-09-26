@@ -23,6 +23,9 @@ const authOptions : NextAuthOptions = {
       callbacks:{
         async signIn({ user, account, profile, email }) {
           const res = await authApi.getUser(account.access_token, account.provider.toString());
+          if(res.data){
+            console.log("유저 찾기 완료");
+          }
 
           // @ts-ignore
           user.userData = {
@@ -31,15 +34,11 @@ const authOptions : NextAuthOptions = {
             status : res.status,
             accessToken : res.data.token.accessToken
           };
-          
-          if(res.status === 202){
-          // return `http://localhost:3000/create`;
-          }
-
           return true;
         },
 
         async redirect({url, baseUrl}) {
+          console.log("redirect url", baseUrl);
           return baseUrl;
         },
 
