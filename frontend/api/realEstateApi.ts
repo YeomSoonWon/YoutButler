@@ -34,15 +34,6 @@ const privateEstateApi:Axios = axios.create({
 });
 
 const realEstateApi = {
-    // getEstate : async()=>{
-    //     // let res = publicEstateApi.get();
-    //     return "getEstate result";
-    // },
-
-    // likeEstate : async(token:String)=>{
-    //     // let res = publicEstateApi.get();
-    //     return "getEstate result";
-    // },
     search : async(searchTerm : RealEstateSearchTerm) =>{
         let res = await privateEstateApi.get(`/search`, {
             params : {
