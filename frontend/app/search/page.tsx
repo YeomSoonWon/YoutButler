@@ -113,14 +113,19 @@ const Search = () => {
               </AboutDiv>
             </TitleDiv>
             <ItemDiv>
-              {selectedType === "월세" && <ItemEach width="18rem" height="19rem" />}
-              {selectedType === "전세" && <ItemEach width="18rem" height="19rem" />}
-              {selectedType === "매매" && <ItemEach width="18rem" height="19rem" />}
+              <ItemEach width="18rem" height="19rem" />
+              <ItemEach width="18rem" height="19rem" />
+              <ItemEach width="18rem" height="19rem" />
             </ItemDiv>
           </Lower>
         </LeftContainer>
         <RightContainer>
-          <SearchInput type="text" placeholder="지역, 학교, 지하철역 검색" />
+          <SearchDiv>
+            <SearchInput type="text" placeholder="지역, 학교, 지하철역 검색" />
+            <Button Kind="extraSmall" Rounded="square" Variant="yellowTonal">
+              검색
+            </Button>
+          </SearchDiv>
           <ContentDiv>
             <SubtitleP>거래 유형</SubtitleP>
             <ButtonDiv>
@@ -277,24 +282,31 @@ const ItemDiv = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 0fr);
   flex-direction: row;
-  justify-content: center;
   gap: 1rem;
   flex-wrap: wrap;
   overflow-x: hidden;
+  padding: 0 3rem;
 `;
 
 const SearchInput = styled.input`
-  width: 80%;
   height: 2.3rem;
-  margin: 1rem;
   border-radius: 0.2rem;
   border: solid 1px #d9d9d9;
+  width: 65%;
   padding: 0 0.7rem;
 
   &:focus {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     outline-color: transparent;
   }
+`;
+
+const SearchDiv = styled.div`
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 18rem;
 `;
 
 const ContentDiv = styled.div`
