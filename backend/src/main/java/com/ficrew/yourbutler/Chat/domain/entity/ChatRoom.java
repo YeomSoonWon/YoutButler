@@ -1,11 +1,9 @@
 package com.ficrew.yourbutler.Chat.domain.entity;
 
+import com.ficrew.yourbutler.member.domain.entity.Member;
 import lombok.Getter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
@@ -17,11 +15,13 @@ public class ChatRoom {
 
     private Long aptId;
 
-    private Long userId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
 
-    public ChatRoom(Long aptId, Long userId) {
+    public ChatRoom(Long aptId, Member member) {
         this.aptId = aptId;
-        this.userId = userId;
+        this.member = member;
     }
 
     protected ChatRoom() {
