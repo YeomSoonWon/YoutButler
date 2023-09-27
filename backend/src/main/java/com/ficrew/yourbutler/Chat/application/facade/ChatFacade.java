@@ -2,6 +2,7 @@ package com.ficrew.yourbutler.Chat.application.facade;
 
 import com.ficrew.yourbutler.Chat.application.CreateMessageProcessor;
 import com.ficrew.yourbutler.Chat.application.command.CreateMessageCommand;
+import com.ficrew.yourbutler.Chat.application.result.MessageResult;
 import com.ficrew.yourbutler.global.auth.AuthenticatedMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,8 @@ public class ChatFacade {
     private final CreateMessageProcessor createMessageProcessor;
 
     @Transactional
-    public void createMessage(CreateMessageCommand command, AuthenticatedMember member) {
-        createMessageProcessor.execute(command, member);
+    public MessageResult createMessage(CreateMessageCommand command, AuthenticatedMember member) {
+        return createMessageProcessor.execute(command, member);
     }
 
 }

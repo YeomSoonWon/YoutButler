@@ -12,10 +12,10 @@ public class ChatConfig {
 
     @Bean
     public CreateMessageProcessor createMessageProcessor(
-            ChatRepository chatRepository, MessageRepository messageRepository
+            ChatRepository chatRepository, MessageRepository messageRepository, MemberRepository memberRepository
     ) {
         return new CreateMessageProcessor(
-                chatRepository, messageRepository
+                chatRepository, messageRepository, memberRepository
         );
     }
 
