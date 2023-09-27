@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 public class CreateMessageRequest {
 
-    @Min(value = 0, message = "채팅방 번호가 필요합니다.")
+    @Min(value = -2, message = "채팅방 번호가 필요합니다.")
     private Long chatRoomNo;
 
     @NotBlank(message = "채팅 내용이 필요합니다.")

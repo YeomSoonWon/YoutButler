@@ -7,6 +7,7 @@ import lombok.Getter;
 @Getter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GoogleLoginResult {
+
     @JsonProperty("id")
     private String identifier;
 
@@ -15,4 +16,5 @@ public class GoogleLoginResult {
 
     @JsonProperty("name")
     private String nickname;
+
 }
