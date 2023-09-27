@@ -21,7 +21,7 @@ public class CreateMessageProcessor {
     private final ChatRepository chatRepository;
     private final MessageRepository messageRepository;
     private final MemberRepository memberRepository;
-    private final WebClient webClient = WebClient.create("http://localhost:5000");
+    private final WebClient webClient = WebClient.create("http://localhost:8000");
 
     public MessageResult execute(CreateMessageCommand command, AuthenticatedMember member) {
         ChatRoom chatRoom;
@@ -55,7 +55,7 @@ public class CreateMessageProcessor {
 
         Message botMessage = new Message(true, flaskResult.getResponse(), chatRoom);
         messageRepository.save(botMessage);
-        return new MessageResult(message);
+        return new MessageResult(botMessage);
     }
 
 }
