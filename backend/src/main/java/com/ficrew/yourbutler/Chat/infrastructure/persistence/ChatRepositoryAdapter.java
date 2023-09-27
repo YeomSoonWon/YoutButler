@@ -4,6 +4,7 @@ import com.ficrew.yourbutler.Chat.domain.entity.ChatRoom;
 import com.ficrew.yourbutler.Chat.domain.repository.ChatRepository;
 import com.ficrew.yourbutler.Chat.infrastructure.persistence.jpa.JpaChatRoomRepository;
 import com.ficrew.yourbutler.Chat.infrastructure.persistence.jpa.JpaMessageRepository;
+import com.ficrew.yourbutler.member.domain.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -19,8 +20,8 @@ public class ChatRepositoryAdapter implements ChatRepository {
     }
 
     @Override
-    public ChatRoom findByUserIdAndAptId(Long userId, Long aptId) {
-        return chatRoomRepository.findByUserIdAndAptId(userId, aptId);
+    public ChatRoom findByMemberAndAptId(Member member, Long aptId) {
+        return chatRoomRepository.findByMemberAndAptId(member, aptId);
     }
 
     @Override
