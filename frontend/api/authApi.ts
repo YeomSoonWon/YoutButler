@@ -1,16 +1,6 @@
 import axios, {Axios, AxiosRequestConfig} from "axios";
-// import User from "@/types/User";
 
-// 비로그인 시 가능한 로직
 const PublicAuthApi:Axios = axios.create({
-    baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/members`,
-    headers:{
-        "Content-Type" : "application/json",
-    }
-});
-
-// 로그인 시 가능한 로직
-const PrivateAuthApi:Axios = axios.create({
     baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/members`,
     headers:{
         "Content-Type" : "application/json",
@@ -34,7 +24,6 @@ const authApi = {
         return res;
     },
 
-    // authorization 추가 필요 : 우리 서버에서 준 accessToken 사용
     signUp : async(userData:any | null, age:Number|null, houses:String|null, budget:Number|null, jasan:Number|null, credit:Number|null)=>{
         console.log({
             identifier : userData?.identifier,

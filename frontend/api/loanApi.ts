@@ -8,14 +8,6 @@ const publicLoanApi = axios.create({
     }
 });
 
-// 로그인 시 가능한 로직
-const privateLoanApi = axios.create({
-    baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/loans`,
-    headers:{
-        "Content-Type" : "application/json",
-    }
-});
-
 const loanApi = {
 
 }
