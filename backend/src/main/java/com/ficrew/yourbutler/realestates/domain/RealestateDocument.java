@@ -16,13 +16,13 @@ import org.springframework.data.elasticsearch.annotations.Setting;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Document(indexName = "realestate")
+@Document(indexName = "realestates")
 @Mapping(mappingPath = "elastic/realestate-mapping.json")
 @Setting(settingPath = "elastic/realestate-setting.json")
 public class RealestateDocument {
 
     @Id
-    private Integer articleNo;
+    private String articleNo; // TODO
     private Integer complexNo;
     private Integer hscpNo;
     private Integer ptpNo;
