@@ -18,7 +18,7 @@
       "floorInfo": { "type": "text", "index": false },
       "buildingName": { "type": "text" },
       "dealOrWarrantPrc": { "type": "text", "index": false },
-      "rentPrc": { "type": "float"},
+      "rentPrc": { "type": "text", "index": false},
       "supplyArea": { "type": "float", "index": false },
       "exclusiveArea": { "type": "float" },
       "exclusiveRate": { "type": "integer", "index": false },
@@ -40,27 +40,14 @@
       "bathroomCnt": { "type": "text", "index": false },
       "maintenanceFee": { "type": "float" },
       "lawUsage": { "type": "keyword", "index": false },
-      "approvalDate": { "type": "date", "index": false,  "format": "yyyyMMdd||yyyyMM"},
-      "formatted_image_list": {
-        "type": "nested",
-        "index": false,
-        "properties": {
-          "imageOrder": {
-            "type": "integer",
-            "index": false
-          },
-          "imageSrc": {
-            "type": "text",
-            "index": false
-          }
-        }
-      },
+      "approvalDate": { "type": "text", "index": false},
       "years_difference": {
         "type": "float"
       },
       "dealOrWarrantPrc_numeric": {
         "type": "float"
-      }
+      },
+      "rentPrc_numeric": {"type": "float"}
     }
   }
 }
