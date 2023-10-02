@@ -1,11 +1,11 @@
 {
   "mappings": {
     "properties": {
+      "articleNo": { "type": "long"},
       "complexNo": { "type": "long", "index": false },
       "hscpNo": { "type": "float", "index": false },
       "ptpNo": { "type": "float", "index": false },
       "tradeTypeCode": { "type": "keyword", "index": false },
-      "articleNo": { "type": "long", "index": false },
       "complexName": { "type": "text" },
       "sidoName": { "type": "text" },
       "guName": { "type": "text" },

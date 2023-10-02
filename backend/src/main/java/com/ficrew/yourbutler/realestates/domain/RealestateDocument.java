@@ -1,61 +1,99 @@
 package com.ficrew.yourbutler.realestates.domain;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.elasticsearch.annotations.Mapping;
-import org.springframework.data.elasticsearch.annotations.Setting;
 
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Document(indexName = "realestates")
-@Mapping(mappingPath = "elastic/realestate-mapping.json")
-@Setting(settingPath = "elastic/realestate-setting.json")
+@Document(indexName = "realestates_new")
 public class RealestateDocument {
-
     @Id
-    private String articleNo; // TODO
-    private Integer complexNo;
-    private Integer hscpNo;
-    private Integer ptpNo;
-    @Field(type = FieldType.Text, analyzer = "korean_mixed") // Nori 분석기 사용
+    private String id;
+    private Long articleNo;
+    private Long complexNo;
+    private Float hscpNo;
+    private Float ptpNo;
+    private String tradeTypeCode;
     private String complexName;
     private String sidoName;
     private String guName;
     private String dongName;
     private String address;
-    private Double latitude;
-    private Double longitude;
+    private Float latitude;
+    private Float longitude;
     private String roomType;
     private String realEstateTypeName;
     private String floorInfo;
     private String buildingName;
     private String dealOrWarrantPrc;
-    private Integer rentPrc;
-    private Double supplyArea;
-    private Double exclusiveArea;
-    private Double exclusiveRate;
+    private String rentPrc;
+    private Float supplyArea;
+    private Float exclusiveArea;
+    private Integer exclusiveRate;
     private String direction;
-    private List<String> tagList; // TODO
+    private ArrayList<String> tagList;
     private String description;
     private String realtorName;
     private String realtorAddress;
     private String realtorcellPhoneNo;
-    private Date articleConfirmYmd; // TODO
-    private Integer roomCnt;
-    private Integer bathroomCnt;
-    private Integer maintenanceFee;
+    private Long articleConfirmYmd; //
+    private Float roomCnt;
+    private String bathroomCnt;
+    private Float maintenanceFee;
     private String lawUsage;
-    private Date approvalDate; // TODO
-    private Object formatted_image_list; // TODO
-    private Integer years_difference;
+    private String approvalDate;
+    private Float years_difference;
+    private Float dealOrWarrantPrc_numeric;
+    private Float rentPrc_numeric;
 
+    @Override
+    public String toString() {
+        return "RealestateDocument{" +
+            "id='" + id + '\'' +
+            ", articleNo=" + articleNo +
+            ", complexNo=" + complexNo +
+            ", hscpNo=" + hscpNo +
+            ", ptpNo=" + ptpNo +
+            ", tradeTypeCode='" + tradeTypeCode + '\'' +
+            ", complexName='" + complexName + '\'' +
+            ", sidoName='" + sidoName + '\'' +
+            ", guName='" + guName + '\'' +
+            ", dongName='" + dongName + '\'' +
+            ", address='" + address + '\'' +
+            ", latitude=" + latitude +
+            ", longitude=" + longitude +
+            ", roomType='" + roomType + '\'' +
+            ", realEstateTypeName='" + realEstateTypeName + '\'' +
+            ", floorInfo='" + floorInfo + '\'' +
+            ", buildingName='" + buildingName + '\'' +
+            ", dealOrWarrantPrc='" + dealOrWarrantPrc + '\'' +
+            ", rentPrc='" + rentPrc + '\'' +
+            ", supplyArea=" + supplyArea +
+            ", exclusiveArea=" + exclusiveArea +
+            ", exclusiveRate=" + exclusiveRate +
+            ", direction='" + direction + '\'' +
+            ", tagList=" + tagList +
+            ", description='" + description + '\'' +
+            ", realtorName='" + realtorName + '\'' +
+            ", realtorAddress='" + realtorAddress + '\'' +
+            ", realtorcellPhoneNo='" + realtorcellPhoneNo + '\'' +
+            ", articleConfirmYmd=" + articleConfirmYmd +
+            ", roomCnt=" + roomCnt +
+            ", bathroomCnt='" + bathroomCnt + '\'' +
+            ", maintenanceFee=" + maintenanceFee +
+            ", lawUsage='" + lawUsage + '\'' +
+            ", approvalDate='" + approvalDate + '\'' +
+            ", years_difference=" + years_difference +
+            ", dealOrWarrantPrc_numeric=" + dealOrWarrantPrc_numeric +
+            ", rentPrc_numeric=" + rentPrc_numeric +
+            '}';
+    }
 }

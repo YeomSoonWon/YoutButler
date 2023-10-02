@@ -12,8 +12,11 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 public class ElasticSearchConfig extends AbstractElasticsearchConfiguration {
     @Override
     public RestHighLevelClient elasticsearchClient() {
-        // http port 와 통신할 주소
-        ClientConfiguration configuration = ClientConfiguration.builder().connectedTo("j9a405.p.ssafy.io:3200").build();
+        // http port 와 통신할 주소, 인증 정보 추가
+        ClientConfiguration configuration = ClientConfiguration.builder()
+            .connectedTo("j9a405.p.ssafy.io:3200")
+            .withBasicAuth("elastic", "changeme")  // 인증 정보 추가
+            .build();
         return RestClients.create(configuration).rest();
     }
 }
