@@ -32,7 +32,7 @@ public class CreateMessageProcessor {
             chatRoom = new ChatRoom(command.getAptNo(), memberEntity);
             chatRepository.save(chatRoom);
         } else {
-            chatRoom = chatRepository.findById(command.getChatRoomNo());
+            chatRoom = chatRepository.findById(command.getChatRoomNo()).orElseThrow(()-> new NullPointerException("예상치 못한 오류 발생 1"));
         }
 
         Message message = new Message(command.getIsBot(), command.getMessage(), chatRoom);

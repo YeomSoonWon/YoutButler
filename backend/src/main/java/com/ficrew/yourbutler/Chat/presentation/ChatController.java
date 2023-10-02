@@ -3,15 +3,13 @@ package com.ficrew.yourbutler.Chat.presentation;
 import com.ficrew.yourbutler.Chat.application.facade.ChatFacade;
 import com.ficrew.yourbutler.Chat.presentation.request.CreateMessageRequest;
 import com.ficrew.yourbutler.Chat.presentation.response.MessageResponse;
+import com.ficrew.yourbutler.Chat.presentation.response.MessageResponseList;
 import com.ficrew.yourbutler.global.auth.AuthenticatedMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -27,6 +25,13 @@ public class ChatController {
     public ResponseEntity<MessageResponse> createMessage(@RequestBody @Valid CreateMessageRequest request, @AuthenticationPrincipal AuthenticatedMember member) {
         MessageResponse messageResponse = chatFacade.createMessage(request.toCommand(), member).toResponse();
         return new ResponseEntity<>(messageResponse, HttpStatus.OK);
+    }
+
+    @GetMapping("/{aptId}")
+    public ResponseEntity<MessageResponseList> getMessages(@PathVariable Long aptId, @AuthenticationPrincipal AuthenticatedMember member) {
+        // Entity -> Result -> Response 이거 너무 비효율적인데 이게 맞나
+        MessageResponseList messageResponseList = chatFacade.getMessageList(aptId, member).toResponse();
+        return new ResponseEntity<>(messageResponseList, HttpStatus.OK);
     }
 
 }

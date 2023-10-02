@@ -1,6 +1,7 @@
 package com.ficrew.yourbutler.Chat.infrastructure.config;
 
 import com.ficrew.yourbutler.Chat.application.CreateMessageProcessor;
+import com.ficrew.yourbutler.Chat.application.GetMessageListProcessor;
 import com.ficrew.yourbutler.Chat.domain.repository.ChatRepository;
 import com.ficrew.yourbutler.Chat.domain.repository.MessageRepository;
 import com.ficrew.yourbutler.member.domain.repository.MemberRepository;
@@ -15,6 +16,15 @@ public class ChatConfig {
             ChatRepository chatRepository, MessageRepository messageRepository, MemberRepository memberRepository
     ) {
         return new CreateMessageProcessor(
+                chatRepository, messageRepository, memberRepository
+        );
+    }
+
+    @Bean
+    public GetMessageListProcessor getMessageListProcessor(
+            ChatRepository chatRepository, MessageRepository messageRepository, MemberRepository memberRepository
+    ) {
+        return new GetMessageListProcessor(
                 chatRepository, messageRepository, memberRepository
         );
     }

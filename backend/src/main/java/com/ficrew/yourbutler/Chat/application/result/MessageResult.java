@@ -12,6 +12,7 @@ public class MessageResult {
     private final Boolean isBot;
     private final LocalDateTime timeStamp;
     private final String message;
+    private final Long chatRoomNumber;
     private String loanName;
     private Double loanInterest;
     private String bankName;
@@ -23,6 +24,7 @@ public class MessageResult {
         this.isBot = message.getIsBot();
         this.timeStamp = message.getTimeStamp();
         this.message = message.getMessage();
+        this.chatRoomNumber = message.getChatRoom().getId();
 
         if (message.getLoan() != null) {
             this.loanName = message.getLoan().getLoanName();

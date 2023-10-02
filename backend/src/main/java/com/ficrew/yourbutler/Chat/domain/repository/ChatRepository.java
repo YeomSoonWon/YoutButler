@@ -3,12 +3,14 @@ package com.ficrew.yourbutler.Chat.domain.repository;
 import com.ficrew.yourbutler.Chat.domain.entity.ChatRoom;
 import com.ficrew.yourbutler.member.domain.entity.Member;
 
+import java.util.Optional;
+
 public interface ChatRepository {
 
     ChatRoom save(ChatRoom chatRoom);
 
-    ChatRoom findByMemberAndAptId(Member member, Long aptId);
+    Optional<ChatRoom> findByMemberAndAptId(Member member, Long aptId);
 
-    ChatRoom findById(Long chatRoomId);
+    Optional<ChatRoom> findById(Long chatRoomId);
 
 }
