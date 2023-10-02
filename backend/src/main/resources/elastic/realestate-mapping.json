@@ -1,0 +1,66 @@
+{
+  "mappings": {
+    "properties": {
+      "complexNo": { "type": "long", "index": false },
+      "hscpNo": { "type": "float", "index": false },
+      "ptpNo": { "type": "float", "index": false },
+      "tradeTypeCode": { "type": "keyword", "index": false },
+      "articleNo": { "type": "long", "index": false },
+      "complexName": { "type": "text" },
+      "sidoName": { "type": "text" },
+      "guName": { "type": "text" },
+      "dongName": { "type": "text" },
+      "address": { "type": "text" },
+      "latitude": { "type": "float", "index": false },
+      "longitude": { "type": "float", "index": false },
+      "roomType": { "type": "keyword" },
+      "realEstateTypeName": { "type": "keyword" },
+      "floorInfo": { "type": "text", "index": false },
+      "buildingName": { "type": "text" },
+      "dealOrWarrantPrc": { "type": "text", "index": false },
+      "rentPrc": { "type": "float"},
+      "supplyArea": { "type": "float", "index": false },
+      "exclusiveArea": { "type": "float" },
+      "exclusiveRate": { "type": "integer", "index": false },
+      "direction": { "type": "text", "index": false },
+      "tagList": {
+        "type": "text",
+        "fields": {
+          "keyword": {
+            "type": "keyword"
+          }
+        }
+      },
+      "description": { "type": "text", "index": false },
+      "realtorName": { "type": "text", "index": false },
+      "realtorAddress": { "type": "text", "index": false },
+      "realtorcellPhoneNo": { "type": "text", "index": false },
+      "articleConfirmYmd": { "type": "date", "index": false },
+      "roomCnt": { "type": "float", "index": false },
+      "bathroomCnt": { "type": "text", "index": false },
+      "maintenanceFee": { "type": "float" },
+      "lawUsage": { "type": "keyword", "index": false },
+      "approvalDate": { "type": "date", "index": false,  "format": "yyyyMMdd||yyyyMM"},
+      "formatted_image_list": {
+        "type": "nested",
+        "index": false,
+        "properties": {
+          "imageOrder": {
+            "type": "integer",
+            "index": false
+          },
+          "imageSrc": {
+            "type": "text",
+            "index": false
+          }
+        }
+      },
+      "years_difference": {
+        "type": "float"
+      },
+      "dealOrWarrantPrc_numeric": {
+        "type": "float"
+      }
+    }
+  }
+}
