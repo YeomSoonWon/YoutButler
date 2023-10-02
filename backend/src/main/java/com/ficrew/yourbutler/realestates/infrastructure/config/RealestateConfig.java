@@ -1,5 +1,6 @@
 package com.ficrew.yourbutler.realestates.infrastructure.config;
 
+import com.ficrew.yourbutler.realestates.application.SearchAllRealestatesProcessor;
 import com.ficrew.yourbutler.realestates.application.SearchRealestateDetailsProcessor;
 import com.ficrew.yourbutler.realestates.domain.repository.SearchRepository;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,11 @@ public class RealestateConfig {
         return new SearchRealestateDetailsProcessor(
             searchRepository
         );
+    }
+
+    @Bean
+    public SearchAllRealestatesProcessor searchAllRealestatesProcessor() {
+        return new SearchAllRealestatesProcessor();
     }
 
 }

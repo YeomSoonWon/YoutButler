@@ -1,5 +1,6 @@
 package com.ficrew.yourbutler.realestates.domain;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -39,7 +40,7 @@ public class RealestateDocument {
     private Float exclusiveArea;
     private Integer exclusiveRate;
     private String direction;
-    private ArrayList<String> tagList;
+    private String tagList;
     private String description;
     private String realtorName;
     private String realtorAddress;
