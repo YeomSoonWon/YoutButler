@@ -62,7 +62,7 @@ const Test = () => {
   return (
     <div>
       {status === "loading" && <p>불러오는 중</p>}
-      {status === "error" && <p>{error.message}</p>}
+      {/* {status === "error" && <p>{error.message}</p>} */}
       {status === "success" && (
         <div>
           {data.pages.map((group, index) => (
