@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Document(indexName = "realestates_new")
+@Document(indexName = "realestate")
 public class RealestateDocument {
     @Id
     private String id;
@@ -51,7 +51,7 @@ public class RealestateDocument {
     private Long dealOrWarrantPrc_numeric;
     private Long rentPrc_numeric;
     private Object formatted_image_list;
-
+    private Object realTransactionPriceList;
 
     @Override
     public String toString() {
@@ -94,6 +94,7 @@ public class RealestateDocument {
             ", dealOrWarrantPrc_numeric=" + dealOrWarrantPrc_numeric +
             ", rentPrc_numeric=" + rentPrc_numeric +
             ", formatted_image_list=" + formatted_image_list +
+            ", realTransactionPriceList=" + realTransactionPriceList +
             '}';
     }
 }
