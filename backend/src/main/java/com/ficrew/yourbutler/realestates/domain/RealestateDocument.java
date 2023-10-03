@@ -1,9 +1,5 @@
 package com.ficrew.yourbutler.realestates.domain;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
 import javax.persistence.Id;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -54,6 +50,8 @@ public class RealestateDocument {
     private Float years_difference;
     private Float dealOrWarrantPrc_numeric;
     private Float rentPrc_numeric;
+    private Object formatted_image_list;
+
 
     @Override
     public String toString() {
@@ -81,7 +79,7 @@ public class RealestateDocument {
             ", exclusiveArea=" + exclusiveArea +
             ", exclusiveRate=" + exclusiveRate +
             ", direction='" + direction + '\'' +
-            ", tagList=" + tagList +
+            ", tagList='" + tagList + '\'' +
             ", description='" + description + '\'' +
             ", realtorName='" + realtorName + '\'' +
             ", realtorAddress='" + realtorAddress + '\'' +
@@ -95,6 +93,7 @@ public class RealestateDocument {
             ", years_difference=" + years_difference +
             ", dealOrWarrantPrc_numeric=" + dealOrWarrantPrc_numeric +
             ", rentPrc_numeric=" + rentPrc_numeric +
+            ", formatted_image_list=" + formatted_image_list +
             '}';
     }
 }
