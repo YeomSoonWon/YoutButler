@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { useInfiniteQuery, useIsFetching, useIsFetchingNextPage } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useObserver } from "@/components/Search/useObserver";
 
