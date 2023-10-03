@@ -56,7 +56,7 @@ export default function ItemEach({ width, height, colordot }: IProps) {
   return (
     <EstateDiv
       onClick={() => {
-        window.location.href = '/detail/2340033913';
+        window.location.href = "/detail/2340933163";
       }}
     >
       <div onClick={(e: React.MouseEvent<HTMLElement>) => handleHeartClick(e)}>

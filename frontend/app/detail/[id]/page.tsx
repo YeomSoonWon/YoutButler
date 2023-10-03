@@ -1,7 +1,5 @@
 "use client";
 
-// import { getServerSession } from "next-auth/next";
-// import authOptions from "@/Oauth/AuthOption";
 import Image from "next/image";
 import AppBar from "@/components/AppBar";
 import Footer from "@/components/Footer";
@@ -52,6 +50,8 @@ import { useEffect } from "react";
 import authApi from "@/api/authApi";
 import YeokSam from "@/public/json/역삼동_매매_아파트.json";
 import axios from "axios";
+import realEstateApi from "@/api/realEstateApi";
+import chatApi from "@/api/chatApi";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -63,6 +63,9 @@ const DetailWithID = ({ params }) => {
   const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
   const [house, setHouse] = useState<any | null>(null);
+  const [msg, setMsg] = useState<String>("로그인이 필요합니다.");
+  const [chatNo, setChatNo] = useState<number>(-1);
+  const [chatList, setChatList] = useState([]);
 
   // 찜
   const [like, setLike] = useState(false);
@@ -104,26 +107,45 @@ const DetailWithID = ({ params }) => {
   }, [session]);
 
   useEffect(() => {
-    console.log(params);
     if (params.id) {
-      for (const item of YeokSam?.roomTypeList) {
-        if (parseInt(params.id) === item.complexNo) {
-          setHouse(item);
-        }
-      }
+      getHouse(params.id);
     }
   }, [params]);
 
   useEffect(() => {
-    console.log(house);
-  }, [house]);
+    if (params.id && session?.userData) {
+      getChat(session?.userData, params.id);
+    }
+  }, [params, session]);
+
+  const getHouse = async (realestateId: number) => {
+    try {
+      let res = await realEstateApi.detailSearch(null, realestateId);
+      console.log(res.data);
+      setHouse(res.data);
+    } catch {
+      window.alert("존재하는 매물이 아니거나 오류가 발생했습니다.");
+      window.location.href = "/";
+    }
+  }
+
+  const getChat = async (userData: any | null, realestateId: number) => {
+    let res = await chatApi.getChat(userData, realestateId);
+    console.log(res);
+    setChatList(res.data.messageList);
+    setChatNo(res.data.chatRoomNumber);
+    // setHouse(res.data);
+  }
 
   // 챗봇 open
   const [isChatOpen, setIsChatOpen] = useState<Boolean>(false);
 
   const handleChatClick = () => {
-    setIsChatOpen(!isChatOpen);
-    console.log("눌렸다!");
+    if (!user) {
+      return;
+    } else {
+      setIsChatOpen(!isChatOpen);
+    }
   };
 
   const chatMessages = [
@@ -143,14 +165,23 @@ const DetailWithID = ({ params }) => {
     try {
       let res = await authApi.getUser(token, provider);
       if (res.status === 200) {
+        console.log(res.data.memberResponse)
         setUser(res.data.memberResponse);
+        setMsg("집사에게 물어보세요!");
       } else {
         setUser(null);
+        setMsg("로그인이 필요한 서비스입니다.");
       }
     } catch {
       setUser(null);
+      setMsg("로그인이 필요한 서비스입니다.");
     }
   };
+
+  const sendChat = async () => {
+    let res = await chatApi.sendChat(session?.userData, user, house, "국민은행에서 가장 낮은 금리의 대출을 받고 싶어", chatNo);
+    console.log(res);
+  }
 
   return (
     <main className={ibmPlexSansKR.className}>
@@ -162,10 +193,10 @@ const DetailWithID = ({ params }) => {
             <TitleLikeDiv>
               <ContainerP>
                 <TitleP>
-                  {house?.complexName} · {house?.floor}층
+                  {house?.complexName} · {house?.floorInfo.split("/")[0]}층
                 </TitleP>
                 <SubP>
-                  {house?.sidoName} {house?.guName} {house?.dongName}
+                  {house?.address} {house?.complexName}  {house?.buildingName}
                 </SubP>
               </ContainerP>
               <div>
@@ -209,7 +240,7 @@ const DetailWithID = ({ params }) => {
               <AboutEachDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>{YeokSam.realEstateTypeName}</AboutTitleP>
-                  <p>3억</p>
+                  <p>{house?.dealOrWarrantPrc}</p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>관리비</AboutTitleP>
@@ -222,37 +253,37 @@ const DetailWithID = ({ params }) => {
               <AboutEachDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>방 종류</AboutTitleP>
-                  <p>쓰리룸 이상</p>
+                  <p>{house?.roomCnt}룸 이상</p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>해당층/건물층</AboutTitleP>
-                  <p>중/15층</p>
+                  <p>{house?.floorInfo}층</p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>전용/공급면적</AboutTitleP>
                   <p>
-                    {house?.exclusiveArea}m²/{house?.supplyArea}m² ({house?.pyeong}평)
+                    {house?.exclusiveArea}m²/{house?.supplyArea}m² ({Math.floor(house?.supplyArea / 3.3)}평)
                   </p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>방 수/욕실 수</AboutTitleP>
-                  <p>3개/2개</p>
+                  <p>{house?.roomCnt}개/{house?.bathroomCnt}개</p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>방향</AboutTitleP>
-                  <p>남향</p>
+                  <p>{house?.direction}</p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>건축물용도</AboutTitleP>
-                  <p>공동주택</p>
+                  <p>{house?.lawUsage}</p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>사용승인일</AboutTitleP>
-                  <p>2023.04.11</p>
+                  <p>{house?.approvalDate}</p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>최초등록일</AboutTitleP>
-                  <p>2023.08.14</p>
+                  <p>{house?.articleConfirmYmd}</p>
                 </AboutDetailDiv>
               </AboutEachDiv>
             </AboutDiv>
@@ -261,25 +292,25 @@ const DetailWithID = ({ params }) => {
               <AboutEachDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>지점명</AboutTitleP>
-                  <p>주식회사우대빵부동산중개법인 강서지점</p>
+                  <p>{house?.realtorName}</p>
                 </AboutDetailDiv>
-                <AboutDetailDiv>
+                {/* <AboutDetailDiv>
                   <AboutTitleP>대표</AboutTitleP>
                   <p>이은정</p>
-                </AboutDetailDiv>
+                </AboutDetailDiv> */}
                 <AboutDetailDiv>
                   <AboutTitleP>주소</AboutTitleP>
-                  <p>서울특별시 강서구 강서로 243, 2층 201호 202호 203호</p>
+                  <p>{house?.realtorAddress}</p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>전화번호</AboutTitleP>
-                  <p>02-1661-9539, 010-1234-5667</p>
+                  <p>{house?.realtorcellPhoneNo}</p>
                 </AboutDetailDiv>
               </AboutEachDiv>
             </AboutDiv>
             <AboutDiv>
               <AboutInfoDiv>
-                <AboutP>시세(현재 + 예상)</AboutP>
+                <AboutP>시세 추이</AboutP>
                 <InfoBubble>
                   <StyledSvg
                     xmlns="http://www.w3.org/2000/svg"
@@ -331,14 +362,14 @@ const DetailWithID = ({ params }) => {
               </ChatBotDiv>
               <AskDiv expanded={isChatOpen}>
                 <div>
-                  <AskP isVisible={isChatOpen}>집사에게 물어보세요!</AskP>
+                  <AskP isVisible={isChatOpen}>{msg}</AskP>
                 </div>
                 <ChatMiddleDiv isVisible={isChatOpen}>
-                  <Chatting messages={chatMessages} />
+                  <Chatting messages={chatList} />
                 </ChatMiddleDiv>
                 <ChatBottomDiv isVisible={isChatOpen}>
                   <MessageInput type="text" placeholder="메시지를 입력해주세요.." />
-                  <SvgBtn>
+                  <SvgBtn onClick={sendChat}>
                     <SendSvg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
                       <path d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376V479.3c0 18.1 14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9 7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448 256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8 116.6 403.3 425.4z" />
                     </SendSvg>
