@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import AppBar from "@/components/AppBar";
-import styled from "styled-components";
-import Button from "@/components/Button/Button";
-import Map from "@/components/Map";
-import ColorDot from "@/components/List/ColorDot";
-import colors from "@/constants/colors";
-import ItemEach from "@/components/List/ItemEach";
-import Checkbox from "@/components/Input/Checkbox";
-import RangeSlider from "@/components/Input/RangeSlider";
-import Footer from "@/components/Footer";
-import { IBM_Plex_Sans_KR } from "next/font/google";
-import InfoBubble from "@/components/List/InfoBubble";
-import { useSession } from "next-auth/react";
-import { useEffect } from "react";
-import authApi from "@/api/authApi";
+import { useState } from 'react';
+import AppBar from '@/components/AppBar';
+import styled from 'styled-components';
+import Button from '@/components/Button/Button';
+import Map from '@/components/Map';
+import ColorDot from '@/components/List/ColorDot';
+import colors from '@/constants/colors';
+import ItemEach from '@/components/List/ItemEach';
+import Checkbox from '@/components/Input/Checkbox';
+import RangeSlider from '@/components/Input/RangeSlider';
+import Footer from '@/components/Footer';
+import { IBM_Plex_Sans_KR } from 'next/font/google';
+import InfoBubble from '@/components/List/InfoBubble';
+import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
+import authApi from '@/api/authApi';
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
-  weight: ["300", "400", "500", "700"],
-  subsets: ["latin"],
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
 });
 
 const Search = () => {
@@ -37,15 +37,15 @@ const Search = () => {
   }, [session]);
 
   const handleMonthlyClick = () => {
-    setSelectedType("월세");
+    setSelectedType('월세');
   };
 
   const handleCharterClick = () => {
-    setSelectedType("전세");
+    setSelectedType('전세');
   };
 
   const handleSaleClick = () => {
-    setSelectedType("매매");
+    setSelectedType('매매');
   };
 
   const configureUser = async (token: String, provider: String) => {
@@ -63,15 +63,24 @@ const Search = () => {
 
   return (
     <main>
-      <AppBar backgroundColor="transparent" logo="greenlogo" color="#334835" user={user} />
+      <AppBar
+        backgroundColor='transparent'
+        logo='greenlogo'
+        color='#334835'
+        user={user}
+      />
       <Container className={ibmPlexSansKR.className}>
         <LeftContainer>
           <Upper>
             <TitleP>매물 찾기</TitleP>
             <InputDiv>
-              {selectedType === '월세' ? <StyledInput type="number" placeholder="월세 가용 자산" /> : <NoneDiv></NoneDiv>}
-              <StyledInput type="number" placeholder="부동산 거래 예산" />
-              <Button Kind="extraSmall" Variant="yellowTonal" Rounded="square">
+              {selectedType === '월세' ? (
+                <StyledInput type='number' placeholder='월세 가용 자산' />
+              ) : (
+                <NoneDiv></NoneDiv>
+              )}
+              <StyledInput type='number' placeholder='부동산 거래 예산' />
+              <Button Kind='extraSmall' Variant='yellowTonal' Rounded='square'>
                 설정
               </Button>
             </InputDiv>
@@ -92,33 +101,33 @@ const Search = () => {
                 <p>조금 부족</p>
                 <InfoBubble>
                   <StyledSvg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="gray"
-                    className="w-6 h-6"
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    strokeWidth='1.5'
+                    stroke='gray'
+                    className='w-6 h-6'
                   >
                     <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z'
                     />
                   </StyledSvg>
                 </InfoBubble>
               </AboutDiv>
             </TitleDiv>
             <ItemDiv>
-              <ItemEach width="18rem" height="19rem" />
-              <ItemEach width="18rem" height="19rem" />
-              <ItemEach width="18rem" height="19rem" />
+              <ItemEach width='18rem' height='19rem' />
+              <ItemEach width='18rem' height='19rem' />
+              <ItemEach width='18rem' height='19rem' />
             </ItemDiv>
           </Lower>
         </LeftContainer>
         <RightContainer>
           <SearchDiv>
-            <SearchInput type="text" placeholder="지역, 학교, 지하철역 검색" />
-            <Button Kind="extraSmall" Rounded="square" Variant="yellowTonal">
+            <SearchInput type='text' placeholder='지역, 학교, 지하철역 검색' />
+            <Button Kind='extraSmall' Rounded='square' Variant='yellowTonal'>
               검색
             </Button>
           </SearchDiv>
@@ -126,22 +135,39 @@ const Search = () => {
             <SubtitleP>거래 유형</SubtitleP>
             <ButtonDiv>
               <Button
-                Kind="small"
-                Variant="grayOutline"
-                Rounded="square"
+                Kind='small'
+                Variant='grayOutline'
+                Rounded='square'
                 onClick={handleMonthlyClick}
+                customStyle={{
+                  backgroundColor:
+                    selectedType === '월세' ? 'darkgray' : 'transparent',
+                }}
               >
                 월세
               </Button>
               <Button
-                Kind="small"
-                Variant="grayOutline"
-                Rounded="square"
+                Kind='small'
+                Variant='grayOutline'
+                Rounded='square'
                 onClick={handleCharterClick}
+                customStyle={{
+                  backgroundColor:
+                    selectedType === '전세' ? 'darkgray' : 'transparent',
+                }}
               >
                 전세
               </Button>
-              <Button Kind="small" Variant="grayOutline" Rounded="square" onClick={handleSaleClick}>
+              <Button
+                Kind='small'
+                Variant='grayOutline'
+                Rounded='square'
+                onClick={handleSaleClick}
+                customStyle={{
+                  backgroundColor:
+                    selectedType === '매매' ? 'darkgray' : 'transparent',
+                }}
+              >
                 매매
               </Button>
             </ButtonDiv>
@@ -149,37 +175,41 @@ const Search = () => {
           <ContentDiv>
             <SubtitleP>방 종류</SubtitleP>
             <CheckboxDiv>
-              <Checkbox label="아파트" />
-              <Checkbox label="오피스텔" />
-              <Checkbox label="단독·다가구" />
+              <Checkbox label='아파트' />
+              <Checkbox label='오피스텔' />
+              <Checkbox label='단독·다가구' />
               <Checkbox
-                label="원·투룸"
+                label='원·투룸'
                 // isChecked={isChecked}
                 // onChange={handleCheckboxChange}
               />
-              <Checkbox label="빌라·연립" />
-              <Checkbox label="주택" />
+              <Checkbox label='빌라·연립' />
+              <Checkbox label='주택' />
             </CheckboxDiv>
           </ContentDiv>
           <ContentDiv>
             <SubtitleP>가격</SubtitleP>
             <RangeDiv>
-              <RangeSlider title="보증금 / 전세가" end="무제한" />
-              {selectedType === "월세" && <RangeSlider title="월세" end="무제한" />}
-              {selectedType === "매매" && <RangeSlider title="매매가" end="2억 7천만" />}
-              <RangeSlider title="관리비" end="40만원" />
-              <RangeSlider title="방크기(전용면적)" end="75㎡" />
+              <RangeSlider title='보증금 / 전세가' end='무제한' />
+              {selectedType === '월세' && (
+                <RangeSlider title='월세' end='무제한' />
+              )}
+              {selectedType === '매매' && (
+                <RangeSlider title='매매가' end='2억 7천만' />
+              )}
+              <RangeSlider title='관리비' end='40만원' />
+              <RangeSlider title='방크기(전용면적)' end='75㎡' />
             </RangeDiv>
           </ContentDiv>
           <ContentDiv>
             <SubtitleP>사용승인일</SubtitleP>
             <CheckboxSecondDiv>
-              <Checkbox label="전체" />
-              <Checkbox label="1년 이내" />
-              <Checkbox label="5년 이내" />
-              <Checkbox label="10년 이내" />
-              <Checkbox label="15년 이내" />
-              <Checkbox label="15년 이상" />
+              <Checkbox label='전체' />
+              <Checkbox label='1년 이내' />
+              <Checkbox label='5년 이내' />
+              <Checkbox label='10년 이내' />
+              <Checkbox label='15년 이내' />
+              <Checkbox label='15년 이상' />
             </CheckboxSecondDiv>
           </ContentDiv>
         </RightContainer>
