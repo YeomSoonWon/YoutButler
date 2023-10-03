@@ -15,7 +15,7 @@ public class RealestateEsFacade {
     private final SearchRealestateDetailsProcessor searchRealestateDetailsProcessor;
     private final SearchAllRealestatesProcessor searchAllRealestatesProcessor;
 
-    public List<SearchResponse> searchProperties(SearchCondition condition) {
+    public List<RealestateDocument> searchProperties(SearchCondition condition) {
         return searchAllRealestatesProcessor.execute(condition);
     }
 

@@ -21,13 +21,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/realestates")
 @RequiredArgsConstructor
 public class RealestateController {
+
     // TODO layeredarchitecture에 맞게 수정 필요
 
     private final RealestateEsFacade realestateEsFacade;
 
     @PostMapping("/search")
     public ResponseEntity<List<SearchResponse>> search(@RequestBody SearchCondition condition) {
-        List<SearchResponse> results = realestateEsFacade.searchProperties(condition);
+        List<SearchResponse> results = SearchResponse.from(realestateEsFacade.searchProperties(condition));
         return ResponseEntity.ok(results);
     }
     @GetMapping("/{realestateId}")

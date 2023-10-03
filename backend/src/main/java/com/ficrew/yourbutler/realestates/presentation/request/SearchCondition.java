@@ -15,6 +15,14 @@ public class SearchCondition {
     private Long dealPrcMax;
     private Long rentPrcMin; // 월세
     private Long rentPrcMax;
-
+    private Long maintenanceFeeMin;
+    private Long maintenanceFeeMax;
+    private Long roomSizeMin;
+    private Long roomSizeMax;
+    private Integer useApproveY; // 사용 승인일 기간 (다중택일)
+    // 매매가/전세가/월세 보증금  입력값
+    private Long realestateAsset;
+    // 월 여유자금 입력
+    private Long monthlyAvailableAsset;
 
 }
