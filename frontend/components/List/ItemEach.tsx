@@ -96,7 +96,7 @@ export default function ItemEach({ width, height, colordot }, { item }: IProps) 
         <RoomP>강남구 역삼동 아파트</RoomP>
         <PriceDiv>
           <PriceP>{YeokSam.realEstateTypeName} 3000/415</PriceP>
-          <ColorDot color={colordot} />
+          <ColorDot color={colordot || "transparent"} />
         </PriceDiv>
         <DetailP>4층, 29.79㎡, 관리비 10만</DetailP>
         <DetailP>
