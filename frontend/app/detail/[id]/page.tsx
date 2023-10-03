@@ -113,7 +113,9 @@ const DetailWithID = ({ params }) => {
   }, [params]);
 
   useEffect(() => {
+    // @ts-ignore
     if (params.id && session?.userData) {
+      // @ts-ignore
       getChat(session?.userData, params.id);
     }
   }, [params, session]);
@@ -179,6 +181,7 @@ const DetailWithID = ({ params }) => {
   };
 
   const sendChat = async () => {
+    // @ts-ignore
     let res = await chatApi.sendChat(session?.userData, user, house, "국민은행에서 가장 낮은 금리의 대출을 받고 싶어", chatNo);
     console.log(res);
   }
