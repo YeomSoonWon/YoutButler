@@ -7,6 +7,7 @@ import com.ficrew.yourbutler.realestates.presentation.response.RealestateDetailR
 import com.ficrew.yourbutler.realestates.presentation.response.SearchResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,11 +16,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/v1/realestates")
 @RequiredArgsConstructor
 public class RealestateController {
-
+    // TODO layeredarchitecture에 맞게 수정 필요
 
     private final RealestateEsFacade realestateEsFacade;
 
@@ -30,9 +32,7 @@ public class RealestateController {
     }
     @GetMapping("/{realestateId}")
     public ResponseEntity<RealestateDetailResponse> searchByArticleNo(@PathVariable Long realestateId) {
-        RealestateDocument realestateDocument = realestateEsFacade.searchDetails(realestateId);
-        System.out.println(realestateDocument);
-        var result = RealestateDetailResponse.from(realestateDocument);
+        var result = RealestateDetailResponse.from(realestateEsFacade.searchDetails(realestateId));
         return ResponseEntity.ok(result);
     }
 }

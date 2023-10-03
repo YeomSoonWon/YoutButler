@@ -16,24 +16,24 @@ public class RealestateDocument {
     private String id;
     private Long articleNo;
     private Long complexNo;
-    private Float hscpNo;
-    private Float ptpNo;
+    private Long hscpNo;
+    private Long ptpNo;
     private String tradeTypeCode;
     private String complexName;
     private String sidoName;
     private String guName;
     private String dongName;
     private String address;
-    private Float latitude;
-    private Float longitude;
+    private Double latitude;
+    private Double longitude;
     private String roomType;
     private String realEstateTypeName;
     private String floorInfo;
     private String buildingName;
     private String dealOrWarrantPrc;
     private String rentPrc;
-    private Float supplyArea;
-    private Float exclusiveArea;
+    private Double supplyArea;
+    private Double exclusiveArea;
     private Integer exclusiveRate;
     private String direction;
     private String tagList;
@@ -42,14 +42,14 @@ public class RealestateDocument {
     private String realtorAddress;
     private String realtorcellPhoneNo;
     private Long articleConfirmYmd; //
-    private Float roomCnt;
+    private Integer roomCnt;
     private String bathroomCnt;
-    private Float maintenanceFee;
+    private Long maintenanceFee;
     private String lawUsage;
     private String approvalDate;
-    private Float years_difference;
-    private Float dealOrWarrantPrc_numeric;
-    private Float rentPrc_numeric;
+    private Integer years_difference;
+    private Long dealOrWarrantPrc_numeric;
+    private Long rentPrc_numeric;
     private Object formatted_image_list;
 
 
