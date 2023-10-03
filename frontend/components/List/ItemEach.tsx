@@ -23,10 +23,13 @@ interface IItem {
 }
 
 interface IProps {
-  item: IItem;
+  // item: IItem;
+  width?: string;
+  height?: string;
+  colordot?: string;
 }
 
-export default function ItemEach({ width, height, colordot }, { item }: IProps) {
+export default function ItemEach({ width, height, colordot }: IProps) {
   // 하트 아이콘 클릭 시 색상 변경
   const [isFilled, setIsFilled] = useState(false);
 
