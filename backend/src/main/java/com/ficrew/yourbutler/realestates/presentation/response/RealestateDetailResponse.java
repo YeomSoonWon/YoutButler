@@ -41,7 +41,7 @@ public class RealestateDetailResponse {
     private final String realtorName;
     private final String realtorcellPhoneNo;
     private final String realtorAddress;
-
+    private final Object realTransactionPriceList;
     public static RealestateDetailResponse from(RealestateDocument realestateDocument) {
         return new RealestateDetailResponse(
             realestateDocument.getArticleNo(),
@@ -76,7 +76,8 @@ public class RealestateDetailResponse {
             realestateDocument.getArticleConfirmYmd(),
             realestateDocument.getRealtorName(),
             realestateDocument.getRealtorcellPhoneNo(),
-            realestateDocument.getRealtorAddress()
+            realestateDocument.getRealtorAddress(),
+            realestateDocument.getRealTransactionPriceList()
         );
     }
 
