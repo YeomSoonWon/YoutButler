@@ -1,9 +1,14 @@
-package com.ficrew.yourbutler.realestates.presentation.request;
+package com.ficrew.yourbutler.realestates.application.command;
 
 import com.ficrew.yourbutler.realestates.domain.RoomType;
 import com.ficrew.yourbutler.realestates.domain.TradeType;
+import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-public class SearchCondition {
+@Getter
+@AllArgsConstructor
+public class SearchCommand {
 
     private Integer size;
     private Integer from;
@@ -13,7 +18,7 @@ public class SearchCondition {
     // 월 여유자금 입력
     private Long monthlyAvailableAsset;
     private TradeType tradeType; // 거래 유형: 매매, 월세, 전세
-    private RoomType roomType; // 방종류: 아파트, 오피스텔, 단독다가구, 원룸, 빌라연립, 주택(상가, 한옥, ..)
+    private List<RoomType> roomType; // 방종류: 아파트, 오피스텔, 단독다가구, 원룸, 빌라연립, 주택(상가, 한옥, ..)
     // 가격
     private Long dwMin; // 보증금/전세가 최소
     private Long dwMax;

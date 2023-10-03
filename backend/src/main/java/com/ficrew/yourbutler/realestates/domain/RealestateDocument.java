@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Document(indexName = "realestates")
+@Document(indexName = "realestate")
 public class RealestateDocument {
     @Id
     private String id;
