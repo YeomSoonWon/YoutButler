@@ -23,7 +23,6 @@ const ibmPlexSansKR = IBM_Plex_Sans_KR({
 });
 
 const Search = () => {
-  const [placeholder, setPlaceHolder] = useState("추가 가용 자산");
   const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
 
@@ -38,17 +37,14 @@ const Search = () => {
   }, [session]);
 
   const handleMonthlyClick = () => {
-    setPlaceHolder("월 여유자금 입력");
     setSelectedType("월세");
   };
 
   const handleCharterClick = () => {
-    setPlaceHolder("추가 가용 자산");
     setSelectedType("전세");
   };
 
   const handleSaleClick = () => {
-    setPlaceHolder("추가 가용 자산");
     setSelectedType("매매");
   };
 
@@ -73,8 +69,8 @@ const Search = () => {
           <Upper>
             <TitleP>매물 찾기</TitleP>
             <InputDiv>
-              <StyledInput type="number" placeholder="보유 자산" />
-              <StyledInput type="number" placeholder={placeholder} />
+              {selectedType === '월세' ? <StyledInput type="number" placeholder="월세 가용 자산" /> : <NoneDiv></NoneDiv>}
+              <StyledInput type="number" placeholder="부동산 거래 예산" />
               <Button Kind="extraSmall" Variant="yellowTonal" Rounded="square">
                 설정
               </Button>
@@ -239,6 +235,11 @@ const StyledInput = styled.input`
     -webkit-appearance: none;
     margin: 0;
   }
+`;
+
+const NoneDiv = styled.div`
+  width: 10.5rem;
+  padding: 0 0.7rem;
 `;
 
 const RightContainer = styled.div`
