@@ -9,9 +9,12 @@ const ColorBox = styled.div<{backgroundColor?:string}>`
   height: 10px;
 `;
 
-const ColorDot = ({ color }) => {
+interface ColorDotProps {
+  color?: string;
+}
+
+const ColorDot = ({ color }: ColorDotProps) => {
   return <ColorBox backgroundColor={color || "transparent"}></ColorBox>;
-  // return <ColorBox></ColorBox>;
 };
 
 export default ColorDot;
