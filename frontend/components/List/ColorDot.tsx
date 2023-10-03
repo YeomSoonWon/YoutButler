@@ -10,7 +10,7 @@ const ColorBox = styled.div<{backgroundColor?:string}>`
 `;
 
 const ColorDot = ({ color }) => {
-  return <ColorBox backgroundColor={color}></ColorBox>;
+  return <ColorBox backgroundColor={color || "transparent"}></ColorBox>;
   // return <ColorBox></ColorBox>;
 };
 
