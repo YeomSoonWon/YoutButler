@@ -15,11 +15,11 @@ function valuetext(value) {
   return `${value}원`;
 }
 
-export default function RangeSlider({ title }) {
+export default function RangeSlider({ title, end }) {
   const classes = useStyles();
   const [value, setValue] = useState([]); // 값
-  const [min, setMin] = useState();
-  const [max, setMax] = useState();
+  const [min, setMin] = useState<any>();
+  const [max, setMax] = useState<any>();
   const [data, setData] = useState();
 
   useEffect(() => {
