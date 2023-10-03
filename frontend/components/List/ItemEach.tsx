@@ -1,10 +1,12 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import styled from "styled-components";
-import estate1 from "@/public/assets/estate1.png";
-import Image from "next/image";
-import YeokSam from "@/public/json/역삼동_매매_아파트.json";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import estate1 from '@/public/assets/estate1.png';
+import Image from 'next/image';
+import YeokSam from '@/public/json/역삼동_매매_아파트.json';
+import ColorDot from './ColorDot';
+import colors from '@/constants/colors';
 
 interface IItem {
   complexNo: number; // 주택번호: 1165010700
@@ -24,7 +26,7 @@ interface IProps {
   item: IItem;
 }
 
-export default function ItemEach({ width, height }, { item }: IProps) {
+export default function ItemEach({ width, height, colordot }, { item }: IProps) {
   // 하트 아이콘 클릭 시 색상 변경
   const [isFilled, setIsFilled] = useState(false);
 
@@ -51,50 +53,55 @@ export default function ItemEach({ width, height }, { item }: IProps) {
   return (
     <EstateDiv
       onClick={() => {
-        window.location.href = "/detail/2340033913";
+        window.location.href = '/detail/2340033913';
       }}
     >
       <div onClick={(e: React.MouseEvent<HTMLElement>) => handleHeartClick(e)}>
         {!isFilled ? (
           <HeartSvg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="white"
-            className="w-6 h-6"
+            xmlns='http://www.w3.org/2000/svg'
+            fill='none'
+            viewBox='0 0 24 24'
+            strokeWidth='1.5'
+            stroke='white'
+            className='w-6 h-6'
           >
             <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z'
             />
           </HeartSvg>
         ) : (
           <HeartSvg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="red"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="red"
-            className="w-6 h-6"
+            xmlns='http://www.w3.org/2000/svg'
+            fill='red'
+            viewBox='0 0 24 24'
+            strokeWidth='1.5'
+            stroke='red'
+            className='w-6 h-6'
           >
             <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+              strokeLinecap='round'
+              strokeLinejoin='round'
+              d='M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z'
             />
           </HeartSvg>
         )}
       </div>
       <ImageDiv>
-        <EstateImage src={estate1} alt="image" />
+        <EstateImage src={estate1} alt='image' />
       </ImageDiv>
       <AboutEstateDiv>
         <RoomP>강남구 역삼동 아파트</RoomP>
-        <PriceP>{YeokSam.realEstateTypeName} 3000/415</PriceP>
+        <PriceDiv>
+          <PriceP>{YeokSam.realEstateTypeName} 3000/415</PriceP>
+          <ColorDot color={colordot} />
+        </PriceDiv>
         <DetailP>4층, 29.79㎡, 관리비 10만</DetailP>
-        <DetailP>하이앤드 주거공간 신축첫입주 고급빌라 즉시입주sdfsdfadf/askfajwelfjlek</DetailP>
+        <DetailP>
+          하이앤드 주거공간 신축첫입주 고급빌라 즉시입주sdfsdfadf/askfajwelfjlek
+        </DetailP>
       </AboutEstateDiv>
     </EstateDiv>
   );
@@ -106,8 +113,8 @@ interface EstateDivProps {
 }
 
 const EstateDiv = styled.div<EstateDivProps>`
-  height: ${(props) => props.height || "19rem"};
-  width: ${(props) => props.width || "18rem"};
+  height: ${(props) => props.height || '19rem'};
+  width: ${(props) => props.width || '18rem'};
   padding: 0 1rem 1.8rem 1rem;
   border: solid 1px lightgray;
   border-radius: 1rem;
@@ -152,7 +159,6 @@ const RoomP = styled.p`
 const PriceP = styled.p`
   font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 0.6rem;
 `;
 
 const HeartSvg = styled.svg`
@@ -164,3 +170,11 @@ const HeartSvg = styled.svg`
   /* z-index: 9999; */
   cursor: pointer;
 `;
+
+const PriceDiv = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 0.7rem;
+  align-items: center;
+  padding-bottom: 0.5rem;
+`

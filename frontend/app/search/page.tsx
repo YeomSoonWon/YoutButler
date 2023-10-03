@@ -118,9 +118,9 @@ const Search = () => {
               </AboutDiv>
             </TitleDiv>
             <ItemDiv>
-              <ItemEach width='18rem' height='19rem' />
-              <ItemEach width='18rem' height='19rem' />
-              <ItemEach width='18rem' height='19rem' />
+              <ItemEach width='18rem' height='19rem' colordot={colors.blue} />
+              <ItemEach width='18rem' height='19rem' colordot={colors.red} />
+              <ItemEach width='18rem' height='19rem' colordot={colors.yellow} />
             </ItemDiv>
           </Lower>
         </LeftContainer>
