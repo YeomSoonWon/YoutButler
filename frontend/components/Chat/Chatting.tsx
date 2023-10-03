@@ -4,8 +4,8 @@ const Chatting = ({ messages }) => {
   return (
     <ChatMiddleDiv>
       {messages.map((message, index) => (
-        <MessageContainer key={index} isRight={message.isRight}>
-          <Message isRight={message.isRight}>{message.text}</Message>
+        <MessageContainer key={index} isBot={message.isBot}>
+          <Message isBot={message.isBot}>{message.message}</Message>
         </MessageContainer>
       ))}
     </ChatMiddleDiv>
@@ -19,14 +19,14 @@ const ChatMiddleDiv = styled.div`
   flex-direction: column; /* column 방향으로 변경 */
 `;
 
-interface MessageConatinerProps{
-  isRight:Boolean;
+interface MessageConatinerProps {
+  isBot: Boolean;
 }
 
 const MessageContainer = styled.div<MessageConatinerProps>`
   display: flex;
   flex-direction: ${(props) =>
-    props.isRight
+    props.isBot
       ? "row-reverse"
       : "row"}; /* 메시지 오른쪽 정렬을 위해 reverse */
   margin-top: 0.5rem;
@@ -38,9 +38,9 @@ const Message = styled.div<MessageConatinerProps>`
   width: fit-content;
   max-width: 13rem;
   border-radius: ${(props) =>
-    props.isRight ? "2rem 2rem 0 2rem" : "2rem 2rem 2rem 0"};
-  background-color: ${(props) => (props.isRight ? "#a32fff" : "lightgray")};
-  color: ${(props) => (props.isRight ? "white" : "black")};
+    props.isBot ? "2rem 2rem 0 2rem" : "2rem 2rem 2rem 0"};
+  background-color: ${(props) => (props.isBot ? "#a32fff" : "lightgray")};
+  color: ${(props) => (props.isBot ? "white" : "black")};
   line-height: 1.2rem;
 `;
 
