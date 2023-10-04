@@ -7,16 +7,17 @@ import com.ficrew.yourbutler.Chat.domain.repository.MessageRepository;
 import com.ficrew.yourbutler.member.domain.repository.MemberRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 public class ChatConfig {
 
     @Bean
     public CreateMessageProcessor createMessageProcessor(
-            ChatRepository chatRepository, MessageRepository messageRepository, MemberRepository memberRepository
+            ChatRepository chatRepository, MessageRepository messageRepository, MemberRepository memberRepository, WebClient webClient
     ) {
         return new CreateMessageProcessor(
-                chatRepository, messageRepository, memberRepository
+                chatRepository, messageRepository, memberRepository, webClient
         );
     }
 
