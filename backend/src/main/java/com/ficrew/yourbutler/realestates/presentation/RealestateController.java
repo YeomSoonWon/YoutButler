@@ -38,6 +38,7 @@ public class RealestateController {
     private final RealestateEsFacade realestateEsFacade;
     private final RealestateFacade realestateFacade;
 
+    // 파라미터 값은 모두 만원 단위로 들어온다!
     @GetMapping("/search")
     public ResponseEntity<SearchListResponse> search(
         @AuthenticationPrincipal AuthenticatedMember member,
@@ -48,17 +49,17 @@ public class RealestateController {
         @RequestParam(value = "monthly-asset") Long monthlyAvailableAsset,
         @RequestParam(value = "trade-type", defaultValue = "RENT") TradeType tradeType,
         @RequestParam(value = "room-type", defaultValue = "APT") List<RoomType> roomTypeList,
-        @RequestParam(value = "dw-min", defaultValue = "0") String dwMin,
-        @RequestParam(value = "dw-max", defaultValue = "999999999999") String dwMax,
-        @RequestParam(value = "dp-min") String dpMin,
-        @RequestParam(value = "dp-max") String dpMax,
-        @RequestParam(value = "rp-min", defaultValue = "0") String rpMin,
-        @RequestParam(value = "rp-max", defaultValue = "999999999999") String rpMax,
-        @RequestParam(value = "mf-min", defaultValue = "0") String mfMin,
-        @RequestParam(value = "mf-max", defaultValue = "999999999999") String mfMax,
-        @RequestParam(value = "rs-min", defaultValue = "0") String rsMin,
-        @RequestParam(value = "rs-max", defaultValue = "999999999999") String rsMax,
-        @RequestParam(value = "uay", defaultValue = "16") String uay
+        @RequestParam(value = "dw-min", defaultValue = "0") Integer dwMin,
+        @RequestParam(value = "dw-max", defaultValue = "999999999999") Integer dwMax,
+        @RequestParam(value = "dp-min", defaultValue = "0") Integer dpMin,
+        @RequestParam(value = "dp-max", defaultValue = "999999999999") Integer dpMax,
+        @RequestParam(value = "rp-min", defaultValue = "0") Integer rpMin,
+        @RequestParam(value = "rp-max", defaultValue = "999999999999") Integer rpMax,
+        @RequestParam(value = "mf-min", defaultValue = "0") Integer mfMin,
+        @RequestParam(value = "mf-max", defaultValue = "999999999999") Integer mfMax,
+        @RequestParam(value = "rs-min", defaultValue = "0") Integer rsMin,
+        @RequestParam(value = "rs-max", defaultValue = "999999999999") Integer rsMax,
+        @RequestParam(value = "uay", defaultValue = "16") Integer uay
     ) {
         // TODO
         BookmarkCheckResponse bookmarkCheckResponse;
@@ -71,18 +72,18 @@ public class RealestateController {
                 size,
                 from,
                 keyword,
-                realestateAsset,
-                monthlyAvailableAsset,
+                realestateAsset * 10000,
+                monthlyAvailableAsset * 10000,
                 tradeType,
                 roomTypeList,
-                dwMin,
-                dwMax,
-                dpMin,
-                dpMax,
+                dwMin * 10000,
+                dwMax * 10000,
+                dpMin * 10000,
+                dpMax * 10000,
                 rpMin,
                 rpMax,
-                mfMin,
-                mfMax,
+                mfMin * 10000,
+                mfMax * 10000,
                 rsMin,
                 rsMax,
                 uay

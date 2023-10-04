@@ -37,11 +37,10 @@ public class SearchAllRealestatesProcessor {
 
         TradeType tradeType = searchCommand.getTradeType();
         if (tradeType.equals(TradeType.DEAL)) {
-            System.out.println("*************DEAL!!!");
             textQuery.filter(
                 QueryBuilders.rangeQuery("dealOrWarrantPrc_numeric")
                     .gte(searchCommand.getDpMin())
-                    .lte(2000000000));
+                    .lte(searchCommand.getDpMax()));
         } else if (tradeType.equals(TradeType.LEASE)) {
             textQuery
                 .filter(QueryBuilders.rangeQuery("dealOrWarrantPrc_numeric")
@@ -90,13 +89,6 @@ public class SearchAllRealestatesProcessor {
         if (!keywords.isEmpty()) {
             textQuery.must(keywordQuery);
         }
-
-
-        if (!keywords.isEmpty()) {
-            textQuery.must(keywordQuery);
-        }
-
-
 
         searchQueryBuilder.withQuery(textQuery);
 
