@@ -1,6 +1,6 @@
 package com.ficrew.yourbutler.realestates.presentation.response;
 
-import com.ficrew.yourbutler.realestates.domain.RealestateDocument;
+import com.ficrew.yourbutler.realestates.domain.entity.RealestateDocument;
 import java.util.List;
 
 public class SearchResponse {

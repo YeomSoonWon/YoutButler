@@ -1,17 +1,25 @@
 package com.ficrew.yourbutler.realestates.presentation;
 
+import com.ficrew.yourbutler.global.auth.AuthenticatedMember;
+import com.ficrew.yourbutler.realestates.application.facade.RealestateFacade;
 import com.ficrew.yourbutler.realestates.application.command.SearchCommand;
 import com.ficrew.yourbutler.realestates.application.facade.RealestateEsFacade;
 import com.ficrew.yourbutler.realestates.domain.RoomType;
 import com.ficrew.yourbutler.realestates.domain.TradeType;
+import com.ficrew.yourbutler.realestates.presentation.response.BookmarkCheckResponse;
+import com.ficrew.yourbutler.realestates.presentation.response.BookmarkListResponse;
+import com.ficrew.yourbutler.realestates.presentation.response.BookmarkStatusResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.RealestateDetailResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.SearchResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +34,7 @@ public class RealestateController {
     // TODO 파라미터 default value 수정?
 
     private final RealestateEsFacade realestateEsFacade;
+    private final RealestateFacade realestateFacade;
 
     @GetMapping("/search")
     public ResponseEntity<List<SearchResponse>> search(
@@ -73,9 +82,43 @@ public class RealestateController {
         return ResponseEntity.ok(results);
     }
     @GetMapping("/{realestateId}")
-    public ResponseEntity<RealestateDetailResponse> searchByArticleNo(@PathVariable Long realestateId) {
-        log.info(realestateEsFacade.searchDetails(realestateId).toString());
-        var result = RealestateDetailResponse.from(realestateEsFacade.searchDetails(realestateId));
+    public ResponseEntity<RealestateDetailResponse> searchByArticleNo(
+        @AuthenticationPrincipal AuthenticatedMember member,
+        @PathVariable Long realestateId
+    ) {
+        BookmarkCheckResponse bookmarkCheckResponse;
+        if (member == null) {
+            bookmarkCheckResponse = new BookmarkCheckResponse(false, false);
+        } else {
+            bookmarkCheckResponse = new BookmarkCheckResponse(true, realestateFacade.isBookmarked(realestateId));
+        }
+        RealestateDetailResponse result = RealestateDetailResponse.from(realestateEsFacade.searchDetails(realestateId), bookmarkCheckResponse);
+
         return ResponseEntity.ok(result);
     }
+
+    @PostMapping("/{realestateId}/check")
+    public ResponseEntity<BookmarkStatusResponse> checkBoookmark(
+        @AuthenticationPrincipal AuthenticatedMember member,
+        @PathVariable Long realestateId
+    ) {
+        return ResponseEntity.ok(BookmarkStatusResponse.from(realestateFacade.createBookmark(member.getId(), realestateId)));
+    }
+
+    @DeleteMapping("/{realestateId}/uncheck")
+    public ResponseEntity<BookmarkStatusResponse> uncheckBookmark(
+        @AuthenticationPrincipal AuthenticatedMember member,
+        @PathVariable Long realestateId
+    ) {
+        realestateFacade.deleteBookmark(member.getId(), realestateId);
+        return ResponseEntity.ok(BookmarkStatusResponse.from(false));
+    }
+
+    @GetMapping("/bookmarks")
+    public ResponseEntity<BookmarkListResponse> getBookmarkList(
+        @AuthenticationPrincipal AuthenticatedMember member
+    ) {
+        return ResponseEntity.ok(BookmarkListResponse.from(realestateEsFacade.getBookmarkedList(member.getId())));
+    }
+
 }
