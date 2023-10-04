@@ -16,6 +16,7 @@ import { useEffect } from "react";
 import authApi from "@/api/authApi";
 import { IBM_Plex_Sans_KR } from "next/font/google";
 import realEstateApi from "@/api/realEstateApi";
+import chatApi from "@/api/chatApi";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -26,7 +27,8 @@ const Profile = () => {
   const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
   const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
-  const [bookMarkes, setBookMarkes] = useState(null);
+  const [bookMarkes, setBookMarkes] = useState([]);
+  const [myChats, setMyChats] = useState([]);
 
   useEffect(() => {
     if (session) {
@@ -42,15 +44,16 @@ const Profile = () => {
     }
   }, [status]);
 
-  useEffect(()=>{
-    if(user){
+  useEffect(() => {
+    if (user) {
       getLikes();
+      getAllChats();
     }
-  },[user]);
+  }, [user]);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log(bookMarkes);
-  },[bookMarkes])
+  }, [bookMarkes])
 
   const configureUser = async (token: String, provider: String) => {
     try {
@@ -68,13 +71,23 @@ const Profile = () => {
     }
   };
 
-  const getLikes = async()=>{
+  const getAllChats = async () => {
+    // @ts-ignore
+    let res = await chatApi.getMyAllChats(session?.userData);
+    console.log("mychats : ", res.data)
+    setMyChats(res.data);
+  }
+
+  const getLikes = async () => {
+    // @ts-ignore
     let res = await realEstateApi.getLikes(session?.userData);
+    // setBookMarkes(prev => { return res.data.boomarkList });
     setBookMarkes(res.data.boomarkList);
   }
 
   const handleTitleClick = (index) => {
     setSelectedTitleIndex(index);
+    console.log("target : ", myChats[index]);
     // todo : selectedTitleIndex의 값을 통해 유저의 채팅 목록 중 매물에 맞는 채팅 출력
   };
 
@@ -140,7 +153,7 @@ const Profile = () => {
               <BoldP>상담 내역</BoldP>
               <ChatListDiv>
                 <ChatTitleDiv>
-                  <ChatTitleEach
+                  {/* <ChatTitleEach
                     title="송파아이파크 107동 · 중층"
                     isSelected={selectedTitleIndex === 0}
                     onClick={() => handleTitleClick(0)}
@@ -164,18 +177,25 @@ const Profile = () => {
                     title="아크로리버뷰신반포 103동 7층"
                     isSelected={selectedTitleIndex === 4}
                     onClick={() => handleTitleClick(4)}
-                  />
+                  /> */}
+                  {myChats && myChats.map((item, index) => {
+                    return <ChatTitleEach
+                      title={item?.buildingName}
+                      isSelected={selectedTitleIndex === index}
+                      onClick={() => handleTitleClick(index)}
+                    />
+                  })}
                 </ChatTitleDiv>
                 <ChatDiv>
-                  <Chatting messages={chatMessages} />
+                  <Chatting messages={myChats[selectedTitleIndex]?.messageList} />
                 </ChatDiv>
               </ChatListDiv>
             </RightUpperDiv>
             <LeftUpperDiv>
               <BoldP>찜한 매물</BoldP>
               <LikeListDiv>
-                {bookMarkes && bookMarkes.map((item, index)=>{
-                  <ItemEach height="15rem" width="13rem" item={item}/>
+                {bookMarkes && bookMarkes.map((item, index) => {
+                  return <ItemEach height="15rem" width="13rem" item={item} />
                 })}
               </LikeListDiv>
             </LeftUpperDiv>
