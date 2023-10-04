@@ -107,14 +107,16 @@ public class RealestateController {
         if (member == null) {
             bookmarkCheckResponse = new BookmarkCheckResponse(false, false);
             for (RealestateDocument doc : searchResults.getContent()) {
-                searchBookmarkResponseList.add(SearchBookmarkResponse.from(doc, bookmarkCheckResponse));
+                String color = realestateFacade.calculate(doc);
+                searchBookmarkResponseList.add(SearchBookmarkResponse.from(doc, color, bookmarkCheckResponse));
             }
         } else {
             Map<Long, Boolean> bookmarkedMap = realestateFacade.isBookmarkedList(articleNos);
             for (RealestateDocument doc : searchResults.getContent()) {
                 Long articleNo = doc.getArticleNo();
+                String color = realestateFacade.calculate(doc);
                 Boolean isBookmarked = bookmarkedMap.getOrDefault(articleNo, false);
-                searchBookmarkResponseList.add(SearchBookmarkResponse.from(doc, new BookmarkCheckResponse(true, isBookmarked)));
+                searchBookmarkResponseList.add(SearchBookmarkResponse.from(doc,color, new BookmarkCheckResponse(true, isBookmarked)));
             }
         }
 

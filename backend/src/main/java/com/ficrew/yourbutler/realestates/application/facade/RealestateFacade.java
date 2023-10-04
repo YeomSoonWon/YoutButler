@@ -37,4 +37,8 @@ public class RealestateFacade {
     public Map<Long, Boolean> isBookmarkedList(List<Long> articleNos) {
         return checkBookmarkStatusListProcessor.execute(articleNos);
     }
+
+    public String calculate(RealestateDocument doc) {
+        return "yellow";
+    }
 }

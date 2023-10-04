@@ -32,6 +32,7 @@ public class SearchBookmarkResponse {
 
     public static SearchBookmarkResponse from(
         RealestateDocument realestateDocument,
+        String color,
         BookmarkCheckResponse bookmarkCheckResponse
     ) {
         return new SearchBookmarkResponse(
@@ -49,11 +50,11 @@ public class SearchBookmarkResponse {
             realestateDocument.getDealOrWarrantPrc(),
             realestateDocument.getRentPrc(),
             realestateDocument.getFloorInfo(),
-            3,
+            (int) (realestateDocument.getExclusiveArea() * 0.035),
             realestateDocument.getSupplyArea(),
             realestateDocument.getExclusiveArea(),
             realestateDocument.getMaintenanceFee(),
-            "green", // TODO
+            color,
             realestateDocument.getFormatted_image_list(),
             bookmarkCheckResponse
         );
