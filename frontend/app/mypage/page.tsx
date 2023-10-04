@@ -26,7 +26,7 @@ const Profile = () => {
   const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
   const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
-  const [bookMarkes, setBookMarkes] = useState(null);
+  const [bookMarkes, setBookMarkes] = useState([]);
 
   useEffect(() => {
     if (session) {
@@ -69,8 +69,9 @@ const Profile = () => {
   };
 
   const getLikes = async()=>{
+    // @ts-ignore
     let res = await realEstateApi.getLikes(session?.userData);
-    setBookMarkes(res.data.boomarkList);
+    setBookMarkes(prev=> {return res.data.boomarkList});
   }
 
   const handleTitleClick = (index) => {
@@ -174,8 +175,8 @@ const Profile = () => {
             <LeftUpperDiv>
               <BoldP>찜한 매물</BoldP>
               <LikeListDiv>
-                {bookMarkes && bookMarkes.map((item, index)=>{
-                  <ItemEach height="15rem" width="13rem" item={item}/>
+                {bookMarkes && [...bookMarkes].map((item, index)=>{
+                  return <ItemEach height="15rem" width="13rem" item={item}/>
                 })}
               </LikeListDiv>
             </LeftUpperDiv>

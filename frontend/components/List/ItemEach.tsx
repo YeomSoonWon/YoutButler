@@ -4,12 +4,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import estate1 from "@/public/assets/estate1.png";
 import Image from "next/image";
-import YeokSam from "@/public/json/역삼동_매매_아파트.json";
 import ColorDot from "./ColorDot";
 import colors from "@/constants/colors";
 
 interface IItem {
-  realstateId: number;
+  realestateId: number;
   complexNo: number; // 주택번호: 1165010700
   complexName: string; // 주택이름: 아크로리버파크
   address: string; // 주소: 서울시 강남구 역삼동
@@ -32,20 +31,20 @@ interface IProps {
 
 export default function ItemEach({ item, width, height, colordot }: IProps) {
   // 하트 아이콘 클릭 시 색상 변경
-  const [isFilled, setIsFilled] = useState(false);
+  // const [isFilled, setIsFilled] = useState(false);
 
-  const handleHeartClick = (e: React.MouseEvent<HTMLElement>) => {
-    e.stopPropagation();
-    setIsFilled(!isFilled);
-  };
+  // const handleHeartClick = (e: React.MouseEvent<HTMLElement>) => {
+  //   e.stopPropagation();
+  //   setIsFilled(!isFilled);
+  // };
 
   return (
     <EstateDiv
       onClick={() => {
-        window.location.href = `/detail/${item.realstateId}`;
+        window.location.href = `/detail/${item?.realestateId}`;
       }}
     >
-      <div onClick={(e: React.MouseEvent<HTMLElement>) => handleHeartClick(e)}>
+      {/* <div onClick={(e: React.MouseEvent<HTMLElement>) => handleHeartClick(e)}>
         {!isFilled ? (
           <HeartSvg
             xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +76,7 @@ export default function ItemEach({ item, width, height, colordot }: IProps) {
             />
           </HeartSvg>
         )}
-      </div>
+      </div> */}
       <ImageDiv>
         <EstateImage src={estate1} alt="image" />
       </ImageDiv>
