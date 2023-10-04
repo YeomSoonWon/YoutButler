@@ -4,6 +4,8 @@ import com.ficrew.yourbutler.member.domain.entity.Member;
 import lombok.Getter;
 
 import javax.persistence.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 @Entity
 @Getter
@@ -15,7 +17,8 @@ public class ChatRoom {
 
     private Long aptId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 

@@ -1,10 +1,17 @@
 package com.ficrew.yourbutler.Chat.domain.entity;
 
+import java.time.LocalDateTime;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import lombok.Getter;
 import org.hibernate.annotations.CreationTimestamp;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -29,11 +36,11 @@ public class Message {
     @Embedded
     private Loan loan;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bank_id")
     private Bank bank;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chatroom_id", nullable = false)
     private ChatRoom chatRoom;
 
