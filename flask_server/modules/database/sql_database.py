@@ -20,23 +20,20 @@ class SQLDatabase:
         """Create engine from database URI."""
         self._engine = engine
         if include_tables and ignore_tables:
-            raise ValueError(
-                "Cannot specify both include_tables and ignore_tables")
+            raise ValueError("Cannot specify both include_tables and ignore_tables")
 
         self._inspector = inspect(self._engine)
         self._all_tables = self._inspector.get_table_names()
         self._include_tables = include_tables or []
         if self._include_tables:
-            missing_tables = set(
-                self._include_tables).difference(self._all_tables)
+            missing_tables = set(self._include_tables).difference(self._all_tables)
             if missing_tables:
                 raise ValueError(
                     f"include_tables {missing_tables} not found in database"
                 )
         self._ignore_tables = ignore_tables or []
         if self._ignore_tables:
-            missing_tables = set(
-                self._ignore_tables).difference(self._all_tables)
+            missing_tables = set(self._ignore_tables).difference(self._all_tables)
             if missing_tables:
                 raise ValueError(
                     f"ignore_tables {missing_tables} not found in database"
@@ -69,13 +66,13 @@ class SQLDatabase:
                 # for now it's only for the status column
                 if column["name"] == "status":
                     columns.append(
-                        f"{column['name']} ('success', 'training', 'failure')")
+                        f"{column['name']} ('success', 'training', 'failure')"
+                    )
                 else:
                     columns.append(f"{column['name']} ({str(column['type'])})")
                 # ouput some unique values
             column_str = ", ".join(columns)
-            table_str = template.format(
-                table_name=table_name, columns=column_str)
+            table_str = template.format(table_name=table_name, columns=column_str)
             tables.append(table_str)
         return "\n".join(tables)
 
@@ -86,7 +83,7 @@ class SQLDatabase:
         If the statement returns no rows, an empty string is returned.
         """
         with self._engine.connect() as connection:
-            #cursor = connection.exec_driver_sql(command)
+            # cursor = connection.exec_driver_sql(command)
             try:
                 command = command.replace("%", "%%")  # python format
                 cursor = connection.execute(command)

@@ -30,13 +30,14 @@ def colored_text_to_md(text: str):
 
     # with open("test.txt", "w") as f:
     #    f.write(text)
-    return re.sub(r'\x1b\[[0-9;]*m', '', text)
+    return re.sub(r"\x1b\[[0-9;]*m", "", text)
     text = text.replace("\n", "\\n")
     for color in COLOR_TO_STYLE:
         style = COLOR_TO_STYLE[color]
         color_str = _TEXT_COLOR_MAPPING[color]
         text = re.sub(
-            f"\u001b\[{color_str}m\033\[1;3m(.*?)\u001b\[0m", f"{style}\\1{style}", text)
+            f"\u001b\[{color_str}m\033\[1;3m(.*?)\u001b\[0m", f"{style}\\1{style}", text
+        )
     # bold
     text = re.sub("\033\[1m(.*?)\033\[0m", "**\\1**", text)
 

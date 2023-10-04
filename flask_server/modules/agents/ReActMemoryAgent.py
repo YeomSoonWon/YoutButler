@@ -5,7 +5,13 @@ from typing import Any, Callable, List, NamedTuple, Optional, Tuple
 
 from langchain.agents.agent import Agent
 from langchain.input import print_text
-from flask_server.modules.agents.prompt import FORMAT_INSTRUCTIONS, PREFIX, SUFFIX, HISTORY, RESOURCES
+from flask_server.modules.agents.prompt import (
+    FORMAT_INSTRUCTIONS,
+    PREFIX,
+    SUFFIX,
+    HISTORY,
+    RESOURCES,
+)
 from flask_server.modules.resources.resource import Resource
 from langchain.agents.tools import Tool
 from langchain.llms.base import LLM
@@ -35,7 +41,7 @@ def get_action_and_input(llm_output: str) -> Tuple[str, str]:
     """Parse out the action and input from the LLM output."""
     ps = [p for p in llm_output.split("\n") if p]
     if ps[-1].startswith("Final Answer"):
-        directive = ps[-1][len(FINAL_ANSWER_ACTION):]
+        directive = ps[-1][len(FINAL_ANSWER_ACTION) :]
         return "Final Answer", directive
     if not ps[-1].startswith("Action Input: "):
         raise ValueError(
@@ -47,8 +53,8 @@ def get_action_and_input(llm_output: str) -> Tuple[str, str]:
             "The second to last line does not have an action, "
             "something has gone terribly wrong."
         )
-    action = ps[-2][len("Action: "):]
-    action_input = ps[-1][len("Action Input: "):]
+    action = ps[-2][len("Action: ") :]
+    action_input = ps[-1][len("Action Input: ") :]
     return action, action_input.strip(" ").strip('"')
 
 
@@ -81,12 +87,10 @@ class ZeroShotAgent(Agent):
         Returns:
             A PromptTemplate with the template assembled from the pieces here.
         """
-        tool_strings = "\n".join(
-            [f"{tool.name}: {tool.description}" for tool in tools])
+        tool_strings = "\n".join([f"{tool.name}: {tool.description}" for tool in tools])
         tool_names = ", ".join([tool.name for tool in tools])
         format_instructions = FORMAT_INSTRUCTIONS.format(tool_names=tool_names)
-        template = "\n\n".join(
-            [prefix, tool_strings, format_instructions, suffix])
+        template = "\n\n".join([prefix, tool_strings, format_instructions, suffix])
         if input_variables is None:
             input_variables = ["input"]
         return PromptTemplate(template=template, input_variables=input_variables)
@@ -105,7 +109,6 @@ class ZeroShotAgent(Agent):
 
 
 class ReActMemoryAgent(ZeroShotAgent):
-
     @classmethod
     def create_prompt(
         cls,
@@ -114,30 +117,35 @@ class ReActMemoryAgent(ZeroShotAgent):
         history: str,
         debug: bool = False,
     ) -> PromptTemplate:
-        tool_strings = "\n".join(
-            [f"{tool.name}: {tool.description}" for tool in tools])
+        tool_strings = "\n".join([f"{tool.name}: {tool.description}" for tool in tools])
         tool_names = ", ".join([tool.name for tool in tools])
 
         def process(text: str):
             return text.replace("{", "{{").replace("}", "}}")
 
         resources_strings = format_resources(resources)
-        resources_string = RESOURCES.format(
-            resources=process(resources_strings))
+        resources_string = RESOURCES.format(resources=process(resources_strings))
 
         history = HISTORY.format(history=process(history))
 
-        format_instructions = FORMAT_INSTRUCTIONS.format(
-            tool_names=process(tool_names))
+        format_instructions = FORMAT_INSTRUCTIONS.format(tool_names=process(tool_names))
         template = "\n\n".join(
-            [PREFIX, tool_strings, format_instructions, history, resources_string, SUFFIX])
+            [
+                PREFIX,
+                tool_strings,
+                format_instructions,
+                history,
+                resources_string,
+                SUFFIX,
+            ]
+        )
         if debug:
             print_text(f"{cls.__name__} prompt:\n")
             print_text(template, color="blue")
         input_variables = ["input"]
         return PromptTemplate(template=template, input_variables=input_variables)
 
-    @ classmethod
+    @classmethod
     def from_llm_tools_resources_history(
         cls,
         llm: LLM,
@@ -145,10 +153,11 @@ class ReActMemoryAgent(ZeroShotAgent):
         resources: List[Resource],
         history: str,
         debug: bool = False,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> Agent:
         """Construct an agent from an LLM and tools."""
         cls._validate_tools(tools)
         llm_chain = LLMChain(
-            llm=llm, prompt=cls.create_prompt(tools, resources, history, debug))
+            llm=llm, prompt=cls.create_prompt(tools, resources, history, debug)
+        )
         return ReActMemoryAgent(llm_chain=llm_chain, tools=tools, **kwargs)
