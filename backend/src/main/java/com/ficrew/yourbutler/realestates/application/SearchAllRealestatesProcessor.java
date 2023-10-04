@@ -1,6 +1,6 @@
 package com.ficrew.yourbutler.realestates.application;
 
-import com.ficrew.yourbutler.realestates.domain.RealestateDocument;
+import com.ficrew.yourbutler.realestates.domain.entity.RealestateDocument;
 import com.ficrew.yourbutler.realestates.application.command.SearchCommand;
 import java.util.List;
 

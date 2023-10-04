@@ -36,21 +36,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception{
-        authenticationManagerBuilder.userDetailsService(authenticationService).passwordEncoder(passwordEncoder);
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
+        throws Exception {
+        authenticationManagerBuilder.userDetailsService(authenticationService)
+            .passwordEncoder(passwordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests()
-                    .antMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                    .antMatchers("/api/v1/**").permitAll()
-                    .antMatchers("/h2-console/**").permitAll()
-                .anyRequest().permitAll().and()
-                .headers().frameOptions().disable();
+            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .authorizeRequests()
+            .antMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
+            .antMatchers("/api/v1/**").permitAll()
+            .antMatchers("/h2-console/**").permitAll()
+            .antMatchers("/api/v1/realestates/**/check").authenticated()
+            .antMatchers("/api/v1/reakestates/**/uncheck").authenticated()
+            .antMatchers("/api/v1/realestates/bookmarks").authenticated()
+            .anyRequest().permitAll().and()
+            .headers().frameOptions().disable();
         http.addFilterBefore(authenticationJwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
@@ -58,7 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Collections.singletonList("*")); // "*" 대신 허용할 도메인 패턴을 지정합니다.
+        configuration.setAllowedOriginPatterns(
+            Collections.singletonList("*")); // "*" 대신 허용할 도메인 패턴을 지정합니다.
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Collections.singletonList("*"));
         configuration.setAllowCredentials(true);
