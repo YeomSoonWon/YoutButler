@@ -5,24 +5,29 @@ interface CheckboxProps {
   label?: string;
   name?: string;
   isChecked?: boolean;
-  onChange?: (isChecked: boolean) => void;
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Checkbox: React.FC<CheckboxProps> = ({ label, name, isChecked: propIsChecked, onChange }) => {
   const [isChecked, setIsChecked] = useState(propIsChecked || false);
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked } = event.target;
-    setIsChecked(checked);
-    if (onChange) {
-      onChange(checked);
-    }
-  };
+  // const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const { checked } = event.target;
+  //   setIsChecked(checked);
+  //   if (onChange) {
+  //     onChange(checked);
+  //   }
+  // };
 
   return (
     <InputDiv>
       <label>
-        <input type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />
+        <input
+          type="checkbox"
+          name={name}
+          checked={isChecked}
+          onChange={(event) => onChange(event)}
+        />
         {label}
       </label>
     </InputDiv>
