@@ -41,6 +41,7 @@ export default function ItemEach({ item, width, height, colordot }: IProps) {
   return (
     <EstateDiv
       onClick={() => {
+        // window.location.href = `/detail/123`;
         window.location.href = `/detail/${item?.realestateId}`;
       }}
     >
