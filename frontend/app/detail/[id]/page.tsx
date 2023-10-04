@@ -73,14 +73,14 @@ const DetailWithID = ({ params }) => {
 
   const handleLike = async () => {
     let res = null;
-    if(like){
+    if (like) {
       // @ts-ignore
       res = await realEstateApi.unCheck(session?.userData, params.id);
-    }else{
+    } else {
       // @ts-ignore
       res = await realEstateApi.check(session?.userData, params.id);
     }
-    if(!res?.data) return;
+    if (!res?.data) return;
     setLike(res.data.checked);
   };
 
@@ -114,20 +114,20 @@ const DetailWithID = ({ params }) => {
       let res = await realEstateApi.detailSearch(session?.userData, realestateId);
       setHouse(res.data);
       setLike(res.data.bookmark.checked);
-      console.log("house", res.data)
+      console.log("house", res.data);
     } catch {
       window.alert("존재하는 매물이 아니거나 오류가 발생했습니다.");
       window.location.href = "/";
     }
-  }
+  };
 
   const getChat = async (userData: any | null, realestateId: number) => {
     let res = await chatApi.getChat(userData, realestateId);
-    console.log("chats",res.data.messageList);
+    console.log("chats", res.data.messageList);
     setChatList(res.data.messageList);
     setChatNo(res.data.chatRoomNumber);
     // setHouse(res.data);
-  }
+  };
 
   // 챗봇 open
   const [isChatOpen, setIsChatOpen] = useState<Boolean>(false);
@@ -157,38 +157,47 @@ const DetailWithID = ({ params }) => {
   };
 
   const sendChat = async () => {
-    if(!chatMsg) return;
+    if (!chatMsg) return;
     setLoading(true);
-    try{
+    try {
       // @ts-ignore
-    let res = await chatApi.sendChat(session?.userData, user, house, chatMsg, chatNo);
-    console.log(res);
-    if(res.status === 200){
-      setChatNo(res.data.chatRoomNumber);
-      setChatList((prev) =>{
-        return [...prev,
-          {isBot: false, timeStamp: new Date(), message: chatMsg, chatRoomNumber: res.data.chatRoomNumber, loan: null},
-          {...res.data}];
+      let res = await chatApi.sendChat(session?.userData, user, house, chatMsg, chatNo);
+      console.log(res);
+      if (res.status === 200) {
+        setChatNo(res.data.chatRoomNumber);
+        setChatList((prev) => {
+          return [
+            ...prev,
+            {
+              isBot: false,
+              timeStamp: new Date(),
+              message: chatMsg,
+              chatRoomNumber: res.data.chatRoomNumber,
+              loan: null,
+            },
+            { ...res.data },
+          ];
         });
       }
-    setChatMsg("");
-    }catch{
-      setChatList((prev) =>{
-        return [...prev,
-          {isBot: true, timeStamp: new Date(), message: "그런 어려운 말은 몰라용.", loan: null}
+      setChatMsg("");
+    } catch {
+      setChatList((prev) => {
+        return [
+          ...prev,
+          { isBot: true, timeStamp: new Date(), message: "그런 어려운 말은 몰라용.", loan: null },
         ];
       });
-    }finally{
+    } finally {
       setChatMsg("");
       setLoading(false);
     }
-  }
+  };
 
   return (
     <main className={ibmPlexSansKR.className}>
       <AppBar backgroundColor="transparent" logo="greenlogo" color="#334835" user={user} />
       <Container className={ibmPlexSansKR.className}>
-        <DetailCarousel imgList={house?.imageList ? house?.imageList : null}/>
+        <DetailCarousel imgList={house?.imageList ? house?.imageList : null} />
         <BottomDiv className={ibmPlexSansKR.className}>
           <LeftDiv>
             <TitleLikeDiv>
@@ -197,7 +206,7 @@ const DetailWithID = ({ params }) => {
                   {house?.complexName} · {house?.floorInfo.split("/")[0]}층
                 </TitleP>
                 <SubP>
-                  {house?.address} {house?.complexName}  {house?.buildingName}
+                  {house?.address} {house?.complexName} {house?.buildingName}
                 </SubP>
               </ContainerP>
               <div>
@@ -263,12 +272,15 @@ const DetailWithID = ({ params }) => {
                 <AboutDetailDiv>
                   <AboutTitleP>전용/공급면적</AboutTitleP>
                   <p>
-                    {house?.exclusiveArea}m²/{house?.supplyArea}m² ({Math.floor(house?.supplyArea / 3.3)}평)
+                    {house?.exclusiveArea}m²/{house?.supplyArea}m² (
+                    {Math.floor(house?.supplyArea / 3.3)}평)
                   </p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>방 수/욕실 수</AboutTitleP>
-                  <p>{house?.roomCnt}개/{house?.bathroomCnt}개</p>
+                  <p>
+                    {house?.roomCnt}개/{house?.bathroomCnt}개
+                  </p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>방향</AboutTitleP>
@@ -309,7 +321,7 @@ const DetailWithID = ({ params }) => {
                 </AboutDetailDiv>
               </AboutEachDiv>
             </AboutDiv>
-            <AboutDiv>
+            {/* <AboutDiv>
               <AboutInfoDiv>
                 <AboutP>시세 추이</AboutP>
                 <InfoBubble>
@@ -332,7 +344,7 @@ const DetailWithID = ({ params }) => {
               <PriceP>매매 7억 3,000 ~ 17억 4,000</PriceP>
               <SubP>평균 4,866만/3.3㎡</SubP>
             </AboutDiv>
-            <Chart />
+            <Chart /> */}
           </LeftDiv>
           <RightDiv>
             <InfoDiv>
@@ -369,8 +381,15 @@ const DetailWithID = ({ params }) => {
                   <Chatting messages={chatList} />
                 </ChatMiddleDiv>
                 <ChatBottomDiv isVisible={isChatOpen}>
-                {loading && <p>로딩중입니다...</p>}
-                  <MessageInput type="text" placeholder="메시지를 입력해주세요.." onChange={(e)=>{setChatMsg(e.target.value);}} disabled={loading}/>
+                  {loading && <p>로딩중입니다...</p>}
+                  <MessageInput
+                    type="text"
+                    placeholder="메시지를 입력해주세요.."
+                    onChange={(e) => {
+                      setChatMsg(e.target.value);
+                    }}
+                    disabled={loading}
+                  />
                   <SvgBtn onClick={sendChat}>
                     <SendSvg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
                       <path d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376V479.3c0 18.1 14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9 7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448 256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8 116.6 403.3 425.4z" />
