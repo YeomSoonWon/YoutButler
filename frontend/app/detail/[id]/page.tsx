@@ -94,6 +94,8 @@ const DetailWithID = ({ params }) => {
   const [msg, setMsg] = useState<String>("로그인이 필요합니다.");
   const [chatNo, setChatNo] = useState<number>(-1);
   const [chatList, setChatList] = useState([]);
+  const [chatMsg, setChatMsg] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [holdingAsset, setHoldingAsset] = useState<number | null>(null);
   useEffect(() => {
       if (session) {
