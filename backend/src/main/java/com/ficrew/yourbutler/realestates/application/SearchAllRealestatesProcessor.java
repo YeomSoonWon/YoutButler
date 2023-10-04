@@ -21,7 +21,6 @@ import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilde
 @RequiredArgsConstructor
 public class SearchAllRealestatesProcessor {
 
-    private final ElasticsearchRealestateRepository elasticsearchRealestateRepository;
     private final ElasticsearchRestTemplate elasticsearchRestTemplate;
 
 //    public Page<RealestateDocument> execute(SearchCommand searchCommand) {

@@ -28,11 +28,9 @@ public class RealestateConfig {
 
     @Bean
     public SearchAllRealestatesProcessor searchAllRealestatesProcessor(
-        ElasticsearchRealestateRepository elasticsearchRealestateRepository,
         ElasticsearchRestTemplate elasticsearchRestTemplate
     ) {
         return new SearchAllRealestatesProcessor(
-            elasticsearchRealestateRepository,
             elasticsearchRestTemplate
         );
     }

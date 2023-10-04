@@ -65,6 +65,7 @@ public class RealestateController {
         if (member == null) {
             bookmarkCheckResponse = new BookmarkCheckResponse(false, false);
         }
+
         Page<RealestateDocument> realestateDocuments = realestateEsFacade.searchProperties(
             new SearchCommand(
                 size,
@@ -87,6 +88,10 @@ public class RealestateController {
                 uay
             )
         );
+
+        for (RealestateDocument r : realestateDocuments) {
+            System.out.println(r);
+        }
 
         SearchListResponse results = SearchListResponse.from(
             size,
