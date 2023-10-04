@@ -11,71 +11,9 @@ const useStyles = makeStyles({
   },
 });
 
-function valuetext(value) {
-  return `${value}원`;
-}
-
-export default function RangeSlider({ title, unit }) {
+export default function RangeSlider({ title, unit, minValue, maxValue }) {
   const classes = useStyles();
-  const [value, setValue] = useState([]); // 값
-  const [min, setMin] = useState<any>();
-  const [max, setMax] = useState<any>();
-  const [data, setData] = useState();
-
-  useEffect(() => {
-    fetch("http://localhost:3000/realestates/search")
-      .then((res) => res.json())
-      .then((res) => {
-        const maxValues = {
-          매매: Math.max(
-            ...res.data.map((item) => parseFloat(item.dealOrWarrantPrc.replace(/[^0-9.-]+/g, "")))
-          ),
-          전세: Math.max(
-            ...res.data.map((item) =>
-              item.realEstateTypeName === "전세"
-                ? parseFloat(item.dealOrWarrantPrc.replace(/[^0-9.-]+/g, ""))
-                : 0
-            )
-          ),
-          월세: Math.max(
-            ...res.data.map((item) =>
-              item.realEstateTypeName === "월세"
-                ? parseFloat(item.rentPrc.replace(/[^0-9.-]+/g, ""))
-                : 0
-            )
-          ),
-        };
-
-        const minValues = {
-          매매: Math.min(
-            ...res.data.map((item) => parseFloat(item.dealOrWarrantPrc.replace(/[^0-9.-]+/g, "")))
-          ),
-          전세: Math.min(
-            ...res.data.map((item) =>
-              item.realEstateTypeName === "전세"
-                ? parseFloat(item.dealOrWarrantPrc.replace(/[^0-9.-]+/g, ""))
-                : maxValues.전세
-            )
-          ),
-          월세: Math.min(
-            ...res.data.map((item) =>
-              item.realEstateTypeName === "월세"
-                ? parseFloat(item.rentPrc.replace(/[^0-9.-]+/g, ""))
-                : maxValues.월세
-            )
-          ),
-        };
-
-        const defaultValue = [minValues.매매, maxValues.매매];
-        const min = minValues.매매;
-        const max = maxValues.매매;
-
-        setData(res.data);
-        setValue(defaultValue);
-        setMin(min);
-        setMax(max);
-      });
-  }, []);
+  const [value, setValue] = useState([minValue, maxValue]); // 값
 
   //천단위 , 찍기 위한 함수
   const numberFormat = (num) => {
@@ -102,13 +40,13 @@ export default function RangeSlider({ title, unit }) {
       </TitleDiv>
       <Slider
         value={value} // 가격 슬라이더의 값
-        defaultValue={[min, max]} //가격 슬라이더 최초 범위
+        // defaultValue={[minValue, maxValue]} // 가격 슬라이더 최초 범위
         onChange={handleChange} // 슬라이더가 변할 때마다 value값을 조정하는 함수
         valueLabelDisplay="auto"
         aria-labelledby="range-slider" // 슬라이더 형태
         // getAriaValueText={valuetext}
-        max={max}
-        min={min}
+        min={minValue}
+        max={maxValue}
       />
     </div>
   );
