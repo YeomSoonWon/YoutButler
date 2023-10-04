@@ -8,7 +8,6 @@ public interface BookmarkRepository {
 
     boolean existsByRealestateId(Long realestateId);
 
-
     Bookmark save(Bookmark bookmark);
 
     boolean deleteByRealestateIdAndMemberId(Long realestateId, Long memberId);

@@ -86,13 +86,13 @@ public class RealestateController {
         @AuthenticationPrincipal AuthenticatedMember member,
         @PathVariable Long realestateId
     ) {
-        BookmarkCheckResponse bookmark;
+        BookmarkCheckResponse bookmarkCheckResponse;
         if (member == null) {
-            bookmark = new BookmarkCheckResponse(false, false);
+            bookmarkCheckResponse = new BookmarkCheckResponse(false, false);
         } else {
-            bookmark = new BookmarkCheckResponse(true, realestateFacade.isBookmarked(realestateId));
+            bookmarkCheckResponse = new BookmarkCheckResponse(true, realestateFacade.isBookmarked(realestateId));
         }
-        RealestateDetailResponse result = RealestateDetailResponse.from(realestateEsFacade.searchDetails(realestateId), bookmark);
+        RealestateDetailResponse result = RealestateDetailResponse.from(realestateEsFacade.searchDetails(realestateId), bookmarkCheckResponse);
 
         return ResponseEntity.ok(result);
     }

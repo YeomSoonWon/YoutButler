@@ -17,7 +17,6 @@ public class RealestateRepositoryAdapter implements BookmarkRepository {
         return jpaBookmarkRepository.existsByRealestateId(realestateId);
     }
 
-
     @Override
     public Bookmark save(Bookmark bookmark) {
         return jpaBookmarkRepository.save(bookmark);

@@ -43,12 +43,11 @@ public class RealestateDetailResponse {
     private final String realtorcellPhoneNo;
     private final String realtorAddress;
     private final Object realTransactionPriceList;
-    public static RealestateDetailResponse from(RealestateDocument realestateDocument,
-        BookmarkCheckResponse bookmark) {
+    public static RealestateDetailResponse from(RealestateDocument realestateDocument, BookmarkCheckResponse bookmarkResponse) {
         System.out.println(realestateDocument);
         return new RealestateDetailResponse(
             realestateDocument.getArticleNo(),
-            bookmark,
+            bookmarkResponse,
             realestateDocument.getComplexNo(),
             realestateDocument.getComplexName(),
             realestateDocument.getRoomType(),
