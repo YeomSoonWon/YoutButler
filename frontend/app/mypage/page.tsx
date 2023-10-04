@@ -15,6 +15,7 @@ import { useSession, signOut } from "next-auth/react";
 import { useEffect } from "react";
 import authApi from "@/api/authApi";
 import { IBM_Plex_Sans_KR } from "next/font/google";
+import realEstateApi from "@/api/realEstateApi";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -25,6 +26,7 @@ const Profile = () => {
   const [selectedTitleIndex, setSelectedTitleIndex] = useState(0);
   const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
+  const [bookMarkes, setBookMarkes] = useState(null);
 
   useEffect(() => {
     if (session) {
@@ -39,6 +41,16 @@ const Profile = () => {
       window.location.href = "/";
     }
   }, [status]);
+
+  useEffect(()=>{
+    if(user){
+      getLikes();
+    }
+  },[user]);
+
+  useEffect(()=>{
+    console.log(bookMarkes);
+  },[bookMarkes])
 
   const configureUser = async (token: String, provider: String) => {
     try {
@@ -55,6 +67,11 @@ const Profile = () => {
       window.location.href = "/";
     }
   };
+
+  const getLikes = async()=>{
+    let res = await realEstateApi.getLikes(session?.userData);
+    setBookMarkes(res.data.boomarkList);
+  }
 
   const handleTitleClick = (index) => {
     setSelectedTitleIndex(index);
@@ -157,11 +174,9 @@ const Profile = () => {
             <LeftUpperDiv>
               <BoldP>찜한 매물</BoldP>
               <LikeListDiv>
-                <ItemEach height="15rem" width="13rem" />
-                <ItemEach height="15rem" width="13rem" />
-                <ItemEach height="15rem" width="13rem" />
-                <ItemEach height="15rem" width="13rem" />
-                <ItemEach height="15rem" width="13rem" />
+                {bookMarkes && bookMarkes.map((item, index)=>{
+                  <ItemEach height="15rem" width="13rem" item={item}/>
+                })}
               </LikeListDiv>
             </LeftUpperDiv>
           </RightDiv>

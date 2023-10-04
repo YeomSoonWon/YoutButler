@@ -39,10 +39,40 @@ const realEstateApi = {
         if(userData){
             config = {
                 headers : {
-                    Authorization: `Bearer ${userData?.accessToken}`                }
+                    Authorization: `Bearer ${userData?.accessToken}`
+                }
             }
         }
         let res = await publicEstateApi.get(`/${realestateId}`,config);
+        return res;
+    },
+
+    check:async(userData:any|null, aptId:number)=>{
+        if(!userData) return;
+        let res = await publicEstateApi.post(`/${aptId}/check`,null,{
+            headers:{
+                Authorization: `Bearer ${userData?.accessToken}`
+            }
+        });
+        return res;
+    },
+
+    unCheck:async(userData:any|null, aptId:number)=>{
+        let res = await publicEstateApi.delete(`/${aptId}/uncheck`,{
+            headers:{
+                Authorization: `Bearer ${userData?.accessToken}`
+            }
+        });
+        return res;
+    },
+
+    getLikes:async(userData:any|null)=>{
+        if(!userData) return;
+        let res = await publicEstateApi.get("/bookmarks",{
+            headers : {
+                Authorization: `Bearer ${userData?.accessToken}`
+            }
+        });
         return res;
     }
 }

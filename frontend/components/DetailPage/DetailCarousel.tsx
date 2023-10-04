@@ -14,10 +14,6 @@ import {
 } from "@/components/DetailPage/DetailPage";
 
 const DetailCarousel = ({imgList}) => {
-  if(imgList){
-    console.log(JSON.parse(imgList.replace(/'/g, '"')));
-  }
-
   // 사진 캐러셀 기능
   const [currentIdx, setCurrentIdx] = useState(0);
   // const [list, setList] = useState([]);
