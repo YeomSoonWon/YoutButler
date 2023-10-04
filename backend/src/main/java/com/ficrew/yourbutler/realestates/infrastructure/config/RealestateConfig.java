@@ -12,6 +12,7 @@ import com.ficrew.yourbutler.realestates.domain.repository.SearchRepository;
 import com.ficrew.yourbutler.realestates.infrastructure.persistence.es.ElasticsearchRealestateRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 
 @Configuration
 public class RealestateConfig {
@@ -26,8 +27,14 @@ public class RealestateConfig {
     }
 
     @Bean
-    public SearchAllRealestatesProcessor searchAllRealestatesProcessor() {
-        return new SearchAllRealestatesProcessor();
+    public SearchAllRealestatesProcessor searchAllRealestatesProcessor(
+        ElasticsearchRealestateRepository elasticsearchRealestateRepository,
+        ElasticsearchRestTemplate elasticsearchRestTemplate
+    ) {
+        return new SearchAllRealestatesProcessor(
+            elasticsearchRealestateRepository,
+            elasticsearchRestTemplate
+        );
     }
 
     @Bean

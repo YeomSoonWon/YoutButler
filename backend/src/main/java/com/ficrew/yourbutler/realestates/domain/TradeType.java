@@ -1,5 +1,14 @@
 package com.ficrew.yourbutler.realestates.domain;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum TradeType {
-    DEAL, LEASE, RENT;
+    DEAL("매매"),
+    LEASE("전세"),
+    RENT("월세");
+
+    private final String description;
 }
