@@ -99,12 +99,14 @@ const Search = () => {
 
   // 체크박스
   const handleCheckboxChange = (event) => {
-    const { label } = event.target;
+    const { target } = event;
+    const { checked, name } = target;
+
     setSelectedRoomTypes((prevSelectedRoomTypes) => {
-      if (prevSelectedRoomTypes.includes(label)) {
-        return prevSelectedRoomTypes.filter((type) => type !== label);
+      if (checked) {
+        return [...prevSelectedRoomTypes, name];
       } else {
-        return [...prevSelectedRoomTypes, label];
+        return prevSelectedRoomTypes.filter((type) => type !== name);
       }
     });
   };
@@ -281,31 +283,37 @@ const Search = () => {
             <CheckboxDiv>
               <Checkbox
                 label="아파트"
+                name="APT"
                 isChecked={selectedRoomTypes.includes("APT")}
                 onChange={handleCheckboxChange}
               />
               <Checkbox
                 label="오피스텔"
+                name="OPST"
                 isChecked={selectedRoomTypes.includes("OPST")}
                 onChange={handleCheckboxChange}
               />
               <Checkbox
                 label="단독·다가구"
+                name="DDDGG"
                 isChecked={selectedRoomTypes.includes("DDDGG")}
                 onChange={handleCheckboxChange}
               />
               <Checkbox
                 label="원·투룸"
+                name="OTROOM"
                 isChecked={selectedRoomTypes.includes("OTROOM")}
                 onChange={handleCheckboxChange}
               />
               <Checkbox
                 label="빌라·연립"
+                name="VL"
                 isChecked={selectedRoomTypes.includes("VL")}
                 onChange={handleCheckboxChange}
               />
               <Checkbox
                 label="주택"
+                name="JT"
                 isChecked={selectedRoomTypes.includes("JT")}
                 onChange={handleCheckboxChange}
               />
