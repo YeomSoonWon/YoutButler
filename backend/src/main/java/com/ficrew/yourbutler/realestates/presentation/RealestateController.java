@@ -50,15 +50,15 @@ public class RealestateController {
         @RequestParam(value = "trade-type", defaultValue = "RENT") TradeType tradeType,
         @RequestParam(value = "room-type", defaultValue = "APT") List<RoomType> roomTypeList,
         @RequestParam(value = "dw-min", defaultValue = "0") Integer dwMin,
-        @RequestParam(value = "dw-max", defaultValue = "999999999999") Integer dwMax,
+        @RequestParam(value = "dw-max", defaultValue = "99999") Integer dwMax,
         @RequestParam(value = "dp-min", defaultValue = "0") Integer dpMin,
-        @RequestParam(value = "dp-max", defaultValue = "999999999999") Integer dpMax,
+        @RequestParam(value = "dp-max", defaultValue = "99999") Integer dpMax,
         @RequestParam(value = "rp-min", defaultValue = "0") Integer rpMin,
-        @RequestParam(value = "rp-max", defaultValue = "999999999999") Integer rpMax,
+        @RequestParam(value = "rp-max", defaultValue = "99999") Integer rpMax,
         @RequestParam(value = "mf-min", defaultValue = "0") Integer mfMin,
-        @RequestParam(value = "mf-max", defaultValue = "999999999999") Integer mfMax,
+        @RequestParam(value = "mf-max", defaultValue = "99999") Integer mfMax,
         @RequestParam(value = "rs-min", defaultValue = "0") Integer rsMin,
-        @RequestParam(value = "rs-max", defaultValue = "999999999999") Integer rsMax,
+        @RequestParam(value = "rs-max", defaultValue = "99999") Integer rsMax,
         @RequestParam(value = "uay", defaultValue = "16") Integer uay
     ) {
         // TODO
@@ -67,7 +67,7 @@ public class RealestateController {
             bookmarkCheckResponse = new BookmarkCheckResponse(false, false);
         }
 
-        Page<RealestateDocument> realestateDocuments = realestateEsFacade.searchProperties(
+        Page<RealestateDocument> searchResults = realestateEsFacade.searchProperties(
             new SearchCommand(
                 size,
                 from,
@@ -90,14 +90,22 @@ public class RealestateController {
             )
         );
 
-        for (RealestateDocument r : realestateDocuments) {
+
+        for (RealestateDocument r : searchResults) {
             System.out.println(r);
         }
 
-        SearchListResponse results = SearchListResponse.from(
+        SearchListResponse finalResults = SearchListResponse.from(
+            searchResults.getTotalElements(),
+            searchResults.getTotalPages(),
             size,
-            from,null);
-        return ResponseEntity.ok(results);
+            from,
+            searchResults.getContent()
+        );
+
+        System.out.println(finalResults);
+
+        return ResponseEntity.ok(finalResults);
     }
     @GetMapping("/{realestateId}")
     public ResponseEntity<RealestateDetailResponse> searchByArticleNo(

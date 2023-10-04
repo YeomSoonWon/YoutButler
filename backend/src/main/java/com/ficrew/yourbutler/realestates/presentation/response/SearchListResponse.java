@@ -9,14 +9,20 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SearchListResponse {
 
-
+    private final Long totalElements;
+    private final Integer totalPages;
     private final Integer size;
     private final Integer from;
-    private final List<SearchResponse> roomTypeList;
+    private final List<RealestateDocument> roomTypeList;
 
-    public static SearchListResponse from(Integer size, Integer from,
-        List<RealestateDocument> realestateDocuments) {
-        return null;
+    public static SearchListResponse from(long totalElements, int totalPages, Integer size, Integer from, List<RealestateDocument> content) {
+        return new SearchListResponse(
+            totalElements,
+            totalPages,
+            size,
+            from,
+            content
+        );
     }
 
     @Getter
