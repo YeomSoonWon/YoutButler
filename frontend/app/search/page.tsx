@@ -137,6 +137,8 @@ const Search = () => {
 
   const handleSearch = () => {
     const searchParams = {
+      size: 5,
+      from: 0,
       keyword: searchKeyword, // 검색어
       "realestate-asset": holdingAsset, // 부동산 거래 예산
       "trade-type": selectedType, // 거래유형 : 매매/전세/월세
