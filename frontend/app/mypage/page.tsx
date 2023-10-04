@@ -122,7 +122,7 @@ const Profile = () => {
             <UserInfoEach title="나이" value={user?.age} />
             <UserInfoEach title="주택 수" value={user?.numberOfHouses} />
             <UserInfoEach title="부동산 거래 예산" value={user?.holdingAsset} />
-            <UserInfoEach title="월 가용자산" value={user?.monthlyAvailableAsset} />
+            <UserInfoEach title="월세 가용자산" value={user?.monthlyAvailableAsset} />
             <UserInfoEach title="신용도" value={user?.creditRating} />
             <BtnDiv>
               <Link href="/modify">
