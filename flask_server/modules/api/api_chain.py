@@ -16,7 +16,7 @@ from flask_server.modules.resources.resource import Resource, format_resources
 from flask_server.modules.api.api import API, format_apis
 
 
-class APIChain(Chain, BaseModel):
+class APIChain(Chain):
     """Chain for interacting with SQL Database.
 
     Example:

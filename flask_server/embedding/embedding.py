@@ -112,7 +112,6 @@ def txt_to_vector():
     transcript = load_documents(file_path)
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
     docs = text_splitter.split_documents(transcript)
-
     db = FAISS.from_documents(docs, embedding)
     db.save_local("../DB/vector/korea_bank_700_information")
     print("텍스트 -> vector 변환이 완료되었습니다.")

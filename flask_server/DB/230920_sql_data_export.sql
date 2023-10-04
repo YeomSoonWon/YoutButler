@@ -148,7 +148,7 @@ UNLOCK TABLES;
 DROP TABLE IF EXISTS `주택담보대출`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `주택담보대출` (
+ ENGINE=InnoDB AUTO_INCREMENCREATE TABLE `주택담보대출` (
   `id` int NOT NULL AUTO_INCREMENT,
   `금융회사명` varchar(50) DEFAULT NULL,
   `금융상품명` varchar(50) DEFAULT NULL,
@@ -164,7 +164,7 @@ CREATE TABLE `주택담보대출` (
   `대출금리_최고` float DEFAULT NULL,
   `전월취급평균금리` float DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=436 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+)T=436 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

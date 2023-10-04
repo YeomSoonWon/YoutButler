@@ -16,7 +16,7 @@ from flask_server.modules.database.sql_database import SQLDatabase
 from flask_server.modules.database.encoder import UUIDEncoder
 
 
-class SQLDatabaseChain(Chain, BaseModel):
+class SQLDatabaseChain(Chain):
     """Chain for interacting with SQL Database.
 
     Example:
@@ -101,7 +101,7 @@ class SQLDatabaseChain(Chain, BaseModel):
                 "outline": f"{len(result)} rows",
                 "source": sql_cmd,
                 "text": lang_output,
-            }
+            },
         }
         if len(result) > 3:
             self.custom_memory["query_result_summary"] = {

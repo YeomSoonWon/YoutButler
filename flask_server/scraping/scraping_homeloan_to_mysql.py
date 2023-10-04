@@ -5,6 +5,7 @@ import os
 
 print(os.environ.get("MYSQL_PASSWORD"))
 
+
 def insert_db(data):
     for dt in data:
         print(dt)
