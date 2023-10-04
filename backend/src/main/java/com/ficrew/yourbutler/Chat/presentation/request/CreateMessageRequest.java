@@ -16,14 +16,32 @@ public class CreateMessageRequest {
     @Min(value = -2, message = "채팅방 번호가 필요합니다.")
     private Long chatRoomNo;
 
+    @Min(0)
+    private Long realestateId;
+
+    @NotBlank
+    private String buildingName;
+
+    @NotBlank
+    private String sidoName;
+
+    @NotBlank
+    private String guName;
+
+    @NotBlank
+    private String dongName;
+
+    @Min(0)
+    private Long dealOrWarrantPrcNumeric;
+
+    @Min(0)
+    private Long rentPrcNumeric;
+
     @NotBlank(message = "채팅 내용이 필요합니다.")
     private String chat;
 
-    @Min(0)
-    private Long aptNo;
-
     public CreateMessageCommand toCommand() {
-        return new CreateMessageCommand(chatRoomNo, aptNo, false, chat);
+        return new CreateMessageCommand(false, chatRoomNo, realestateId, buildingName, sidoName, guName, dongName, dealOrWarrantPrcNumeric, rentPrcNumeric, chat);
     }
 
 }
