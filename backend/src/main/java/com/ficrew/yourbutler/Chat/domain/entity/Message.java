@@ -29,11 +29,11 @@ public class Message {
     @Embedded
     private Loan loan;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "bank_id")
     private Bank bank;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "chatroom_id", nullable = false)
     private ChatRoom chatRoom;
 
