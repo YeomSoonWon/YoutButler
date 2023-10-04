@@ -8,6 +8,8 @@ import Chart from "@/components/Chart";
 import DetailCarousel from "@/components/DetailPage/DetailCarousel";
 import butler from "@/public/assets/butler.png";
 import { useState } from "react";
+import AuthApi from "@/api/authApi";
+import RealEstateApi from "@/api/realEstateApi";
 import Chatting from "@/components/Chat/Chatting";
 import {
   TitleP,
@@ -52,6 +54,33 @@ import axios from "axios";
 import realEstateApi from "@/api/realEstateApi";
 import chatApi from "@/api/chatApi";
 
+function calculateInterestRate(houseType: string, userCreditRating: number): number {
+  if (houseType === "매매") {
+      return 4.77;
+  } else if (houseType === "전세") {
+      return 5.30;
+  } else if (houseType === "월세") {
+      if (userCreditRating >= 900) {
+          return 8.69;
+      } else if (userCreditRating >= 800) {
+          return 9.33;
+      } else if (userCreditRating >= 700) {
+          return 10.20;
+      } else if (userCreditRating >= 600) {
+          return 11.21;
+      } else if (userCreditRating >= 500) {
+          return 12.49;
+      } else if (userCreditRating >= 400) {
+          return 11.43;
+      } else if (userCreditRating >= 300) {
+          return 7.70;
+      } else {
+          return 9.68;
+      }
+  }
+  return 0;  // Default value
+}
+
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
@@ -67,7 +96,13 @@ const DetailWithID = ({ params }) => {
   const [chatList, setChatList] = useState([]);
   const [chatMsg, setChatMsg] = useState(null);
   const [loading, setLoading] = useState(false);
-
+  const [holdingAsset, setHoldingAsset] = useState<number | null>(null);
+  useEffect(() => {
+      if (session) {
+        setHoldingAsset(user?.holdingAsset);
+      }
+  }, [session, user]);
+  
   // 찜
   const [like, setLike] = useState<boolean>(false);
 
@@ -350,13 +385,13 @@ const DetailWithID = ({ params }) => {
             <InfoDiv>
               <InfoDetailDiv>
                 <TitleP>현재 자산으로는</TitleP>
-                <BlueP>72,738,991원</BlueP>
-                <TitleP>더 필요합니다.</TitleP>
+                <BlueP>{Math.abs(house?.dealOrWarrantPrc_numeric - user?.holdingAsset*10000)}원</BlueP>
+                <TitleP>{(house?.dealOrWarrantPrc_numeric - user?.holdingAsset*10000) < 0 ? "여유가 있습니다." : "더 필요합니다."}</TitleP>
               </InfoDetailDiv>
               <LineHr />
               <InfoDetailDiv>
                 <TitleP>대출 시 예상되는 월 이자</TitleP>
-                <BlueP>4.15%</BlueP>
+                <BlueP>{calculateInterestRate(house?.realEstateTypeName, user?.creditRating)}%</BlueP>
                 <LightPDiv>
                   <LightP>가입 시 입력한 신용도를 기반으로</LightP>
                   <LightP>산정된 예상 이자율 입니다.</LightP>
