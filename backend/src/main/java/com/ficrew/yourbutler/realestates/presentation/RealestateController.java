@@ -47,18 +47,18 @@ public class RealestateController {
         @RequestParam(value = "realestate-asset") Long realestateAsset,
         @RequestParam(value = "monthly-asset") Long monthlyAvailableAsset,
         @RequestParam(value = "trade-type", defaultValue = "RENT") TradeType tradeType,
-        @RequestParam(value = "room-type ", defaultValue = "APT") List<RoomType> roomTypeList,
-        @RequestParam(value = "dw-min", defaultValue = "0") Long dwMin,
-        @RequestParam(value = "dw-max", defaultValue = "999999999999") Long dwMax,
-        @RequestParam(value = "dp-min", defaultValue = "0") Long dpMin,
-        @RequestParam(value = "dp-max", defaultValue = "999999999999") Long dpMax,
-        @RequestParam(value = "rp-min", defaultValue = "0") Long rpMin,
-        @RequestParam(value = "rp-max", defaultValue = "999999999999") Long rpMax,
-        @RequestParam(value = "mf-min", defaultValue = "0") Long mfMin,
-        @RequestParam(value = "mf-max", defaultValue = "999999999999") Long mfMax,
-        @RequestParam(value = "rs-min", defaultValue = "0") Long rsMin,
-        @RequestParam(value = "rs-max", defaultValue = "999999999999") Long rsMax,
-        @RequestParam(value = "uay", defaultValue = "16") Integer uay
+        @RequestParam(value = "room-type", defaultValue = "APT") List<RoomType> roomTypeList,
+        @RequestParam(value = "dw-min", defaultValue = "0") String dwMin,
+        @RequestParam(value = "dw-max", defaultValue = "999999999999") String dwMax,
+        @RequestParam(value = "dp-min") String dpMin,
+        @RequestParam(value = "dp-max") String dpMax,
+        @RequestParam(value = "rp-min", defaultValue = "0") String rpMin,
+        @RequestParam(value = "rp-max", defaultValue = "999999999999") String rpMax,
+        @RequestParam(value = "mf-min", defaultValue = "0") String mfMin,
+        @RequestParam(value = "mf-max", defaultValue = "999999999999") String mfMax,
+        @RequestParam(value = "rs-min", defaultValue = "0") String rsMin,
+        @RequestParam(value = "rs-max", defaultValue = "999999999999") String rsMax,
+        @RequestParam(value = "uay", defaultValue = "16") String uay
     ) {
         // TODO
         BookmarkCheckResponse bookmarkCheckResponse;
