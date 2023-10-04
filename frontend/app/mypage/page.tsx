@@ -84,11 +84,11 @@ const Profile = () => {
       // @ts-ignore
       let res = await authApi.deleteUser(session?.userData);
       console.log(res);
-      if(res.data === "회원탈퇴 완료"){
+      if (res.data === "회원탈퇴 완료") {
         alert("탈퇴되었습니다.");
         // window.location.href="/";
         signOut();
-      }else{
+      } else {
         alert("오류가 발생했습니다.");
       }
     }

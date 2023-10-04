@@ -17,6 +17,7 @@ import InfoBubble from "@/components/List/InfoBubble";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import authApi from "@/api/authApi";
+import Yeoksam from "@/public/json/역삼동_매매_아파트.json";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -77,6 +78,7 @@ const Search = () => {
     }
   };
 
+  // 사용승인일
   const [selectedOption, setSelectedOption] = useState<string | null>("전체기간");
 
   const options = [
@@ -90,6 +92,45 @@ const Search = () => {
 
   const handleSelectOption = (value: string) => {
     setSelectedOption(value);
+  };
+
+  // 체크박스
+  const handleCheckboxChange = (isChecked: boolean) => {
+    console.log("Checkbox checked:", isChecked);
+  };
+
+  // 검색 조건
+  const constructApiRequest = (searchParams) => {
+    const baseUrl = "http://localhost:3000/realestates/search";
+    const queryString = Object.keys(searchParams)
+      .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(searchParams[key])}`)
+      .join("&");
+
+    return `${baseUrl}?${queryString}`;
+  };
+
+  const handleSearch = () => {
+    const searchParams = {
+      keyword: "한남더힐", // Example keyword, replace with your actual keyword
+      // "realestate-asset": realestateAsset, // Example realestate-asset value, replace with actual value
+      "trade-type": selectedType, // Assuming selectedType contains the trade type
+      "room-type": "APT,OPST,DDDGG", // Example room-type, replace with actual values
+
+      // For pagination
+      size: 10, // Example size, replace with actual value
+      from: 1, // Example from, replace with actual value
+    };
+
+    const apiUrl = constructApiRequest(searchParams);
+
+    // Call your API using fetch or any other method
+    fetch(apiUrl)
+      .then((response) => response.json())
+      .then((data) => {
+        // Process the API response data
+        console.log("API response:", data);
+      })
+      .catch((error) => console.error("API error:", error));
   };
 
   return (
@@ -144,15 +185,15 @@ const Search = () => {
               </AboutDiv>
             </TitleDiv>
             <ItemDiv>
-              <ItemEach width="18rem" height="19rem" colordot={colors.blue} />
-              <ItemEach width="18rem" height="19rem" colordot={colors.red} />
-              <ItemEach width="18rem" height="19rem" colordot={colors.yellow} />
+              {/* <ItemEach width="18rem" height="19rem" item={} colordot={colors.blue} /> */}
+              {/* <ItemEach width="18rem" height="19rem" colordot={colors.red} />
+              <ItemEach width="18rem" height="19rem" colordot={colors.yellow} /> */}
             </ItemDiv>
           </Lower>
         </LeftContainer>
         <RightContainer>
           <SearchDiv>
-            <SearchInput type="text" placeholder="지역, 학교, 지하철역 검색" />
+            <SearchInput type="text" placeholder="지역, 아파트명 검색" />
             <Button Kind="extraSmall" Rounded="square" Variant="yellowTonal">
               검색
             </Button>
@@ -198,26 +239,29 @@ const Search = () => {
           <ContentDiv>
             <SubtitleP>방 종류</SubtitleP>
             <CheckboxDiv>
-              <Checkbox label="아파트" />
-              <Checkbox label="오피스텔" />
-              <Checkbox label="단독·다가구" />
+              <Checkbox label="아파트" isChecked={false} onChange={handleCheckboxChange} />
+              <Checkbox label="오피스텔" isChecked={false} onChange={handleCheckboxChange} />
+              <Checkbox label="단독·다가구" isChecked={false} onChange={handleCheckboxChange} />
               <Checkbox
                 label="원·투룸"
+                isChecked={false}
+                onChange={handleCheckboxChange}
                 // isChecked={isChecked}
                 // onChange={handleCheckboxChange}
               />
-              <Checkbox label="빌라·연립" />
-              <Checkbox label="주택" />
+              <Checkbox label="빌라·연립" isChecked={false} onChange={handleCheckboxChange} />
+              <Checkbox label="주택" isChecked={false} onChange={handleCheckboxChange} />
             </CheckboxDiv>
           </ContentDiv>
           <ContentDiv>
             <SubtitleP>가격</SubtitleP>
             <RangeDiv>
-              <RangeSlider title="보증금 / 전세가" end="무제한" />
-              {selectedType === "월세" && <RangeSlider title="월세" end="무제한" />}
-              {selectedType === "매매" && <RangeSlider title="매매가" end="2억 7천만" />}
-              <RangeSlider title="관리비" end="40만원" />
-              <RangeSlider title="방크기(전용면적)" end="75㎡" />
+              {selectedType === "월세" && <RangeSlider title="보증금" unit="만원" />}
+              {selectedType === "월세" && <RangeSlider title="월세" unit="만원" />}
+              {selectedType === "전세" && <RangeSlider title="전세가" unit="만원" />}
+              {selectedType === "매매" && <RangeSlider title="매매가" unit="만원" />}
+              <RangeSlider title="관리비" unit="만원" />
+              <RangeSlider title="방크기(전용면적)" unit="㎡" />
             </RangeDiv>
           </ContentDiv>
           <ContentDiv>
@@ -230,8 +274,8 @@ const Search = () => {
               />
             </RadioDiv>
           </ContentDiv>
-          <ButtonDiv>
-            <Button Kind="small" Variant="yellowFilled" Rounded="square">
+          <ButtonDiv style={{ paddingBottom: "1rem" }}>
+            <Button Kind="small" Variant="yellowFilled" Rounded="square" onClick={handleSearch}>
               해당 조건으로 검색하기
             </Button>
           </ButtonDiv>
