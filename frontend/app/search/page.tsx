@@ -111,9 +111,16 @@ const Search = () => {
 
   // 검색 조건
   const constructApiRequest = (searchParams) => {
-    const baseUrl = "http://localhost:3000/realestates/search";
+    const baseUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/realestates/search`;
     const queryString = Object.keys(searchParams)
-      .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(searchParams[key])}`)
+      .map((key) => {
+        if (searchParams[key] !== null && searchParams[key] !== undefined) {
+          return `${encodeURIComponent(key)}=${encodeURIComponent(searchParams[key])}`;
+        } else {
+          return null;
+        }
+      })
+      .filter((param) => param !== null)
       .join("&");
 
     return `${baseUrl}?${queryString}`;
@@ -136,8 +143,6 @@ const Search = () => {
       "room-type": roomTypeParameter, // 방종류 : 아파트/오피스텔/단독&다가구/원&투룸/빌라&연립/주택
       "monthly-asset": monthlyAvailableAsset, // 월 가용금액(월세)
       uay: selectedOption, // 사용승인일
-      size: 10,
-      from: 1,
     };
 
     const apiUrl = constructApiRequest(searchParams);
