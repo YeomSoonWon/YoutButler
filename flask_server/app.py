@@ -1,45 +1,26 @@
 from flask import Flask, render_template, request, jsonify
-from flask_cors import CORS
-from flask_cors import cross_origin
-from flask_sock import Sock
-import main as main
-import subprocess
-from email import message
-from io import StringIO
-import smtplib
-import sys
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
-from email.header import Header
-from email.utils import formataddr
 from loan.query_loan import query_loan
 
 app = Flask(__name__)
-CORS(app)
-sock = Sock(app)
-socker_per_user = {}
-
 
 def decide(chat: str):
     # LLM 모델이랑 연결해서 적절히 분기
     return
 
-
-@app.route("/api", methods=["POST"])
-@cross_origin()
-def api():
-    print("ASDASD")
-    data = request.get_json()
-    user = "0"
-    if user not in socker_per_user:
-        print("User not in connected to to websocket")
-    # sock = socker_per_user.get(user, None)
-    # sock.send("Starting...")
-    print("data:", data)
-    history = data["history"]
-    res = main.run(history, socket=sock)
-    return jsonify(res)
-
+# @app.route("/api", methods=["POST"])
+# @cross_origin()
+# def api():
+#     print("ASDASD")
+#     data = request.get_json()
+#     user = "0"
+#     if user not in socker_per_user:
+#         print("User not in connected to to websocket")
+#     # sock = socker_per_user.get(user, None)
+#     # sock.send("Starting...")
+#     print("data:", data)
+#     history = data["history"]
+#     res = main.run(history, socket=sock)
+#     return jsonify(res)
 
 @app.route("/api/chat", methods=["POST"])
 def chat():

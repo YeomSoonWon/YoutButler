@@ -6,7 +6,7 @@ from langchain.agents import initialize_agent, AgentType
 from langchain.chat_models import ChatOpenAI
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.memory import ConversationBufferMemory
-from langchain.prompts import ChatPromptTemplate, HumanMessagePromptTemplate, SystemMessagePromptTemplate
+from langchain.prompts import SystemMessagePromptTemplate, HumanMessagePromptTemplate, ChatPromptTemplate
 from langchain.tools import Tool
 from langchain.utilities import SQLDatabase
 from langchain.prompts.prompt import PromptTemplate
@@ -76,20 +76,20 @@ def get_response_from_query(query):
 
 def query_loan(chat):
     db = pymysql.connect(
-        host="127.0.0.1",
+        host="j9a405.p.ssafy.io",
         port=3306,
-        user="ssafy",
+        user="root",
         passwd=f"{os.environ.get('MYSQL_PASSWORD')}",
         db="loan",
         charset="utf8",
         autocommit=True,
     )
 
-    db = SQLDatabase.from_uri(
-        f"mysql+pymysql://ssafy:{os.environ.get('MYSQL_PASSWORD')}@localhost:3306/loan",
-        include_tables=["mortgage_loan", "jeonse_loan", "credit_loan"],
-        sample_rows_in_table_info=5,
-    )
+
+
+    db = SQLDatabase.from_uri(f"mysql+pymysql://root:{os.environ.get('MYSQL_PASSWORD')}@j9a405.p.ssafy.io:3306/loan",
+                              include_tables=["mortgage_loan", "jeonse_loan", "credit_loan"],
+                              sample_rows_in_table_info=5)
 
     # print(db.table_info)
     # llm = OpenAI(temperature=0, verbose=True)
@@ -116,7 +116,7 @@ def query_loan(chat):
 
     {table_info}
 
-    If someone asks for the table credit_loan, 최저금리를 조회하기 위해 사용되는 열 이름을 신용점수에 따라 적절히 선택하여야 한다.
+    If someone asks for the table 개인신용대출, 최저금리를 조회하기 위해 사용되는 열 이름을 신용점수에 따라 적절히 선택하여야 한다.
 
     Question: {input}"""
 
@@ -186,6 +186,5 @@ def chat_bot(chat):
 
 
 if __name__ == "__main__":
-    query_loan(
-        "국민은행에서 가장 낮은 금리로 받을 수 있는 전세자금대출을 2개 알려줘. 그 대출들이 어떤 금리를 가지고 있는지, 그리고 1억을 대출받아서 3년동안 원리금분할상환 방식으로 상환하면 한달마다 얼마를 갚아야 하는지도 알려줘. 대답은 한글이어야 해"
-    )
+    query_loan("국민은행에서 가장 낮은 금리로 받을 수 있는 전세자금대출을 2개 알려줘. 그 대출들이 어떤 금리를 가지고 있는지, 그리고 1억을 대출받아서 3년동안 원리금분할상환 방식으로 상환하면 한달마다 얼마를 갚아야 하는지도 알려줘. 대답은 한글이어야 해")
+

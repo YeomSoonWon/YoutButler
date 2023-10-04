@@ -21,6 +21,7 @@ flask-sock = "*"
 sock = "*"
 faiss-cpu = "*"
 tiktoken = "*"
+cryptography = "*"
 
 [dev-packages]
 
