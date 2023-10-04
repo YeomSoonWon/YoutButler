@@ -1,6 +1,7 @@
 package com.ficrew.yourbutler.realestates.infrastructure.config;
 
 import com.ficrew.yourbutler.member.domain.repository.MemberRepository;
+import com.ficrew.yourbutler.realestates.application.CheckBookmarkStatusListProcessor;
 import com.ficrew.yourbutler.realestates.application.CheckBookmarkStatusProcessor;
 import com.ficrew.yourbutler.realestates.application.CreateBookmarkProcessor;
 import com.ficrew.yourbutler.realestates.application.DeleteBookmarkProcessor;
@@ -12,6 +13,7 @@ import com.ficrew.yourbutler.realestates.domain.repository.SearchRepository;
 import com.ficrew.yourbutler.realestates.infrastructure.persistence.es.ElasticsearchRealestateRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 
 @Configuration
 public class RealestateConfig {
@@ -26,8 +28,12 @@ public class RealestateConfig {
     }
 
     @Bean
-    public SearchAllRealestatesProcessor searchAllRealestatesProcessor() {
-        return new SearchAllRealestatesProcessor();
+    public SearchAllRealestatesProcessor searchAllRealestatesProcessor(
+        ElasticsearchRestTemplate elasticsearchRestTemplate
+    ) {
+        return new SearchAllRealestatesProcessor(
+            elasticsearchRestTemplate
+        );
     }
 
     @Bean
@@ -68,5 +74,12 @@ public class RealestateConfig {
             elasticsearchRealestateRepository,
             bookmarkRepository
         );
+    }
+
+    @Bean
+    public CheckBookmarkStatusListProcessor checkBookmarkStatusListProcessor(
+        BookmarkRepository bookmarkRepository
+    ) {
+        return new CheckBookmarkStatusListProcessor(bookmarkRepository);
     }
 }

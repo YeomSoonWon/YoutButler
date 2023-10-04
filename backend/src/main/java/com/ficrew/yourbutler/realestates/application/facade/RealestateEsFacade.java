@@ -7,6 +7,7 @@ import com.ficrew.yourbutler.realestates.domain.entity.RealestateDocument;
 import com.ficrew.yourbutler.realestates.application.command.SearchCommand;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +17,7 @@ public class RealestateEsFacade {
     private final SearchAllRealestatesProcessor searchAllRealestatesProcessor;
     private final SearchBookmarkListProcessor getBookmarkListProcessor;
 
-    public List<RealestateDocument> searchProperties(SearchCommand command) {
+    public Page<RealestateDocument> searchProperties(SearchCommand command) {
         return searchAllRealestatesProcessor.execute(command);
     }
 

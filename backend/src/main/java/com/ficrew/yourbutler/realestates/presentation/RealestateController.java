@@ -6,14 +6,20 @@ import com.ficrew.yourbutler.realestates.application.command.SearchCommand;
 import com.ficrew.yourbutler.realestates.application.facade.RealestateEsFacade;
 import com.ficrew.yourbutler.realestates.domain.RoomType;
 import com.ficrew.yourbutler.realestates.domain.TradeType;
+import com.ficrew.yourbutler.realestates.domain.entity.RealestateDocument;
 import com.ficrew.yourbutler.realestates.presentation.response.BookmarkCheckResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.BookmarkListResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.BookmarkStatusResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.RealestateDetailResponse;
-import com.ficrew.yourbutler.realestates.presentation.response.SearchResponse;
+import com.ficrew.yourbutler.realestates.presentation.response.SearchBookmarkResponse;
+import com.ficrew.yourbutler.realestates.presentation.response.SearchListResponse;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,50 +42,95 @@ public class RealestateController {
     private final RealestateEsFacade realestateEsFacade;
     private final RealestateFacade realestateFacade;
 
+    // 파라미터 값은 모두 만원 단위로 들어온다!
     @GetMapping("/search")
-    public ResponseEntity<List<SearchResponse>> search(
+    public ResponseEntity<SearchListResponse> search(
+        @AuthenticationPrincipal AuthenticatedMember member,
         @RequestParam(value = "size", defaultValue = "10") Integer size,
         @RequestParam(value = "from", defaultValue = "0") Integer from,
         @RequestParam(value = "keyword", required = false) String keyword,
-        @RequestParam(value = "realestate-asset", defaultValue = "0") Long realestateAsset,
-        @RequestParam(value = "monthly-asset", defaultValue = "0") Long monthlyAvailableAsset,
+        @RequestParam(value = "realestate-asset") Long realestateAsset,
+        @RequestParam(value = "monthly-asset") Long monthlyAvailableAsset,
         @RequestParam(value = "trade-type", defaultValue = "RENT") TradeType tradeType,
-        @RequestParam(value = "room-type ", defaultValue = "APT") List<RoomType> roomTypeList,
+        @RequestParam(value = "room-type", defaultValue = "APT") List<RoomType> roomTypeList,
         @RequestParam(value = "dw-min", defaultValue = "0") Long dwMin,
-        @RequestParam(value = "dw-max", required = false) Long dwMax,
+        @RequestParam(value = "dw-max", defaultValue = "99999") Long dwMax,
         @RequestParam(value = "dp-min", defaultValue = "0") Long dpMin,
-        @RequestParam(value = "dp-max", required = false) Long dpMax,
+        @RequestParam(value = "dp-max", defaultValue = "99999") Long dpMax,
         @RequestParam(value = "rp-min", defaultValue = "0") Long rpMin,
-        @RequestParam(value = "rp-max", required = false) Long rpMax,
+        @RequestParam(value = "rp-max", defaultValue = "99999") Long rpMax,
         @RequestParam(value = "mf-min", defaultValue = "0") Long mfMin,
-        @RequestParam(value = "mf-max", required = false) Long mfMax,
+        @RequestParam(value = "mf-max", defaultValue = "99999") Long mfMax,
         @RequestParam(value = "rs-min", defaultValue = "0") Long rsMin,
-        @RequestParam(value = "rs-max", required = false) Long rsMax,
+        @RequestParam(value = "rs-max", defaultValue = "99999") Long rsMax,
         @RequestParam(value = "uay", defaultValue = "16") Integer uay
     ) {
-        List<SearchResponse> results = SearchResponse.from(realestateEsFacade.searchProperties(
+
+        Page<RealestateDocument> searchResults = realestateEsFacade.searchProperties(
             new SearchCommand(
                 size,
                 from,
                 keyword,
-                realestateAsset,
-                monthlyAvailableAsset,
+                realestateAsset * 10000,
+                monthlyAvailableAsset * 10000,
                 tradeType,
                 roomTypeList,
-                dwMin,
-                dwMax,
-                dpMin,
-                dpMax,
+                dwMin * 10000,
+                dwMax * 10000,
+                dpMin * 10000,
+                dpMax * 10000,
                 rpMin,
                 rpMax,
-                mfMin,
-                mfMax,
+                mfMin * 10000,
+                mfMax * 10000,
                 rsMin,
                 rsMax,
                 uay
             )
-        ));
-        return ResponseEntity.ok(results);
+        );
+
+
+        for (RealestateDocument r : searchResults) {
+            System.out.println(r);
+        }
+
+        // 반환값 만들기.. (리팩토링 필요)
+        List<Long> articleNos = searchResults.getContent()
+            .stream()
+            .map(RealestateDocument::getArticleNo)
+            .collect(Collectors.toList());
+
+
+        BookmarkCheckResponse bookmarkCheckResponse;
+        List<SearchBookmarkResponse> searchBookmarkResponseList = new ArrayList<>();
+
+        if (member == null) {
+            bookmarkCheckResponse = new BookmarkCheckResponse(false, false);
+            for (RealestateDocument doc : searchResults.getContent()) {
+                String color = realestateFacade.calculate(doc);
+                searchBookmarkResponseList.add(SearchBookmarkResponse.from(doc, color, bookmarkCheckResponse));
+            }
+        } else {
+            Map<Long, Boolean> bookmarkedMap = realestateFacade.isBookmarkedList(articleNos);
+            for (RealestateDocument doc : searchResults.getContent()) {
+                Long articleNo = doc.getArticleNo();
+                String color = realestateFacade.calculate(doc);
+                Boolean isBookmarked = bookmarkedMap.getOrDefault(articleNo, false);
+                searchBookmarkResponseList.add(SearchBookmarkResponse.from(doc,color, new BookmarkCheckResponse(true, isBookmarked)));
+            }
+        }
+
+        SearchListResponse finalResults = SearchListResponse.from(
+            searchResults.getTotalElements(),
+            searchResults.getTotalPages(),
+            size,
+            from,
+            searchBookmarkResponseList
+        );
+
+        System.out.println(finalResults);
+
+        return ResponseEntity.ok(finalResults);
     }
     @GetMapping("/{realestateId}")
     public ResponseEntity<RealestateDetailResponse> searchByArticleNo(
