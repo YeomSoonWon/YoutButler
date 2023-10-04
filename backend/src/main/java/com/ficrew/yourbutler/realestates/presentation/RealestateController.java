@@ -89,17 +89,10 @@ public class RealestateController {
             )
         );
 
-
-        for (RealestateDocument r : searchResults) {
-            System.out.println(r);
-        }
-
-        // 반환값 만들기.. (리팩토링 필요)
         List<Long> articleNos = searchResults.getContent()
             .stream()
             .map(RealestateDocument::getArticleNo)
             .collect(Collectors.toList());
-
 
         BookmarkCheckResponse bookmarkCheckResponse;
         List<SearchBookmarkResponse> searchBookmarkResponseList = new ArrayList<>();
@@ -108,7 +101,8 @@ public class RealestateController {
             bookmarkCheckResponse = new BookmarkCheckResponse(false, false);
             for (RealestateDocument doc : searchResults.getContent()) {
                 String color = realestateFacade.calculate(doc);
-                searchBookmarkResponseList.add(SearchBookmarkResponse.from(doc, color, bookmarkCheckResponse));
+                searchBookmarkResponseList.add(
+                    SearchBookmarkResponse.from(doc, color, bookmarkCheckResponse));
             }
         } else {
             Map<Long, Boolean> bookmarkedMap = realestateFacade.isBookmarkedList(articleNos);
@@ -116,7 +110,8 @@ public class RealestateController {
                 Long articleNo = doc.getArticleNo();
                 String color = realestateFacade.calculate(doc);
                 Boolean isBookmarked = bookmarkedMap.getOrDefault(articleNo, false);
-                searchBookmarkResponseList.add(SearchBookmarkResponse.from(doc,color, new BookmarkCheckResponse(true, isBookmarked)));
+                searchBookmarkResponseList.add(SearchBookmarkResponse.from(doc, color,
+                    new BookmarkCheckResponse(true, isBookmarked)));
             }
         }
 
@@ -128,10 +123,9 @@ public class RealestateController {
             searchBookmarkResponseList
         );
 
-        System.out.println(finalResults);
-
         return ResponseEntity.ok(finalResults);
     }
+
     @GetMapping("/{realestateId}")
     public ResponseEntity<RealestateDetailResponse> searchByArticleNo(
         @AuthenticationPrincipal AuthenticatedMember member,
@@ -141,9 +135,11 @@ public class RealestateController {
         if (member == null) {
             bookmarkCheckResponse = new BookmarkCheckResponse(false, false);
         } else {
-            bookmarkCheckResponse = new BookmarkCheckResponse(true, realestateFacade.isBookmarked(realestateId));
+            bookmarkCheckResponse = new BookmarkCheckResponse(true,
+                realestateFacade.isBookmarked(realestateId));
         }
-        RealestateDetailResponse result = RealestateDetailResponse.from(realestateEsFacade.searchDetails(realestateId), bookmarkCheckResponse);
+        RealestateDetailResponse result = RealestateDetailResponse.from(
+            realestateEsFacade.searchDetails(realestateId), bookmarkCheckResponse);
 
         return ResponseEntity.ok(result);
     }
@@ -153,7 +149,8 @@ public class RealestateController {
         @AuthenticationPrincipal AuthenticatedMember member,
         @PathVariable Long realestateId
     ) {
-        return ResponseEntity.ok(BookmarkStatusResponse.from(realestateFacade.createBookmark(member.getId(), realestateId)));
+        return ResponseEntity.ok(BookmarkStatusResponse.from(
+            realestateFacade.createBookmark(member.getId(), realestateId)));
     }
 
     @DeleteMapping("/{realestateId}/uncheck")
@@ -169,7 +166,8 @@ public class RealestateController {
     public ResponseEntity<BookmarkListResponse> getBookmarkList(
         @AuthenticationPrincipal AuthenticatedMember member
     ) {
-        return ResponseEntity.ok(BookmarkListResponse.from(realestateEsFacade.getBookmarkedList(member.getId())));
+        return ResponseEntity.ok(
+            BookmarkListResponse.from(realestateEsFacade.getBookmarkedList(member.getId())));
     }
 
 }
