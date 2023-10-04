@@ -5,6 +5,7 @@ import com.ficrew.yourbutler.realestates.application.CreateBookmarkProcessor;
 import com.ficrew.yourbutler.realestates.application.DeleteBookmarkProcessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -18,11 +19,13 @@ public class RealestateFacade {
         return checkBookmarkStatusProcessor.execute(realestateId);
     }
 
+    @Transactional
     public boolean createBookmark(Long memberId, Long realestateId) {
         return createBookmarkProcessor.execute(memberId, realestateId);
     }
 
-    public boolean deleteBookmark(Long realestateId, Long id) {
-        return deleteBookmarkProcessor.execute(realestateId);
+    @Transactional
+    public boolean deleteBookmark(Long memberId, Long realestateId) {
+        return deleteBookmarkProcessor.execute(memberId, realestateId);
     }
 }

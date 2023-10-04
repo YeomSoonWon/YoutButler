@@ -16,13 +16,14 @@ public class RealestateRepositoryAdapter implements BookmarkRepository {
         return jpaBookmarkRepository.existsByRealestateId(realestateId);
     }
 
+
     @Override
-    public boolean deleteByRealestateId(Long realestateId) {
-        return false;
+    public Bookmark save(Bookmark bookmark) {
+        return jpaBookmarkRepository.save(bookmark);
     }
 
     @Override
-    public boolean save(Bookmark bookmark) {
-        return false;
+    public boolean deleteByRealestateIdAndMemberId(Long realestateId, Long memberId) {
+        return jpaBookmarkRepository.deleteByRealestateIdAndMemberId(realestateId, memberId) != 1L;
     }
 }

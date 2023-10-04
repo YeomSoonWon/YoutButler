@@ -50,12 +50,10 @@ public class RealestateConfig {
 
     @Bean
     public DeleteBookmarkProcessor deleteBookmarkProcessor(
-        BookmarkRepository bookmarkRepository,
-        MemberRepository memberRepository
+        BookmarkRepository bookmarkRepository
     ) {
         return new DeleteBookmarkProcessor(
-            bookmarkRepository,
-            memberRepository
+            bookmarkRepository
         );
     }
 

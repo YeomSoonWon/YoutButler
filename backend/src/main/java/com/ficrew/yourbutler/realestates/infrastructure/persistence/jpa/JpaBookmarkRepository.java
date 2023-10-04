@@ -7,6 +7,5 @@ public interface JpaBookmarkRepository extends JpaRepository<Bookmark, Long> {
 
     boolean existsByRealestateId(Long realestateId);
 
-    boolean deleteByRealestateId(Long realestateId);
-
+    Long deleteByRealestateIdAndMemberId(Long realestateId, Long memberId);
 }

@@ -11,11 +11,12 @@ public class CreateBookmarkProcessor {
     private final MemberRepository memberRepository;
 
     public boolean execute(Long memberId, Long realestateId) {
-        return bookmarkRepository.save(
+        Bookmark savedBookmark = bookmarkRepository.save(
             new Bookmark(
                 memberRepository.findById(memberId),
                 realestateId
             )
         );
+        return savedBookmark != null;
     }
 }

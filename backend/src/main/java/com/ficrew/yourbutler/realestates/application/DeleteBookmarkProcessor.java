@@ -1,6 +1,5 @@
 package com.ficrew.yourbutler.realestates.application;
 
-import com.ficrew.yourbutler.member.domain.repository.MemberRepository;
 import com.ficrew.yourbutler.realestates.domain.repository.BookmarkRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -8,8 +7,7 @@ import lombok.RequiredArgsConstructor;
 public class DeleteBookmarkProcessor {
 
     private final BookmarkRepository bookmarkRepository;
-    private final MemberRepository memberRepository;
-    public boolean execute(Long realestateId) {
-        return bookmarkRepository.deleteByRealestateId(realestateId);
+    public boolean execute(Long memberId, Long realestateId) {
+        return bookmarkRepository.deleteByRealestateIdAndMemberId(realestateId, memberId);
     }
 }
