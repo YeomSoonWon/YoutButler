@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import Img1 from "@/public/assets/estate1.png";
 import {
   TopDiv,
@@ -13,9 +13,14 @@ import {
   PopupImage,
 } from "@/components/DetailPage/DetailPage";
 
-const DetailCarousel = () => {
+const DetailCarousel = ({imgList}) => {
+  if(imgList){
+    console.log(JSON.parse(imgList.replace(/'/g, '"')));
+  }
+
   // 사진 캐러셀 기능
   const [currentIdx, setCurrentIdx] = useState(0);
+  // const [list, setList] = useState([]);
 
   const images = [Img1, Img1, Img1, Img1, Img1];
 
@@ -32,7 +37,6 @@ const DetailCarousel = () => {
   const [clickedImageIndex, setClickedImageIndex] = useState(0);
 
   const openPopup = (index) => {
-    console.log("사진 인덱스:", index);
     setClickedImageIndex(index);
     setPopupVisible(true);
   };
@@ -49,10 +53,10 @@ const DetailCarousel = () => {
         </NextSvg>
       </NextSvgDiv>
       <ImgDiv>
-        {images.map((image, index) => (
+        {imgList && JSON.parse(imgList.replace(/'/g, '"')).map((image, index) => (
           <StyledImg
             key={index}
-            src={image}
+            src={image?.imageSrc}
             alt="estate"
             onClick={() => openPopup(index)}
             style={{
@@ -75,7 +79,7 @@ const DetailCarousel = () => {
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </CloseButton>
-          <PopupImage src={images[clickedImageIndex].src} alt="estate" />
+          {imgList && <PopupImage src={JSON.parse(imgList.replace(/'/g, '"'))[clickedImageIndex].imageSrc} alt="estate" />}
         </Popup>
       )}
       <NextSvgDiv className="next" onClick={nextImage}>
