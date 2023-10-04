@@ -54,15 +54,15 @@ public class RealestateController {
         @RequestParam(value = "trade-type", defaultValue = "RENT") TradeType tradeType,
         @RequestParam(value = "room-type", defaultValue = "APT") List<RoomType> roomTypeList,
         @RequestParam(value = "dw-min", defaultValue = "0") Long dwMin,
-        @RequestParam(value = "dw-max", defaultValue = "99999") Long dwMax,
+        @RequestParam(value = "dw-max", defaultValue = "9000000") Long dwMax,
         @RequestParam(value = "dp-min", defaultValue = "0") Long dpMin,
-        @RequestParam(value = "dp-max", defaultValue = "99999") Long dpMax,
+        @RequestParam(value = "dp-max", defaultValue = "9000000") Long dpMax,
         @RequestParam(value = "rp-min", defaultValue = "0") Long rpMin,
-        @RequestParam(value = "rp-max", defaultValue = "99999") Long rpMax,
+        @RequestParam(value = "rp-max", defaultValue = "9000000") Long rpMax,
         @RequestParam(value = "mf-min", defaultValue = "0") Long mfMin,
-        @RequestParam(value = "mf-max", defaultValue = "99999") Long mfMax,
+        @RequestParam(value = "mf-max", defaultValue = "9000000") Long mfMax,
         @RequestParam(value = "rs-min", defaultValue = "0") Long rsMin,
-        @RequestParam(value = "rs-max", defaultValue = "99999") Long rsMax,
+        @RequestParam(value = "rs-max", defaultValue = "9000000") Long rsMax,
         @RequestParam(value = "uay", defaultValue = "16") Integer uay
     ) {
 
