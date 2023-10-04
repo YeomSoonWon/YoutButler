@@ -9,7 +9,7 @@ public class WebClientConfig {
 
     @Bean
     public WebClient webClient() {
-        return WebClient.create("j9a405.p.ssafy.io:8000");
+        return WebClient.create("http://j9a405.p.ssafy.io:8000");
     }
 
 }
