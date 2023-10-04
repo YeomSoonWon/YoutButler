@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -72,22 +73,31 @@ public class SearchAllRealestatesProcessor {
                 searchCommand.getTradeType().getDescription()));
 
         // Split keywords and add them to the query
-        /*
+
         List<String> keywords = Arrays.stream(searchCommand.getTextKeyword().split(" "))
             .filter(keyword -> !keyword.trim().isEmpty())
             .collect(Collectors.toList());
 
         BoolQueryBuilder keywordQuery = QueryBuilders.boolQuery();
+
         for (String keyword : keywords) {
-            keywordQuery.should(QueryBuilders.matchQuery("address", keyword));
-            keywordQuery.should(QueryBuilders.matchPhrasePrefixQuery("complexName", keyword));
+            MultiMatchQueryBuilder multiMatchQueryBuilder = QueryBuilders.multiMatchQuery(keyword, "address", "complexName")
+                .type(MultiMatchQueryBuilder.Type.PHRASE_PREFIX);
+
+            keywordQuery.should(multiMatchQueryBuilder);
         }
+
         if (!keywords.isEmpty()) {
             textQuery.must(keywordQuery);
         }
 
 
-         */
+        if (!keywords.isEmpty()) {
+            textQuery.must(keywordQuery);
+        }
+
+
+
         searchQueryBuilder.withQuery(textQuery);
 
         // 3. 페이지네이션 정보 설정
