@@ -5,76 +5,38 @@ from langchain import LLMMathChain, LLMChain
 from langchain.agents import initialize_agent, AgentType
 from langchain.chat_models import ChatOpenAI
 from langchain.embeddings import OpenAIEmbeddings
-from langchain.memory import ConversationBufferMemory
 from langchain.prompts import SystemMessagePromptTemplate, HumanMessagePromptTemplate, ChatPromptTemplate
-from langchain.tools import Tool
+from langchain.tools import Tool, StructuredTool
 from langchain.utilities import SQLDatabase
-from langchain.prompts.prompt import PromptTemplate
-from langchain.llms import OpenAI
 from langchain_experimental.sql import SQLDatabaseChain
 from langchain.prompts.prompt import PromptTemplate
 from langchain.vectorstores.faiss import FAISS
+from pydantic import BaseModel, Field
+
+from flask_server.modules.agents.ReActMemoryAgent import ReActMemoryAgent
 
 
-def wonrigum_equal(original_money, loan_year_rate, repayment_months):
-    loan_year_rate /= 100 if loan_year_rate >= 1 else loan_year_rate
-    loan_year_rate /= 12
-    return int(original_money * (loan_year_rate * (1 + loan_year_rate) ** repayment_months) / ((1 + loan_year_rate) ** repayment_months - 1))
+def wonrigum_equal(loan_interest: float, lent_money: int = 100000000, repayment_months: int = 180) -> int:
+    """ loan_intereest: 대출 상품의 금리, lent_money: 대출 상품을 통해 빌린 금액, repayment_months: 대출 상품의 상환 개월수를 입력받아 매달 갚아야 할 금액을 계산해주는 도구입니다."""
+    loan_interest = float(loan_interest)
+    loan_interest /= 100 if loan_interest >= 1 else loan_interest
+    loan_interest /= 12
+    return int(lent_money * (loan_interest * (1 + loan_interest) ** repayment_months) / ((1 + loan_interest) ** repayment_months - 1))
 
 
 # def wongum_eqaul(original_money, loan_year_rate, repayment_months):
 #     return original_money * loan_year_rate * (12 *)
 
-def ilsibul(original_money, loan_year_rate, repayment_months):
-    loan_year_rate /= 100 if loan_year_rate >= 1 else loan_year_rate
-    loan_month_rate = loan_year_rate / 12
-    return original_money + (original_money * loan_month_rate * repayment_months)
 
+def ilsibul(loan_interest: float, lent_money: int = 100000000, repayment_months: int = 180) -> int:
+    """ loan_intereest: 대출 상품의 금리, lent_money: 대출 상품을 통해 빌린 금액, repayment_months: 대출 상품의 상환 개월수를 입력받아 만기 일시 상환 방식으로 상환할 때
+    매달 갚아야 할 금액을 계산해주는 도구입니다."""
+    loan_interest = float(loan_interest)
+    loan_interest /= 100 if loan_interest >= 1 else loan_interest
+    loan_month_rate = loan_interest / 12
+    return int(lent_money + (lent_money * loan_month_rate * repayment_months))
 
-def get_response_from_query(query):
-    # FAISS 먼저 적용하고 오기
-    # docs = vector_db.similarity_search(query, k=k)
-    embedding = OpenAIEmbeddings(openai_api_key=os.environ.get("OPENAI_API_KEY"))
-
-    path = "./DB/vector/korea_bank_700_information/index.faiss"
-    print(os.getcwd())
-    if os.path.exists(path):
-        print(f"The file {path} exists.")
-    else:
-        print(f"The file {path} does not exist.")
-
-    vector_db = FAISS.load_local("./DB/vector/korea_bank_700_information", embedding)
-    docs = vector_db.similarity_search(query)
-    chat = ChatOpenAI(model_name="gpt-3.5-turbo-16k", temperature=0)
-
-    template = """
-    당신은 부동산을 구매하려는 사용자에게 금융, 부동산과 관련된 정보를 제공하는 assistant입니다.
-    
-    Document retrieved from your DB : {docs}
-
-    Answer the questions referring to the documents which you Retrieved from DB as much as possible.
-    
-    답변의 형식은 아래와 같이 진행합니다.
-    
-    "유저가 모르는 단어": "이에 대한 설명"
-    "유저가 모르는 단어2": "이에 대한 설명2"
-    """
-    # If you fell like you don't have enough-information to answer the question, say "제가 알고 있는 정보가 없습니다."
-    system_message_prompt = SystemMessagePromptTemplate.from_template(template)
-
-    human_template = "Answer the following question IN KOREAN: {question}"
-    human_message_prompt = HumanMessagePromptTemplate.from_template(human_template)
-
-    chat_prompt = ChatPromptTemplate.from_messages(
-        [system_message_prompt, human_message_prompt]
-    )
-
-    chain = LLMChain(llm=chat, prompt=chat_prompt)
-    response = chain.run(docs=docs, question=query)
-    return response
-
-
-def query_loan(chat):
+def query_loan(chat: str) -> str:
     db = pymysql.connect(
         host="j9a405.p.ssafy.io",
         port=3306,
@@ -85,16 +47,12 @@ def query_loan(chat):
         autocommit=True,
     )
 
-
-
     db = SQLDatabase.from_uri(f"mysql+pymysql://root:{os.environ.get('MYSQL_PASSWORD')}@j9a405.p.ssafy.io:3306/loan",
                               include_tables=["mortgage_loan", "jeonse_loan", "credit_loan"],
                               sample_rows_in_table_info=5)
 
     # print(db.table_info)
-    # llm = OpenAI(temperature=0, verbose=True)
-
-    llm2 = ChatOpenAI(model_name="gpt-3.5-turbo-16k", temperature=0)
+    llm = ChatOpenAI(model_name="gpt-3.5-turbo-16k", temperature=0)
 
     _DEFAULT_TEMPLATE = """Given an input question, first create a syntactically correct {dialect} query to run, then look at the results of the query and return the answer.
     Use the following format:
@@ -102,23 +60,18 @@ def query_loan(chat):
     Question: "Question here"
     SQLQuery: "SQL Query to run"
     SQLResult: "Result of the SQLQuery"
-    Answer: "
-    안녕하세요! 당신의 집사입니다. 회원님의 요청에 따라 저희가 조사한 결과 회원님의 요구에 맞는 최적의 대출 상품은 아래와 같습니다.
+    Answer: Final answer here.
     
-    Final answer here
-    
-    다만, 실제 대출시에 적용되는 대출한도와 대출금리는 은행의 대출 심사 결과에 따라 변동될 수 있으므로, 위의 결과는 참고용으로만 사용해주시기 바랍니다.
-    "
-    
-    최종 Answer는 한글로 작성되어야 한다.
+    SQLQuery에서 SELECT문 조회시에 *를 사용해 조회해야 하며, 최종 Answer는 한글로 작성되어야 한다.
 
     Only use the following tables:
 
     {table_info}
 
-    If someone asks for the table 개인신용대출, 최저금리를 조회하기 위해 사용되는 열 이름을 신용점수에 따라 적절히 선택하여야 한다.
+    If someone asks for the table credit_loan(개인신용대출), 최저금리를 조회하기 위해 사용되는 column 이름을 신용점수에 따라 적절히 선택하여야 한다.
 
-    Question: {input}"""
+    Question: {input}
+    """
 
     # memory = ConversationBufferMemory(memory_key="chat_history", memory_type="list", max_len=10)
 
@@ -127,31 +80,36 @@ def query_loan(chat):
     )
 
     db_chain = SQLDatabaseChain.from_llm(
-        llm2, db, prompt=PROMPT, verbose=True, use_query_checker=True
+        llm, db, prompt=PROMPT, verbose=True, use_query_checker=True
     )
 
-    llm_math_chain = LLMMathChain.from_llm(llm=llm2, verbose=True)
+    # class WonrigumSchema(BaseModel):
+    #     loan_interest: float = Field(description="대출 상품의 금리가 들어감.")
+    #     lent_money: int = Field(description="대출 상품을 통해 빌린 금액이 들어감.")
+    #     repayment_months: int = Field(description="대출 상품의 상환 개월수가 들어감")
+
+
 
     tools = [
         Tool(
-            name="Database",
-            func=db_chain.run,
-            description="유저가 원하는 대출 상품을 찾기 위해 데이터베이스에 접근할 때 유용한 도구입니다."
+            name="query At Database",
+            # func=db_chain.run,
+            func=query_loan_chain,
+            description="유저가 원하는 대출 상품을 찾기 위해 데이터베이스에 접근할 때 유용한 도구입니다. (유저의 질문 : String)을 매개변수로 받습니다. 매개변수는 한글로 작성되어야 합니다."
         ),
+        # StructuredTool.from_function(wonrigum_equal),
+        # StructuredTool.from_function(ilsibul)
         Tool(
-            name="financial_information",
-            func=get_response_from_query,
-            description="유저가 금융 용어에 대한 설명을 요구했을때 사용하기 유용한 도구입니다."
-        ),
-        Tool(
-            name="wonrigum_equal",
+            name="원리금분할상환 대출 계산기",
             func=wonrigum_equal,
-            description="원리금 균등 상환 방식으로 대출을 받았을 때, 매달 갚아야 하는 금액을 계산해주는 도구입니다."
+            description="유저가 원하는 대출 상품을 통해 대출을 받았을 때, 매달 갚아야 하는 금액을 계산해주는 도구입니다. (대출금리 : Float, 빌린 금액 : int, 상환 개월수 : int)를 매개변수로 받습니다."
+            # args_schema=WonrigumSchema
         ),
         Tool(
-            name="ilsibul",
+            name="원금 만기 일시 상환 방식 계산기",
             func=ilsibul,
-            description="원금 만기 일시 상환 방식으로 대출을 받았을 때, 매달 갚아야 하는 금액을 계산해주는 도구입니다."
+            description="유저가 원하는 대출 상품을 통해 원금 만기 일시 상환 방식으로 대출을 받았을 때, 매달 갚아야 하는 금액을 계산해주는 도구입니다. (대출금리 : Float, 빌린 금액 : int, 상환 개월수 : int)를 매개변수로 받습니다."
+            # args_schema=WonrigumSchema
         ),
         # Tool(
         #     name="wongum_eqaul",
@@ -163,7 +121,8 @@ def query_loan(chat):
     # response = db_chain.run(chat)
     agent = initialize_agent(
         tools=tools,
-        llm=llm2,
+        llm=llm,
+        # agent=AgentType.STRUCTURED_CHAT_ZERO_SHOT_REACT_DESCRIPTION,
         agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
         verbose=True,
     )
@@ -172,17 +131,67 @@ def query_loan(chat):
     print(response)
     return response
 
-    # cursor= db.cursor()
-    # cursor.execute("SELECT VERSION()")
-    # data = cursor.fetchone()
-    # print(data)
-    # db.close()
 
+global_chat = None
 
-def chat_bot(chat):
+def chat_bot(chat: str) -> str:
+    global global_chat
+    global_chat = chat
     llm = ChatOpenAI(model_name="gpt-3.5-turbo-16k", temperature=0)
-    _DEFAULT_TEMPLATE = """ 당신은 유저의 질문을 받고 다음과 같은 3가지 질문에 대한 답변을 생성하는 assistant 입니다. 당신은 다음과 같은 세가지 경우에 상황에 맞는 대답을 생성해야 합니다.
-     1. 유저가 대출 상품 추천을 요청했을때"""
+    print(f"chat : {chat}")
+
+    _DEFAULT_TEMPLATE = """ 당신은 유저의 질문을 받고 다음과 같은 3가지 질문에 대한 답변을 생성하는 assistant 입니다.
+    
+    모든 질문과 대답은 한글로 생성되어야 합니다. 그리고 대답은 다음과 같은 세가지 형식으로 반환되어야만 합니다.
+    
+    ----
+    
+     1. 유저가 대출 상품 찾기를 요청했을때
+     대답: "안녕하세요! 당신의 집사입니다. 회원님의 요청에 따라 저희가 추천드리는 상품은 XX은행의 XX상품입니다. 이 상품의 특징은 XXX이며, XXX입니다. 이 상품의 대출한도는 XXX이며, 대출금리는 XXX입니다. 이 상품의 월 상환금액은 XXX입니다. 이 상품의 대출한도와 대출금리는 은행의 대출 심사 결과에 따라 변동될 수 있으므로, 위의 결과는 참고용으로만 사용해주시기 바랍니다."
+     
+     ----
+     
+     2. 유저가 금융 용어 설명을 요청했을때
+     대답:
+     "용어": "용어에 대한 긴 설명"
+     "용어2": "용어2에 대한 긴 설명"
+     "용어3": "용어 3에 대한 긴 설명"
+     위와 같은 형식으로 대답해야 합니다. 설명은 충분히 이해할 수 있도록 길어야 하며, 한 용어의 설명이 끝나면 줄바꿈 문자로 구분하여야 합니다.
+     
+     ----
+     
+     3. 그 외의 요청이 들어왔을 때는 자유로운 양식으로 대답을 생성하면 됩니다.
+     
+     모든 대답은 한글로 생성되어야만 합니다. 대답을 명확하게 생성할 수 없는 경우 "제가 알고 있는 정보가 없습니다." 라는 답변을 생성하십시오.
+     """
+
+    tools = [
+        Tool(
+            name="데이터베이스 쿼리",
+            func=query_loan_chain,
+            description="유저가 원하는 대출 상품을 찾기 위해 데이터베이스에 접근할 때 유용한 도구입니다. 이 도구의 input은 (chat : String) 이며, agent가 인식한 모든 chat을 매개변수로 넣습니다."
+        ),
+        Tool(
+            name="금융 정보 조회",
+            func=get_response_from_query,
+            description="유저가 금융 용어에 대한 설명을 요구했을때 사용하기 유용한 도구입니다. 계산에는 이 도구를 사용하지 않습니다."
+        ),
+        Tool(
+            name="원리금분할상환 대출 계산기",
+            func=wonrigum_equal,
+            description="유저가 원하는 대출 상품을 통해 대출을 받았을 때, 매달 갚아야 하는 금액을 계산해주는 도구입니다. (대출금리 : Float, 빌린 금액 : int, 상환 개월수 : int)를 매개변수로 받습니다."
+        ),
+    ]
+
+    agent = initialize_agent(
+        tools=tools,
+        llm=llm,
+        agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+        verbose=True,
+    )
+
+    response = agent.run(input=chat, prompt=_DEFAULT_TEMPLATE)
+    return response
 
 
 if __name__ == "__main__":
