@@ -2,6 +2,7 @@ package com.ficrew.yourbutler.realestates.domain.entity;
 
 
 import com.ficrew.yourbutler.member.domain.entity.Member;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,7 +26,7 @@ public class Bookmark {
     @Column(name = "bookmark_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
