@@ -2,7 +2,7 @@ package com.ficrew.yourbutler.realestates.application.facade;
 
 import com.ficrew.yourbutler.realestates.application.SearchAllRealestatesProcessor;
 import com.ficrew.yourbutler.realestates.application.SearchRealestateDetailsProcessor;
-import com.ficrew.yourbutler.realestates.domain.RealestateDocument;
+import com.ficrew.yourbutler.realestates.domain.entity.RealestateDocument;
 import com.ficrew.yourbutler.realestates.application.command.SearchCommand;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

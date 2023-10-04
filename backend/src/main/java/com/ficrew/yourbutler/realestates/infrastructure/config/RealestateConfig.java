@@ -6,7 +6,7 @@ import com.ficrew.yourbutler.realestates.application.CreateBookmarkProcessor;
 import com.ficrew.yourbutler.realestates.application.DeleteBookmarkProcessor;
 import com.ficrew.yourbutler.realestates.application.SearchAllRealestatesProcessor;
 import com.ficrew.yourbutler.realestates.application.SearchRealestateDetailsProcessor;
-import com.ficrew.yourbutler.realestates.domain.BookmarkRepository;
+import com.ficrew.yourbutler.realestates.domain.repository.BookmarkRepository;
 import com.ficrew.yourbutler.realestates.domain.repository.SearchRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

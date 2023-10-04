@@ -1,7 +1,7 @@
 package com.ficrew.yourbutler.realestates.application;
 
 import com.ficrew.yourbutler.member.domain.repository.MemberRepository;
-import com.ficrew.yourbutler.realestates.domain.BookmarkRepository;
+import com.ficrew.yourbutler.realestates.domain.repository.BookmarkRepository;
 import com.ficrew.yourbutler.realestates.domain.entity.Bookmark;
 import lombok.RequiredArgsConstructor;
 

@@ -1,6 +1,6 @@
 package com.ficrew.yourbutler.realestates.infrastructure.config;
 
-import com.ficrew.yourbutler.realestates.domain.BookmarkRepository;
+import com.ficrew.yourbutler.realestates.domain.repository.BookmarkRepository;
 import com.ficrew.yourbutler.realestates.domain.repository.SearchRepository;
 import com.ficrew.yourbutler.realestates.infrastructure.persistence.EsRealestateRepositoryAdapter;
 import com.ficrew.yourbutler.realestates.infrastructure.persistence.RealestateRepositoryAdapter;

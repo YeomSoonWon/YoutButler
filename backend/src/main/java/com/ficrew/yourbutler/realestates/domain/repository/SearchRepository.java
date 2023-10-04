@@ -1,6 +1,6 @@
 package com.ficrew.yourbutler.realestates.domain.repository;
 
-import com.ficrew.yourbutler.realestates.domain.RealestateDocument;
+import com.ficrew.yourbutler.realestates.domain.entity.RealestateDocument;
 
 public interface SearchRepository {
 

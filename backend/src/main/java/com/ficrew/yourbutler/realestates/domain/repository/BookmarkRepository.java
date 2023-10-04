@@ -1,4 +1,4 @@
-package com.ficrew.yourbutler.realestates.domain;
+package com.ficrew.yourbutler.realestates.domain.repository;
 
 import com.ficrew.yourbutler.realestates.domain.entity.Bookmark;
 

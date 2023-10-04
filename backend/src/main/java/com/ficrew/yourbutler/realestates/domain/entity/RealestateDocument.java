@@ -1,4 +1,4 @@
-package com.ficrew.yourbutler.realestates.domain;
+package com.ficrew.yourbutler.realestates.domain.entity;
 
 import javax.persistence.Id;
 import lombok.AccessLevel;
