@@ -110,9 +110,7 @@ const DetailWithID = ({ params }) => {
     if (params.id) {
       getHouse(params.id);
     }
-  }, [params]);
 
-  useEffect(() => {
     // @ts-ignore
     if (params.id && session?.userData) {
       // @ts-ignore
@@ -122,7 +120,8 @@ const DetailWithID = ({ params }) => {
 
   const getHouse = async (realestateId: number) => {
     try {
-      let res = await realEstateApi.detailSearch(null, realestateId);
+      // @ts-ignore
+      let res = await realEstateApi.detailSearch(session?.userData, realestateId);
       console.log(res.data);
       setHouse(res.data);
     } catch {
@@ -190,7 +189,7 @@ const DetailWithID = ({ params }) => {
     <main className={ibmPlexSansKR.className}>
       <AppBar backgroundColor="transparent" logo="greenlogo" color="#334835" user={user} />
       <Container className={ibmPlexSansKR.className}>
-        <DetailCarousel />
+        <DetailCarousel imgList={house?.imageList ? house?.imageList : null}/>
         <BottomDiv className={ibmPlexSansKR.className}>
           <LeftDiv>
             <TitleLikeDiv>
@@ -242,7 +241,7 @@ const DetailWithID = ({ params }) => {
               <AboutP>가격정보</AboutP>
               <AboutEachDiv>
                 <AboutDetailDiv>
-                  <AboutTitleP>{YeokSam.realEstateTypeName}</AboutTitleP>
+                  <AboutTitleP>{house?.realEstateTypeName}</AboutTitleP>
                   <p>{house?.dealOrWarrantPrc}</p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>

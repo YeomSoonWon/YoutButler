@@ -35,7 +35,14 @@ const realEstateApi = {
     },
 
     detailSearch: async (userData: any | null, realestateId: number) => {
-        let res = await publicEstateApi.get(`/${realestateId}`);
+        let config = {headers : {}};
+        if(userData){
+            config = {
+                headers : {
+                    Authorization: `Bearer ${userData?.accessToken}`                }
+            }
+        }
+        let res = await publicEstateApi.get(`/${realestateId}`,config);
         return res;
     }
 }

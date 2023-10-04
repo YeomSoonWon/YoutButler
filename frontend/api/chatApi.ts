@@ -29,6 +29,7 @@ const chatApi = {
             sidoName: apt?.sidoName,
             guName: apt?.guName,
             dongName: apt?.dongName,
+            buildingName : `${apt?.complexName} ${apt?.buildingName}`,
             dealOrWarrantPrcNumeric: apt?.dealOrWarrantPrc_numeric,
             rentPrcNumeric: apt?.maintenanceFee,
             chat: message,
