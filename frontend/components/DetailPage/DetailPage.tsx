@@ -1,7 +1,7 @@
 "use client";
 
 import styled from "styled-components";
-import Image from "next/image";
+// import Image from "next/image";
 
 export const Container = styled.div`
   display: flex;
@@ -44,7 +44,7 @@ export const RightDiv = styled.div`
   width: 50%;
 `;
 
-export const StyledImg = styled(Image)`
+export const StyledImg = styled.img`
   height: 19rem;
   width: 19rem;
   border-radius: 1rem;

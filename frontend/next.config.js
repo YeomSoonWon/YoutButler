@@ -7,6 +7,9 @@ const nextConfig = {
         NEXTAUTH_URL: process.env.NEXTAUTH_URL,
         SECRET: process.env.SECRET
     },
+    images: {
+        domains: ['landthumb-phinf.pstatic.net'],
+    },
     async rewrites() {
         return [
             {
