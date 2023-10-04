@@ -1,10 +1,24 @@
-'use client'
+"use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import pyeongchangDataRaw from "@/public/json/평창동_월세.json";
+import realEstateApi from "@/api/realEstateApi";
+
+interface roomType {
+  realestateId: number;
+  latitude: number;
+  longitude: number;
+}
 
 const SeoulMap: React.FC = () => {
   const [map, setMap] = useState<any>(null);
   const [polygons, setPolygons] = useState<any[]>([]);
+  const [clusterer, setClusterer] = useState<any>(null);
+
+  const pyeongchangData = pyeongchangDataRaw.roomTypeList.map((item: any) => ({
+    latitude: item.latitude,
+    longitude: item.longitude,
+  }));
 
   useEffect(() => {
     const fetchSeoulData = async () => {
@@ -31,7 +45,6 @@ const SeoulMap: React.FC = () => {
           };
           const kakaoMap = new window.kakao.maps.Map(mapContainer, mapOptions);
           setMap(kakaoMap);
-
           const customOverlay = new window.kakao.maps.CustomOverlay({
             map: null,
           });
@@ -42,7 +55,10 @@ const SeoulMap: React.FC = () => {
 
             // 폴리곤 그리기.
             const path = coordinates[0].map((coordinate: number[]) => {
-              const latLng = new window.kakao.maps.LatLng(coordinate[1], coordinate[0]);
+              const latLng = new window.kakao.maps.LatLng(
+                coordinate[1],
+                coordinate[0]
+              );
               return latLng;
             });
 
@@ -50,35 +66,49 @@ const SeoulMap: React.FC = () => {
               map: kakaoMap,
               path: path,
               strokeWeight: 2,
-              strokeColor: '#004c80',
+              strokeColor: "#004c80",
               strokeOpacity: 0.8,
-              fillColor: '#fff',
+              fillColor: "#fff",
               fillOpacity: 0.7,
             });
 
-            window.kakao.maps.event.addListener(polygon, 'mouseover', function (mouseEvent) {
-              polygon.setOptions({
-                fillColor: '#09f',
-              });
+            window.kakao.maps.event.addListener(
+              polygon,
+              "mouseover",
+              function (mouseEvent) {
+                polygon.setOptions({
+                  fillColor: "#09f",
+                });
 
-              customOverlay.setContent('<div class="area">' + name + '</div>');
+                customOverlay.setContent(
+                  '<div class="area">' + name + "</div>"
+                );
 
-              customOverlay.setPosition(mouseEvent.latLng);
-              customOverlay.setMap(kakaoMap);
-            });
+                customOverlay.setPosition(mouseEvent.latLng);
+                customOverlay.setMap(kakaoMap);
+              }
+            );
 
-            window.kakao.maps.event.addListener(polygon, 'mousemove', function (mouseEvent) {
-              customOverlay.setPosition(mouseEvent.latLng);
-            });
+            window.kakao.maps.event.addListener(
+              polygon,
+              "mousemove",
+              function (mouseEvent) {
+                customOverlay.setPosition(mouseEvent.latLng);
+              }
+            );
 
-            window.kakao.maps.event.addListener(polygon, 'mouseout', function () {
-              polygon.setOptions({
-                fillColor: '#fff',
-              });
-              customOverlay.setMap(null);
-            });
+            window.kakao.maps.event.addListener(
+              polygon,
+              "mouseout",
+              function () {
+                polygon.setOptions({
+                  fillColor: "#fff",
+                });
+                customOverlay.setMap(null);
+              }
+            );
 
-            window.kakao.maps.event.addListener(polygon, 'click', function () {
+            window.kakao.maps.event.addListener(polygon, "click", function () {
               const level = kakaoMap.getLevel() - 2;
               kakaoMap.setLevel(level, {
                 anchor: centroid(path),
@@ -90,17 +120,51 @@ const SeoulMap: React.FC = () => {
               deletePolygon(newPolygons);
             });
 
-            // 레벨 변경 이벤트 감시
-            window.kakao.maps.event.addListener(kakaoMap, 'zoom_changed', function () {
-              const currentLevel = kakaoMap.getLevel();
-              if (currentLevel <= 7) {
-                // 레벨이 7 이하이면 폴리곤 숨기기
-                polygon.setMap(null);
-              } else {
-                // 레벨이 7 초과이면 폴리곤 표시하기
-                polygon.setMap(kakaoMap);
-              }
+            const markers = pyeongchangData.map((data) => {
+              const marker = new window.kakao.maps.Marker({
+                position: new window.kakao.maps.LatLng(
+                  data.latitude,
+                  data.longitude
+                ),
+              });
+              return marker; // 마커 객체 반환
             });
+
+            // console.log(markers);
+
+            const clusterer = new window.kakao.maps.MarkerClusterer({
+              map: null, // 초기에는 지도에 클러스터러를 표시하지 않습니다.
+              averageCenter: true,
+              minLevel: 4,
+            });
+            clusterer.setMap(kakaoMap);
+            clusterer.addMarkers(markers); // 클러스터러에 마커 추가
+            setClusterer(clusterer);
+
+            console.log(clusterer.getMarkers());
+
+            // 레벨 변경 이벤트 감시
+            window.kakao.maps.event.addListener(
+              kakaoMap,
+              "zoom_changed",
+              function () {
+                const currentLevel = kakaoMap.getLevel();
+                if (currentLevel <= 7) {
+                  // 레벨이 7 이하이면 폴리곤 숨기기, 마커 표시
+                  polygon.setMap(null);
+                  clusterer.setMap(kakaoMap);
+                } else {
+                  // 레벨이 7 초과이면 폴리곤 표시하기, 마커 숨기기
+                  polygon.setMap(kakaoMap);
+                  clusterer.setMap(null);
+                }
+                console.log(
+                  "zoom_changed event triggered",
+                  currentLevel,
+                  clusterer
+                );
+              }
+            );
 
             return polygon;
           });
@@ -118,19 +182,27 @@ const SeoulMap: React.FC = () => {
 
     const centroid = (pointsArray: any[]) => {
       const totalPoints = pointsArray.length;
-      const center = pointsArray.reduce((acc, point) => {
-        acc.x += point.getLng();
-        acc.y += point.getLat();
-        return acc;
-      }, { x: 0, y: 0 });
+      const center = pointsArray.reduce(
+        (acc, point) => {
+          acc.x += point.getLng();
+          acc.y += point.getLat();
+          return acc;
+        },
+        { x: 0, y: 0 }
+      );
 
-      return new window.kakao.maps.LatLng(center.y / totalPoints, center.x / totalPoints);
+      return new window.kakao.maps.LatLng(
+        center.y / totalPoints,
+        center.x / totalPoints
+      );
     };
 
     initializeMap();
+
+    realEstateApi.search;
   }, []);
 
-  return <div id="map" style={{ width: '100%', height: '100%' }} />;
+  return <div id="map" style={{ width: "100%", height: "100%" }} />;
 };
 
 export default SeoulMap;

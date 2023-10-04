@@ -136,7 +136,7 @@ const Create = () => {
                 handleBudget(e);
               }}
               required
-              placeholder="부동산 거래 예산"
+              placeholder="부동산 거래 예산(단위:만원, ~1000억)"
             />
             <SubTitleP>
               <InputTitleP>선택</InputTitleP>
@@ -144,14 +144,14 @@ const Create = () => {
             </SubTitleP>
             <StyledInput
               type="number"
-              placeholder="월 가용자산"
+              placeholder="월 가용자산(단위:만원, ~100억)"
               onChange={(e) => {
                 handleJasan(e);
               }}
             />
             <StyledInput
               type="number"
-              placeholder="신용도"
+              placeholder="신용도(~1000)"
               onChange={(e) => {
                 handleCredit(e);
               }}
