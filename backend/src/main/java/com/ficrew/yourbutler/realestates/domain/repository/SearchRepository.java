@@ -5,4 +5,6 @@ import com.ficrew.yourbutler.realestates.domain.RealestateDocument;
 public interface SearchRepository {
 
     RealestateDocument findByRealestateId(Long realestateId);
+
+//    boolean existsByRealestateId(Long realestateId);
 }

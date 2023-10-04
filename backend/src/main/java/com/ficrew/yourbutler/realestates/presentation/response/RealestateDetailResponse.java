@@ -1,7 +1,6 @@
 package com.ficrew.yourbutler.realestates.presentation.response;
 
 import com.ficrew.yourbutler.realestates.domain.RealestateDocument;
-import java.util.Optional;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -10,6 +9,7 @@ import lombok.Getter;
 public class RealestateDetailResponse {
 
     private final Long realestateId;
+    private final BookmarkCheckResponse bookmark;
     private final Long complexNo;
     private final String complexName;
     private final String roomType;
@@ -43,10 +43,12 @@ public class RealestateDetailResponse {
     private final String realtorcellPhoneNo;
     private final String realtorAddress;
     private final Object realTransactionPriceList;
-    public static RealestateDetailResponse from(RealestateDocument realestateDocument) {
+    public static RealestateDetailResponse from(RealestateDocument realestateDocument,
+        BookmarkCheckResponse bookmark) {
         System.out.println(realestateDocument);
         return new RealestateDetailResponse(
             realestateDocument.getArticleNo(),
+            bookmark,
             realestateDocument.getComplexNo(),
             realestateDocument.getComplexName(),
             realestateDocument.getRoomType(),
