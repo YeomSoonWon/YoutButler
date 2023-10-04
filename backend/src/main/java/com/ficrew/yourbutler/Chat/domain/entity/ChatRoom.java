@@ -19,9 +19,12 @@ public class ChatRoom {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    public ChatRoom(Long aptId, Member member) {
+    private String buildingName;
+
+    public ChatRoom(Long aptId, Member member, String buildingName) {
         this.aptId = aptId;
         this.member = member;
+        this.buildingName = buildingName;
     }
 
     protected ChatRoom() {

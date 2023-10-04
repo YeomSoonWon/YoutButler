@@ -20,6 +20,9 @@ public class CreateMessageRequest {
     private Long realestateId;
 
     @NotBlank
+    private String buildingName;
+
+    @NotBlank
     private String sidoName;
 
     @NotBlank
@@ -38,7 +41,7 @@ public class CreateMessageRequest {
     private String chat;
 
     public CreateMessageCommand toCommand() {
-        return new CreateMessageCommand(false, chatRoomNo, realestateId, sidoName, guName, dongName, dealOrWarrantPrcNumeric, rentPrcNumeric, chat);
+        return new CreateMessageCommand(false, chatRoomNo, realestateId, buildingName, sidoName, guName, dongName, dealOrWarrantPrcNumeric, rentPrcNumeric, chat);
     }
 
 }

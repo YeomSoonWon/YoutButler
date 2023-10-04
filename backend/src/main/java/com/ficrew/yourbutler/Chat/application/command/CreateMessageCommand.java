@@ -10,6 +10,7 @@ public class CreateMessageCommand {
     private Boolean isBot;
     private Long chatRoomNo;
     private Long realestateId;
+    private String buildingName;
     private String sidoName;
     private String guName;
     private String dongName;

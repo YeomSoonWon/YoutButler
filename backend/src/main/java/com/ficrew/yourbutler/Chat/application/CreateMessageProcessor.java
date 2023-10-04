@@ -32,7 +32,7 @@ public class CreateMessageProcessor {
         // 없는 채팅방일 경우 새로운 채팅방을 만들고 반환함
         if (command.getChatRoomNo() == NO_CHAT_ROOM) {
             Member memberEntity = memberRepository.findById(member.getId());
-            chatRoom = new ChatRoom(command.getRealestateId(), memberEntity);
+            chatRoom = new ChatRoom(command.getRealestateId(), memberEntity, command.getBuildingName());
             chatRepository.save(chatRoom);
         } else {
             chatRoom = chatRepository.findById(command.getChatRoomNo()).orElseThrow(()-> new NullPointerException("예상치 못한 오류 발생 1"));

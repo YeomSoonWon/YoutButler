@@ -7,6 +7,7 @@ import com.ficrew.yourbutler.member.domain.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -28,6 +29,11 @@ public class ChatRepositoryAdapter implements ChatRepository {
     @Override
     public Optional<ChatRoom> findById(Long chatRoomId) {
         return chatRoomRepository.findById(chatRoomId);
+    }
+
+    @Override
+    public List<ChatRoom> findAllByMember(Member member) {
+        return chatRoomRepository.findAllByMember(member);
     }
 
 }
