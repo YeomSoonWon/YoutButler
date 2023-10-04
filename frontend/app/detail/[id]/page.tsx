@@ -65,6 +65,8 @@ const DetailWithID = ({ params }) => {
   const [msg, setMsg] = useState<String>("로그인이 필요합니다.");
   const [chatNo, setChatNo] = useState<number>(-1);
   const [chatList, setChatList] = useState([]);
+  const [chatMsg, setChatMsg] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   // 찜
   const [like, setLike] = useState<boolean>(false);
@@ -72,8 +74,10 @@ const DetailWithID = ({ params }) => {
   const handleLike = async () => {
     let res = null;
     if(like){
+      // @ts-ignore
       res = await realEstateApi.unCheck(session?.userData, params.id);
     }else{
+      // @ts-ignore
       res = await realEstateApi.check(session?.userData, params.id);
     }
     if(!res?.data) return;
@@ -119,7 +123,7 @@ const DetailWithID = ({ params }) => {
 
   const getChat = async (userData: any | null, realestateId: number) => {
     let res = await chatApi.getChat(userData, realestateId);
-    console.log(res);
+    console.log("chats",res.data.messageList);
     setChatList(res.data.messageList);
     setChatNo(res.data.chatRoomNumber);
     // setHouse(res.data);
@@ -153,9 +157,31 @@ const DetailWithID = ({ params }) => {
   };
 
   const sendChat = async () => {
-    // @ts-ignore
-    let res = await chatApi.sendChat(session?.userData, user, house, "DSR이 뭐야?", chatNo);
+    if(!chatMsg) return;
+    setLoading(true);
+    try{
+      // @ts-ignore
+    let res = await chatApi.sendChat(session?.userData, user, house, chatMsg, chatNo);
     console.log(res);
+    if(res.status === 200){
+      setChatNo(res.data.chatRoomNumber);
+      setChatList((prev) =>{
+        return [...prev,
+          {isBot: false, timeStamp: new Date(), message: chatMsg, chatRoomNumber: res.data.chatRoomNumber, loan: null},
+          {...res.data}];
+        });
+      }
+    setChatMsg("");
+    }catch{
+      setChatList((prev) =>{
+        return [...prev,
+          {isBot: true, timeStamp: new Date(), message: "그런 어려운 말은 몰라용.", loan: null}
+        ];
+      });
+    }finally{
+      setChatMsg("");
+      setLoading(false);
+    }
   }
 
   return (
@@ -343,7 +369,8 @@ const DetailWithID = ({ params }) => {
                   <Chatting messages={chatList} />
                 </ChatMiddleDiv>
                 <ChatBottomDiv isVisible={isChatOpen}>
-                  <MessageInput type="text" placeholder="메시지를 입력해주세요.." />
+                {loading && <p>로딩중입니다...</p>}
+                  <MessageInput type="text" placeholder="메시지를 입력해주세요.." onChange={(e)=>{setChatMsg(e.target.value);}} disabled={loading}/>
                   <SvgBtn onClick={sendChat}>
                     <SendSvg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
                       <path d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376V479.3c0 18.1 14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9 7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448 256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8 116.6 403.3 425.4z" />
