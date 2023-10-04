@@ -1,6 +1,7 @@
 package com.ficrew.yourbutler.realestates.domain.repository;
 
 import com.ficrew.yourbutler.realestates.domain.entity.Bookmark;
+import java.util.List;
 import java.util.Optional;
 
 public interface BookmarkRepository {
@@ -12,4 +13,5 @@ public interface BookmarkRepository {
 
     boolean deleteByRealestateIdAndMemberId(Long realestateId, Long memberId);
 
+    List<Bookmark> findByMemberId(Long memberId);
 }

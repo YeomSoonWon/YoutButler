@@ -3,6 +3,8 @@ package com.ficrew.yourbutler.realestates.application.facade;
 import com.ficrew.yourbutler.realestates.application.CheckBookmarkStatusProcessor;
 import com.ficrew.yourbutler.realestates.application.CreateBookmarkProcessor;
 import com.ficrew.yourbutler.realestates.application.DeleteBookmarkProcessor;
+import com.ficrew.yourbutler.realestates.domain.entity.RealestateDocument;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,21 +1,19 @@
 package com.ficrew.yourbutler.realestates.presentation;
 
 import com.ficrew.yourbutler.global.auth.AuthenticatedMember;
-import com.ficrew.yourbutler.member.domain.entity.Member;
 import com.ficrew.yourbutler.realestates.application.facade.RealestateFacade;
 import com.ficrew.yourbutler.realestates.application.command.SearchCommand;
 import com.ficrew.yourbutler.realestates.application.facade.RealestateEsFacade;
 import com.ficrew.yourbutler.realestates.domain.RoomType;
 import com.ficrew.yourbutler.realestates.domain.TradeType;
 import com.ficrew.yourbutler.realestates.presentation.response.BookmarkCheckResponse;
-import com.ficrew.yourbutler.realestates.presentation.response.BookmarkRealestateResponse;
+import com.ficrew.yourbutler.realestates.presentation.response.BookmarkListResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.BookmarkStatusResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.RealestateDetailResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.SearchResponse;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -116,8 +114,10 @@ public class RealestateController {
     }
 
     @GetMapping("/bookmarks")
-    public ResponseEntity<BookmarkRealestateResponse> getBookmarkList() {
-        return null;
+    public ResponseEntity<BookmarkListResponse> getBookmarkList(
+        @AuthenticationPrincipal AuthenticatedMember member
+    ) {
+        return ResponseEntity.ok(BookmarkListResponse.from(realestateEsFacade.getBookmarkedList(member.getId())));
     }
 
 }

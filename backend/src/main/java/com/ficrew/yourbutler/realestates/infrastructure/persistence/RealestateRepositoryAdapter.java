@@ -3,6 +3,7 @@ package com.ficrew.yourbutler.realestates.infrastructure.persistence;
 import com.ficrew.yourbutler.realestates.domain.repository.BookmarkRepository;
 import com.ficrew.yourbutler.realestates.domain.entity.Bookmark;
 import com.ficrew.yourbutler.realestates.infrastructure.persistence.jpa.JpaBookmarkRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -25,5 +26,10 @@ public class RealestateRepositoryAdapter implements BookmarkRepository {
     @Override
     public boolean deleteByRealestateIdAndMemberId(Long realestateId, Long memberId) {
         return jpaBookmarkRepository.deleteByRealestateIdAndMemberId(realestateId, memberId) != 1L;
+    }
+
+    @Override
+    public List<Bookmark> findByMemberId(Long memberId) {
+        return jpaBookmarkRepository.findByMemberId(memberId);
     }
 }
