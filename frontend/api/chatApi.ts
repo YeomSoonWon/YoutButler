@@ -29,7 +29,7 @@ const chatApi = {
             sidoName: apt?.sidoName,
             guName: apt?.guName,
             dongName: apt?.dongName,
-            buildingName : `${apt?.complexName} ${apt?.buildingName}`,
+            buildingName: `${apt?.complexName} ${apt?.buildingName}`,
             dealOrWarrantPrcNumeric: apt?.dealOrWarrantPrc_numeric,
             rentPrcNumeric: apt?.maintenanceFee,
             chat: message,
@@ -39,6 +39,17 @@ const chatApi = {
                 Authorization: `Bearer ${userData?.accessToken}`
             }
         });
+        return res;
+    },
+
+    getMyAllChats: async (userData: any | null) => {
+        if (!userData) return;
+        let res = await PublicChatApi.get("", {
+            headers: {
+                Authorization: `Bearer ${userData?.accessToken}`
+            }
+        });
+
         return res;
     }
 }
