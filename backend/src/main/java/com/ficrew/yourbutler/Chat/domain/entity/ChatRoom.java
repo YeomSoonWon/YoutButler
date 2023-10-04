@@ -15,7 +15,7 @@ public class ChatRoom {
 
     private Long aptId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
