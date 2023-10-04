@@ -13,4 +13,10 @@ public interface BookmarkRepository {
     boolean deleteByRealestateIdAndMemberId(Long realestateId, Long memberId);
 
     List<Bookmark> findByMemberId(Long memberId);
+
+    boolean existsByRealestateIdAndMemberId(Long realestateId, Long memberId);
+
+    Bookmark findByRealestateIdAndMemberId(Long realestateId, Long memberId);
+
+    void delete(Bookmark bookmark);
 }

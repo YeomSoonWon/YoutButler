@@ -27,7 +27,7 @@ public class RealestateFacade {
     }
 
     @Transactional
-    public boolean deleteBookmark(Long memberId, Long realestateId) {
-        return deleteBookmarkProcessor.execute(memberId, realestateId);
+    public void deleteBookmark(Long memberId, Long realestateId) {
+        deleteBookmarkProcessor.execute(memberId, realestateId);
     }
 }

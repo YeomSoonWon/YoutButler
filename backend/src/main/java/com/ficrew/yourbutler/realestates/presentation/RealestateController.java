@@ -110,7 +110,8 @@ public class RealestateController {
         @AuthenticationPrincipal AuthenticatedMember member,
         @PathVariable Long realestateId
     ) {
-        return ResponseEntity.ok(BookmarkStatusResponse.from(realestateFacade.deleteBookmark(member.getId(), realestateId)));
+        realestateFacade.deleteBookmark(member.getId(), realestateId);
+        return ResponseEntity.ok(BookmarkStatusResponse.from(false));
     }
 
     @GetMapping("/bookmarks")
