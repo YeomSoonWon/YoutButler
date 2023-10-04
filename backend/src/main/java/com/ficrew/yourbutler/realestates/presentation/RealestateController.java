@@ -11,8 +11,12 @@ import com.ficrew.yourbutler.realestates.presentation.response.BookmarkCheckResp
 import com.ficrew.yourbutler.realestates.presentation.response.BookmarkListResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.BookmarkStatusResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.RealestateDetailResponse;
+import com.ficrew.yourbutler.realestates.presentation.response.SearchBookmarkResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.SearchListResponse;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -61,11 +65,6 @@ public class RealestateController {
         @RequestParam(value = "rs-max", defaultValue = "99999") Integer rsMax,
         @RequestParam(value = "uay", defaultValue = "16") Integer uay
     ) {
-        // TODO
-        BookmarkCheckResponse bookmarkCheckResponse;
-        if (member == null) {
-            bookmarkCheckResponse = new BookmarkCheckResponse(false, false);
-        }
 
         Page<RealestateDocument> searchResults = realestateEsFacade.searchProperties(
             new SearchCommand(
@@ -95,12 +94,36 @@ public class RealestateController {
             System.out.println(r);
         }
 
+        // 반환값 만들기.. (리팩토링 필요)
+        List<Long> articleNos = searchResults.getContent()
+            .stream()
+            .map(RealestateDocument::getArticleNo)
+            .collect(Collectors.toList());
+
+
+        BookmarkCheckResponse bookmarkCheckResponse;
+        List<SearchBookmarkResponse> searchBookmarkResponseList = new ArrayList<>();
+
+        if (member == null) {
+            bookmarkCheckResponse = new BookmarkCheckResponse(false, false);
+            for (RealestateDocument doc : searchResults.getContent()) {
+                searchBookmarkResponseList.add(SearchBookmarkResponse.from(doc, bookmarkCheckResponse));
+            }
+        } else {
+            Map<Long, Boolean> bookmarkedMap = realestateFacade.isBookmarkedList(articleNos);
+            for (RealestateDocument doc : searchResults.getContent()) {
+                Long articleNo = doc.getArticleNo();
+                Boolean isBookmarked = bookmarkedMap.getOrDefault(articleNo, false);
+                searchBookmarkResponseList.add(SearchBookmarkResponse.from(doc, new BookmarkCheckResponse(true, isBookmarked)));
+            }
+        }
+
         SearchListResponse finalResults = SearchListResponse.from(
             searchResults.getTotalElements(),
             searchResults.getTotalPages(),
             size,
             from,
-            searchResults.getContent()
+            searchBookmarkResponseList
         );
 
         System.out.println(finalResults);

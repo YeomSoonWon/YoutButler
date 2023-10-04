@@ -19,4 +19,6 @@ public interface BookmarkRepository {
     Bookmark findByRealestateIdAndMemberId(Long realestateId, Long memberId);
 
     void delete(Bookmark bookmark);
+
+    List<Bookmark> findByRealestateIdIn(List<Long> realestateId);
 }

@@ -13,76 +13,19 @@ public class SearchListResponse {
     private final Integer totalPages;
     private final Integer size;
     private final Integer from;
-    private final List<RealestateDocument> roomTypeList;
+    private final List<SearchBookmarkResponse> roomTypeList;
 
-    public static SearchListResponse from(long totalElements, int totalPages, Integer size, Integer from, List<RealestateDocument> content) {
+    public static SearchListResponse from(long totalElements, int totalPages, Integer size, Integer from, List<SearchBookmarkResponse> searchBookmarkResponses) {
         return new SearchListResponse(
             totalElements,
             totalPages,
             size,
             from,
-            content
+            searchBookmarkResponses
         );
     }
 
-    @Getter
-    @RequiredArgsConstructor
-    private static class SearchResponse {
 
-        private final Long realestateId;
-        private final String roomType;
-        private final String complexName;
-        private final String realEstateTypeName;
-        private final String sidoName;
-        private final String guName;
-        private final String dongName;
-        private final String address;
-        private final Double latitude;
-        private final Double longitude;
-        private final String descriptionTagList;
-        private final String dealOrWarrantPrc;
-        private final String rentPrc;
-        private final String floorInfo;
-        private final Integer pyeong;
-        private final Double supplyArea;
-        private final Double exclusiveArea;
-        private final Long maintenanceFee;
-        private final String color;
-        private final Object imageSrc; // TODO
-        private final BookmarkCheckResponse bookmark;
-
-        private static SearchResponse from(
-            RealestateDocument realestateDocument
-        ) {
-            return new SearchResponse(
-                realestateDocument.getArticleNo(),
-                realestateDocument.getRoomType(),
-                realestateDocument.getComplexName(),
-                realestateDocument.getRealEstateTypeName(),
-                realestateDocument.getSidoName(),
-                realestateDocument.getGuName(),
-                realestateDocument.getDongName(),
-                realestateDocument.getAddress(),
-                realestateDocument.getLatitude(),
-                realestateDocument.getLongitude(),
-                realestateDocument.getTagList(),
-                realestateDocument.getDealOrWarrantPrc(),
-                realestateDocument.getRentPrc(),
-                realestateDocument.getFloorInfo(),
-                3,
-                realestateDocument.getSupplyArea(),
-                realestateDocument.getExclusiveArea(),
-                realestateDocument.getMaintenanceFee(),
-                "green", // TODO
-                realestateDocument.getFormatted_image_list(),
-                new BookmarkCheckResponse( // TODO
-                    true,
-                    true
-                )
-            );
-        }
-
-    }
 
 
 }

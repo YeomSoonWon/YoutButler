@@ -1,6 +1,7 @@
 package com.ficrew.yourbutler.realestates.infrastructure.config;
 
 import com.ficrew.yourbutler.member.domain.repository.MemberRepository;
+import com.ficrew.yourbutler.realestates.application.CheckBookmarkStatusListProcessor;
 import com.ficrew.yourbutler.realestates.application.CheckBookmarkStatusProcessor;
 import com.ficrew.yourbutler.realestates.application.CreateBookmarkProcessor;
 import com.ficrew.yourbutler.realestates.application.DeleteBookmarkProcessor;
@@ -73,5 +74,12 @@ public class RealestateConfig {
             elasticsearchRealestateRepository,
             bookmarkRepository
         );
+    }
+
+    @Bean
+    public CheckBookmarkStatusListProcessor checkBookmarkStatusListProcessor(
+        BookmarkRepository bookmarkRepository
+    ) {
+        return new CheckBookmarkStatusListProcessor(bookmarkRepository);
     }
 }
