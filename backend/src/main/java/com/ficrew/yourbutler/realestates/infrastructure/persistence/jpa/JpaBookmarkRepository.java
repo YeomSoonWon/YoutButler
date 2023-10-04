@@ -16,4 +16,6 @@ public interface JpaBookmarkRepository extends JpaRepository<Bookmark, Long> {
     boolean existsByRealestateIdAndMemberId(Long realestateId, Long memberId);
 
     Optional<Bookmark> findByRealestateIdAndMemberId(Long realestateId, Long memberId);
+
+    List<Bookmark> findByRealestateIdIn(List<Long> realestateId);
 }

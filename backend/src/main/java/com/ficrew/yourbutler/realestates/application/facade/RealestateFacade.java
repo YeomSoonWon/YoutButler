@@ -1,10 +1,12 @@
 package com.ficrew.yourbutler.realestates.application.facade;
 
+import com.ficrew.yourbutler.realestates.application.CheckBookmarkStatusListProcessor;
 import com.ficrew.yourbutler.realestates.application.CheckBookmarkStatusProcessor;
 import com.ficrew.yourbutler.realestates.application.CreateBookmarkProcessor;
 import com.ficrew.yourbutler.realestates.application.DeleteBookmarkProcessor;
 import com.ficrew.yourbutler.realestates.domain.entity.RealestateDocument;
 import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ public class RealestateFacade {
     private final CheckBookmarkStatusProcessor checkBookmarkStatusProcessor;
     private final CreateBookmarkProcessor createBookmarkProcessor;
     private final DeleteBookmarkProcessor deleteBookmarkProcessor;
+    private final CheckBookmarkStatusListProcessor checkBookmarkStatusListProcessor;
 
     public boolean isBookmarked(Long realestateId) {
         return checkBookmarkStatusProcessor.execute(realestateId);
@@ -29,5 +32,13 @@ public class RealestateFacade {
     @Transactional
     public void deleteBookmark(Long memberId, Long realestateId) {
         deleteBookmarkProcessor.execute(memberId, realestateId);
+    }
+
+    public Map<Long, Boolean> isBookmarkedList(List<Long> articleNos) {
+        return checkBookmarkStatusListProcessor.execute(articleNos);
+    }
+
+    public String calculate(RealestateDocument doc) {
+        return "yellow";
     }
 }

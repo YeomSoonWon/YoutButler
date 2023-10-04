@@ -52,4 +52,9 @@ public class RealestateRepositoryAdapter implements BookmarkRepository {
     public void delete(Bookmark bookmark) {
         jpaBookmarkRepository.delete(bookmark);
     }
+
+    @Override
+    public List<Bookmark> findByRealestateIdIn(List<Long> realestateId) {
+        return jpaBookmarkRepository.findByRealestateIdIn(realestateId);
+    }
 }
