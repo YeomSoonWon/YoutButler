@@ -48,7 +48,6 @@ import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 // import {useRouter} from "next/router";
 import authApi from "@/api/authApi";
-import YeokSam from "@/public/json/역삼동_매매_아파트.json";
 import axios from "axios";
 import realEstateApi from "@/api/realEstateApi";
 import chatApi from "@/api/chatApi";
@@ -68,30 +67,17 @@ const DetailWithID = ({ params }) => {
   const [chatList, setChatList] = useState([]);
 
   // 찜
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState<boolean>(false);
 
   const handleLike = async () => {
-    setLike((prev) => !prev);
-
-    if (!like) {
-      try {
-        await axios({
-          method: "post",
-          url: `realestates/${location.pathname.split("/")[1]}/check`,
-        }).then((response: any) => console.log(response));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    } else {
-      try {
-        await axios({
-          method: "delete",
-          url: `realestates/${location.pathname.split("/")[1]}/uncheck`,
-        }).then((response: any) => console.log(response));
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+    let res = null;
+    if(like){
+      res = await realEstateApi.unCheck(session?.userData, params.id);
+    }else{
+      res = await realEstateApi.check(session?.userData, params.id);
     }
+    if(!res?.data) return;
+    setLike(res.data.checked);
   };
 
   // todo : url param을 이용한 매물 데이터 가져오기
@@ -122,8 +108,9 @@ const DetailWithID = ({ params }) => {
     try {
       // @ts-ignore
       let res = await realEstateApi.detailSearch(session?.userData, realestateId);
-      console.log(res.data);
       setHouse(res.data);
+      setLike(res.data.bookmark.checked);
+      console.log("house", res.data)
     } catch {
       window.alert("존재하는 매물이 아니거나 오류가 발생했습니다.");
       window.location.href = "/";
@@ -149,24 +136,10 @@ const DetailWithID = ({ params }) => {
     }
   };
 
-  const chatMessages = [
-    { text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?", isRight: false },
-    { text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?", isRight: false },
-    { text: "어쩌고 .. 저쩌고...", isRight: true },
-    { text: "어쩌고 .. 저쩌고...", isRight: true },
-    { text: "어쩌고 .. 저쩌고...", isRight: true },
-    { text: "어쩌고 .. 저쩌고...", isRight: true },
-    {
-      text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?ssssssssssssssssssssssss",
-      isRight: false,
-    },
-  ];
-
   const configureUser = async (token: String, provider: String) => {
     try {
       let res = await authApi.getUser(token, provider);
       if (res.status === 200) {
-        console.log(res.data.memberResponse)
         setUser(res.data.memberResponse);
         setMsg("집사에게 물어보세요!");
       } else {
@@ -255,7 +228,7 @@ const DetailWithID = ({ params }) => {
               <AboutEachDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>방 종류</AboutTitleP>
-                  <p>{house?.roomCnt}룸 이상</p>
+                  <p>{house?.roomType}</p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>해당층/건물층</AboutTitleP>
