@@ -86,13 +86,13 @@ export default function ItemEach({ item, width, height, colordot }: IProps) {
         </RoomP>
         <PriceDiv>
           <PriceP>
-            {item?.tradeTypeName} {item?.dealOrWarrantPrc}/{item?.rentPrc}
+            {item?.realEstateTypeName} {item?.dealOrWarrantPrc}/{Math.floor(parseInt(item?.rentPrc))}
           </PriceP>
           <ColorDot color={colordot || "transparent"} />
         </PriceDiv>
         <DetailP>{item?.complexName}</DetailP>
         <DetailP>
-          {item?.floorInfo}층, {item?.exclusiveArea}㎡, 관리비 {item?.maintenanceFee}
+          {item?.floorInfo}층, {item?.exclusiveArea}㎡, 관리비 {parseInt(item?.maintenanceFee) / 10000}만
         </DetailP>
       </AboutEstateDiv>
     </EstateDiv>
