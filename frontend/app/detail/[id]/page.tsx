@@ -441,8 +441,8 @@ const DetailWithID = ({ params }) => {
                 </div>
                 <ChatMiddleDiv isVisible={isChatOpen}>
                   <Chatting messages={chatList} />
-                  {loading && <LoadingP>작성중입니다..</LoadingP>}
                 </ChatMiddleDiv>
+                {loading && <LoadingP>작성중입니다..</LoadingP>}
                 <ChatBottomDiv isVisible={isChatOpen}>
                   <MessageInput
                     type="text"

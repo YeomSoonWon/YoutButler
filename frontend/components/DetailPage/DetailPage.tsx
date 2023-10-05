@@ -58,7 +58,7 @@ export const TitleP = styled.p`
 `;
 
 export const ChatMiddleDiv = styled.div<AskPprops>`
-  height: 80%;
+  height: 75%;
   padding: 0.5rem 0;
   display: ${(props) => (props.isVisible ? "block" : "none")};
   flex-direction: column;
@@ -189,8 +189,7 @@ export const LightPDiv = styled.div`
 `;
 
 export const LoadingP = styled.p`
-  padding: 0.8rem;
-  background-color: rgb(255, 255, 255, 0.7);
+  padding: 0.5rem;
   text-align: center;
   color: gray;
   font-weight: 600;
