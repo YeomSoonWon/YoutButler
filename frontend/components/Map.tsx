@@ -13,16 +13,47 @@ interface MapProps {
 }
 
 const SeoulMap = ({items}) => {
-  console.log(items?.roomTypeList);
+  console.log("map items : ",items);
   const [map, setMap] = useState<any>(null);
   const [polygons, setPolygons] = useState<any[]>([]);
   const [clusterer, setClusterer] = useState<any>(null);
+  const [dummyData, setDummyData] = useState(null);
+  // let dummyData = [];
+  // if(items){
+  //   dummyData = items.map((item: any) => ({
+  //     latitude: item.latitude,
+  //     longitude: item.longitude,
+  //     complexName: item.complexName,
+  //   }));
+  // }
 
-  const dummyData = items?.roomTypeList.map((item: any) => ({
-    latitude: item.latitude,
-    longitude: item.longitude,
-    complexName: item.complexName,
-  }));
+  useEffect(()=>{
+    if(items){
+      console.log("dummyData setting!!")
+      setDummyData(items.map((item: any) => ({
+        latitude: item.latitude,
+        longitude: item.longitude,
+        complexName: item.complexName,
+      })));
+    }
+  },[items]);
+
+  useEffect(()=>{
+    if(dummyData){
+      console.log("dummyData : ",dummyData);
+    }
+  },[dummyData])
+  // const dummyData = items.map((item: any) => ({
+  //   latitude: item.latitude,
+  //   longitude: item.longitude,
+  //   complexName: item.complexName,
+  // }));
+
+  // useEffect(()=>{
+  //   if(items){
+  //     setDummy()
+  //   }
+  // },[items])
 
   useEffect(() => {
     const fetchSeoulData = async () => {
@@ -124,20 +155,35 @@ const SeoulMap = ({items}) => {
               deletePolygon(newPolygons);
             });
 
-            const markers = dummyData.map((data) => {
-              console.log("data : ",data);
-              const marker = new window.kakao.maps.Marker({
-                position: new window.kakao.maps.LatLng(
-                  data.latitude,
-                  data.longitude
-                ),
-                clickable: true,
-              });
-              console.log("complexName : ",data.complexName);
-              return marker; // 마커 객체 반환
-            });
+            let markers = [];
 
-            
+            // const markers = dummyData.map((data) => {
+            //   console.log("data : ",data);
+            //   const marker = new window.kakao.maps.Marker({
+            //     position: new window.kakao.maps.LatLng(
+            //       data.latitude,
+            //       data.longitude
+            //     ),
+            //     clickable: true,
+            //   });
+            //   console.log("complexName : ",data.complexName);
+            //   return marker; // 마커 객체 반환
+            // });
+
+            if(dummyData){
+              markers = dummyData.map((data) => {
+                console.log("data : ",data);
+                const marker = new window.kakao.maps.Marker({
+                  position: new window.kakao.maps.LatLng(
+                    data.latitude,
+                    data.longitude
+                  ),
+                  clickable: true,
+                });
+                console.log("complexName : ",data.complexName);
+                return marker; // 마커 객체 반환
+              });
+            }
 
             // console.log(markers);
 
@@ -208,7 +254,7 @@ const SeoulMap = ({items}) => {
 
     initializeMap();
 
-  }, []);
+  }, [dummyData]);
 
   return <div id="map" style={{ width: "100%", height: "100%" }} />;
 };
