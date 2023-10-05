@@ -44,6 +44,9 @@ import {
   SendSvg,
   LikeButton,
   TitleLikeDiv,
+  LoadingP,
+  LoadingDiv,
+  LoadingSpan,
 } from "@/components/DetailPage/DetailPage";
 import InfoBubble from "@/components/List/InfoBubble";
 import { useSession } from "next-auth/react";
@@ -53,6 +56,7 @@ import authApi from "@/api/authApi";
 import axios from "axios";
 import realEstateApi from "@/api/realEstateApi";
 import chatApi from "@/api/chatApi";
+import MoneyFormatter from "@/components/Input/MoneyFormatter";
 
 function calculateInterestRate(houseType: string, userCreditRating: number): number {
   if (houseType === "매매") {
@@ -399,13 +403,24 @@ const DetailWithID = ({ params }) => {
             <InfoDiv>
               <InfoDetailDiv>
                 <TitleP>현재 자산으로는</TitleP>
-                <BlueP>{Math.abs(house?.dealOrWarrantPrc_numeric - user?.holdingAsset*10000)/10000}만원</BlueP>
-                <TitleP>{(house?.dealOrWarrantPrc_numeric - user?.holdingAsset*10000) < 0 ? "여유가 있습니다." : "더 필요합니다."}</TitleP>
+                <BlueP>
+                  {MoneyFormatter(
+                    Math.abs(house?.dealOrWarrantPrc_numeric - user?.holdingAsset * 10000) / 10000
+                  )}
+                  만원
+                </BlueP>
+                <TitleP>
+                  {house?.dealOrWarrantPrc_numeric - user?.holdingAsset * 10000 < 0
+                    ? "여유가 있습니다."
+                    : "더 필요합니다."}
+                </TitleP>
               </InfoDetailDiv>
               <LineHr />
               <InfoDetailDiv>
                 <TitleP>대출 시 예상되는 연 이자</TitleP>
-                <BlueP>{calculateInterestRate(house?.realEstateTypeName, user?.creditRating)}%</BlueP>
+                <BlueP>
+                  {calculateInterestRate(house?.realEstateTypeName, user?.creditRating)}%
+                </BlueP>
                 <LightPDiv>
                   <LightP>가입 시 입력한 신용도를 기반으로</LightP>
                   <LightP>산정된 예상 이자율 입니다.</LightP>
@@ -428,7 +443,16 @@ const DetailWithID = ({ params }) => {
                 </div>
                 <ChatMiddleDiv isVisible={isChatOpen}>
                   <Chatting messages={chatList} />
-                  {loading && <p>로딩중입니다...</p>}
+                  {loading && (
+                    <LoadingDiv>
+                      <LoadingSpan>로</LoadingSpan>
+                      <LoadingSpan>딩</LoadingSpan>
+                      <LoadingSpan>중</LoadingSpan>
+                      <LoadingSpan>입</LoadingSpan>
+                      <LoadingSpan>니</LoadingSpan>
+                      <LoadingSpan>다</LoadingSpan>
+                    </LoadingDiv>
+                  )}
                 </ChatMiddleDiv>
                 <ChatBottomDiv isVisible={isChatOpen}>
                   <MessageInput

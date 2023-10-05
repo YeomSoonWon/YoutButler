@@ -9,6 +9,7 @@ export const Container = styled.div`
   /* justify-content: center; */
   /* align-items: center; */
   padding: 3rem;
+  -webkit-font-smoothing: antialiased;
 
   ::selection {
     background-color: #afffe3;
@@ -345,4 +346,40 @@ export const TitleLikeDiv = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+`;
+
+export const LoadingDiv = styled.div``;
+
+export const LoadingSpan = styled.span`
+  position: relative;
+  top: 20px;
+  display: inline-block;
+  animation: bounce 0.3s ease infinite alternate;
+  font-family: "Titan One", cursive;
+  font-size: 80px;
+  color: #fff;
+  text-shadow: 0 1px 0 #ccc, 0 2px 0 #ccc, 0 3px 0 #ccc, 0 4px 0 #ccc, 0 5px 0 #ccc,
+    0 6px 0 transparent, 0 7px 0 transparent, 0 8px 0 transparent, 0 9px 0 transparent,
+    0 10px 10px rgba(0, 0, 0, 0.4);
+
+  :nth-child(2) {
+    animation-delay: 0.1s;
+  }
+  :nth-child(3) {
+    animation-delay: 0.2s;
+  }
+  :nth-child(4) {
+    animation-delay: 0.3s;
+  }
+  :nth-child(5) {
+    animation-delay: 0.4s;
+  }
+  :nth-child(6) {
+    animation-delay: 0.5s;
+  }
+`;
+
+export const LoadingP = styled.p`
+  text-align: center;
+  width: 100%;
 `;
