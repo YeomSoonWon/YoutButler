@@ -29,6 +29,7 @@ const Search = () => {
   const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
   const [monthlyAvailableAsset, setMonthlyAvailableAsset] = useState<number | null>(null);
+  const [searchedEstate, setSearchedEstate] = useState([]);
 
   useEffect(() => {
     if (session) {
@@ -151,6 +152,7 @@ const Search = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log("API response:", data);
+        setSearchedEstate(data?.roomTypeList);
       })
       .catch((error) => console.error("API error:", error));
   };
@@ -210,7 +212,7 @@ const Search = () => {
               {/* <ItemEach width="18rem" height="19rem" item={} colordot={colors.blue} /> */}
               {/* <ItemEach width="18rem" height="19rem" colordot={colors.red} />
               <ItemEach width="18rem" height="19rem" colordot={colors.yellow} /> */}
-              {dummyData?.roomTypeList.map((item)=>{
+              {/* {dummyData?.roomTypeList.map((item)=>{
                 let data = {
                   realestateId: item.realestateId,
                   complexNo: 0, // 주택번호: 1165010700
@@ -227,6 +229,9 @@ const Search = () => {
                   imageSrc:item.imageSrc,
                 }
                 return <ItemEach width="18rem" height="19rem" colordot={colors.yellow} item={data}/>
+              })} */}
+              {searchedEstate && searchedEstate.map((item)=>{
+                 <ItemEach width="18rem" height="19rem" colordot={colors.yellow} item={item}/>
               })}
             </ItemDiv>
           </Lower>
