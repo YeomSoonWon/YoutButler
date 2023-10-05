@@ -1,3 +1,5 @@
+import json
+
 from flask import Flask, render_template, request, jsonify
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
@@ -6,46 +8,55 @@ from langchain.prompts import PromptTemplate
 from flask_server.modules.agents.database_query import query_loan_chain
 from flask_server.modules.agents.finanical_information import get_response_from_query
 from flask_server.modules.agents.intention_decesion import decide
-from flask_server.output_parsers import loan_intel_parser
 
 app = Flask(__name__)
 
+
+# 국민은행에서 가장 낮은 금리의 주택 담보 대출이 뭔지 알려줘. DSR가 무슨 의미인지 알려줘. 그리고 가장 맛있는 식당 추천해줘
 @app.route("/api/chat", methods=["POST"])
 def chat():
-    # 채팅 오면 대출 상품 조회, 대출 용어 조회, 그 외 요청의 세 가지로 분기
-    # 세 가지중 어디로 분기할지 결정하는 함수
-    # Agent 하나 두고 Tool 3개중에 뭐쓸지 고민하라고 보내는게 맞음 지금 고려할수 있는건 아니고...
-
     summary_template = """
-    given the database information {database_information} about a Loan Data and Financial Information {financial_information} from I want you to create:
+    주어진 대출 상품 정보 데이터와 금융 용어 정보 데이터를 바탕으로 대답을 생성해야 합니다.
+    대답의 형태는 반드시 아래와 같아야 합니다. 큰 따옴표에 유의하십시오. 반드시 JSON으로 Parsing이 가능한 형태여야 합니다.
     
-    1. if I want to know about the loan data. you can tell me about loan data.
-       else if I want to know about the financial information. you can tell me about financial information.
-       
-    2. if you tell me about loan data. you can calculate Average monthly repayment amount. else, not calculate.
+    "loan_name": 대출 상품의 정보가 주어진다면 대출 상품의 이름이 들어갑니다 대출 상품의 정보가 없다면 빈 값이 들어갑니다,
+    "loan_interest": 대출 상품의 정보가 주어진다면 대출 상품의 금리가 들어갑니다 대출 상품의 정보가 없다면 빈 값이 들어갑니다,
+    "bank_name": 대출 상품의 정보가 주어진다면 대출 상품을 제공하는 은행의 이름이 들어갑니다 대출 상품의 정보가 없다면 빈 값이 들어갑니다,
+    "message": 대출 상품의 정보가 주어진다면 대출 상품에 대한 설명이 들어갑니다 대출 상품의 정보가 없다면 빈 값이 들어갑니다, 
+    "information": 금융 용어에 대한 정보가 주어진다면 금융 용어에 대한 설명이 들어갑니다 금융 용어에 대한 정보가 없다면 빈 값이 들어갑니다.
     
-    \n{format_instruction}    
+    대출 상품의 정보는 아래와 같습니다.
+    
+    {database_information}
+    
+    금융 용어의 정보는 아래와 같습니다.
+    
+    {financial_information}
     """
 
     summary_prompt_template = PromptTemplate(
         input_variables=["database_information", "financial_information"],
-        template=summary_template,
+        template=summary_template
         # 필수 입력 변수의 하위 집합을 지정할 수 있음.
-        partial_variables={
-            "format_instruction": loan_intel_parser.get_format_instructions()
-        },
+        # partial_variables={
+        #     "format_instruction": loan_intel_parser.get_format_instructions()
+        # },
     )
 
     llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo-16k")
     chain = LLMChain(llm=llm, prompt=summary_prompt_template)
     user_message = request.json["user_message"]
     intention = decide(user_message)
-    loan_data = query_loan_chain(user_message)
-    financial_data = get_response_from_query(user_message)
-    result = chain.run(database_information=loan_data, financial_information=financial_data)
-    print(result)
-    return result
-    # return jsonify({"response": response})
+    data = json.loads(intention)
+    loan_data = query_loan_chain(data.get('loan'))
+    financial_data = get_response_from_query(data.get('finance'))
+    response = chain.run(database_information=loan_data, financial_information=financial_data)
+    print(response)
+    data = json.loads(response)
+    print(data)
+    print(jsonify(data))
+    return jsonify(data)
+    # return result
     # return loan_intel_parser.parse(result['properties'])
     # return loan_intel_parser.parse(result)
 

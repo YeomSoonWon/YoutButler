@@ -6,7 +6,11 @@ from langchain.embeddings import OpenAIEmbeddings
 from langchain.prompts import SystemMessagePromptTemplate, HumanMessagePromptTemplate, ChatPromptTemplate
 from langchain.vectorstores.faiss import FAISS
 
+
 def get_response_from_query(query: str) -> str:
+    if query is None:
+        return ""
+
     print(f"query : {query}")
     # FAISS 먼저 적용하고 오기
     # docs = vector_db.similarity_search(query, k=k)
@@ -25,15 +29,13 @@ def get_response_from_query(query: str) -> str:
 
     template = """
     당신은 부동산을 구매하려는 사용자에게 금융, 부동산과 관련된 정보를 제공하는 assistant입니다.
-
-    Document retrieved from your DB : {docs}
-
-    Answer the questions referring to the documents which you Retrieved from DB as much as possible.
-
     답변의 형식은 아래와 같이 진행합니다.
 
     "유저가 모르는 단어": "이에 대한 설명"
     "유저가 모르는 단어2": "이에 대한 설명2"
+    
+    Document retrieved from your DB : {docs}
+    Answer the questions referring to the documents which you Retrieved from DB as much as possible.
     """
     # If you fell like you don't have enough-information to answer the question, say "제가 알고 있는 정보가 없습니다."
     system_message_prompt = SystemMessagePromptTemplate.from_template(template)
