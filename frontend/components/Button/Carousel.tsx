@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ItemEach from "@/components/List/ItemEach";
 
-const Carousel = ({ items }) => {
+const Carousel = ({ items, holdingAsset }) => {
   console.log(items);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [realItems, setRealItems] = useState(null);
@@ -41,7 +41,7 @@ const Carousel = ({ items }) => {
       {/* {items} */}
       <ListDiv style={{ transform: `translateX(-${currentIndex * 25}%)` }}>
         {realItems && realItems.map((item, index) => (
-          <ItemEach height="19rem" width="18rem" item={item} holdingAsset={0} />
+          <ItemEach height="19rem" width="18rem" item={item} holdingAsset={holdingAsset} />
         ))}
       </ListDiv>
       <NextSvgDiv className="next" onClick={handleNextClick}>
