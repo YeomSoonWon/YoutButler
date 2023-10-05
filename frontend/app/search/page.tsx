@@ -30,8 +30,10 @@ const Search = () => {
     number | null
   >(null);
   const [searchedEstate, setSearchedEstate] = useState(null);
-  const [from, setFrom] = useState(0);
-  const [offset, setOffset] = useState(20);
+  const [from, setFrom] = useState(0);//페이지번호
+  const [offset, setOffset] = useState(20);//한페이지에 보여줄 개수
+  const [totalElements, setTotalElements] = useState<number>(0);
+  const [page, setPage] = useState(0);
 
   // slider 최솟값, 최댓값
   const [dwData, setDwData] = useState([0, 200000]);
@@ -174,6 +176,7 @@ const Search = () => {
   };
 
   const handleSearch = (from, offset) => {
+    console.log(`(${((totalElements > 0) && (page > 0)) ? `${totalElements}개의 데이터 총 ${page}중` : ""} ${from}페이지의 ${offset}개 만큼의 데이터 가져오기`)
     const searchParams = {
       size: offset,
       from: from,
@@ -202,25 +205,28 @@ const Search = () => {
       .then((data) => {
         console.log('API response:', data);
         setSearchedEstate(data?.roomTypeList);
+        setTotalElements(data?.totalElements);
+        setPage(data?.totalPages);
       })
       .catch((error) => console.error('API error:', error));
   };
 
   const prevSearch = () => {
-    if (from - offset >= 0) {
-      handleSearch(from - offset, offset);
-      setFrom((prev) => {
-        return prev - offset;
-      });
+    if (from > 0) {
+      handleSearch(from - 1, offset);
+      setFrom(prev => {
+        return prev - 1;
+      })
     }
   };
 
   const nextSearch = () => {
-    handleSearch(from + offset, offset);
-    setFrom((prev) => {
-      return prev + offset;
-    });
-  };
+    if (from == page - 1) return;
+    handleSearch(from + 1, offset);
+    setFrom(prev => {
+      return prev + 1;
+    })
+  }
 
   return (
     <main>
@@ -290,26 +296,18 @@ const Search = () => {
                 />
               </AboutDiv>
             </TitleDiv>
+            {((!searchedEstate) || (searchedEstate?.length === 0)) ? <>검색 결과가 없습니다.</> : <></>}
             <ItemDiv>
               {searchedEstate &&
                 searchedEstate.map((item) => {
                   return (
-                    <ItemEach
-                      width='18rem'
-                      height='19rem'
-                      colordot={item.color}
-                      item={item}
-                      holdingAsset={holdingAsset}
-                    />
+                    <ItemEach width="18rem" height="19rem" colordot={item.color} item={item} holdingAsset={holdingAsset} />
                   );
                 })}
             </ItemDiv>
-            {searchedEstate && from - offset >= 0 && (
-              <button onClick={prevSearch}>이전</button>
-            )}
-            {searchedEstate?.length === offset && (
-              <button onClick={nextSearch}>다음</button>
-            )}
+            {searchedEstate && (from > 0) && <button onClick={prevSearch}>이전</button>}
+            {(searchedEstate?.length > 0) && <span>{from + 1}페이지/{page}페이지</span>}
+            {(from < page - 1) && <button onClick={nextSearch}>다음</button>}
           </Lower>
         </LeftContainer>
         <RightContainer>
@@ -468,15 +466,13 @@ const Search = () => {
               />
             </RadioDiv>
           </ContentDiv>
-          <ButtonDiv style={{ paddingBottom: '1rem' }}>
-            <Button
-              Kind='small'
-              Variant='yellowFilled'
-              Rounded='square'
-              onClick={() => {
-                handleSearch(from, offset);
-              }}
-            >
+          <ButtonDiv style={{ paddingBottom: "1rem" }}>
+            <Button Kind="small" Variant="yellowFilled" Rounded="square" onClick={() => {
+              setFrom((prev) => {
+                handleSearch(0, offset);
+                return 0;
+              })
+            }}>
               해당 조건으로 검색하기
             </Button>
           </ButtonDiv>
