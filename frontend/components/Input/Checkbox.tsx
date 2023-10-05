@@ -3,31 +3,31 @@ import styled from "styled-components";
 
 interface CheckboxProps {
   label?: string;
-  name?: string;
+  value?: string;
   isChecked?: boolean;
-  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (checked: boolean) => void;
 }
 
-const Checkbox: React.FC<CheckboxProps> = ({ label, name, isChecked: propIsChecked, onChange }) => {
+const Checkbox: React.FC<CheckboxProps> = ({
+  label,
+  value,
+  isChecked: propIsChecked,
+  onChange,
+}) => {
   const [isChecked, setIsChecked] = useState(propIsChecked || false);
 
-  // const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { checked } = event.target;
-  //   setIsChecked(checked);
-  //   if (onChange) {
-  //     onChange(checked);
-  //   }
-  // };
+  const handleCheckboxChange = () => {
+    const newCheckedState = !isChecked;
+    setIsChecked(newCheckedState);
+    if (onChange) {
+      onChange(newCheckedState);
+    }
+  };
 
   return (
     <InputDiv>
       <label>
-        <input
-          type="checkbox"
-          name={name}
-          checked={isChecked}
-          onChange={(event) => onChange(event)}
-        />
+        <input type="checkbox" value={value} checked={isChecked} onChange={handleCheckboxChange} />
         {label}
       </label>
     </InputDiv>
