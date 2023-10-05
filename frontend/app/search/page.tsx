@@ -73,11 +73,15 @@ const Search = () => {
     }
   }, [session, user]);
   const [holdingAsset, setHoldingAsset] = useState<number | null>(null);
+  const [renewedAsset, setRenewedAsset] = useState<number>(0);
   useEffect(() => {
     if (session) {
       setHoldingAsset(user?.holdingAsset);
     }
   }, [session, user]);
+  useEffect(() => {
+    setRenewedAsset(holdingAsset);
+  }, [holdingAsset]);
 
   // 방 거래 유형(월세, 전세, 매매)
   const [selectedType, setSelectedType] = useState('RENT');
@@ -187,7 +191,7 @@ const Search = () => {
       size: offset,
       from: from,
       keyword: searchKeyword, // 검색어
-      'realestate-asset': holdingAsset, // 부동산 거래 예산
+      'realestate-asset': renewedAsset, // 부동산 거래 예산
       'trade-type': selectedType, // 거래유형 : 매매/전세/월세
       'room-type': roomTypeParameter, // 방종류 : 아파트/오피스텔/단독&다가구/원&투룸/빌라&연립/주택
       'monthly-asset': monthlyAvailableAsset, // 월 가용금액(월세)
@@ -263,13 +267,13 @@ const Search = () => {
                 <NoneDiv></NoneDiv>
               )}
               <div>
-              <NameP>부동산 거래 예산</NameP>
-              <StyledInput
-                type='number'
-                placeholder={session ? '부동산 거래 예산' : undefined}
-                value={holdingAsset}
-                onChange={(e) => setHoldingAsset(Number(e.target.value))}
-              />
+                <NameP>부동산 거래 예산</NameP>
+                <StyledInput
+                  type='number'
+                  placeholder={session ? '부동산 거래 예산' : undefined}
+                  defaultValue={holdingAsset}
+                  onChange={(e) => setRenewedAsset(Number(e.target.value))}
+                />
               </div>
             </InputDiv>
           </Upper>
@@ -322,20 +326,22 @@ const Search = () => {
                       height='19rem'
                       colordot={item.color}
                       item={item}
-                      holdingAsset={holdingAsset}
+                      holdingAsset={renewedAsset}
                     />
                   );
                 })}
             </ItemDiv>
-            {searchedEstate && from > 0 && (
-              <button onClick={prevSearch}>이전</button>
-            )}
-            {searchedEstate?.length > 0 && (
-              <span>
-                {from + 1}페이지/{page}페이지
-              </span>
-            )}
-            {from < page - 1 && <button onClick={nextSearch}>다음</button>}
+            <PageDiv>
+              {searchedEstate && from > 0 && (
+                <button onClick={prevSearch}>이전</button>
+              )}
+              {searchedEstate?.length > 0 && (
+                <span>
+                  {from + 1}페이지/{page}페이지
+                </span>
+              )}
+              {from < page - 1 && <button onClick={nextSearch}>다음</button>}
+            </PageDiv>
           </Lower>
         </LeftContainer>
         <RightContainer>
@@ -678,6 +684,15 @@ const RadioDiv = styled.div`
 
 const NameP = styled.p`
   font-size: 0.8rem;
+`;
+
+const PageDiv = styled.div`
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
 `;
 
 export default Search;
