@@ -100,17 +100,10 @@ const DetailWithID = ({ params }) => {
   const [chatList, setChatList] = useState([]);
   const [chatMsg, setChatMsg] = useState(null);
   const [loading, setLoading] = useState(false);
-  // const [holdingAsset, setHoldingAsset] = useState<number | null>(null);
-  // useEffect(() => {
-  //   if (session) {
-  //     setHoldingAsset(user?.holdingAsset);
-  //   }
-  // }, [session, user]);
 
   const queryParam = useSearchParams();
   const holdingAsset = queryParam.get("holdingAsset");
 
-  // 찜
   const [like, setLike] = useState<boolean>(false);
 
   const handleLike = async () => {
@@ -126,11 +119,7 @@ const DetailWithID = ({ params }) => {
     setLike(res.data.checked);
   };
 
-  // todo : url param을 이용한 매물 데이터 가져오기
-  // todo : useEffect를 사용하여 페이지 로딩 시 채팅 인스턴스 생성
-  // todo : 질문 입력 시 질문에 대한 답을 채팅으로 전송
-  // todo : 페이지 unmount 시 지금까지 한 채팅 기록을 서버에 저장
-
+ 
   useEffect(() => {
     if (session) {
       // @ts-ignore
@@ -156,7 +145,6 @@ const DetailWithID = ({ params }) => {
       let res = await realEstateApi.detailSearch(session?.userData, realestateId);
       setHouse(res.data);
       setLike(res.data.bookmark.checked);
-      console.log("house", res.data);
     } catch {
       window.alert("존재하는 매물이 아니거나 오류가 발생했습니다.");
       window.location.href = "/";
@@ -165,7 +153,6 @@ const DetailWithID = ({ params }) => {
 
   const getChat = async (userData: any | null, realestateId: number) => {
     let res = await chatApi.getChat(userData, realestateId);
-    console.log("chats", res.data.messageList);
     setChatList(res.data.messageList);
     setChatNo(res.data.chatRoomNumber);
     // setHouse(res.data);

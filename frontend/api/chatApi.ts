@@ -19,7 +19,6 @@ const chatApi = {
                 Authorization: `Bearer ${userData?.accessToken}`
             }
         });
-        console.log(res);
         return res;
     },
     sendChat: async (userData: any | null, user: any | null, apt: any, message: String, chatRoomNo: number, holdingAsset: number) => {

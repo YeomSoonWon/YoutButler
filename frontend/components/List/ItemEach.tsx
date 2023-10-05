@@ -56,7 +56,7 @@ export default function ItemEach({ item, width, height, colordot, holdingAsset }
         </RoomP>
         <PriceDiv>
           <PriceP>
-          {item?.realEstateTypeName} {item?.dealOrWarrantPrc} {(item?.realEstateTypeName !== "매매") && <span>/{Math.floor(parseInt(item?.rentPrc))}</span>}
+          {item?.realEstateTypeName} {item?.dealOrWarrantPrc} {(item?.realEstateTypeName !== "매매") && (item?.realEstateTypeName !== "전세") && <span>/{Math.floor(parseInt(item?.rentPrc))}</span>}
           </PriceP>
           <ColorDot color={colordot || "transparent"} />
         </PriceDiv>

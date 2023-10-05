@@ -10,8 +10,6 @@ const PublicAuthApi:Axios = axios.create({
 const authApi = {
     getUser : async(accessToken:String, provider:String)=>{
         console.log("accessToken : "+accessToken+" /provider : "+provider.toUpperCase());
-        // TODO : accessToken과 provider를 이용한 당신의집사 서버에서 유저 가져오기/유저 추가 로직
-        // 리턴 형식 User로 변경 필요
 
         console.log("userSearchAPI : ",`${process.env.NEXT_PUBLIC_API_BASE_URL}/members/signin`);
 
@@ -57,18 +55,6 @@ const authApi = {
     },
 
     modify : async(userData:any | null, age:Number|null, houses:String|null, budget:Number|null, jasan:Number|null, credit:Number|null)=>{
-        console.log({
-            identifier : userData?.identifier,
-            socialType : userData?.socialType,
-            email : userData?.email,
-            nickname : userData?.nickname,
-            age:age,
-            holdingAsset:budget,
-            creditRating : credit,
-            monthlyAvailableAsset : jasan,
-            numberOfHouses : houses.toUpperCase(),
-            token : userData?.token
-        });
         let res = await PublicAuthApi.put("",{
             age: age,
             holdingAsset:budget,
