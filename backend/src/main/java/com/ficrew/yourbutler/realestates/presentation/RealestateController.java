@@ -6,13 +6,15 @@ import com.ficrew.yourbutler.realestates.application.command.MemberCalCommand;
 import com.ficrew.yourbutler.realestates.application.facade.RealestateFacade;
 import com.ficrew.yourbutler.realestates.application.command.SearchCommand;
 import com.ficrew.yourbutler.realestates.application.facade.RealestateEsFacade;
-import com.ficrew.yourbutler.realestates.domain.RoomType;
-import com.ficrew.yourbutler.realestates.domain.TradeType;
+import com.ficrew.yourbutler.realestates.domain.entity.RoomType;
+import com.ficrew.yourbutler.realestates.domain.entity.TradeType;
 import com.ficrew.yourbutler.realestates.domain.entity.RealestateDocument;
 import com.ficrew.yourbutler.realestates.presentation.response.BookmarkCheckResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.BookmarkListResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.BookmarkStatusResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.RealestateDetailResponse;
+import com.ficrew.yourbutler.realestates.presentation.response.RecentRealestateListResponse;
+import com.ficrew.yourbutler.realestates.presentation.response.RecentRealestateResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.SearchBookmarkResponse;
 import com.ficrew.yourbutler.realestates.presentation.response.SearchListResponse;
 import java.util.ArrayList;
@@ -40,6 +42,13 @@ public class RealestateController {
 
     private final RealestateEsFacade realestateEsFacade;
     private final RealestateFacade realestateFacade;
+
+    @GetMapping("/recent")
+    public ResponseEntity<RecentRealestateListResponse> getRecentRealestate() {
+        RecentRealestateListResponse results = RecentRealestateListResponse.from(
+            realestateEsFacade.getRecentRealestates());
+        return ResponseEntity.ok(results);
+    }
 
     // 파라미터 값은 모두 만원 단위로 들어온다!
     @GetMapping("/search")
