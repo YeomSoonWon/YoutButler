@@ -408,7 +408,7 @@ const DetailWithID = ({ params }) => {
                   원
                 </BlueP>
                 <TitleP>
-                  {house?.dealOrWarrantPrc_numeric - user?.holdingAsset * 10000 < 0
+                  {(house?.dealOrWarrantPrc_numeric - user?.holdingAsset * 10000 < 0)
                     ? "여유가 있습니다."
                     : "더 필요합니다."}
                 </TitleP>
