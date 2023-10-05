@@ -81,10 +81,10 @@ const Home = async () => {
   }
   let recent = null;
   let recentRes = await realEstateApi.recent();
-  if(recentRes?.data.recentList){
+  if (recentRes?.data.recentList) {
     recent = recentRes?.data.recentList;
   }
-  
+
   return (
     <ContainerDiv>
       <ActivatedCheck isActivated={isActivated} />
@@ -141,7 +141,7 @@ const Home = async () => {
           </ViewMoreDiv>
         </ListAboutDiv>
         <ListContainerDiv>
-          <Carousel items={recent} />
+          <Carousel items={recent} holdingAsset={user ? user?.holdingAsset : 0} />
         </ListContainerDiv>
       </MiddleDiv>
       <LowerDiv className={ibmPlexSansKR.className}>
