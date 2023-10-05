@@ -56,6 +56,7 @@ import axios from "axios";
 import realEstateApi from "@/api/realEstateApi";
 import chatApi from "@/api/chatApi";
 import MoneyFormatter from "@/components/Input/MoneyFormatter";
+import { useSearchParams } from "next/navigation";
 
 function calculateInterestRate(houseType: string, userCreditRating: number): number {
   if (houseType === "매매") {
@@ -99,12 +100,15 @@ const DetailWithID = ({ params }) => {
   const [chatList, setChatList] = useState([]);
   const [chatMsg, setChatMsg] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [holdingAsset, setHoldingAsset] = useState<number | null>(null);
-  useEffect(() => {
-    if (session) {
-      setHoldingAsset(user?.holdingAsset);
-    }
-  }, [session, user]);
+  // const [holdingAsset, setHoldingAsset] = useState<number | null>(null);
+  // useEffect(() => {
+  //   if (session) {
+  //     setHoldingAsset(user?.holdingAsset);
+  //   }
+  // }, [session, user]);
+
+  const queryParam = useSearchParams();
+  const holdingAsset = queryParam.get("holdingAsset");
 
   // 찜
   const [like, setLike] = useState<boolean>(false);
@@ -404,12 +408,12 @@ const DetailWithID = ({ params }) => {
                 <TitleP>현재 자산으로는</TitleP>
                 <BlueP>
                   {MoneyFormatter(
-                    Math.abs(house?.dealOrWarrantPrc_numeric - user?.holdingAsset * 10000) / 10000
+                    Math.abs(house?.dealOrWarrantPrc_numeric - parseInt(holdingAsset) * 10000)
                   )}
                   원
                 </BlueP>
                 <TitleP>
-                  {(house?.dealOrWarrantPrc_numeric - user?.holdingAsset * 10000 < 0)
+                  {(house?.dealOrWarrantPrc_numeric - parseInt(holdingAsset) * 10000 < 0)
                     ? "여유가 있습니다."
                     : "더 필요합니다."}
                 </TitleP>
