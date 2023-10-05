@@ -30,8 +30,8 @@ const Search = () => {
     number | null
   >(null);
   const [searchedEstate, setSearchedEstate] = useState(null);
-  const [from, setFrom] = useState(0);//페이지번호
-  const [offset, setOffset] = useState(20);//한페이지에 보여줄 개수
+  const [from, setFrom] = useState(0); //페이지번호
+  const [offset, setOffset] = useState(20); //한페이지에 보여줄 개수
   const [totalElements, setTotalElements] = useState<number>(0);
   const [page, setPage] = useState(0);
 
@@ -176,7 +176,13 @@ const Search = () => {
   };
 
   const handleSearch = (from, offset) => {
-    console.log(`(${((totalElements > 0) && (page > 0)) ? `${totalElements}개의 데이터 총 ${page}중` : ""} ${from}페이지의 ${offset}개 만큼의 데이터 가져오기`)
+    console.log(
+      `(${
+        totalElements > 0 && page > 0
+          ? `${totalElements}개의 데이터 총 ${page}중`
+          : ''
+      } ${from}페이지의 ${offset}개 만큼의 데이터 가져오기`
+    );
     const searchParams = {
       size: offset,
       from: from,
@@ -214,19 +220,19 @@ const Search = () => {
   const prevSearch = () => {
     if (from > 0) {
       handleSearch(from - 1, offset);
-      setFrom(prev => {
+      setFrom((prev) => {
         return prev - 1;
-      })
+      });
     }
   };
 
   const nextSearch = () => {
     if (from == page - 1) return;
     handleSearch(from + 1, offset);
-    setFrom(prev => {
+    setFrom((prev) => {
       return prev + 1;
-    })
-  }
+    });
+  };
 
   return (
     <main>
@@ -242,23 +248,29 @@ const Search = () => {
             <TitleP>매물 찾기</TitleP>
             <InputDiv>
               {selectedType === 'RENT' ? (
-                <StyledInput
-                  type='number'
-                  placeholder={session ? '월세 가용 자산' : undefined}
-                  value={monthlyAvailableAsset}
-                  onChange={(e) =>
-                    setMonthlyAvailableAsset(Number(e.target.value))
-                  }
-                />
+                <div>
+                  <NameP>월세 가용 자산</NameP>
+                  <StyledInput
+                    type='number'
+                    placeholder={session ? '월세 가용 자산' : undefined}
+                    value={monthlyAvailableAsset}
+                    onChange={(e) =>
+                      setMonthlyAvailableAsset(Number(e.target.value))
+                    }
+                  />
+                </div>
               ) : (
                 <NoneDiv></NoneDiv>
               )}
+              <div>
+              <NameP>부동산 거래 예산</NameP>
               <StyledInput
                 type='number'
                 placeholder={session ? '부동산 거래 예산' : undefined}
                 value={holdingAsset}
                 onChange={(e) => setHoldingAsset(Number(e.target.value))}
               />
+              </div>
             </InputDiv>
           </Upper>
           <Middle>
@@ -296,18 +308,34 @@ const Search = () => {
                 />
               </AboutDiv>
             </TitleDiv>
-            {((!searchedEstate) || (searchedEstate?.length === 0)) ? <>검색 결과가 없습니다.</> : <></>}
+            {!searchedEstate || searchedEstate?.length === 0 ? (
+              <>검색 결과가 없습니다.</>
+            ) : (
+              <></>
+            )}
             <ItemDiv>
               {searchedEstate &&
                 searchedEstate.map((item) => {
                   return (
-                    <ItemEach width="18rem" height="19rem" colordot={item.color} item={item} holdingAsset={holdingAsset} />
+                    <ItemEach
+                      width='18rem'
+                      height='19rem'
+                      colordot={item.color}
+                      item={item}
+                      holdingAsset={holdingAsset}
+                    />
                   );
                 })}
             </ItemDiv>
-            {searchedEstate && (from > 0) && <button onClick={prevSearch}>이전</button>}
-            {(searchedEstate?.length > 0) && <span>{from + 1}페이지/{page}페이지</span>}
-            {(from < page - 1) && <button onClick={nextSearch}>다음</button>}
+            {searchedEstate && from > 0 && (
+              <button onClick={prevSearch}>이전</button>
+            )}
+            {searchedEstate?.length > 0 && (
+              <span>
+                {from + 1}페이지/{page}페이지
+              </span>
+            )}
+            {from < page - 1 && <button onClick={nextSearch}>다음</button>}
           </Lower>
         </LeftContainer>
         <RightContainer>
@@ -466,13 +494,18 @@ const Search = () => {
               />
             </RadioDiv>
           </ContentDiv>
-          <ButtonDiv style={{ paddingBottom: "1rem" }}>
-            <Button Kind="small" Variant="yellowFilled" Rounded="square" onClick={() => {
-              setFrom((prev) => {
-                handleSearch(0, offset);
-                return 0;
-              })
-            }}>
+          <ButtonDiv style={{ paddingBottom: '1rem' }}>
+            <Button
+              Kind='small'
+              Variant='yellowFilled'
+              Rounded='square'
+              onClick={() => {
+                setFrom((prev) => {
+                  handleSearch(0, offset);
+                  return 0;
+                });
+              }}
+            >
               해당 조건으로 검색하기
             </Button>
           </ButtonDiv>
@@ -499,7 +532,7 @@ const TitleP = styled.p`
 `;
 
 const Upper = styled.div`
-  height: 3rem;
+  height: 4rem;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -512,6 +545,7 @@ const InputDiv = styled.div`
   justify-content: flex-end;
   gap: 0.8rem;
   width: 29rem;
+  height: 4rem;
 `;
 
 const StyledInput = styled.input`
@@ -640,6 +674,10 @@ const Lower = styled.div``;
 
 const RadioDiv = styled.div`
   padding: 1rem 0;
+`;
+
+const NameP = styled.p`
+  font-size: 0.8rem;
 `;
 
 export default Search;
