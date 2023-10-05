@@ -3,7 +3,7 @@ import styled from "styled-components";
 const Chatting = ({ messages }) => {
   return (
     <ChatMiddleDiv>
-      {messages.map((message, index) => (
+      {messages && messages.map((message, index) => (
         <MessageContainer key={index} isBot={message.isBot}>
           <Message isBot={message.isBot}>{message.message}</Message>
         </MessageContainer>

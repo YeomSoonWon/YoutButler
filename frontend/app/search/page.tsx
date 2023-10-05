@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import AppBar from "@/components/AppBar";
 import styled from "styled-components";
 import Button from "@/components/Button/Button";
@@ -28,23 +28,23 @@ const Search = () => {
   const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
   const [monthlyAvailableAsset, setMonthlyAvailableAsset] = useState<number | null>(null);
-    useEffect(() => {
-      if (session) {
-        setMonthlyAvailableAsset(user?.monthlyAvailableAsset);
-      }
-    }, [session, user]);
-    const [holdingAsset, setHoldingAsset] = useState<number | null>(null);
-    useEffect(() => {
-      if (session) {
-        setHoldingAsset(user?.holdingAsset);
-      }
-    }, [session, user]);
-
-  console.log("월세가용자산",user?.monthlyAvailableAsset);
-  console.log("부동산가용자산",user?.holdingAsset);
+  useEffect(() => {
+    if (session) {
+      setMonthlyAvailableAsset(user?.monthlyAvailableAsset);
+    }
+  }, [session, user]);
+  const [holdingAsset, setHoldingAsset] = useState<number | null>(null);
+  useEffect(() => {
+    if (session) {
+      setHoldingAsset(user?.holdingAsset);
+    }
+  }, [session, user]);
 
   // 방 거래 유형(월세, 전세, 매매)
   const [selectedType, setSelectedType] = useState(null);
+
+  // 방 종류
+  const [selectedRoomTypes, setSelectedRoomTypes] = useState([]);
 
   useEffect(() => {
     if (session) {
@@ -86,8 +86,7 @@ const Search = () => {
     { label: "5년 이내", value: "5" },
     { label: "10년 이내", value: "10" },
     { label: "15년 이내", value: "15" },
-    { label: "15년 이상", value: "16" },
-    { label: "전체", value: "전체기간" },
+    { label: "전체", value: "16" },
   ];
 
   const handleSelectOption = (value: string) => {
@@ -95,39 +94,60 @@ const Search = () => {
   };
 
   // 체크박스
-  const handleCheckboxChange = (isChecked: boolean) => {
-    console.log("Checkbox checked:", isChecked);
+  const handleCheckboxChange = (value) => {
+    setSelectedRoomTypes((prevSelectedRoomTypes) => {
+      if (prevSelectedRoomTypes.includes(value)) {
+        return prevSelectedRoomTypes.filter((type) => type !== value);
+      } else {
+        return [...prevSelectedRoomTypes, value];
+      }
+    });
   };
 
   // 검색 조건
   const constructApiRequest = (searchParams) => {
-    const baseUrl = "http://localhost:3000/realestates/search";
+    const baseUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/realestates/search`;
     const queryString = Object.keys(searchParams)
-      .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(searchParams[key])}`)
+      .map((key) => {
+        if (searchParams[key] !== null && searchParams[key] !== undefined) {
+          return `${encodeURIComponent(key)}=${encodeURIComponent(searchParams[key])}`;
+        } else {
+          return null;
+        }
+      })
+      .filter((param) => param !== null)
       .join("&");
 
     return `${baseUrl}?${queryString}`;
   };
 
+  const roomTypeParameter = selectedRoomTypes.join(",");
+
+  console.log(roomTypeParameter);
+  // 검색어
+  const [searchKeyword, setSearchKeyword] = useState("");
+
+  const handleSearchInputChange = (event) => {
+    setSearchKeyword(event.target.value);
+  };
+
   const handleSearch = () => {
     const searchParams = {
-      keyword: "한남더힐", // Example keyword, replace with your actual keyword
-      // "realestate-asset": realestateAsset, // Example realestate-asset value, replace with actual value
-      "trade-type": selectedType, // Assuming selectedType contains the trade type
-      "room-type": "APT,OPST,DDDGG", // Example room-type, replace with actual values
-
-      // For pagination
-      size: 10, // Example size, replace with actual value
-      from: 1, // Example from, replace with actual value
+      size: 5,
+      from: 0,
+      keyword: searchKeyword, // 검색어
+      "realestate-asset": holdingAsset, // 부동산 거래 예산
+      "trade-type": selectedType, // 거래유형 : 매매/전세/월세
+      "room-type": roomTypeParameter, // 방종류 : 아파트/오피스텔/단독&다가구/원&투룸/빌라&연립/주택
+      "monthly-asset": monthlyAvailableAsset, // 월 가용금액(월세)
+      uay: selectedOption, // 사용승인일
     };
 
     const apiUrl = constructApiRequest(searchParams);
 
-    // Call your API using fetch or any other method
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
-        // Process the API response data
         console.log("API response:", data);
       })
       .catch((error) => console.error("API error:", error));
@@ -193,7 +213,12 @@ const Search = () => {
         </LeftContainer>
         <RightContainer>
           <SearchDiv>
-            <SearchInput type="text" placeholder="지역, 아파트명 검색" />
+            <SearchInput
+              type="text"
+              placeholder="지역, 아파트명 검색"
+              value={searchKeyword}
+              onChange={handleSearchInputChange}
+            />
             <Button Kind="extraSmall" Rounded="square" Variant="yellowTonal">
               검색
             </Button>
@@ -239,29 +264,61 @@ const Search = () => {
           <ContentDiv>
             <SubtitleP>방 종류</SubtitleP>
             <CheckboxDiv>
-              <Checkbox label="아파트" isChecked={false} onChange={handleCheckboxChange} />
-              <Checkbox label="오피스텔" isChecked={false} onChange={handleCheckboxChange} />
-              <Checkbox label="단독·다가구" isChecked={false} onChange={handleCheckboxChange} />
+              <Checkbox
+                label="아파트"
+                value="APT"
+                isChecked={selectedRoomTypes.includes("APT")}
+                onChange={() => handleCheckboxChange("APT")}
+              />
+              <Checkbox
+                label="오피스텔"
+                value="OPST"
+                isChecked={selectedRoomTypes.includes("OPST")}
+                onChange={() => handleCheckboxChange("OPST")}
+              />
+              <Checkbox
+                label="단독·다가구"
+                value="DDDGG"
+                isChecked={selectedRoomTypes.includes("DDDGG")}
+                onChange={() => handleCheckboxChange("DDDGG")}
+              />
               <Checkbox
                 label="원·투룸"
-                isChecked={false}
-                onChange={handleCheckboxChange}
-                // isChecked={isChecked}
-                // onChange={handleCheckboxChange}
+                value="OTROOM"
+                isChecked={selectedRoomTypes.includes("OTROOM")}
+                onChange={() => handleCheckboxChange("OTROOM")}
               />
-              <Checkbox label="빌라·연립" isChecked={false} onChange={handleCheckboxChange} />
-              <Checkbox label="주택" isChecked={false} onChange={handleCheckboxChange} />
+              <Checkbox
+                label="빌라·연립"
+                value="VL"
+                isChecked={selectedRoomTypes.includes("VL")}
+                onChange={() => handleCheckboxChange("VL")}
+              />
+              <Checkbox
+                label="주택"
+                value="JT"
+                isChecked={selectedRoomTypes.includes("JT")}
+                onChange={() => handleCheckboxChange("JT")}
+              />
             </CheckboxDiv>
           </ContentDiv>
           <ContentDiv>
             <SubtitleP>가격</SubtitleP>
             <RangeDiv>
-              {selectedType === "월세" && <RangeSlider title="보증금" unit="만원" />}
-              {selectedType === "월세" && <RangeSlider title="월세" unit="만원" />}
-              {selectedType === "전세" && <RangeSlider title="전세가" unit="만원" />}
-              {selectedType === "매매" && <RangeSlider title="매매가" unit="만원" />}
-              <RangeSlider title="관리비" unit="만원" />
-              <RangeSlider title="방크기(전용면적)" unit="㎡" />
+              {selectedType === "월세" && (
+                <RangeSlider title="보증금" unit="만원" minValue={1000} maxValue={50000} />
+              )}
+              {selectedType === "월세" && (
+                <RangeSlider title="월세" unit="만원" minValue={1000} maxValue={50000} />
+              )}
+              {selectedType === "전세" && (
+                <RangeSlider title="전세가" unit="만원" minValue={1000} maxValue={50000} />
+              )}
+              {selectedType === "매매" && (
+                <RangeSlider title="매매가" unit="만원" minValue={1000} maxValue={50000} />
+              )}
+              <RangeSlider title="관리비" unit="만원" minValue={1000} maxValue={50000} />
+              <RangeSlider title="방크기(전용면적)" unit="㎡" minValue={1000} maxValue={50000} />
             </RangeDiv>
           </ContentDiv>
           <ContentDiv>

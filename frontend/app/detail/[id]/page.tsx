@@ -8,6 +8,8 @@ import Chart from "@/components/Chart";
 import DetailCarousel from "@/components/DetailPage/DetailCarousel";
 import butler from "@/public/assets/butler.png";
 import { useState } from "react";
+import AuthApi from "@/api/authApi";
+import RealEstateApi from "@/api/realEstateApi";
 import Chatting from "@/components/Chat/Chatting";
 import {
   TitleP,
@@ -52,6 +54,33 @@ import axios from "axios";
 import realEstateApi from "@/api/realEstateApi";
 import chatApi from "@/api/chatApi";
 
+function calculateInterestRate(houseType: string, userCreditRating: number): number {
+  if (houseType === "매매") {
+      return 4.77;
+  } else if (houseType === "전세") {
+      return 5.30;
+  } else if (houseType === "월세") {
+      if (userCreditRating >= 900) {
+          return 8.69;
+      } else if (userCreditRating >= 800) {
+          return 9.33;
+      } else if (userCreditRating >= 700) {
+          return 10.20;
+      } else if (userCreditRating >= 600) {
+          return 11.21;
+      } else if (userCreditRating >= 500) {
+          return 12.49;
+      } else if (userCreditRating >= 400) {
+          return 11.43;
+      } else if (userCreditRating >= 300) {
+          return 7.70;
+      } else {
+          return 9.68;
+      }
+  }
+  return 0;  // Default value
+}
+
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
   subsets: ["latin"],
@@ -65,18 +94,28 @@ const DetailWithID = ({ params }) => {
   const [msg, setMsg] = useState<String>("로그인이 필요합니다.");
   const [chatNo, setChatNo] = useState<number>(-1);
   const [chatList, setChatList] = useState([]);
-
+  const [chatMsg, setChatMsg] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [holdingAsset, setHoldingAsset] = useState<number | null>(null);
+  useEffect(() => {
+      if (session) {
+        setHoldingAsset(user?.holdingAsset);
+      }
+  }, [session, user]);
+  
   // 찜
   const [like, setLike] = useState<boolean>(false);
 
   const handleLike = async () => {
     let res = null;
-    if(like){
+    if (like) {
+      // @ts-ignore
       res = await realEstateApi.unCheck(session?.userData, params.id);
-    }else{
+    } else {
+      // @ts-ignore
       res = await realEstateApi.check(session?.userData, params.id);
     }
-    if(!res?.data) return;
+    if (!res?.data) return;
     setLike(res.data.checked);
   };
 
@@ -110,20 +149,20 @@ const DetailWithID = ({ params }) => {
       let res = await realEstateApi.detailSearch(session?.userData, realestateId);
       setHouse(res.data);
       setLike(res.data.bookmark.checked);
-      console.log("house", res.data)
+      console.log("house", res.data);
     } catch {
       window.alert("존재하는 매물이 아니거나 오류가 발생했습니다.");
       window.location.href = "/";
     }
-  }
+  };
 
   const getChat = async (userData: any | null, realestateId: number) => {
     let res = await chatApi.getChat(userData, realestateId);
-    console.log(res);
+    console.log("chats", res.data.messageList);
     setChatList(res.data.messageList);
     setChatNo(res.data.chatRoomNumber);
     // setHouse(res.data);
-  }
+  };
 
   // 챗봇 open
   const [isChatOpen, setIsChatOpen] = useState<Boolean>(false);
@@ -153,16 +192,47 @@ const DetailWithID = ({ params }) => {
   };
 
   const sendChat = async () => {
-    // @ts-ignore
-    let res = await chatApi.sendChat(session?.userData, user, house, "DSR이 뭐야?", chatNo);
-    console.log(res);
-  }
+    if (!chatMsg) return;
+    setLoading(true);
+    try {
+      // @ts-ignore
+      let res = await chatApi.sendChat(session?.userData, user, house, chatMsg, chatNo);
+      console.log(res);
+      if (res.status === 200) {
+        setChatNo(res.data.chatRoomNumber);
+        setChatList((prev) => {
+          return [
+            ...prev,
+            {
+              isBot: false,
+              timeStamp: new Date(),
+              message: chatMsg,
+              chatRoomNumber: res.data.chatRoomNumber,
+              loan: null,
+            },
+            { ...res.data },
+          ];
+        });
+      }
+      setChatMsg("");
+    } catch {
+      setChatList((prev) => {
+        return [
+          ...prev,
+          { isBot: true, timeStamp: new Date(), message: "그런 어려운 말은 몰라용.", loan: null },
+        ];
+      });
+    } finally {
+      setChatMsg("");
+      setLoading(false);
+    }
+  };
 
   return (
     <main className={ibmPlexSansKR.className}>
       <AppBar backgroundColor="transparent" logo="greenlogo" color="#334835" user={user} />
       <Container className={ibmPlexSansKR.className}>
-        <DetailCarousel imgList={house?.imageList ? house?.imageList : null}/>
+        <DetailCarousel imgList={house?.imageList ? house?.imageList : null} />
         <BottomDiv className={ibmPlexSansKR.className}>
           <LeftDiv>
             <TitleLikeDiv>
@@ -171,7 +241,7 @@ const DetailWithID = ({ params }) => {
                   {house?.complexName} · {house?.floorInfo.split("/")[0]}층
                 </TitleP>
                 <SubP>
-                  {house?.address} {house?.complexName}  {house?.buildingName}
+                  {house?.address} {house?.complexName} {house?.buildingName}
                 </SubP>
               </ContainerP>
               <div>
@@ -237,12 +307,15 @@ const DetailWithID = ({ params }) => {
                 <AboutDetailDiv>
                   <AboutTitleP>전용/공급면적</AboutTitleP>
                   <p>
-                    {house?.exclusiveArea}m²/{house?.supplyArea}m² ({Math.floor(house?.supplyArea / 3.3)}평)
+                    {house?.exclusiveArea}m²/{house?.supplyArea}m² (
+                    {Math.floor(house?.supplyArea / 3.3)}평)
                   </p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>방 수/욕실 수</AboutTitleP>
-                  <p>{house?.roomCnt}개/{house?.bathroomCnt}개</p>
+                  <p>
+                    {house?.roomCnt}개/{house?.bathroomCnt}개
+                  </p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>방향</AboutTitleP>
@@ -283,7 +356,7 @@ const DetailWithID = ({ params }) => {
                 </AboutDetailDiv>
               </AboutEachDiv>
             </AboutDiv>
-            <AboutDiv>
+            {/* <AboutDiv>
               <AboutInfoDiv>
                 <AboutP>시세 추이</AboutP>
                 <InfoBubble>
@@ -306,19 +379,19 @@ const DetailWithID = ({ params }) => {
               <PriceP>매매 7억 3,000 ~ 17억 4,000</PriceP>
               <SubP>평균 4,866만/3.3㎡</SubP>
             </AboutDiv>
-            <Chart />
+            <Chart /> */}
           </LeftDiv>
           <RightDiv>
             <InfoDiv>
               <InfoDetailDiv>
                 <TitleP>현재 자산으로는</TitleP>
-                <BlueP>72,738,991원</BlueP>
-                <TitleP>더 필요합니다.</TitleP>
+                <BlueP>{Math.abs(house?.dealOrWarrantPrc_numeric - user?.holdingAsset*10000)}원</BlueP>
+                <TitleP>{(house?.dealOrWarrantPrc_numeric - user?.holdingAsset*10000) < 0 ? "여유가 있습니다." : "더 필요합니다."}</TitleP>
               </InfoDetailDiv>
               <LineHr />
               <InfoDetailDiv>
                 <TitleP>대출 시 예상되는 월 이자</TitleP>
-                <BlueP>4.15%</BlueP>
+                <BlueP>{calculateInterestRate(house?.realEstateTypeName, user?.creditRating)}%</BlueP>
                 <LightPDiv>
                   <LightP>가입 시 입력한 신용도를 기반으로</LightP>
                   <LightP>산정된 예상 이자율 입니다.</LightP>
@@ -343,7 +416,15 @@ const DetailWithID = ({ params }) => {
                   <Chatting messages={chatList} />
                 </ChatMiddleDiv>
                 <ChatBottomDiv isVisible={isChatOpen}>
-                  <MessageInput type="text" placeholder="메시지를 입력해주세요.." />
+                  {loading && <p>로딩중입니다...</p>}
+                  <MessageInput
+                    type="text"
+                    placeholder="메시지를 입력해주세요.."
+                    onChange={(e) => {
+                      setChatMsg(e.target.value);
+                    }}
+                    disabled={loading}
+                  />
                   <SvgBtn onClick={sendChat}>
                     <SendSvg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
                       <path d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376V479.3c0 18.1 14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9 7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448 256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8 116.6 403.3 425.4z" />

@@ -3,13 +3,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import estate1 from "@/public/assets/estate1.png";
-import Image from "next/image";
-import YeokSam from "@/public/json/역삼동_매매_아파트.json";
 import ColorDot from "./ColorDot";
 import colors from "@/constants/colors";
 
-interface IItem {
-  realstateId: number;
+interface Item {
+  realestateId: number;
   complexNo: number; // 주택번호: 1165010700
   complexName: string; // 주택이름: 아크로리버파크
   address: string; // 주소: 서울시 강남구 역삼동
@@ -21,10 +19,11 @@ interface IItem {
   maintenanceFee: string; // 관리비: 10만
   rentPrc: string; // 월세: 32만
   dealOrWarrantPrc: string; // 매매가 혹은 전월세 보증금: 3억 7000
+  imageSrc?: string;
 }
 
 interface IProps {
-  item?: IItem;
+  item?: Item;
   width?: string;
   height?: string;
   colordot?: string;
@@ -32,54 +31,23 @@ interface IProps {
 
 export default function ItemEach({ item, width, height, colordot }: IProps) {
   // 하트 아이콘 클릭 시 색상 변경
-  const [isFilled, setIsFilled] = useState(false);
+  // const [isFilled, setIsFilled] = useState(false);
 
-  const handleHeartClick = (e: React.MouseEvent<HTMLElement>) => {
-    e.stopPropagation();
-    setIsFilled(!isFilled);
-  };
+  // const handleHeartClick = (e: React.MouseEvent<HTMLElement>) => {
+  //   e.stopPropagation();
+  //   setIsFilled(!isFilled);
+  // };
 
   return (
     <EstateDiv
       onClick={() => {
-        window.location.href = `/detail/${item.realstateId}`;
+        window.location.href = `/detail/${item?.realestateId}`;
       }}
     >
-      <div onClick={(e: React.MouseEvent<HTMLElement>) => handleHeartClick(e)}>
-        {!isFilled ? (
-          <HeartSvg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="white"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-            />
-          </HeartSvg>
-        ) : (
-          <HeartSvg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="red"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="red"
-            className="w-6 h-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-            />
-          </HeartSvg>
-        )}
-      </div>
       <ImageDiv>
-        <EstateImage src={estate1} alt="image" />
+        {item?.imageSrc ?
+        <EstateImage src={JSON.parse(item?.imageSrc.replace(/'/g, '"'))[0]?.imageSrc} alt="image" /> :
+        <EstateImage src={estate1.src} alt="image" />}
       </ImageDiv>
       <AboutEstateDiv>
         <RoomP>
@@ -87,13 +55,14 @@ export default function ItemEach({ item, width, height, colordot }: IProps) {
         </RoomP>
         <PriceDiv>
           <PriceP>
-            {item?.tradeTypeName} {item?.dealOrWarrantPrc}/{item?.rentPrc}
+          {item?.realEstateTypeName} {item?.dealOrWarrantPrc} {(item?.realEstateTypeName !== "매매") && <span>/{Math.floor(parseInt(item?.rentPrc))}</span>}
           </PriceP>
           <ColorDot color={colordot || "transparent"} />
         </PriceDiv>
         <DetailP>{item?.complexName}</DetailP>
         <DetailP>
-          {item?.floorInfo}층, {item?.exclusiveArea}㎡, 관리비 {item?.maintenanceFee}
+          {/* {item?.floorInfo}층, {item?.exclusiveArea}㎡, */}
+          관리비 {parseInt(item?.maintenanceFee) / 10000}만
         </DetailP>
       </AboutEstateDiv>
     </EstateDiv>
@@ -127,7 +96,7 @@ const ImageDiv = styled.div`
   overflow: hidden;
 `;
 
-const EstateImage = styled(Image)`
+const EstateImage = styled.img`
   object-fit: contain;
   width: 100%;
   height: 100%;
