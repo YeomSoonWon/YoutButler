@@ -272,7 +272,7 @@ const Search = () => {
                 return <ItemEach width="18rem" height="19rem" colordot={colors.yellow} item={data}/>
               })} */}
               {searchedEstate && searchedEstate.map((item)=>{
-                return <ItemEach width="18rem" height="19rem" colordot={colors.yellow} item={item}/>
+                return <ItemEach width="18rem" height="19rem" colordot={item.color} item={item}/>
               })}
             </ItemDiv>
           </Lower>
