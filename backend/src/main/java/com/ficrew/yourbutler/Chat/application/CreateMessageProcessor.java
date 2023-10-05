@@ -69,8 +69,24 @@ public class CreateMessageProcessor {
             botMessage = new Message(true, flaskResult.getMessage() + "\n" + flaskResult.getInformation(), chatRoom);
         } else {
             Loan loan = new Loan(flaskResult.getLoanName(), flaskResult.getLoanInterest());
+            MonthPayCalculate monthPayCalculate = new MonthPayCalculate();
+            long monthPay = 0;
+
+            if (flaskResult.getPayingOffPeriod() == null) {
+                flaskResult.setPayingOffPeriod(180);
+            }
+
+            if (flaskResult.getPayingOffPeriod() != null && command.getMyMoney() < command.getDealOrWarrantPrcNumeric()) {
+                monthPay = monthPayCalculate.wonrigum_equal(command.getDealOrWarrantPrcNumeric() - command.getMyMoney(), flaskResult.getLoanInterest(), flaskResult.getPayingOffPeriod());
+            }
+
             Optional<Bank> bank = bankRepository.findByBankName(flaskResult.getBankName());
-            botMessage = new Message(true, flaskResult.getMessage() + "\n" + flaskResult.getInformation(), loan, bank.get(), chatRoom);
+
+            if (monthPay > 0) {
+                botMessage = new Message(true, flaskResult.getMessage() + "\n" + "부족한 금액에 대한 대출을 진행할 시 " + flaskResult.getPayingOffPeriod() + "개월 동안 갚아야 할 월평균 상환 금액은 " + monthPay + "원 입니다.\n" + flaskResult.getInformation(), loan, bank.get(), chatRoom);
+            } else {
+                botMessage = new Message(true, flaskResult.getMessage() + "\n" + flaskResult.getInformation(), loan, bank.get(), chatRoom);
+            }
         }
 
         messageRepository.save(botMessage);

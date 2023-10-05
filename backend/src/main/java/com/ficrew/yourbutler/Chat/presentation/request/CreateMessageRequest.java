@@ -40,8 +40,10 @@ public class CreateMessageRequest {
     @NotBlank(message = "채팅 내용이 필요합니다.")
     private String chat;
 
+    private Long myMoney;
+
     public CreateMessageCommand toCommand() {
-        return new CreateMessageCommand(false, chatRoomNo, realestateId, buildingName, sidoName, guName, dongName, dealOrWarrantPrcNumeric, rentPrcNumeric, chat);
+        return new CreateMessageCommand(false, chatRoomNo, realestateId, buildingName, sidoName, guName, dongName, dealOrWarrantPrcNumeric, rentPrcNumeric, chat, myMoney);
     }
 
 }

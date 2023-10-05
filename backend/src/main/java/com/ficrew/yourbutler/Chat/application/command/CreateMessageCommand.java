@@ -17,5 +17,6 @@ public class CreateMessageCommand {
     private Long dealOrWarrantPrcNumeric;
     private Long rentPrcNumeric;
     private String chat;
+    private Long myMoney;
 
 }
