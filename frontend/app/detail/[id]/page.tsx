@@ -399,24 +399,13 @@ const DetailWithID = ({ params }) => {
             <InfoDiv>
               <InfoDetailDiv>
                 <TitleP>현재 자산으로는</TitleP>
-                <BlueP>
-                  {numberFormat(
-                    Math.abs(house?.dealOrWarrantPrc_numeric - user?.holdingAsset * 10000)
-                  )}
-                  원
-                </BlueP>
-                <TitleP>
-                  {house?.dealOrWarrantPrc_numeric - user?.holdingAsset * 10000 < 0
-                    ? "여유가 있습니다."
-                    : "더 필요합니다."}
-                </TitleP>
+                <BlueP>{Math.abs(house?.dealOrWarrantPrc_numeric - user?.holdingAsset*10000)/10000}만원</BlueP>
+                <TitleP>{(house?.dealOrWarrantPrc_numeric - user?.holdingAsset*10000) < 0 ? "여유가 있습니다." : "더 필요합니다."}</TitleP>
               </InfoDetailDiv>
               <LineHr />
               <InfoDetailDiv>
-                <TitleP>대출 시 예상되는 월 이자</TitleP>
-                <BlueP>
-                  {calculateInterestRate(house?.realEstateTypeName, user?.creditRating)}%
-                </BlueP>
+                <TitleP>대출 시 예상되는 연 이자</TitleP>
+                <BlueP>{calculateInterestRate(house?.realEstateTypeName, user?.creditRating)}%</BlueP>
                 <LightPDiv>
                   <LightP>가입 시 입력한 신용도를 기반으로</LightP>
                   <LightP>산정된 예상 이자율 입니다.</LightP>

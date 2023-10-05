@@ -17,11 +17,11 @@ const SeoulMap = ({items}) => {
   const [map, setMap] = useState<any>(null);
   const [polygons, setPolygons] = useState<any[]>([]);
   const [clusterer, setClusterer] = useState<any>(null);
-  const [realEstateList, setRealEstateList] = useState<any[]>([]);
 
   const dummyData = items?.roomTypeList.map((item: any) => ({
     latitude: item.latitude,
     longitude: item.longitude,
+    complexName: item.complexName,
   }));
 
   useEffect(() => {
@@ -125,6 +125,7 @@ const SeoulMap = ({items}) => {
             });
 
             const markers = dummyData.map((data) => {
+              console.log("data : ",data);
               const marker = new window.kakao.maps.Marker({
                 position: new window.kakao.maps.LatLng(
                   data.latitude,
@@ -132,8 +133,11 @@ const SeoulMap = ({items}) => {
                 ),
                 clickable: true,
               });
+              console.log("complexName : ",data.complexName);
               return marker; // 마커 객체 반환
             });
+
+            
 
             // console.log(markers);
 
