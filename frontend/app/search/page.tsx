@@ -282,6 +282,7 @@ const Search = () => {
                 </InfoBubble>
               </AboutDiv>
             </TitleDiv>
+            {((!searchedEstate) || (searchedEstate?.length === 0)) ? <>검색 결과가 없습니다.</> : <></>}
             <ItemDiv>
               {searchedEstate &&
                 searchedEstate.map((item) => {
@@ -291,7 +292,7 @@ const Search = () => {
                 })}
             </ItemDiv>
             {searchedEstate && (from > 0) && <button onClick={prevSearch}>이전</button>}
-            {searchedEstate && <span>{from + 1}페이지/{page}페이지</span>}
+            {(searchedEstate?.length > 0) && <span>{from + 1}페이지/{page}페이지</span>}
             {(from < page - 1) && <button onClick={nextSearch}>다음</button>}
           </Lower>
         </LeftContainer>
