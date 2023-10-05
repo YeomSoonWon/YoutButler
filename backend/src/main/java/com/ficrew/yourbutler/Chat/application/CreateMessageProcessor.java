@@ -3,8 +3,11 @@ package com.ficrew.yourbutler.Chat.application;
 import com.ficrew.yourbutler.Chat.application.command.CreateMessageCommand;
 import com.ficrew.yourbutler.Chat.application.result.FlaskResult;
 import com.ficrew.yourbutler.Chat.application.result.MessageResult;
+import com.ficrew.yourbutler.Chat.domain.entity.Bank;
 import com.ficrew.yourbutler.Chat.domain.entity.ChatRoom;
+import com.ficrew.yourbutler.Chat.domain.entity.Loan;
 import com.ficrew.yourbutler.Chat.domain.entity.Message;
+import com.ficrew.yourbutler.Chat.domain.repository.BankRepository;
 import com.ficrew.yourbutler.Chat.domain.repository.ChatRepository;
 import com.ficrew.yourbutler.Chat.domain.repository.MessageRepository;
 import com.ficrew.yourbutler.global.auth.AuthenticatedMember;
@@ -23,6 +26,7 @@ public class CreateMessageProcessor {
     private final ChatRepository chatRepository;
     private final MessageRepository messageRepository;
     private final MemberRepository memberRepository;
+    private final BankRepository bankRepository;
     private final WebClient webClient;
 
     @Transactional
@@ -56,7 +60,17 @@ public class CreateMessageProcessor {
             throw new NullPointerException("Flask 서버로부터 응답이 없습니다.");
         }
 
-        Message botMessage = new Message(true, flaskResult.getResponse(), chatRoom);
+        Message botMessage;
+
+        if (flaskResult.getLoanName() == null || flaskResult.getLoanName().isEmpty()) {
+            botMessage = new Message(true, flaskResult.getMessage() + "\n" + flaskResult.getInformation(), chatRoom);
+        } else {
+            Loan loan = new Loan(flaskResult.getLoanName(), flaskResult.getLoanInterest());
+            Bank bank = new Bank("KB국민은행", "02-245-2013", "https://naver.com");
+            bankRepository.save(bank);
+            botMessage = new Message(true, flaskResult.getMessage() + "\n" + flaskResult.getInformation(), loan, bank, chatRoom);
+        }
+
         messageRepository.save(botMessage);
         return new MessageResult(botMessage);
     }
