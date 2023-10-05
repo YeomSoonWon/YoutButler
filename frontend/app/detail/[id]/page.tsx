@@ -444,14 +444,9 @@ const DetailWithID = ({ params }) => {
                 <ChatMiddleDiv isVisible={isChatOpen}>
                   <Chatting messages={chatList} />
                   {loading && (
-                    <LoadingDiv>
-                      <LoadingSpan>로</LoadingSpan>
-                      <LoadingSpan>딩</LoadingSpan>
-                      <LoadingSpan>중</LoadingSpan>
-                      <LoadingSpan>입</LoadingSpan>
-                      <LoadingSpan>니</LoadingSpan>
-                      <LoadingSpan>다</LoadingSpan>
-                    </LoadingDiv>
+                    <p style={{ textAlign: "center", color: "gray", fontWeight: "600" }}>
+                      로딩중입니다..
+                    </p>
                   )}
                 </ChatMiddleDiv>
                 <ChatBottomDiv isVisible={isChatOpen}>
