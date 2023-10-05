@@ -203,7 +203,7 @@ const DetailWithID = ({ params }) => {
     setLoading(true);
     try {
       // @ts-ignore
-      let res = await chatApi.sendChat(session?.userData, user, house, chatMsg, chatNo);
+      let res = await chatApi.sendChat(session?.userData, user, house, chatMsg, chatNo, holdingAsset);
       console.log(res);
       if (res.status === 200) {
         setChatNo(res.data.chatRoomNumber);
