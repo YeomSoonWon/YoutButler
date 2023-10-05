@@ -263,7 +263,7 @@ const Search = () => {
               {searchedEstate &&
                 searchedEstate.map((item) => {
                   return (
-                    <ItemEach width="18rem" height="19rem" colordot={item.color} item={item} />
+                    <ItemEach width="18rem" height="19rem" colordot={item.color} item={item} holdingAsset={holdingAsset}/>
                   );
                 })}
             </ItemDiv>
