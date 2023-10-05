@@ -22,7 +22,7 @@ const chatApi = {
         console.log(res);
         return res;
     },
-    sendChat: async (userData: any | null, user: any | null, apt: any, message: String, chatRoomNo: number) => {
+    sendChat: async (userData: any | null, user: any | null, apt: any, message: String, chatRoomNo: number, holdingAsset: number) => {
         if (!userData || !user || !apt || !message) return;
         let res = await PublicChatApi.post("", {
             chatRoomNo: chatRoomNo,
@@ -33,7 +33,8 @@ const chatApi = {
             dealOrWarrantPrcNumeric: apt?.dealOrWarrantPrc_numeric,
             rentPrcNumeric: apt?.maintenanceFee,
             chat: message,
-            realestateId: apt?.realestateId
+            realestateId: apt?.realestateId,
+            myMoney : holdingAsset
         }, {
             headers: {
                 Authorization: `Bearer ${userData?.accessToken}`
