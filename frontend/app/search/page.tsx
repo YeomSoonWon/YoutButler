@@ -40,9 +40,6 @@ const Search = () => {
     }
   }, [session, user]);
 
-  console.log("월세가용자산", user?.monthlyAvailableAsset);
-  console.log("부동산가용자산", user?.holdingAsset);
-
   // 방 거래 유형(월세, 전세, 매매)
   const [selectedType, setSelectedType] = useState(null);
 
@@ -89,8 +86,7 @@ const Search = () => {
     { label: "5년 이내", value: "5" },
     { label: "10년 이내", value: "10" },
     { label: "15년 이내", value: "15" },
-    { label: "15년 이상", value: "16" },
-    { label: "전체", value: "전체기간" },
+    { label: "전체", value: "16" },
   ];
 
   const handleSelectOption = (value: string) => {
@@ -98,15 +94,12 @@ const Search = () => {
   };
 
   // 체크박스
-  const handleCheckboxChange = (event) => {
-    const { target } = event;
-    const { checked, name } = target;
-
+  const handleCheckboxChange = (value) => {
     setSelectedRoomTypes((prevSelectedRoomTypes) => {
-      if (checked) {
-        return [...prevSelectedRoomTypes, name];
+      if (prevSelectedRoomTypes.includes(value)) {
+        return prevSelectedRoomTypes.filter((type) => type !== value);
       } else {
-        return prevSelectedRoomTypes.filter((type) => type !== name);
+        return [...prevSelectedRoomTypes, value];
       }
     });
   };
@@ -130,6 +123,7 @@ const Search = () => {
 
   const roomTypeParameter = selectedRoomTypes.join(",");
 
+  console.log(roomTypeParameter);
   // 검색어
   const [searchKeyword, setSearchKeyword] = useState("");
 
@@ -283,39 +277,39 @@ const Search = () => {
             <CheckboxDiv>
               <Checkbox
                 label="아파트"
-                name="APT"
+                value="APT"
                 isChecked={selectedRoomTypes.includes("APT")}
-                onChange={(event) => handleCheckboxChange(event)}
+                onChange={() => handleCheckboxChange("APT")}
               />
               <Checkbox
                 label="오피스텔"
-                name="OPST"
+                value="OPST"
                 isChecked={selectedRoomTypes.includes("OPST")}
-                onChange={(event) => handleCheckboxChange(event)}
+                onChange={() => handleCheckboxChange("OPST")}
               />
               <Checkbox
                 label="단독·다가구"
-                name="DDDGG"
+                value="DDDGG"
                 isChecked={selectedRoomTypes.includes("DDDGG")}
-                onChange={(event) => handleCheckboxChange(event)}
+                onChange={() => handleCheckboxChange("DDDGG")}
               />
               <Checkbox
                 label="원·투룸"
-                name="OTROOM"
+                value="OTROOM"
                 isChecked={selectedRoomTypes.includes("OTROOM")}
-                onChange={(event) => handleCheckboxChange(event)}
+                onChange={() => handleCheckboxChange("OTROOM")}
               />
               <Checkbox
                 label="빌라·연립"
-                name="VL"
+                value="VL"
                 isChecked={selectedRoomTypes.includes("VL")}
-                onChange={(event) => handleCheckboxChange(event)}
+                onChange={() => handleCheckboxChange("VL")}
               />
               <Checkbox
                 label="주택"
-                name="JT"
+                value="JT"
                 isChecked={selectedRoomTypes.includes("JT")}
-                onChange={(event) => handleCheckboxChange(event)}
+                onChange={() => handleCheckboxChange("JT")}
               />
             </CheckboxDiv>
           </ContentDiv>
