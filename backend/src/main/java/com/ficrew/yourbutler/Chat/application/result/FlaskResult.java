@@ -3,8 +3,10 @@ package com.ficrew.yourbutler.Chat.application.result;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class FlaskResult {
 
@@ -21,12 +23,16 @@ public class FlaskResult {
 
     private String information;
 
-    public FlaskResult(String loanName, Double loanInterest, String bankName, String message, String information) {
+    @JsonProperty("paying_off_period")
+    private Integer payingOffPeriod;
+
+    public FlaskResult(String loanName, Double loanInterest, String bankName, String message, String information, Integer payingOffPeriod) {
         this.loanName = loanName;
         this.loanInterest = loanInterest;
         this.bankName = bankName;
         this.message = message;
         this.information = information;
+        this.payingOffPeriod = payingOffPeriod;
     }
 
 }
