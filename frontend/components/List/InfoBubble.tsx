@@ -4,7 +4,7 @@ import ColorDot from "./ColorDot";
 
 interface Props {
   visible: Boolean;
-  contentId: string;
+  contentId?: any;
 }
 
 const InfoBubble = ({ children, contentId }: PropsWithChildren) => {
