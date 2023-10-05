@@ -36,7 +36,14 @@ def query_loan_chain(chat: str) -> str:
         Question: "Question here"
         SQLQuery: "SQL Query to run (SELECT * FROM table_name WHERE conditions)"
         SQLResult: "Result of the SQLQuery"
-        Answer: Final answer with SQL Result in JSON format here.
+        Answer: Final answer with SQL Result in JSON format as below.
+        {{
+          "key1": "value1",
+          "key2": "value2",
+          "key3": "value3",
+          ...,
+          "keyN": "valueN"
+        }}
 
         Only use the following tables:
 
