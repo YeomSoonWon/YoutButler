@@ -6,7 +6,11 @@ from langchain.utilities import SQLDatabase
 from langchain_experimental.sql import SQLDatabaseChain
 from langchain.prompts.prompt import PromptTemplate
 
+
 def query_loan_chain(chat: str) -> str:
+    if chat is None:
+        return ""
+
     # chat = global_chat
     print(f"chat : {chat}")
 
@@ -27,7 +31,7 @@ def query_loan_chain(chat: str) -> str:
     llm = ChatOpenAI(model_name="gpt-3.5-turbo-16k", temperature=0)
 
     _DEFAULT_TEMPLATE = """Given an input question, first create a syntactically correct {dialect} query to run, then look at the results of the query and return the answer.
-        Use the following format:
+        Use the following format. SQLQuery는 유저에게 최대한 많은 정보를 제공하기 위해, id를 제외한 모든 column을 포함하여 조회하게끔 생성되어야만 합니다.:
 
         Question: "Question here"
         SQLQuery: "SQL Query to run (SELECT * FROM table_name WHERE conditions)"
