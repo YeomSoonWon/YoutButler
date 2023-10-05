@@ -1,8 +1,7 @@
 package com.ficrew.yourbutler.realestates.application;
 
-import com.ficrew.yourbutler.global.auth.AuthenticatedMember;
 import com.ficrew.yourbutler.realestates.application.command.MemberCalCommand;
-import com.ficrew.yourbutler.realestates.domain.CalculateService;
+import com.ficrew.yourbutler.realestates.domain.service.CalculateService;
 import com.ficrew.yourbutler.realestates.domain.entity.RealestateDocument;
 import lombok.RequiredArgsConstructor;
 

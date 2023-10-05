@@ -1,4 +1,4 @@
-package com.ficrew.yourbutler.realestates.domain;
+package com.ficrew.yourbutler.realestates.domain.service;
 
 import com.ficrew.yourbutler.member.domain.entity.NumberOfHouses;
 import com.ficrew.yourbutler.realestates.domain.entity.RealestateDocument;

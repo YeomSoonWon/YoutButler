@@ -1,4 +1,4 @@
-package com.ficrew.yourbutler.realestates.domain;
+package com.ficrew.yourbutler.realestates.domain.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
