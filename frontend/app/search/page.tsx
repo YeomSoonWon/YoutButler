@@ -32,11 +32,11 @@ const Search = () => {
   const [offset, setOffset] = useState(20);
 
   // slider 최솟값, 최댓값
-  const [dwData, setDwData] = useState([0, 50000]);
-  const [dpData, setDpData] = useState([0, 1150000]);
-  const [rpData, setRpData] = useState([0, 500]);
+  const [dwData, setDwData] = useState([0, 200000]);
+  const [dpData, setDpData] = useState([0, 1500000]);
+  const [rpData, setRpData] = useState([0, 1000]);
   const [mfData, setMfData] = useState([0, 100]);
-  const [rsData, setRsData] = useState([0, 200]);
+  const [rsData, setRsData] = useState([0, 400]);
 
   const handleDw = (min, max) => {
     console.log("Dw changed", [min, max]);
@@ -90,17 +90,17 @@ const Search = () => {
 
   const handleMonthlyClick = () => {
     setSelectedType("RENT");
-    setDwData([0, 50000]);
+    setDwData([0, 200000]);
   };
 
   const handleCharterClick = () => {
     setSelectedType("LEASE");
-    setDwData([0, 200000]);
+    setDwData([0, 400000]);
   };
 
   const handleSaleClick = () => {
     setSelectedType("DEAL");
-    setDpData([0, 1150000]);
+    setDpData([0, 1500000]);
   };
 
   const configureUser = async (token: String, provider: String) => {
@@ -384,7 +384,7 @@ const Search = () => {
                   title="보증금"
                   unit="만원"
                   minValue={0}
-                  maxValue={50000}
+                  maxValue={200000}
                   change={handleDw}
                 />
               )}
@@ -393,7 +393,7 @@ const Search = () => {
                   title="월세"
                   unit="만원"
                   minValue={0}
-                  maxValue={500}
+                  maxValue={1000}
                   change={handleRp}
                 />
               )}
@@ -402,7 +402,7 @@ const Search = () => {
                   title="전세가"
                   unit="만원"
                   minValue={0}
-                  maxValue={200000}
+                  maxValue={400000}
                   change={handleDw}
                 />
               )}
@@ -411,7 +411,7 @@ const Search = () => {
                   title="매매가"
                   unit="만원"
                   minValue={0}
-                  maxValue={1150000}
+                  maxValue={1500000}
                   change={handleDp}
                 />
               )}
@@ -426,7 +426,7 @@ const Search = () => {
                 title="방크기(전용면적)"
                 unit="㎡"
                 minValue={0}
-                maxValue={200}
+                maxValue={400}
                 change={handleRs}
               />
             </RangeDiv>
