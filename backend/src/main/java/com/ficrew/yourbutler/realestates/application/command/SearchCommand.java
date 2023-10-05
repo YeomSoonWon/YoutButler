@@ -1,7 +1,7 @@
 package com.ficrew.yourbutler.realestates.application.command;
 
-import com.ficrew.yourbutler.realestates.domain.RoomType;
-import com.ficrew.yourbutler.realestates.domain.TradeType;
+import com.ficrew.yourbutler.realestates.domain.entity.RoomType;
+import com.ficrew.yourbutler.realestates.domain.entity.TradeType;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

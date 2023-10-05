@@ -44,4 +44,6 @@ public class RealestateFacade {
     public String calculate(Long realestateAsset, Long monthlyAvailableAsset, RealestateDocument doc, MemberCalCommand command) {
         return calculateColorProcessor.execute(realestateAsset, monthlyAvailableAsset, doc, doc.getRealEstateTypeName(), command);
     }
+
+
 }

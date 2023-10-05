@@ -2,11 +2,9 @@ package com.ficrew.yourbutler.realestates.infrastructure.serviceImpl;
 
 import static com.ficrew.yourbutler.realestates.infrastructure.util.CreditUtils.getInterestRate;
 
-import com.ficrew.yourbutler.global.auth.AuthenticatedMember;
 import com.ficrew.yourbutler.member.domain.entity.NumberOfHouses;
-import com.ficrew.yourbutler.realestates.domain.CalculateService;
+import com.ficrew.yourbutler.realestates.domain.service.CalculateService;
 import com.ficrew.yourbutler.realestates.domain.entity.RealestateDocument;
-import com.ficrew.yourbutler.realestates.infrastructure.util.CreditUtils;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,10 +1,9 @@
 package com.ficrew.yourbutler.realestates.application;
 
 import com.ficrew.yourbutler.realestates.application.command.SearchCommand;
-import com.ficrew.yourbutler.realestates.domain.RoomType;
-import com.ficrew.yourbutler.realestates.domain.TradeType;
+import com.ficrew.yourbutler.realestates.domain.entity.RoomType;
+import com.ficrew.yourbutler.realestates.domain.entity.TradeType;
 import com.ficrew.yourbutler.realestates.domain.entity.RealestateDocument;
-import com.ficrew.yourbutler.realestates.infrastructure.persistence.es.ElasticsearchRealestateRepository;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
