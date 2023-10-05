@@ -58,7 +58,7 @@ export const TitleP = styled.p`
 `;
 
 export const ChatMiddleDiv = styled.div<AskPprops>`
-  height: 80%;
+  height: 75%;
   padding: 0.5rem 0;
   display: ${(props) => (props.isVisible ? "block" : "none")};
   flex-direction: column;
