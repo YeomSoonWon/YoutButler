@@ -3,8 +3,9 @@ import styled from "styled-components";
 import ColorDot from "./ColorDot";
 
 interface Props {
-  visible: Boolean;
+  visible?: Boolean;
   contentId?: any;
+  children?: React.ReactNode;
 }
 
 const InfoBubble: React.FC<Props> = ({ children, contentId }) => {
