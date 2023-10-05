@@ -29,15 +29,15 @@ const Search = () => {
   const [user, setUser] = useState(null);
   const [monthlyAvailableAsset, setMonthlyAvailableAsset] = useState<number | null>(null);
     useEffect(() => {
-        if (session) {
-            setMonthlyAvailableAsset(user?.monthlyAvailableAsset);
-        }
+      if (session) {
+        setMonthlyAvailableAsset(user?.monthlyAvailableAsset);
+      }
     }, [session, user]);
     const [holdingAsset, setHoldingAsset] = useState<number | null>(null);
     useEffect(() => {
-        if (session) {
-            setHoldingAsset(user?.holdingAsset);
-        }
+      if (session) {
+        setHoldingAsset(user?.holdingAsset);
+      }
     }, [session, user]);
 
   console.log("월세가용자산",user?.monthlyAvailableAsset);
@@ -142,11 +142,11 @@ const Search = () => {
             <TitleP>매물 찾기</TitleP>
             <InputDiv>
               {selectedType === "월세" ? (
-                <StyledInput type="number" placeholder={session ? undefined : "월세 가용 자산"} value={monthlyAvailableAsset} onChange={(e) => setMonthlyAvailableAsset(Number(e.target.value))} />
+                <StyledInput type="number" placeholder={session ? "월세 가용 자산" : undefined} value={monthlyAvailableAsset} onChange={(e) => setMonthlyAvailableAsset(Number(e.target.value))} />
               ) : (
                 <NoneDiv></NoneDiv>
               )}
-              <StyledInput type="number" placeholder={session ? undefined : "부동산 거래 예산"} value={holdingAsset} onChange={(e) => setHoldingAsset(Number(e.target.value))} />
+              <StyledInput type="number" placeholder={session ? "부동산 거래 예산" : undefined} value={holdingAsset} onChange={(e) => setHoldingAsset(Number(e.target.value))} />
               <Button Kind="extraSmall" Variant="yellowTonal" Rounded="square">
                 설정
               </Button>
