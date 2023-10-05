@@ -447,11 +447,12 @@ const DetailWithID = ({ params }) => {
                 <ChatMiddleDiv isVisible={isChatOpen}>
                   <Chatting messages={chatList} />
                 </ChatMiddleDiv>
-                <LoadingDiv>{loading && <LoadingP>작성중입니다..</LoadingP>}</LoadingDiv>
+                <LoadingDiv>{loading && <LoadingP>당신의집사가 입력중입니다..</LoadingP>}</LoadingDiv>
                 <ChatBottomDiv isVisible={isChatOpen}>
                   <MessageInput
                     type="text"
                     placeholder="메시지를 입력해주세요.."
+                    value={chatMsg}
                     onChange={(e) => {
                       setChatMsg(e.target.value);
                     }}
