@@ -7,7 +7,7 @@ interface Props {
   contentId?: any;
 }
 
-const InfoBubble = ({ children, contentId }: PropsWithChildren) => {
+const InfoBubble: React.FC<Props> = ({ children, contentId }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const handleMouseEnter = () => {
