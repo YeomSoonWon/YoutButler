@@ -28,6 +28,8 @@ const Search = () => {
   const [user, setUser] = useState(null);
   const [monthlyAvailableAsset, setMonthlyAvailableAsset] = useState<number | null>(null);
   const [searchedEstate, setSearchedEstate] = useState(null);
+  const [from, setFrom] = useState(0);
+  const [offset, setOffset] = useState(20);
 
   // slider 최솟값, 최댓값
   const [dwData, setDwData] = useState([0, 50000]);
@@ -167,10 +169,10 @@ const Search = () => {
     setSearchKeyword(event.target.value);
   };
 
-  const handleSearch = () => {
+  const handleSearch = (from, offset) => {
     const searchParams = {
-      size: 5,
-      from: 0,
+      size: offset,
+      from: from,
       keyword: searchKeyword, // 검색어
       "realestate-asset": holdingAsset, // 부동산 거래 예산
       "trade-type": selectedType, // 거래유형 : 매매/전세/월세
@@ -200,6 +202,22 @@ const Search = () => {
       .catch((error) => console.error("API error:", error));
   };
 
+  const prevSearch = () => {
+    if ((from - offset) >= 0) {
+      handleSearch(from - offset, offset);
+      setFrom(prev => {
+        return prev - offset;
+      })
+    }
+  }
+
+  const nextSearch = () => {
+    handleSearch(from + offset, offset);
+    setFrom(prev => {
+      return prev + offset;
+    })
+  }
+
   return (
     <main>
       <AppBar backgroundColor="transparent" logo="greenlogo" color="#334835" user={user} />
@@ -228,7 +246,6 @@ const Search = () => {
           </Upper>
           <Middle>
             <Map items={searchedEstate} />
-            {/* <Map items={dummyData?.roomTypeList}/> */}
           </Middle>
           <Lower>
             <TitleDiv>
@@ -267,6 +284,8 @@ const Search = () => {
                   );
                 })}
             </ItemDiv>
+            {searchedEstate && (from - offset >= 0) && <button onClick={prevSearch}>이전</button>}
+            {(searchedEstate?.length === offset) && <button onClick={nextSearch}>다음</button>}
           </Lower>
         </LeftContainer>
         <RightContainer>
@@ -423,7 +442,7 @@ const Search = () => {
             </RadioDiv>
           </ContentDiv>
           <ButtonDiv style={{ paddingBottom: "1rem" }}>
-            <Button Kind="small" Variant="yellowFilled" Rounded="square" onClick={handleSearch}>
+            <Button Kind="small" Variant="yellowFilled" Rounded="square" onClick={() => { handleSearch(from, offset) }}>
               해당 조건으로 검색하기
             </Button>
           </ButtonDiv>
