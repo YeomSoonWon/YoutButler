@@ -285,7 +285,7 @@ const DetailWithID = ({ params }) => {
               <AboutEachDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>{house?.realEstateTypeName}</AboutTitleP>
-                  <p>{house?.dealOrWarrantPrc}</p>
+                  <p>{house?.dealOrWarrantPrc} {(house?.realEstateTypeName !== "매매") &&<span>/ {house?.rentPrcNumeric}만원</span>}</p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>관리비</AboutTitleP>
