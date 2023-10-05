@@ -39,6 +39,7 @@ import { getServerSession } from "next-auth/next";
 import authOptions from "@/Oauth/AuthOption";
 import authApi from "@/api/authApi";
 import ActivatedCheck from "@/components/Authorization/ActivatedCheck";
+import realEstateApi from "@/api/realEstateApi";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -78,6 +79,12 @@ const Home = async () => {
       user = null;
     }
   }
+  let recent = null;
+  let recentRes = await realEstateApi.recent();
+  if(recentRes?.data.recentList){
+    recent = recentRes?.data.recentList;
+  }
+  
   return (
     <ContainerDiv>
       <ActivatedCheck isActivated={isActivated} />
@@ -114,7 +121,7 @@ const Home = async () => {
       </UpperDiv>
       <MiddleDiv className={ibmPlexSansKR.className}>
         <ListAboutDiv>
-          <FirstP>우리동네 인기 매물</FirstP>
+          <FirstP>최신 매물</FirstP>
           <ViewMoreDiv>
             <Link
               href="/search"
@@ -134,7 +141,7 @@ const Home = async () => {
           </ViewMoreDiv>
         </ListAboutDiv>
         <ListContainerDiv>
-          <Carousel items={items} />
+          <Carousel items={recent} />
         </ListContainerDiv>
       </MiddleDiv>
       <LowerDiv className={ibmPlexSansKR.className}>
