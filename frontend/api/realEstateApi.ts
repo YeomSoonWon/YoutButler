@@ -74,6 +74,11 @@ const realEstateApi = {
             }
         });
         return res;
+    },
+
+    recent:async()=>{
+        let res = await publicEstateApi.get("recent");
+        return res;
     }
 }
 

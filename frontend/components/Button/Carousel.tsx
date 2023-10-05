@@ -1,18 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ItemEach from "@/components/List/ItemEach";
 
 const Carousel = ({ items }) => {
+  console.log(items);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [realItems, setRealItems] = useState(null);
+
+  useEffect(()=>{
+    if(items){
+      setRealItems([...items]);
+    }
+  },[items])
 
   const handlePrevClick = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
+    // setCurrentIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
+    setRealItems(prev =>{
+      const start = prev.shift();
+      return [...prev, start];
+    });
   };
 
   const handleNextClick = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
+    // setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
+    setRealItems(prev =>{
+      const end = prev.pop();
+      return [end, ...prev];
+    });
   };
 
   return (
@@ -24,8 +40,8 @@ const Carousel = ({ items }) => {
       </NextSvgDiv>
       {/* {items} */}
       <ListDiv style={{ transform: `translateX(-${currentIndex * 25}%)` }}>
-        {items.map((item, index) => (
-          <ItemEach height={item.height} width={item.width} />
+        {realItems && realItems.map((item, index) => (
+          <ItemEach height="19rem" width="18rem" item={item} />
         ))}
       </ListDiv>
       <NextSvgDiv className="next" onClick={handleNextClick}>
