@@ -36,30 +36,30 @@ const Search = () => {
   const [mfData, setMfData] = useState([0, 80000]);
   const [rsData, setRsData] = useState([0, 19978]);
 
-  const handleDw = (min, max) =>{
-    console.log("Dw changed", [min,max]);
+  const handleDw = (min, max) => {
+    console.log("Dw changed", [min, max]);
     setDwData([min, max]);
-  }
+  };
 
-  const handleDp = (min, max) =>{
-    console.log("Dp changed", [min,max]);
+  const handleDp = (min, max) => {
+    console.log("Dp changed", [min, max]);
     setDpData([min, max]);
-  }
+  };
 
-  const handleRp = (min, max) =>{
-    console.log("Rp changed", [min,max]);
+  const handleRp = (min, max) => {
+    console.log("Rp changed", [min, max]);
     setRpData([min, max]);
-  }
+  };
 
-  const handleMf = (min, max) =>{
-    console.log("Mf changed", [min,max]);
+  const handleMf = (min, max) => {
+    console.log("Mf changed", [min, max]);
     setMfData([min, max]);
-  }
+  };
 
-  const handleRs = (min, max) =>{
-    console.log("Rs changed", [min,max]);
+  const handleRs = (min, max) => {
+    console.log("Rs changed", [min, max]);
     setRsData([min, max]);
-  }
+  };
 
   useEffect(() => {
     if (session) {
@@ -206,18 +206,25 @@ const Search = () => {
             <TitleP>매물 찾기</TitleP>
             <InputDiv>
               {selectedType === "RENT" ? (
-                <StyledInput type="number" placeholder={session ? "월세 가용 자산" : undefined} value={monthlyAvailableAsset} onChange={(e) => setMonthlyAvailableAsset(Number(e.target.value))} />
+                <StyledInput
+                  type="number"
+                  placeholder={session ? "월세 가용 자산" : undefined}
+                  value={monthlyAvailableAsset}
+                  onChange={(e) => setMonthlyAvailableAsset(Number(e.target.value))}
+                />
               ) : (
                 <NoneDiv></NoneDiv>
               )}
-              <StyledInput type="number" placeholder={session ? "부동산 거래 예산" : undefined} value={holdingAsset} onChange={(e) => setHoldingAsset(Number(e.target.value))} />
-              <Button Kind="extraSmall" Variant="yellowTonal" Rounded="square">
-                설정
-              </Button>
+              <StyledInput
+                type="number"
+                placeholder={session ? "부동산 거래 예산" : undefined}
+                value={holdingAsset}
+                onChange={(e) => setHoldingAsset(Number(e.target.value))}
+              />
             </InputDiv>
           </Upper>
           <Middle>
-            <Map items={searchedEstate}/>
+            <Map items={searchedEstate} />
             {/* <Map items={dummyData?.roomTypeList}/> */}
           </Middle>
           <Lower>
@@ -250,30 +257,12 @@ const Search = () => {
               </AboutDiv>
             </TitleDiv>
             <ItemDiv>
-              {/* <ItemEach width="18rem" height="19rem" item={} colordot={green} /> */}
-              {/* <ItemEach width="18rem" height="19rem" colordot={colors.red} />
-              <ItemEach width="18rem" height="19rem" colordot={colors.yellow} /> */}
-              {/* {dummyData?.roomTypeList.map((item)=>{
-                let data = {
-                  realestateId: item.realestateId,
-                  complexNo: 0, // 주택번호: 1165010700
-                  complexName: item.complexName, // 주택이름: 아크로리버파크
-                  address: item.address, // 주소: 서울시 강남구 역삼동
-                  realEstateTypeName: item.roomType, // 방종류: 아파트
-                  tradeTypeName: item.realEstateTypeName, // 거래방식: 매매
-                  floorInfo: item.floorInfo, // 층수: 4/15
-                  supplyArea: item.supplyArea, // 공급면적: 112.74 (제곱미터)
-                  exclusiveArea: item.exclusiveArea, // 전용면적: 84.97 (제곱미터)
-                  maintenanceFee: item.maintenanceFee+"", // 관리비: 10만
-                  rentPrc: item.rentPrc,// 월세: 32만
-                  dealOrWarrantPrc:item.dealOrWarrantPrc,// 매매가 혹은 전월세 보증금: 3억 7000
-                  imageSrc:item.imageSrc,
-                }
-                return <ItemEach width="18rem" height="19rem" colordot={colors.yellow} item={data}/>
-              })} */}
-              {searchedEstate && searchedEstate.map((item)=>{
-                return <ItemEach width="18rem" height="19rem" colordot={item.color} item={item}/>
-              })}
+              {searchedEstate &&
+                searchedEstate.map((item) => {
+                  return (
+                    <ItemEach width="18rem" height="19rem" colordot={item.color} item={item} />
+                  );
+                })}
             </ItemDiv>
           </Lower>
         </LeftContainer>
@@ -285,9 +274,6 @@ const Search = () => {
               value={searchKeyword}
               onChange={handleSearchInputChange}
             />
-            <Button Kind="extraSmall" Rounded="square" Variant="yellowTonal">
-              검색
-            </Button>
           </SearchDiv>
           <ContentDiv>
             <SubtitleP>거래 유형</SubtitleP>
@@ -372,19 +358,55 @@ const Search = () => {
             <SubtitleP>가격</SubtitleP>
             <RangeDiv>
               {selectedType === "RENT" && (
-                <RangeSlider title="보증금" unit="만원" minValue={0} maxValue={50000} change={handleDw}/>
+                <RangeSlider
+                  title="보증금"
+                  unit="만원"
+                  minValue={0}
+                  maxValue={50000}
+                  change={handleDw}
+                />
               )}
               {selectedType === "RENT" && (
-                <RangeSlider title="월세" unit="만원" minValue={0} maxValue={1600000} change={handleRp}/>
+                <RangeSlider
+                  title="월세"
+                  unit="만원"
+                  minValue={0}
+                  maxValue={1600000}
+                  change={handleRp}
+                />
               )}
               {selectedType === "LEASE" && (
-                <RangeSlider title="전세가" unit="만원" minValue={0} maxValue={1300000} change={handleDw}/>
+                <RangeSlider
+                  title="전세가"
+                  unit="만원"
+                  minValue={0}
+                  maxValue={1300000}
+                  change={handleDw}
+                />
               )}
               {selectedType === "DEAL" && (
-                <RangeSlider title="매매가" unit="만원" minValue={0} maxValue={11500000} change={handleDp}/>
+                <RangeSlider
+                  title="매매가"
+                  unit="만원"
+                  minValue={0}
+                  maxValue={11500000}
+                  change={handleDp}
+                />
               )}
-              <RangeSlider title="관리비" unit="만원" minValue={0} maxValue={80000} change={handleMf}/>
-              <RangeSlider title="방크기(전용면적)" unit="㎡" minValue={0} maxValue={19978}  change={handleRs}/>
+              <RangeSlider
+                title="관리비"
+                unit="만원"
+                minValue={0}
+                maxValue={80000}
+                change={handleMf}
+              />
+              <RangeSlider
+                title="방크기(전용면적)"
+                unit="㎡"
+                minValue={0}
+                maxValue={19978}
+                change={handleRs}
+              />
             </RangeDiv>
           </ContentDiv>
           <ContentDiv>
@@ -435,7 +457,8 @@ const Upper = styled.div`
 
 const InputDiv = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
+  gap: 0.8rem;
   width: 29rem;
 `;
 
@@ -444,6 +467,7 @@ const StyledInput = styled.input`
   border-radius: 0.2rem;
   border: solid 1px #d9d9d9;
   padding: 0 0.7rem;
+  height: 2.1rem;
 
   &:focus {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
@@ -513,7 +537,7 @@ const SearchInput = styled.input`
   height: 2.3rem;
   border-radius: 0.2rem;
   border: solid 1px #d9d9d9;
-  width: 65%;
+  width: 90%;
   padding: 0 0.7rem;
 
   &:focus {
