@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import styled from "styled-components";
-import estate1 from "@/public/assets/estate1.png";
+import estate1 from "@/public/assets/defaultimg.png";
 import ColorDot from "./ColorDot";
 import colors from "@/constants/colors";
 
@@ -45,9 +45,9 @@ export default function ItemEach({ item, width, height, colordot }: IProps) {
       }}
     >
       <ImageDiv>
-        {item?.imageSrc ?
-        <EstateImage src={JSON.parse(item?.imageSrc.replace(/'/g, '"'))[0]?.imageSrc} alt="image" /> :
-        <EstateImage src={estate1.src} alt="image" />}
+        {item?.imageSrc.length>2 ?
+        <EstateImage src={JSON.parse(item?.imageSrc.replace(/'/g, '"'))[0]?.imageSrc}/> :
+        <EstateImage src={estate1.src}/>}
       </ImageDiv>
       <AboutEstateDiv>
         <RoomP>

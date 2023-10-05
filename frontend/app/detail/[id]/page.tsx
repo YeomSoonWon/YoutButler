@@ -45,6 +45,7 @@ import {
   LikeButton,
   TitleLikeDiv,
   LoadingP,
+  LoadingDiv,
 } from "@/components/DetailPage/DetailPage";
 import InfoBubble from "@/components/List/InfoBubble";
 import { useSession } from "next-auth/react";
@@ -441,8 +442,8 @@ const DetailWithID = ({ params }) => {
                 </div>
                 <ChatMiddleDiv isVisible={isChatOpen}>
                   <Chatting messages={chatList} />
-                  {loading && <LoadingP>작성중입니다..</LoadingP>}
                 </ChatMiddleDiv>
+                <LoadingDiv>{loading && <LoadingP>작성중입니다..</LoadingP>}</LoadingDiv>
                 <ChatBottomDiv isVisible={isChatOpen}>
                   <MessageInput
                     type="text"
