@@ -19,7 +19,7 @@ export default function RangeSlider({ title, unit, minValue, maxValue, change })
     console.log(value);
     //set작은값(value주에 작은거)
     //set큰값(value중에 큰거)
-    change(value[0],value[1]);
+    change(value[0], value[1]);
   }, [value]);
 
   //천단위 , 찍기 위한 함수
@@ -27,7 +27,7 @@ export default function RangeSlider({ title, unit, minValue, maxValue, change })
     if (num > 1000) {
       return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     } else {
-      return "0";
+      return num;
     }
   };
 
