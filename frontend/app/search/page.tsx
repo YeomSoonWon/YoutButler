@@ -166,7 +166,7 @@ const Search = () => {
 
   const handleSearch = () => {
     const searchParams = {
-      size: 5,
+      size: 500,
       from: 0,
       keyword: searchKeyword, // 검색어
       "realestate-asset": holdingAsset, // 부동산 거래 예산
