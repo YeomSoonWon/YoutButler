@@ -30,6 +30,13 @@ const Search = () => {
   const [user, setUser] = useState(null);
   const [monthlyAvailableAsset, setMonthlyAvailableAsset] = useState<number | null>(null);
 
+  // slider 최솟값, 최댓값
+  const [dwData, setDwData] = useState([0, 1300000]);
+  const [dpData, setDpData] = useState([0, 11500000]);
+  const [rpData, setRpData] = useState([0, 1600000]);
+  const [mfData, setMfData] = useState([0, 80000]);
+  const [rsData, setRsData] = useState([0, 19978]);
+
   useEffect(() => {
     if (session) {
       setMonthlyAvailableAsset(user?.monthlyAvailableAsset);
@@ -143,6 +150,16 @@ const Search = () => {
       "room-type": roomTypeParameter, // 방종류 : 아파트/오피스텔/단독&다가구/원&투룸/빌라&연립/주택
       "monthly-asset": monthlyAvailableAsset, // 월 가용금액(월세)
       uay: selectedOption, // 사용승인일
+      // "dw-min": valuesForDWSlider[0],
+      // "dw-max": dwMaxSlider,
+      // "dp-min": dpMinSlider,
+      // "dp-max": dpMaxSlider,
+      // "rp-min": rpMinSlider,
+      // "rp-max": rpMaxSlider,
+      // "mf-min": mfMinSlider,
+      // "mf-max": mfMaxSlider,
+      // "rs-min": rsMinSlider,
+      // "rs-max": rsMaxSlider,
     };
 
     const apiUrl = constructApiRequest(searchParams);
@@ -182,13 +199,13 @@ const Search = () => {
               <TitleP>검색 조건에 맞는 집</TitleP>
               <AboutDiv>
                 <p>현재 자금으로 </p>
-                <ColorDot color={colors.blue} />
+                <ColorDot color="green" />
                 <p>구입 가능 / </p>
                 <ColorDot color={colors.red} />
                 <p>불가능 / </p>
                 <ColorDot color={colors.yellow} />
                 <p>조금 부족</p>
-                <InfoBubble>
+                <InfoBubble contentId={selectedType}>
                   <StyledSvg
                     xmlns="http://www.w3.org/2000/svg"
                     fill="none"
@@ -207,7 +224,7 @@ const Search = () => {
               </AboutDiv>
             </TitleDiv>
             <ItemDiv>
-              {/* <ItemEach width="18rem" height="19rem" item={} colordot={colors.blue} /> */}
+              {/* <ItemEach width="18rem" height="19rem" item={} colordot={green} /> */}
               {/* <ItemEach width="18rem" height="19rem" colordot={colors.red} />
               <ItemEach width="18rem" height="19rem" colordot={colors.yellow} /> */}
               {dummyData?.roomTypeList.map((item)=>{
@@ -326,19 +343,19 @@ const Search = () => {
             <SubtitleP>가격</SubtitleP>
             <RangeDiv>
               {selectedType === "월세" && (
-                <RangeSlider title="보증금" unit="만원" minValue={1000} maxValue={50000} />
+                <RangeSlider title="보증금" unit="만원" minValue={0} maxValue={50000} />
               )}
               {selectedType === "월세" && (
-                <RangeSlider title="월세" unit="만원" minValue={1000} maxValue={50000} />
+                <RangeSlider title="월세" unit="만원" minValue={0} maxValue={1600000} />
               )}
               {selectedType === "전세" && (
-                <RangeSlider title="전세가" unit="만원" minValue={1000} maxValue={50000} />
+                <RangeSlider title="전세가" unit="만원" minValue={0} maxValue={1300000} />
               )}
               {selectedType === "매매" && (
-                <RangeSlider title="매매가" unit="만원" minValue={1000} maxValue={50000} />
+                <RangeSlider title="매매가" unit="만원" minValue={0} maxValue={11500000} />
               )}
-              <RangeSlider title="관리비" unit="만원" minValue={1000} maxValue={50000} />
-              <RangeSlider title="방크기(전용면적)" unit="㎡" minValue={1000} maxValue={50000} />
+              <RangeSlider title="관리비" unit="만원" minValue={0} maxValue={80000} />
+              <RangeSlider title="방크기(전용면적)" unit="㎡" minValue={0} maxValue={19978} />
             </RangeDiv>
           </ContentDiv>
           <ContentDiv>
