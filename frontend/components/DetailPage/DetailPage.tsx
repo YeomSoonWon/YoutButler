@@ -355,8 +355,7 @@ export const LoadingSpan = styled.span`
   top: 20px;
   display: inline-block;
   animation: bounce 0.3s ease infinite alternate;
-  font-family: "Titan One", cursive;
-  font-size: 80px;
+  /* font-size: 80px; */
   color: #fff;
   text-shadow: 0 1px 0 #ccc, 0 2px 0 #ccc, 0 3px 0 #ccc, 0 4px 0 #ccc, 0 5px 0 #ccc,
     0 6px 0 transparent, 0 7px 0 transparent, 0 8px 0 transparent, 0 9px 0 transparent,
