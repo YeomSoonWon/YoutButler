@@ -46,6 +46,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (user) {
+      console.log(user);
       getLikes();
       getAllChats();
     }
@@ -195,7 +196,7 @@ const Profile = () => {
               <BoldP>찜한 매물</BoldP>
               <LikeListDiv>
                 {bookMarkes && bookMarkes.map((item, index) => {
-                  return <ItemEach height="15rem" width="13rem" item={item} />
+                  return <ItemEach height="15rem" width="13rem" item={item} holdingAsset={user?.holdingAsset} />
                 })}
               </LikeListDiv>
             </LeftUpperDiv>

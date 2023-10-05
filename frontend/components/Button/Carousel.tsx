@@ -9,15 +9,15 @@ const Carousel = ({ items }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [realItems, setRealItems] = useState(null);
 
-  useEffect(()=>{
-    if(items){
+  useEffect(() => {
+    if (items) {
       setRealItems([...items]);
     }
-  },[items])
+  }, [items])
 
   const handlePrevClick = () => {
     // setCurrentIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
-    setRealItems(prev =>{
+    setRealItems(prev => {
       const start = prev.shift();
       return [...prev, start];
     });
@@ -25,7 +25,7 @@ const Carousel = ({ items }) => {
 
   const handleNextClick = () => {
     // setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
-    setRealItems(prev =>{
+    setRealItems(prev => {
       const end = prev.pop();
       return [end, ...prev];
     });
@@ -41,7 +41,7 @@ const Carousel = ({ items }) => {
       {/* {items} */}
       <ListDiv style={{ transform: `translateX(-${currentIndex * 25}%)` }}>
         {realItems && realItems.map((item, index) => (
-          <ItemEach height="19rem" width="18rem" item={item} />
+          <ItemEach height="19rem" width="18rem" item={item} holdingAsset={0} />
         ))}
       </ListDiv>
       <NextSvgDiv className="next" onClick={handleNextClick}>
