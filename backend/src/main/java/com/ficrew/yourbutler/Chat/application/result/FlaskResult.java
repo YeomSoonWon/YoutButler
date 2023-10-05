@@ -1,5 +1,6 @@
 package com.ficrew.yourbutler.Chat.application.result;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -7,11 +8,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FlaskResult {
 
-    // output parser로 구조화가 되면 이 부분을 수정해야 함
-    private String response;
+    @JsonProperty("loan_name")
+    private String loanName;
 
-    public FlaskResult(String response) {
-        this.response = response;
+    @JsonProperty("loan_interest")
+    private Double loanInterest;
+
+    @JsonProperty("bank_name")
+    private String bankName;
+
+    private String message;
+
+    private String information;
+
+    public FlaskResult(String loanName, Double loanInterest, String bankName, String message, String information) {
+        this.loanName = loanName;
+        this.loanInterest = loanInterest;
+        this.bankName = bankName;
+        this.message = message;
+        this.information = information;
     }
 
 }
