@@ -15,6 +15,12 @@ export default function RangeSlider({ title, unit, minValue, maxValue }) {
   const classes = useStyles();
   const [value, setValue] = useState([minValue, maxValue]); // 값
 
+  useEffect(() => {
+    console.log(value);
+    //set작은값(value주에 작은거)
+    //set큰값(value중에 큰거)
+  }, [value]);
+
   //천단위 , 찍기 위한 함수
   const numberFormat = (num) => {
     if (num > 1000) {
