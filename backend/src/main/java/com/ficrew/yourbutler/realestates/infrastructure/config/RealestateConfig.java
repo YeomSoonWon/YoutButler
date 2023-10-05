@@ -1,6 +1,7 @@
 package com.ficrew.yourbutler.realestates.infrastructure.config;
 
 import com.ficrew.yourbutler.member.domain.repository.MemberRepository;
+import com.ficrew.yourbutler.realestates.application.CalculateColorProcessor;
 import com.ficrew.yourbutler.realestates.application.CheckBookmarkStatusListProcessor;
 import com.ficrew.yourbutler.realestates.application.CheckBookmarkStatusProcessor;
 import com.ficrew.yourbutler.realestates.application.CreateBookmarkProcessor;
@@ -8,6 +9,7 @@ import com.ficrew.yourbutler.realestates.application.DeleteBookmarkProcessor;
 import com.ficrew.yourbutler.realestates.application.SearchAllRealestatesProcessor;
 import com.ficrew.yourbutler.realestates.application.SearchBookmarkListProcessor;
 import com.ficrew.yourbutler.realestates.application.SearchRealestateDetailsProcessor;
+import com.ficrew.yourbutler.realestates.domain.CalculateService;
 import com.ficrew.yourbutler.realestates.domain.repository.BookmarkRepository;
 import com.ficrew.yourbutler.realestates.domain.repository.SearchRepository;
 import com.ficrew.yourbutler.realestates.infrastructure.persistence.es.ElasticsearchRealestateRepository;
@@ -81,5 +83,14 @@ public class RealestateConfig {
         BookmarkRepository bookmarkRepository
     ) {
         return new CheckBookmarkStatusListProcessor(bookmarkRepository);
+    }
+
+    @Bean
+    public CalculateColorProcessor calculateColorProcessor(
+        CalculateService calculateService
+    ) {
+        return new CalculateColorProcessor(
+            calculateService
+        );
     }
 }

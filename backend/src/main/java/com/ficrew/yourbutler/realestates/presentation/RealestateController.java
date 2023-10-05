@@ -1,6 +1,8 @@
 package com.ficrew.yourbutler.realestates.presentation;
 
 import com.ficrew.yourbutler.global.auth.AuthenticatedMember;
+import com.ficrew.yourbutler.member.domain.entity.NumberOfHouses;
+import com.ficrew.yourbutler.realestates.application.command.MemberCalCommand;
 import com.ficrew.yourbutler.realestates.application.facade.RealestateFacade;
 import com.ficrew.yourbutler.realestates.application.command.SearchCommand;
 import com.ficrew.yourbutler.realestates.application.facade.RealestateEsFacade;
@@ -35,9 +37,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/realestates")
 @RequiredArgsConstructor
 public class RealestateController {
-
-    // TODO layeredarchitecture에 맞게 수정 필요
-    // TODO 파라미터 default value 수정?
 
     private final RealestateEsFacade realestateEsFacade;
     private final RealestateFacade realestateFacade;
@@ -100,7 +99,7 @@ public class RealestateController {
         if (member == null) {
             bookmarkCheckResponse = new BookmarkCheckResponse(false, false);
             for (RealestateDocument doc : searchResults.getContent()) {
-                String color = realestateFacade.calculate(doc);
+                String color = realestateFacade.calculate(realestateAsset * 10000, monthlyAvailableAsset * 10000, doc, new MemberCalCommand(600, NumberOfHouses.NONE));
                 searchBookmarkResponseList.add(
                     SearchBookmarkResponse.from(doc, color, bookmarkCheckResponse));
             }
@@ -108,7 +107,7 @@ public class RealestateController {
             Map<Long, Boolean> bookmarkedMap = realestateFacade.isBookmarkedList(articleNos);
             for (RealestateDocument doc : searchResults.getContent()) {
                 Long articleNo = doc.getArticleNo();
-                String color = realestateFacade.calculate(doc);
+                String color = realestateFacade.calculate(realestateAsset * 10000, monthlyAvailableAsset * 10000, doc, new MemberCalCommand(member.getCreditRating(), member.getNumberOfHouses()));
                 Boolean isBookmarked = bookmarkedMap.getOrDefault(articleNo, false);
                 searchBookmarkResponseList.add(SearchBookmarkResponse.from(doc, color,
                     new BookmarkCheckResponse(true, isBookmarked)));
