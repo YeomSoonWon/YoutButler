@@ -30,7 +30,7 @@ const Search = () => {
   const [searchedEstate, setSearchedEstate] = useState(null);
 
   // slider 최솟값, 최댓값
-  const [dwData, setDwData] = useState([0, 500000]);
+  const [dwData, setDwData] = useState([0, 50000]);
   const [dpData, setDpData] = useState([0, 1150000]);
   const [rpData, setRpData] = useState([0, 500]);
   const [mfData, setMfData] = useState([0, 100]);
@@ -88,14 +88,17 @@ const Search = () => {
 
   const handleMonthlyClick = () => {
     setSelectedType("RENT");
+    setDwData([0, 50000]);
   };
 
   const handleCharterClick = () => {
     setSelectedType("LEASE");
+    setDwData([0, 200000]);
   };
 
   const handleSaleClick = () => {
     setSelectedType("DEAL");
+    setDpData([0, 1150000]);
   };
 
   const configureUser = async (token: String, provider: String) => {
