@@ -27,7 +27,7 @@ public class SearchBookmarkResponse {
     private final Double exclusiveArea;
     private final Long maintenanceFee;
     private final String color;
-    private final Object imageSrc; // TODO
+    private final Object imageSrc;
     private final BookmarkCheckResponse bookmark;
 
     public static SearchBookmarkResponse from(
