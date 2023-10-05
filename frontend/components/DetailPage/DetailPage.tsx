@@ -188,6 +188,14 @@ export const LightPDiv = styled.div`
   line-height: 1.2rem;
 `;
 
+export const LoadingP = styled.p`
+  padding: 0.8rem;
+  background-color: rgb(255, 255, 255, 0.7);
+  text-align: center;
+  color: gray;
+  font-weight: 600;
+`;
+
 export const LineHr = styled.hr`
   border: solid 1px #f6f6f6;
 `;
