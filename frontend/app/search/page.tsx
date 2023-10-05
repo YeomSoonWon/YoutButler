@@ -30,11 +30,11 @@ const Search = () => {
   const [searchedEstate, setSearchedEstate] = useState(null);
 
   // slider 최솟값, 최댓값
-  const [dwData, setDwData] = useState([0, 1300000]);
-  const [dpData, setDpData] = useState([0, 11500000]);
-  const [rpData, setRpData] = useState([0, 1600000]);
-  const [mfData, setMfData] = useState([0, 80000]);
-  const [rsData, setRsData] = useState([0, 19978]);
+  const [dwData, setDwData] = useState([0, 500000]);
+  const [dpData, setDpData] = useState([0, 1150000]);
+  const [rpData, setRpData] = useState([0, 500]);
+  const [mfData, setMfData] = useState([0, 100]);
+  const [rsData, setRsData] = useState([0, 200]);
 
   const handleDw = (min, max) => {
     console.log("Dw changed", [min, max]);
@@ -74,10 +74,10 @@ const Search = () => {
   }, [session, user]);
 
   // 방 거래 유형(월세, 전세, 매매)
-  const [selectedType, setSelectedType] = useState(null);
+  const [selectedType, setSelectedType] = useState("RENT");
 
   // 방 종류
-  const [selectedRoomTypes, setSelectedRoomTypes] = useState([]);
+  const [selectedRoomTypes, setSelectedRoomTypes] = useState(["APT"]);
 
   useEffect(() => {
     if (session) {
@@ -112,7 +112,7 @@ const Search = () => {
   };
 
   // 사용승인일
-  const [selectedOption, setSelectedOption] = useState<string | null>("전체기간");
+  const [selectedOption, setSelectedOption] = useState<string | null>("16");
 
   const options = [
     { label: "1년 이내", value: "1" },
@@ -371,7 +371,7 @@ const Search = () => {
                   title="월세"
                   unit="만원"
                   minValue={0}
-                  maxValue={1600000}
+                  maxValue={500}
                   change={handleRp}
                 />
               )}
@@ -380,7 +380,7 @@ const Search = () => {
                   title="전세가"
                   unit="만원"
                   minValue={0}
-                  maxValue={1300000}
+                  maxValue={200000}
                   change={handleDw}
                 />
               )}
@@ -389,7 +389,7 @@ const Search = () => {
                   title="매매가"
                   unit="만원"
                   minValue={0}
-                  maxValue={11500000}
+                  maxValue={1150000}
                   change={handleDp}
                 />
               )}
@@ -397,14 +397,14 @@ const Search = () => {
                 title="관리비"
                 unit="만원"
                 minValue={0}
-                maxValue={80000}
+                maxValue={100}
                 change={handleMf}
               />
               <RangeSlider
                 title="방크기(전용면적)"
                 unit="㎡"
                 minValue={0}
-                maxValue={19978}
+                maxValue={200}
                 change={handleRs}
               />
             </RangeDiv>
