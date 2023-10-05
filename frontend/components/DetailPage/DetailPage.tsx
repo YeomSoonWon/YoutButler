@@ -58,7 +58,7 @@ export const TitleP = styled.p`
 `;
 
 export const ChatMiddleDiv = styled.div<AskPprops>`
-  height: 75%;
+  height: 80%;
   padding: 0.5rem 0;
   display: ${(props) => (props.isVisible ? "block" : "none")};
   flex-direction: column;
@@ -88,7 +88,6 @@ export const ChatBottomDiv = styled.div<AskPprops>`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  height: 20%;
   display: ${(props) => (props.isVisible ? "block" : "none")};
 `;
 
@@ -193,7 +192,7 @@ export const LoadingP = styled.p`
   text-align: center;
   color: gray;
   font-weight: 600;
-  height: 5%;
+  height: 2rem;
 `;
 
 export const LineHr = styled.hr`
