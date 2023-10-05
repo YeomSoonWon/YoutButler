@@ -88,6 +88,7 @@ export const ChatBottomDiv = styled.div<AskPprops>`
   flex-direction: row;
   align-items: center;
   justify-content: center;
+  height: 20%;
   display: ${(props) => (props.isVisible ? "block" : "none")};
 `;
 
