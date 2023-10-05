@@ -170,20 +170,30 @@ const SeoulMap = ({items}) => {
             //   return marker; // 마커 객체 반환
             // });
 
-            if(dummyData){
-              markers = dummyData.map((data) => {
-                console.log("data : ",data);
-                const marker = new window.kakao.maps.Marker({
-                  position: new window.kakao.maps.LatLng(
-                    data.latitude,
-                    data.longitude
-                  ),
-                  clickable: true,
-                });
-                console.log("complexName : ",data.complexName);
-                return marker; // 마커 객체 반환
+            if (items) {
+              markers = items.map((data) => {
+                  const marker = new window.kakao.maps.Marker({
+                      position: new window.kakao.maps.LatLng(data.latitude, data.longitude),
+                      clickable: true,
+                  });
+          
+                  // InfoWindow 생성
+                  const infoWindow = new window.kakao.maps.InfoWindow({
+                      content: `<div>${data.complexName}</div>`
+                  });
+          
+                  // 마커에 클릭 이벤트 리스너 추가
+                  window.kakao.maps.event.addListener(marker, 'click', function() {
+                    if (infoWindow.getMap()) { // InfoWindow가 현재 열려있는 경우
+                      infoWindow.close();
+                    } else {
+                      infoWindow.open(kakaoMap, marker); // InfoWindow 표시
+                  }
+                  });
+          
+                  return marker;
               });
-            }
+          }
 
             // console.log(markers);
 
