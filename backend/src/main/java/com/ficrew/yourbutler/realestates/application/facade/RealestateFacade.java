@@ -1,9 +1,11 @@
 package com.ficrew.yourbutler.realestates.application.facade;
 
+import com.ficrew.yourbutler.realestates.application.CalculateColorProcessor;
 import com.ficrew.yourbutler.realestates.application.CheckBookmarkStatusListProcessor;
 import com.ficrew.yourbutler.realestates.application.CheckBookmarkStatusProcessor;
 import com.ficrew.yourbutler.realestates.application.CreateBookmarkProcessor;
 import com.ficrew.yourbutler.realestates.application.DeleteBookmarkProcessor;
+import com.ficrew.yourbutler.realestates.application.command.MemberCalCommand;
 import com.ficrew.yourbutler.realestates.domain.entity.RealestateDocument;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +21,7 @@ public class RealestateFacade {
     private final CreateBookmarkProcessor createBookmarkProcessor;
     private final DeleteBookmarkProcessor deleteBookmarkProcessor;
     private final CheckBookmarkStatusListProcessor checkBookmarkStatusListProcessor;
+    private final CalculateColorProcessor calculateColorProcessor;
 
     public boolean isBookmarked(Long realestateId) {
         return checkBookmarkStatusProcessor.execute(realestateId);
@@ -38,7 +41,7 @@ public class RealestateFacade {
         return checkBookmarkStatusListProcessor.execute(articleNos);
     }
 
-    public String calculate(RealestateDocument doc) {
-        return "yellow";
+    public String calculate(Long realestateAsset, Long monthlyAvailableAsset, RealestateDocument doc, MemberCalCommand command) {
+        return calculateColorProcessor.execute(realestateAsset, monthlyAvailableAsset, doc, doc.getRealEstateTypeName(), command);
     }
 }
