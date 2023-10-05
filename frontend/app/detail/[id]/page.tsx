@@ -44,6 +44,7 @@ import {
   SendSvg,
   LikeButton,
   TitleLikeDiv,
+  LoadingP,
 } from "@/components/DetailPage/DetailPage";
 import InfoBubble from "@/components/List/InfoBubble";
 import { useSession } from "next-auth/react";
@@ -404,7 +405,7 @@ const DetailWithID = ({ params }) => {
                   {MoneyFormatter(
                     Math.abs(house?.dealOrWarrantPrc_numeric - user?.holdingAsset * 10000) / 10000
                   )}
-                  만원
+                  원
                 </BlueP>
                 <TitleP>
                   {house?.dealOrWarrantPrc_numeric - user?.holdingAsset * 10000 < 0
@@ -440,11 +441,7 @@ const DetailWithID = ({ params }) => {
                 </div>
                 <ChatMiddleDiv isVisible={isChatOpen}>
                   <Chatting messages={chatList} />
-                  {loading && (
-                    <p style={{ textAlign: "center", color: "gray", fontWeight: "600" }}>
-                      로딩중입니다..
-                    </p>
-                  )}
+                  {loading && <LoadingP>작성중입니다..</LoadingP>}
                 </ChatMiddleDiv>
                 <ChatBottomDiv isVisible={isChatOpen}>
                   <MessageInput
