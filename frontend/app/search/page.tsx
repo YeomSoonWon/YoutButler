@@ -29,7 +29,7 @@ const Search = () => {
   const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
   const [monthlyAvailableAsset, setMonthlyAvailableAsset] = useState<number | null>(null);
-  const [searchedEstate, setSearchedEstate] = useState([]);
+  const [searchedEstate, setSearchedEstate] = useState(null);
 
   // slider 최솟값, 최댓값
   const [dwData, setDwData] = useState([0, 1300000]);
