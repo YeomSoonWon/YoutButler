@@ -456,6 +456,12 @@ const DetailWithID = ({ params }) => {
                     onChange={(e) => {
                       setChatMsg(e.target.value);
                     }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        e.preventDefault();  // 이벤트의 기본 동작인 엔터 입력 방지
+                        sendChat();  // sendChat 함수 호출
+                      }
+                    }}
                     disabled={loading}
                   />
                   <SvgBtn onClick={sendChat}>
