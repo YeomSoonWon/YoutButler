@@ -1,21 +1,25 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import pyeongchangDataRaw from "@/public/json/평창동_월세.json";
-import realEstateApi from "@/api/realEstateApi";
 
-interface roomType {
-  realestateId: number;
-  latitude: number;
-  longitude: number;
+interface MapProps {
+  data: {
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    from: number;
+    roomTypeList: any[];
+  };
 }
 
-const SeoulMap: React.FC = () => {
+const SeoulMap = ({items}) => {
+  console.log(items?.roomTypeList);
   const [map, setMap] = useState<any>(null);
   const [polygons, setPolygons] = useState<any[]>([]);
   const [clusterer, setClusterer] = useState<any>(null);
+  const [realEstateList, setRealEstateList] = useState<any[]>([]);
 
-  const pyeongchangData = pyeongchangDataRaw.roomTypeList.map((item: any) => ({
+  const dummyData = items?.roomTypeList.map((item: any) => ({
     latitude: item.latitude,
     longitude: item.longitude,
   }));
@@ -120,12 +124,13 @@ const SeoulMap: React.FC = () => {
               deletePolygon(newPolygons);
             });
 
-            const markers = pyeongchangData.map((data) => {
+            const markers = dummyData.map((data) => {
               const marker = new window.kakao.maps.Marker({
                 position: new window.kakao.maps.LatLng(
                   data.latitude,
                   data.longitude
                 ),
+                clickable: true,
               });
               return marker; // 마커 객체 반환
             });
@@ -199,7 +204,6 @@ const SeoulMap: React.FC = () => {
 
     initializeMap();
 
-    realEstateApi.search;
   }, []);
 
   return <div id="map" style={{ width: "100%", height: "100%" }} />;

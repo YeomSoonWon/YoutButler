@@ -25,14 +25,14 @@ const publicEstateApi: Axios = axios.create({
 });
 
 const realEstateApi = {
-    search: async (searchTerm: RealEstateSearchTerm) => {
-        let res = await publicEstateApi.get(`/search`, {
-            params: {
-                ...searchTerm
-            }
-        });
-        return res;
-    },
+    // search: async (searchTerm: RealEstateSearchTerm) => {
+    //     let res = await publicEstateApi.get(`/search`, {
+    //         params: {
+    //             ...searchTerm
+    //         }
+    //     });
+    //     return res;
+    // },
 
     detailSearch: async (userData: any | null, realestateId: number) => {
         let config = {headers : {}};

@@ -17,7 +17,7 @@ import InfoBubble from "@/components/List/InfoBubble";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
 import authApi from "@/api/authApi";
-import Yeoksam from "@/public/json/역삼동_매매_아파트.json";
+import dummyData from "@/public/json/평창동_월세.json";
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
   weight: ["300", "400", "500", "700"],
@@ -25,6 +25,7 @@ const ibmPlexSansKR = IBM_Plex_Sans_KR({
 });
 
 const Search = () => {
+  console.log("dummyDataList",dummyData?.roomTypeList);
   const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
   const [monthlyAvailableAsset, setMonthlyAvailableAsset] = useState<number | null>(null);
@@ -180,29 +181,18 @@ const Search = () => {
             <TitleP>매물 찾기</TitleP>
             <InputDiv>
               {selectedType === "월세" ? (
-                <StyledInput
-                  type="number"
-                  placeholder={session ? undefined : "월세 가용 자산"}
-                  value={monthlyAvailableAsset}
-                  onChange={(e) => setMonthlyAvailableAsset(Number(e.target.value))}
-                />
+                <StyledInput type="number" placeholder={session ? "월세 가용 자산" : undefined} value={monthlyAvailableAsset} onChange={(e) => setMonthlyAvailableAsset(Number(e.target.value))} />
               ) : (
                 <NoneDiv></NoneDiv>
               )}
-              <StyledInput
-                id="holdingAssetInput"
-                type="number"
-                placeholder={session ? undefined : "부동산 거래 예산"}
-                value={holdingAsset}
-                onChange={(e) => setHoldingAsset(Number(e.target.value))}
-              />
+              <StyledInput type="number" placeholder={session ? "부동산 거래 예산" : undefined} value={holdingAsset} onChange={(e) => setHoldingAsset(Number(e.target.value))} />
               <Button Kind="extraSmall" Variant="yellowTonal" Rounded="square">
                 설정
               </Button>
             </InputDiv>
           </Upper>
           <Middle>
-            <Map />
+            <Map items={dummyData}/>
           </Middle>
           <Lower>
             <TitleDiv>
@@ -237,6 +227,24 @@ const Search = () => {
               {/* <ItemEach width="18rem" height="19rem" item={} colordot={green} /> */}
               {/* <ItemEach width="18rem" height="19rem" colordot={colors.red} />
               <ItemEach width="18rem" height="19rem" colordot={colors.yellow} /> */}
+              {dummyData?.roomTypeList.map((item)=>{
+                let data = {
+                  realestateId: item.realestateId,
+                  complexNo: 0, // 주택번호: 1165010700
+                  complexName: item.complexName, // 주택이름: 아크로리버파크
+                  address: item.address, // 주소: 서울시 강남구 역삼동
+                  realEstateTypeName: item.roomType, // 방종류: 아파트
+                  tradeTypeName: item.realEstateTypeName, // 거래방식: 매매
+                  floorInfo: item.floorInfo, // 층수: 4/15
+                  supplyArea: item.supplyArea, // 공급면적: 112.74 (제곱미터)
+                  exclusiveArea: item.exclusiveArea, // 전용면적: 84.97 (제곱미터)
+                  maintenanceFee: item.maintenanceFee+"", // 관리비: 10만
+                  rentPrc: item.rentPrc,// 월세: 32만
+                  dealOrWarrantPrc:item.dealOrWarrantPrc,// 매매가 혹은 전월세 보증금: 3억 7000
+                  imageSrc:item.imageSrc,
+                }
+                return <ItemEach width="18rem" height="19rem" colordot={colors.yellow} item={data}/>
+              })}
             </ItemDiv>
           </Lower>
         </LeftContainer>
