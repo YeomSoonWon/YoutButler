@@ -1,32 +1,34 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import AppBar from "@/components/AppBar";
-import styled from "styled-components";
-import Button from "@/components/Button/Button";
-import Map from "@/components/Map";
-import ColorDot from "@/components/List/ColorDot";
-import colors from "@/constants/colors";
-import ItemEach from "@/components/List/ItemEach";
-import Checkbox from "@/components/Input/Checkbox";
-import Radio from "@/components/Input/Radio";
-import RangeSlider from "@/components/Input/RangeSlider";
-import Footer from "@/components/Footer";
-import { IBM_Plex_Sans_KR } from "next/font/google";
-import InfoBubble from "@/components/List/InfoBubble";
-import { useSession } from "next-auth/react";
-import { useEffect } from "react";
-import authApi from "@/api/authApi";
+import React, { useState } from 'react';
+import AppBar from '@/components/AppBar';
+import styled from 'styled-components';
+import Button from '@/components/Button/Button';
+import Map from '@/components/Map';
+import ColorDot from '@/components/List/ColorDot';
+import colors from '@/constants/colors';
+import ItemEach from '@/components/List/ItemEach';
+import Checkbox from '@/components/Input/Checkbox';
+import Radio from '@/components/Input/Radio';
+import RangeSlider from '@/components/Input/RangeSlider';
+import Footer from '@/components/Footer';
+import { IBM_Plex_Sans_KR } from 'next/font/google';
+import InfoBubble from '@/components/List/InfoBubble';
+import { useSession } from 'next-auth/react';
+import { useEffect } from 'react';
+import authApi from '@/api/authApi';
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
-  weight: ["300", "400", "500", "700"],
-  subsets: ["latin"],
+  weight: ['300', '400', '500', '700'],
+  subsets: ['latin'],
 });
 
 const Search = () => {
   const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
-  const [monthlyAvailableAsset, setMonthlyAvailableAsset] = useState<number | null>(null);
+  const [monthlyAvailableAsset, setMonthlyAvailableAsset] = useState<
+    number | null
+  >(null);
   const [searchedEstate, setSearchedEstate] = useState(null);
   const [from, setFrom] = useState(0);//페이지번호
   const [offset, setOffset] = useState(20);//한페이지에 보여줄 개수
@@ -41,27 +43,27 @@ const Search = () => {
   const [rsData, setRsData] = useState([0, 400]);
 
   const handleDw = (min, max) => {
-    console.log("Dw changed", [min, max]);
+    console.log('Dw changed', [min, max]);
     setDwData([min, max]);
   };
 
   const handleDp = (min, max) => {
-    console.log("Dp changed", [min, max]);
+    console.log('Dp changed', [min, max]);
     setDpData([min, max]);
   };
 
   const handleRp = (min, max) => {
-    console.log("Rp changed", [min, max]);
+    console.log('Rp changed', [min, max]);
     setRpData([min, max]);
   };
 
   const handleMf = (min, max) => {
-    console.log("Mf changed", [min, max]);
+    console.log('Mf changed', [min, max]);
     setMfData([min, max]);
   };
 
   const handleRs = (min, max) => {
-    console.log("Rs changed", [min, max]);
+    console.log('Rs changed', [min, max]);
     setRsData([min, max]);
   };
 
@@ -78,10 +80,10 @@ const Search = () => {
   }, [session, user]);
 
   // 방 거래 유형(월세, 전세, 매매)
-  const [selectedType, setSelectedType] = useState("RENT");
+  const [selectedType, setSelectedType] = useState('RENT');
 
   // 방 종류
-  const [selectedRoomTypes, setSelectedRoomTypes] = useState(["APT"]);
+  const [selectedRoomTypes, setSelectedRoomTypes] = useState(['APT']);
 
   useEffect(() => {
     if (session) {
@@ -91,17 +93,17 @@ const Search = () => {
   }, [session]);
 
   const handleMonthlyClick = () => {
-    setSelectedType("RENT");
+    setSelectedType('RENT');
     setDwData([0, 200000]);
   };
 
   const handleCharterClick = () => {
-    setSelectedType("LEASE");
+    setSelectedType('LEASE');
     setDwData([0, 400000]);
   };
 
   const handleSaleClick = () => {
-    setSelectedType("DEAL");
+    setSelectedType('DEAL');
     setDpData([0, 1500000]);
   };
 
@@ -119,14 +121,14 @@ const Search = () => {
   };
 
   // 사용승인일
-  const [selectedOption, setSelectedOption] = useState<string | null>("16");
+  const [selectedOption, setSelectedOption] = useState<string | null>('16');
 
   const options = [
-    { label: "1년 이내", value: "1" },
-    { label: "5년 이내", value: "5" },
-    { label: "10년 이내", value: "10" },
-    { label: "15년 이내", value: "15" },
-    { label: "전체", value: "16" },
+    { label: '1년 이내', value: '1' },
+    { label: '5년 이내', value: '5' },
+    { label: '10년 이내', value: '10' },
+    { label: '15년 이내', value: '15' },
+    { label: '전체', value: '16' },
   ];
 
   const handleSelectOption = (value: string) => {
@@ -150,22 +152,24 @@ const Search = () => {
     const queryString = Object.keys(searchParams)
       .map((key) => {
         if (searchParams[key] !== null && searchParams[key] !== undefined) {
-          return `${encodeURIComponent(key)}=${encodeURIComponent(searchParams[key])}`;
+          return `${encodeURIComponent(key)}=${encodeURIComponent(
+            searchParams[key]
+          )}`;
         } else {
           return null;
         }
       })
       .filter((param) => param !== null)
-      .join("&");
+      .join('&');
 
     return `${baseUrl}?${queryString}`;
   };
 
-  const roomTypeParameter = selectedRoomTypes.join(",");
+  const roomTypeParameter = selectedRoomTypes.join(',');
 
   console.log(roomTypeParameter);
   // 검색어
-  const [searchKeyword, setSearchKeyword] = useState("");
+  const [searchKeyword, setSearchKeyword] = useState('');
 
   const handleSearchInputChange = (event) => {
     setSearchKeyword(event.target.value);
@@ -177,21 +181,21 @@ const Search = () => {
       size: offset,
       from: from,
       keyword: searchKeyword, // 검색어
-      "realestate-asset": holdingAsset, // 부동산 거래 예산
-      "trade-type": selectedType, // 거래유형 : 매매/전세/월세
-      "room-type": roomTypeParameter, // 방종류 : 아파트/오피스텔/단독&다가구/원&투룸/빌라&연립/주택
-      "monthly-asset": monthlyAvailableAsset, // 월 가용금액(월세)
+      'realestate-asset': holdingAsset, // 부동산 거래 예산
+      'trade-type': selectedType, // 거래유형 : 매매/전세/월세
+      'room-type': roomTypeParameter, // 방종류 : 아파트/오피스텔/단독&다가구/원&투룸/빌라&연립/주택
+      'monthly-asset': monthlyAvailableAsset, // 월 가용금액(월세)
       uay: selectedOption, // 사용승인일
-      "dw-min": dwData[0],
-      "dw-max": dwData[1],
-      "dp-min": dpData[0],
-      "dp-max": dpData[1],
-      "rp-min": rpData[0],
-      "rp-max": rpData[1],
-      "mf-min": mfData[0],
-      "mf-max": mfData[1],
-      "rs-min": rsData[0],
-      "rs-max": rsData[1],
+      'dw-min': dwData[0],
+      'dw-max': dwData[1],
+      'dp-min': dpData[0],
+      'dp-max': dpData[1],
+      'rp-min': rpData[0],
+      'rp-max': rpData[1],
+      'mf-min': mfData[0],
+      'mf-max': mfData[1],
+      'rs-min': rsData[0],
+      'rs-max': rsData[1],
     };
 
     const apiUrl = constructApiRequest(searchParams);
@@ -199,12 +203,12 @@ const Search = () => {
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
-        console.log("API response:", data);
+        console.log('API response:', data);
         setSearchedEstate(data?.roomTypeList);
         setTotalElements(data?.totalElements);
         setPage(data?.totalPages);
       })
-      .catch((error) => console.error("API error:", error));
+      .catch((error) => console.error('API error:', error));
   };
 
   const prevSearch = () => {
@@ -214,7 +218,7 @@ const Search = () => {
         return prev - 1;
       })
     }
-  }
+  };
 
   const nextSearch = () => {
     if (from == page - 1) return;
@@ -226,25 +230,32 @@ const Search = () => {
 
   return (
     <main>
-      <AppBar backgroundColor="transparent" logo="greenlogo" color="#334835" user={user} />
+      <AppBar
+        backgroundColor='transparent'
+        logo='greenlogo'
+        color='#334835'
+        user={user}
+      />
       <Container className={ibmPlexSansKR.className}>
         <LeftContainer>
           <Upper>
             <TitleP>매물 찾기</TitleP>
             <InputDiv>
-              {selectedType === "RENT" ? (
+              {selectedType === 'RENT' ? (
                 <StyledInput
-                  type="number"
-                  placeholder={session ? "월세 가용 자산" : undefined}
+                  type='number'
+                  placeholder={session ? '월세 가용 자산' : undefined}
                   value={monthlyAvailableAsset}
-                  onChange={(e) => setMonthlyAvailableAsset(Number(e.target.value))}
+                  onChange={(e) =>
+                    setMonthlyAvailableAsset(Number(e.target.value))
+                  }
                 />
               ) : (
                 <NoneDiv></NoneDiv>
               )}
               <StyledInput
-                type="number"
-                placeholder={session ? "부동산 거래 예산" : undefined}
+                type='number'
+                placeholder={session ? '부동산 거래 예산' : undefined}
                 value={holdingAsset}
                 onChange={(e) => setHoldingAsset(Number(e.target.value))}
               />
@@ -258,28 +269,31 @@ const Search = () => {
               <TitleP>검색 조건에 맞는 집</TitleP>
               <AboutDiv>
                 <p>현재 자금으로 </p>
-                <ColorDot color="green" />
+                <ColorDot color='yellowgreen' />
                 <p>구입 가능 / </p>
                 <ColorDot color={colors.red} />
                 <p>불가능 / </p>
                 <ColorDot color={colors.yellow} />
                 <p>조금 부족</p>
-                <InfoBubble contentId={selectedType}>
-                  <StyledSvg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="gray"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
-                    />
-                  </StyledSvg>
-                </InfoBubble>
+                <InfoBubble
+                  contentId={selectedType}
+                  children={
+                    <StyledSvg
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth='1.5'
+                      stroke='gray'
+                      className='w-6 h-6'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z'
+                      />
+                    </StyledSvg>
+                  }
+                />
               </AboutDiv>
             </TitleDiv>
             {((!searchedEstate) || (searchedEstate?.length === 0)) ? <>검색 결과가 없습니다.</> : <></>}
@@ -299,8 +313,8 @@ const Search = () => {
         <RightContainer>
           <SearchDiv>
             <SearchInput
-              type="text"
-              placeholder="지역, 아파트명 검색"
+              type='text'
+              placeholder='지역, 아파트명 검색'
               value={searchKeyword}
               onChange={handleSearchInputChange}
             />
@@ -309,34 +323,37 @@ const Search = () => {
             <SubtitleP>거래 유형</SubtitleP>
             <ButtonDiv>
               <Button
-                Kind="small"
-                Variant="grayOutline"
-                Rounded="square"
+                Kind='small'
+                Variant='grayOutline'
+                Rounded='square'
                 onClick={handleMonthlyClick}
                 customStyle={{
-                  backgroundColor: selectedType === "RENT" ? "darkgray" : "transparent",
+                  backgroundColor:
+                    selectedType === 'RENT' ? 'darkgray' : 'transparent',
                 }}
               >
                 월세
               </Button>
               <Button
-                Kind="small"
-                Variant="grayOutline"
-                Rounded="square"
+                Kind='small'
+                Variant='grayOutline'
+                Rounded='square'
                 onClick={handleCharterClick}
                 customStyle={{
-                  backgroundColor: selectedType === "LEASE" ? "darkgray" : "transparent",
+                  backgroundColor:
+                    selectedType === 'LEASE' ? 'darkgray' : 'transparent',
                 }}
               >
                 전세
               </Button>
               <Button
-                Kind="small"
-                Variant="grayOutline"
-                Rounded="square"
+                Kind='small'
+                Variant='grayOutline'
+                Rounded='square'
                 onClick={handleSaleClick}
                 customStyle={{
-                  backgroundColor: selectedType === "DEAL" ? "darkgray" : "transparent",
+                  backgroundColor:
+                    selectedType === 'DEAL' ? 'darkgray' : 'transparent',
                 }}
               >
                 매매
@@ -347,92 +364,92 @@ const Search = () => {
             <SubtitleP>방 종류</SubtitleP>
             <CheckboxDiv>
               <Checkbox
-                label="아파트"
-                value="APT"
-                isChecked={selectedRoomTypes.includes("APT")}
-                onChange={() => handleCheckboxChange("APT")}
+                label='아파트'
+                value='APT'
+                isChecked={selectedRoomTypes.includes('APT')}
+                onChange={() => handleCheckboxChange('APT')}
               />
               <Checkbox
-                label="오피스텔"
-                value="OPST"
-                isChecked={selectedRoomTypes.includes("OPST")}
-                onChange={() => handleCheckboxChange("OPST")}
+                label='오피스텔'
+                value='OPST'
+                isChecked={selectedRoomTypes.includes('OPST')}
+                onChange={() => handleCheckboxChange('OPST')}
               />
               <Checkbox
-                label="단독·다가구"
-                value="DDDGG"
-                isChecked={selectedRoomTypes.includes("DDDGG")}
-                onChange={() => handleCheckboxChange("DDDGG")}
+                label='단독·다가구'
+                value='DDDGG'
+                isChecked={selectedRoomTypes.includes('DDDGG')}
+                onChange={() => handleCheckboxChange('DDDGG')}
               />
               <Checkbox
-                label="원·투룸"
-                value="OTROOM"
-                isChecked={selectedRoomTypes.includes("OTROOM")}
-                onChange={() => handleCheckboxChange("OTROOM")}
+                label='원·투룸'
+                value='OTROOM'
+                isChecked={selectedRoomTypes.includes('OTROOM')}
+                onChange={() => handleCheckboxChange('OTROOM')}
               />
               <Checkbox
-                label="빌라·연립"
-                value="VL"
-                isChecked={selectedRoomTypes.includes("VL")}
-                onChange={() => handleCheckboxChange("VL")}
+                label='빌라·연립'
+                value='VL'
+                isChecked={selectedRoomTypes.includes('VL')}
+                onChange={() => handleCheckboxChange('VL')}
               />
               <Checkbox
-                label="주택"
-                value="JT"
-                isChecked={selectedRoomTypes.includes("JT")}
-                onChange={() => handleCheckboxChange("JT")}
+                label='주택'
+                value='JT'
+                isChecked={selectedRoomTypes.includes('JT')}
+                onChange={() => handleCheckboxChange('JT')}
               />
             </CheckboxDiv>
           </ContentDiv>
           <ContentDiv>
             <SubtitleP>가격</SubtitleP>
             <RangeDiv>
-              {selectedType === "RENT" && (
+              {selectedType === 'RENT' && (
                 <RangeSlider
-                  title="보증금"
-                  unit="만원"
+                  title='보증금'
+                  unit='만원'
                   minValue={0}
                   maxValue={200000}
                   change={handleDw}
                 />
               )}
-              {selectedType === "RENT" && (
+              {selectedType === 'RENT' && (
                 <RangeSlider
-                  title="월세"
-                  unit="만원"
+                  title='월세'
+                  unit='만원'
                   minValue={0}
                   maxValue={1000}
                   change={handleRp}
                 />
               )}
-              {selectedType === "LEASE" && (
+              {selectedType === 'LEASE' && (
                 <RangeSlider
-                  title="전세가"
-                  unit="만원"
+                  title='전세가'
+                  unit='만원'
                   minValue={0}
                   maxValue={400000}
                   change={handleDw}
                 />
               )}
-              {selectedType === "DEAL" && (
+              {selectedType === 'DEAL' && (
                 <RangeSlider
-                  title="매매가"
-                  unit="만원"
+                  title='매매가'
+                  unit='만원'
                   minValue={0}
                   maxValue={1500000}
                   change={handleDp}
                 />
               )}
               <RangeSlider
-                title="관리비"
-                unit="만원"
+                title='관리비'
+                unit='만원'
                 minValue={0}
                 maxValue={100}
                 change={handleMf}
               />
               <RangeSlider
-                title="방크기(전용면적)"
-                unit="㎡"
+                title='방크기(전용면적)'
+                unit='㎡'
                 minValue={0}
                 maxValue={400}
                 change={handleRs}
