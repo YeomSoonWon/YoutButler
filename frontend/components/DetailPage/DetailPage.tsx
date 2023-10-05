@@ -88,7 +88,6 @@ export const ChatBottomDiv = styled.div<AskPprops>`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-top: 1rem;
   display: ${(props) => (props.isVisible ? "block" : "none")};
 `;
 
@@ -193,6 +192,7 @@ export const LoadingP = styled.p`
   text-align: center;
   color: gray;
   font-weight: 600;
+  height: 5%;
 `;
 
 export const LineHr = styled.hr`
