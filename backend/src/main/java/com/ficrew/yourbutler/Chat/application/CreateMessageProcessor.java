@@ -7,6 +7,8 @@ import com.ficrew.yourbutler.Chat.domain.entity.Bank;
 import com.ficrew.yourbutler.Chat.domain.entity.ChatRoom;
 import com.ficrew.yourbutler.Chat.domain.entity.Loan;
 import com.ficrew.yourbutler.Chat.domain.entity.Message;
+import com.ficrew.yourbutler.Chat.domain.exception.ChatroomNotFoundException;
+import com.ficrew.yourbutler.Chat.domain.exception.FlaskServerErrorException;
 import com.ficrew.yourbutler.Chat.domain.repository.BankRepository;
 import com.ficrew.yourbutler.Chat.domain.repository.ChatRepository;
 import com.ficrew.yourbutler.Chat.domain.repository.MessageRepository;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public class CreateMessageProcessor {
@@ -39,7 +42,7 @@ public class CreateMessageProcessor {
             chatRoom = new ChatRoom(command.getRealestateId(), memberEntity, command.getBuildingName());
             chatRepository.save(chatRoom);
         } else {
-            chatRoom = chatRepository.findById(command.getChatRoomNo()).orElseThrow(()-> new NullPointerException("예상치 못한 오류 발생 1"));
+            chatRoom = chatRepository.findById(command.getChatRoomNo()).orElseThrow(ChatroomNotFoundException::new);
         }
 
         Message message = new Message(command.getIsBot(), command.getChat(), chatRoom);
@@ -57,18 +60,17 @@ public class CreateMessageProcessor {
                 .block();
 
         if (flaskResult == null) {
-            throw new NullPointerException("Flask 서버로부터 응답이 없습니다.");
+            throw new FlaskServerErrorException();
         }
 
         Message botMessage;
 
-        if (flaskResult.getLoanName() == null || flaskResult.getLoanName().isEmpty()) {
+        if (flaskResult.getLoanName() == null || flaskResult.getLoanName().isEmpty() || flaskResult.getBankName() == null || flaskResult.getBankName().isEmpty()) {
             botMessage = new Message(true, flaskResult.getMessage() + "\n" + flaskResult.getInformation(), chatRoom);
         } else {
             Loan loan = new Loan(flaskResult.getLoanName(), flaskResult.getLoanInterest());
-            Bank bank = new Bank("KB국민은행", "02-245-2013", "https://naver.com");
-            bankRepository.save(bank);
-            botMessage = new Message(true, flaskResult.getMessage() + "\n" + flaskResult.getInformation(), loan, bank, chatRoom);
+            Optional<Bank> bank = bankRepository.findByBankName(flaskResult.getBankName());
+            botMessage = new Message(true, flaskResult.getMessage() + "\n" + flaskResult.getInformation(), loan, bank.get(), chatRoom);
         }
 
         messageRepository.save(botMessage);

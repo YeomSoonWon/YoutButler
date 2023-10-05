@@ -6,6 +6,8 @@ import com.ficrew.yourbutler.Chat.infrastructure.persistence.jpa.JpaBankReposito
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @RequiredArgsConstructor
 public class BankRepositoryAdapter implements BankRepository {
@@ -15,6 +17,11 @@ public class BankRepositoryAdapter implements BankRepository {
     @Override
     public Bank save(Bank bank) {
         return bankRepository.save(bank);
+    }
+
+    @Override
+    public Optional<Bank> findByBankName(String bankName) {
+        return bankRepository.findByBankName(bankName);
     }
 
 }
