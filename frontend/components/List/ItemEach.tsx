@@ -27,9 +27,10 @@ interface IProps {
   width?: string;
   height?: string;
   colordot?: string;
+  holdingAsset?: number | null;
 }
 
-export default function ItemEach({ item, width, height, colordot }: IProps) {
+export default function ItemEach({ item, width, height, colordot, holdingAsset }: IProps) {
   // 하트 아이콘 클릭 시 색상 변경
   // const [isFilled, setIsFilled] = useState(false);
 
@@ -41,7 +42,7 @@ export default function ItemEach({ item, width, height, colordot }: IProps) {
   return (
     <EstateDiv
       onClick={() => {
-        window.location.href = `/detail/${item?.realestateId}`;
+        window.location.href = `/detail/${item?.realestateId}?holdingAsset=${holdingAsset}`;
       }}
     >
       <ImageDiv>
