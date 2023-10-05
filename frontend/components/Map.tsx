@@ -4,16 +4,21 @@ import React, { useEffect, useState } from "react";
 import pyeongchangDataRaw from "@/public/json/평창동_월세.json";
 import realEstateApi from "@/api/realEstateApi";
 
-interface roomType {
-  realestateId: number;
-  latitude: number;
-  longitude: number;
+interface MapProps {
+  data: {
+    totalElements: number;
+    totalPages: number;
+    size: number;
+    from: number;
+    roomTypeList: any[];
+  };
 }
 
 const SeoulMap: React.FC = () => {
   const [map, setMap] = useState<any>(null);
   const [polygons, setPolygons] = useState<any[]>([]);
   const [clusterer, setClusterer] = useState<any>(null);
+  const [realEstateList, setRealEstateList] = useState<any[]>([]);
 
   const pyeongchangData = pyeongchangDataRaw.roomTypeList.map((item: any) => ({
     latitude: item.latitude,
@@ -199,7 +204,6 @@ const SeoulMap: React.FC = () => {
 
     initializeMap();
 
-    realEstateApi.search;
   }, []);
 
   return <div id="map" style={{ width: "100%", height: "100%" }} />;
