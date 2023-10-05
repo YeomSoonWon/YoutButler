@@ -56,29 +56,29 @@ import chatApi from "@/api/chatApi";
 
 function calculateInterestRate(houseType: string, userCreditRating: number): number {
   if (houseType === "매매") {
-      return 4.77;
+    return 4.77;
   } else if (houseType === "전세") {
-      return 5.30;
+    return 5.3;
   } else if (houseType === "월세") {
-      if (userCreditRating >= 900) {
-          return 8.69;
-      } else if (userCreditRating >= 800) {
-          return 9.33;
-      } else if (userCreditRating >= 700) {
-          return 10.20;
-      } else if (userCreditRating >= 600) {
-          return 11.21;
-      } else if (userCreditRating >= 500) {
-          return 12.49;
-      } else if (userCreditRating >= 400) {
-          return 11.43;
-      } else if (userCreditRating >= 300) {
-          return 7.70;
-      } else {
-          return 9.68;
-      }
+    if (userCreditRating >= 900) {
+      return 8.69;
+    } else if (userCreditRating >= 800) {
+      return 9.33;
+    } else if (userCreditRating >= 700) {
+      return 10.2;
+    } else if (userCreditRating >= 600) {
+      return 11.21;
+    } else if (userCreditRating >= 500) {
+      return 12.49;
+    } else if (userCreditRating >= 400) {
+      return 11.43;
+    } else if (userCreditRating >= 300) {
+      return 7.7;
+    } else {
+      return 9.68;
+    }
   }
-  return 0;  // Default value
+  return 0; // Default value
 }
 
 const ibmPlexSansKR = IBM_Plex_Sans_KR({
@@ -98,11 +98,11 @@ const DetailWithID = ({ params }) => {
   const [loading, setLoading] = useState(false);
   const [holdingAsset, setHoldingAsset] = useState<number | null>(null);
   useEffect(() => {
-      if (session) {
-        setHoldingAsset(user?.holdingAsset);
-      }
+    if (session) {
+      setHoldingAsset(user?.holdingAsset);
+    }
   }, [session, user]);
-  
+
   // 찜
   const [like, setLike] = useState<boolean>(false);
 
@@ -228,6 +228,15 @@ const DetailWithID = ({ params }) => {
     }
   };
 
+  //천단위 , 찍기 위한 함수
+  const numberFormat = (num) => {
+    if (num > 1000) {
+      return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    } else {
+      return "0";
+    }
+  };
+
   return (
     <main className={ibmPlexSansKR.className}>
       <AppBar backgroundColor="transparent" logo="greenlogo" color="#334835" user={user} />
@@ -285,7 +294,12 @@ const DetailWithID = ({ params }) => {
               <AboutEachDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>{house?.realEstateTypeName}</AboutTitleP>
-                  <p>{house?.dealOrWarrantPrc} {(house?.realEstateTypeName !== "매매") &&<span>/ {house?.rentPrcNumeric}만원</span>}</p>
+                  <p>
+                    {house?.dealOrWarrantPrc}{" "}
+                    {house?.realEstateTypeName !== "매매" && (
+                      <span>/ {house?.rentPrcNumeric}만원</span>
+                    )}
+                  </p>
                 </AboutDetailDiv>
                 <AboutDetailDiv>
                   <AboutTitleP>관리비</AboutTitleP>
@@ -385,13 +399,24 @@ const DetailWithID = ({ params }) => {
             <InfoDiv>
               <InfoDetailDiv>
                 <TitleP>현재 자산으로는</TitleP>
-                <BlueP>{Math.abs(house?.dealOrWarrantPrc_numeric - user?.holdingAsset*10000)}원</BlueP>
-                <TitleP>{(house?.dealOrWarrantPrc_numeric - user?.holdingAsset*10000) < 0 ? "여유가 있습니다." : "더 필요합니다."}</TitleP>
+                <BlueP>
+                  {numberFormat(
+                    Math.abs(house?.dealOrWarrantPrc_numeric - user?.holdingAsset * 10000)
+                  )}
+                  원
+                </BlueP>
+                <TitleP>
+                  {house?.dealOrWarrantPrc_numeric - user?.holdingAsset * 10000 < 0
+                    ? "여유가 있습니다."
+                    : "더 필요합니다."}
+                </TitleP>
               </InfoDetailDiv>
               <LineHr />
               <InfoDetailDiv>
                 <TitleP>대출 시 예상되는 월 이자</TitleP>
-                <BlueP>{calculateInterestRate(house?.realEstateTypeName, user?.creditRating)}%</BlueP>
+                <BlueP>
+                  {calculateInterestRate(house?.realEstateTypeName, user?.creditRating)}%
+                </BlueP>
                 <LightPDiv>
                   <LightP>가입 시 입력한 신용도를 기반으로</LightP>
                   <LightP>산정된 예상 이자율 입니다.</LightP>
@@ -414,9 +439,9 @@ const DetailWithID = ({ params }) => {
                 </div>
                 <ChatMiddleDiv isVisible={isChatOpen}>
                   <Chatting messages={chatList} />
+                  {loading && <p>로딩중입니다...</p>}
                 </ChatMiddleDiv>
                 <ChatBottomDiv isVisible={isChatOpen}>
-                  {loading && <p>로딩중입니다...</p>}
                   <MessageInput
                     type="text"
                     placeholder="메시지를 입력해주세요.."
