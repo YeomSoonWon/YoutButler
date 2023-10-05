@@ -408,12 +408,12 @@ const DetailWithID = ({ params }) => {
                 <TitleP>현재 자산으로는</TitleP>
                 <BlueP>
                   {MoneyFormatter(
-                    Math.abs(house?.dealOrWarrantPrc_numeric - holdingAsset * 10000)
+                    Math.abs(house?.dealOrWarrantPrc_numeric - parseInt(holdingAsset) * 10000)
                   )}
                   원
                 </BlueP>
                 <TitleP>
-                  {(house?.dealOrWarrantPrc_numeric - holdingAsset * 10000 < 0)
+                  {(house?.dealOrWarrantPrc_numeric - parseInt(holdingAsset) * 10000 < 0)
                     ? "여유가 있습니다."
                     : "더 필요합니다."}
                 </TitleP>
