@@ -44,9 +44,6 @@ import {
   SendSvg,
   LikeButton,
   TitleLikeDiv,
-  LoadingP,
-  LoadingDiv,
-  LoadingSpan,
 } from "@/components/DetailPage/DetailPage";
 import InfoBubble from "@/components/List/InfoBubble";
 import { useSession } from "next-auth/react";
