@@ -192,6 +192,9 @@ export const LoadingP = styled.p`
   text-align: center;
   color: gray;
   font-weight: 600;
+`;
+
+export const LoadingDiv = styled.div`
   height: 2rem;
 `;
 
