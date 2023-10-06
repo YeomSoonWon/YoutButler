@@ -83,7 +83,7 @@ public class CreateMessageProcessor {
             Optional<Bank> bank = bankRepository.findByBankName(flaskResult.getBankName());
 
             if (monthPay > 0) {
-                botMessage = new Message(true, flaskResult.getMessage() + "\n" + "부족한 금액에 대한 대출을 진행할 시 " + flaskResult.getPayingOffPeriod() + "개월 동안 갚아야 할 월평균 상환 금액은 " + monthPay + "원 입니다.\n" + flaskResult.getInformation(), loan, bank.get(), chatRoom);
+                botMessage = new Message(true, flaskResult.getMessage() + "\n" + "부족한 금액에 대한 대출을 진행할 시 " + flaskResult.getPayingOffPeriod() + "개월 동안 갚아야 할 월평균 상환 금액은 " + (monthPay / 10) + "원 입니다.\n" + flaskResult.getInformation(), loan, bank.get(), chatRoom);
             } else {
                 botMessage = new Message(true, flaskResult.getMessage() + "\n" + flaskResult.getInformation(), loan, bank.get(), chatRoom);
             }
