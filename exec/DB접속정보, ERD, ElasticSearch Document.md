@@ -8,7 +8,7 @@
 
 **DB Password**: [ssafy.yourbutler.pw](http://ssafy.yourbutler.pw)
 
-![Untitled](DB%E1%84%8C%E1%85%A5%E1%86%B8%E1%84%89%E1%85%A9%E1%86%A8%E1%84%8C%E1%85%A5%E1%86%BC%E1%84%87%E1%85%A9,%20ERD,%20ElasticSearch%20Document%20897430ca45884336806c5361204cb84b/Untitled.png)
+![image1](exec/assets/image1.png)
 
 # 2. Elasticsearch Document
 
