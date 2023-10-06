@@ -1,27 +1,20 @@
 package com.ficrew.yourbutler.member.presentation;
 
-import com.ficrew.yourbutler.global.auth.JWTProvider;
-import com.ficrew.yourbutler.global.auth.Token;
+import com.ficrew.yourbutler.global.auth.AuthenticatedMember;
 import com.ficrew.yourbutler.member.application.facade.MemberFacade;
+import com.ficrew.yourbutler.member.domain.entity.Member;
 import com.ficrew.yourbutler.member.presentation.request.CreateMemberRequest;
-import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-
+import com.ficrew.yourbutler.member.presentation.request.EditMemberRequest;
 import com.ficrew.yourbutler.member.presentation.request.SignInRequest;
 import com.ficrew.yourbutler.member.presentation.response.SignInResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.parameters.P;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/members")
@@ -41,9 +34,36 @@ public class MemberController {
     @PostMapping("/signup")
     public ResponseEntity<String> signup(
         @RequestBody @Valid CreateMemberRequest request,
-        @AuthenticationPrincipal UserDetails user
+        @AuthenticationPrincipal AuthenticatedMember member
     ) {
-        memberFacade.createMember(request.toCommand(), user);
+        memberFacade.createMember(request.toCommand(), member);
         return new ResponseEntity<>("회원가입 완료", HttpStatus.OK);
     }
+
+    @PutMapping
+    public ResponseEntity<String> edit(
+        @RequestBody @Valid EditMemberRequest request,
+        @AuthenticationPrincipal AuthenticatedMember member
+    ) {
+        memberFacade.editMember(request.toCommand(), member);
+        return new ResponseEntity<>("회원정보 수정 완료", HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> delete(
+        @AuthenticationPrincipal AuthenticatedMember member
+    ) {
+        memberFacade.deleteMember(member);
+        return new ResponseEntity<>("회원탈퇴 완료", HttpStatus.OK);
+    }
+
+    // AuthenticationMember는 getEmail 작동 하는데 그냥 Member는 작동 안함
+    // DB에서 ID값 변경하고 찍어보면 변경된 ID값 가져오는거 보면 일단 DB를 갔다오는거는 맞는것 같음
+    // DB 조회 2번시키면 되기는 하는데... 좀 구림
+    @GetMapping("/test")
+    public void edit(@AuthenticationPrincipal AuthenticatedMember member) {
+        System.out.println(member.getId());
+        System.out.println(member);
+    }
+
 }

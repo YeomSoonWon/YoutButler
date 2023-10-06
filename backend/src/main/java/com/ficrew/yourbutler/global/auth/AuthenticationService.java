@@ -11,6 +11,7 @@ public class AuthenticationService implements UserDetailsService{
     private final MemberRepository memberRepository;
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return AuthenticatedMember.entityToDto(memberRepository.findByEmail(username));
+        String[] identifier = username.split(" ");
+        return AuthenticatedMember.entityToDto(memberRepository.findBySocialTypeAndIdentifier(identifier[0], identifier[1]));
     }
 }

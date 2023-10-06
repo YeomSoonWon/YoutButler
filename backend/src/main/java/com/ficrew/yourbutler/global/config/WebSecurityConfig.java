@@ -6,14 +6,12 @@ import com.ficrew.yourbutler.global.auth.filter.AuthTokenFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -38,21 +36,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception{
-        authenticationManagerBuilder.userDetailsService(authenticationService).passwordEncoder(passwordEncoder);
+    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
+        throws Exception {
+        authenticationManagerBuilder.userDetailsService(authenticationService)
+            .passwordEncoder(passwordEncoder);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests()
-                    .antMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
-                    .antMatchers("/api/v1/**").permitAll()
-                    .antMatchers("/h2-console/**").permitAll()
-                .anyRequest().permitAll().and()
-                .headers().frameOptions().disable();
+            .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+            .authorizeRequests()
+            .antMatchers("/v3/api-docs/**", "/swagger-ui/**").permitAll()
+            .antMatchers("/api/v1/**").permitAll()
+            .antMatchers("/h2-console/**").permitAll()
+            .antMatchers("/api/v1/realestates/**/check").authenticated()
+            .antMatchers("/api/v1/reakestates/**/uncheck").authenticated()
+            .antMatchers("/api/v1/realestates/bookmarks").authenticated()
+            .anyRequest().permitAll().and()
+            .headers().frameOptions().disable();
         http.addFilterBefore(authenticationJwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
@@ -60,7 +63,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(Collections.singletonList("*")); // "*" 대신 허용할 도메인 패턴을 지정합니다.
+        configuration.setAllowedOriginPatterns(
+            Collections.singletonList("*")); // "*" 대신 허용할 도메인 패턴을 지정합니다.
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Collections.singletonList("*"));
         configuration.setAllowCredentials(true);
