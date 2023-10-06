@@ -9,7 +9,6 @@ const Invisible = styled.div`
 `;
 const ActivatedCheck = ({isActivated})=>{
     useEffect(()=>{
-        console.log("isActivated : ",isActivated);
         if(isActivated === false){
             redirect("/create");
         }

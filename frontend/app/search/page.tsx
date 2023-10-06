@@ -43,27 +43,22 @@ const Search = () => {
   const [rsData, setRsData] = useState([0, 400]);
 
   const handleDw = (min, max) => {
-    console.log('Dw changed', [min, max]);
     setDwData([min, max]);
   };
 
   const handleDp = (min, max) => {
-    console.log('Dp changed', [min, max]);
     setDpData([min, max]);
   };
 
   const handleRp = (min, max) => {
-    console.log('Rp changed', [min, max]);
     setRpData([min, max]);
   };
 
   const handleMf = (min, max) => {
-    console.log('Mf changed', [min, max]);
     setMfData([min, max]);
   };
 
   const handleRs = (min, max) => {
-    console.log('Rs changed', [min, max]);
     setRsData([min, max]);
   };
 
@@ -171,7 +166,6 @@ const Search = () => {
 
   const roomTypeParameter = selectedRoomTypes.join(',');
 
-  console.log(roomTypeParameter);
   // 검색어
   const [searchKeyword, setSearchKeyword] = useState('');
 
@@ -180,13 +174,6 @@ const Search = () => {
   };
 
   const handleSearch = (from, offset) => {
-    console.log(
-      `(${
-        totalElements > 0 && page > 0
-          ? `${totalElements}개의 데이터 총 ${page}중`
-          : ''
-      } ${from}페이지의 ${offset}개 만큼의 데이터 가져오기`
-    );
     const searchParams = {
       size: offset,
       from: from,
@@ -213,7 +200,6 @@ const Search = () => {
     fetch(apiUrl)
       .then((response) => response.json())
       .then((data) => {
-        console.log('API response:', data);
         setSearchedEstate(data?.roomTypeList);
         setTotalElements(data?.totalElements);
         setPage(data?.totalPages);

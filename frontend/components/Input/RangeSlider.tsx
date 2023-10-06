@@ -1,9 +1,7 @@
 import React, { Component, useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import styled from "styled-components";
-import { TextareaAutosize } from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
@@ -16,7 +14,6 @@ export default function RangeSlider({ title, unit, minValue, maxValue, change })
   const [value, setValue] = useState([minValue, maxValue]); // 값
 
   useEffect(() => {
-    console.log(value);
     //set작은값(value주에 작은거)
     //set큰값(value중에 큰거)
     change(value[0], value[1]);

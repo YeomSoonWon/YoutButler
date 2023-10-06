@@ -4,17 +4,13 @@ import Image from "next/image";
 import AppBar from "@/components/AppBar";
 import Footer from "@/components/Footer";
 import { IBM_Plex_Sans_KR } from "next/font/google";
-import Chart from "@/components/Chart";
 import DetailCarousel from "@/components/DetailPage/DetailCarousel";
 import butler from "@/public/assets/butler.png";
 import { useState } from "react";
-import AuthApi from "@/api/authApi";
-import RealEstateApi from "@/api/realEstateApi";
 import Chatting from "@/components/Chat/Chatting";
 import {
   TitleP,
   AboutTitleP,
-  StyledSvg,
   Container,
   BottomDiv,
   LeftDiv,
@@ -24,8 +20,6 @@ import {
   AboutP,
   AboutEachDiv,
   AboutDetailDiv,
-  AboutInfoDiv,
-  PriceP,
   RightDiv,
   InfoDiv,
   InfoDetailDiv,
@@ -47,12 +41,9 @@ import {
   LoadingP,
   LoadingDiv,
 } from "@/components/DetailPage/DetailPage";
-import InfoBubble from "@/components/List/InfoBubble";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-// import {useRouter} from "next/router";
 import authApi from "@/api/authApi";
-import axios from "axios";
 import realEstateApi from "@/api/realEstateApi";
 import chatApi from "@/api/chatApi";
 import MoneyFormatter from "@/components/Input/MoneyFormatter";
@@ -90,7 +81,6 @@ const ibmPlexSansKR = IBM_Plex_Sans_KR({
   subsets: ["latin"],
 });
 
-// const DetailWithID = async () => {
 const DetailWithID = ({ params }) => {
   const { data: session, status } = useSession();
   const [user, setUser] = useState(null);
@@ -191,7 +181,6 @@ const DetailWithID = ({ params }) => {
     try {
       // @ts-ignore
       let res = await chatApi.sendChat(session?.userData, user, house, chatMsg, chatNo, holdingAsset);
-      console.log(res);
       if (res.status === 200) {
         setChatNo(res.data.chatRoomNumber);
         setChatList((prev) => {
@@ -364,30 +353,6 @@ const DetailWithID = ({ params }) => {
                 </AboutDetailDiv>
               </AboutEachDiv>
             </AboutDiv>
-            {/* <AboutDiv>
-              <AboutInfoDiv>
-                <AboutP>시세 추이</AboutP>
-                <InfoBubble>
-                  <StyledSvg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth="1.5"
-                    stroke="gray"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 5.25h.008v.008H12v-.008z"
-                    />
-                  </StyledSvg>
-                </InfoBubble>
-              </AboutInfoDiv>
-              <PriceP>매매 7억 3,000 ~ 17억 4,000</PriceP>
-              <SubP>평균 4,866만/3.3㎡</SubP>
-            </AboutDiv>
-            <Chart /> */}
           </LeftDiv>
           <RightDiv>
             <InfoDiv>

@@ -31,13 +31,6 @@ interface IProps {
 }
 
 export default function ItemEach({ item, width, height, colordot, holdingAsset }: IProps) {
-  // 하트 아이콘 클릭 시 색상 변경
-  // const [isFilled, setIsFilled] = useState(false);
-
-  // const handleHeartClick = (e: React.MouseEvent<HTMLElement>) => {
-  //   e.stopPropagation();
-  //   setIsFilled(!isFilled);
-  // };
 
   return (
     <EstateDiv
@@ -62,7 +55,6 @@ export default function ItemEach({ item, width, height, colordot, holdingAsset }
         </PriceDiv>
         <DetailP>{item?.complexName}</DetailP>
         <DetailP>
-          {/* {item?.floorInfo}층, {item?.exclusiveArea}㎡, */}
           관리비 {parseInt(item?.maintenanceFee) / 10000}만
         </DetailP>
       </AboutEstateDiv>

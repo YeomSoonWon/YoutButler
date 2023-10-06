@@ -1,13 +1,10 @@
 "use client";
 
 import styled from "styled-components";
-// import Image from "next/image";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
-  /* align-items: center; */
   padding: 3rem;
   -webkit-font-smoothing: antialiased;
 
@@ -24,7 +21,6 @@ export const TopDiv = styled.div`
 
 export const ImgDiv = styled.div`
   display: flex;
-  /* justify-content: center; */
   width: 88%;
   gap: 1rem;
   overflow-x: hidden;

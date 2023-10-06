@@ -42,8 +42,6 @@ const Modify = () => {
     try {
       let res = await authApi.getUser(token, provider);
       if (res.status === 200) {
-        console.log(res.data);
-        // setUser(res.data.memberResponse);
         setUser((prev) => {
           setAge(res.data.memberResponse.age);
           setHouses(res.data.memberResponse.numberOfHouses);
@@ -63,27 +61,22 @@ const Modify = () => {
   };
 
   const handleAge = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("age : ", e.target.value);
     setAge(parseInt(e.target.value));
   };
 
   const handleHouses = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("houses : ", e.target.value);
     setHouses(e.target.value);
   };
 
   const handleBudget = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("budget : ", e.target.value);
     setBudget(parseInt(e.target.value));
   };
 
   const handleJasan = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("jasan : ", e.target.value);
     setJasan(parseInt(e.target.value));
   };
 
   const handleCredit = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("credit : ", e.target.value);
     setCredit(parseInt(e.target.value));
   };
 

@@ -9,32 +9,14 @@ const PublicAuthApi:Axios = axios.create({
 
 const authApi = {
     getUser : async(accessToken:String, provider:String)=>{
-        console.log("accessToken : "+accessToken+" /provider : "+provider.toUpperCase());
-
-        console.log("userSearchAPI : ",`${process.env.NEXT_PUBLIC_API_BASE_URL}/members/signin`);
-
         let res = await PublicAuthApi.post("signin", {
             socialType : provider.toUpperCase(),
             token : accessToken
         });
-
-        console.log("res data : ",res.data);
         return res;
     },
 
     signUp : async(userData:any | null, age:Number|null, houses:String|null, budget:Number|null, jasan:Number|null, credit:Number|null)=>{
-        console.log({
-            identifier : userData?.identifier,
-            socialType : userData?.socialType,
-            email : userData?.email,
-            nickname : userData?.nickname,
-            age:age,
-            holdingAsset:budget,
-            creditRating : credit,
-            monthlyAvailableAsset : jasan,
-            numberOfHouses : houses.toUpperCase(),
-            token : userData?.token
-        });
         let res = await PublicAuthApi.post("signup", {
             identifier : userData?.identifier,
             socialType : userData?.socialType,

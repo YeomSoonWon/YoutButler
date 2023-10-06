@@ -7,7 +7,6 @@ import {useRecoilState} from "recoil";
 const UserNameInput = ()=>{
     const [user, setUser] = useRecoilState<userStateTypes>(userState);
     const updateName = (e:React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.value);
         setUser({name:e.target.value});
     };
 

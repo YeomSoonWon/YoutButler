@@ -31,7 +31,6 @@ const InfoBubble = ({
   const [content, setContent] = useState(<InnerBubble></InnerBubble>);
 
   useEffect(() => {
-    console.log(contentId);
     if (contentId === 'RENT') {
       setContent(
         <InnerBubble>

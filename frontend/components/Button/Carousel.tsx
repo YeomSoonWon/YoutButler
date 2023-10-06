@@ -5,7 +5,6 @@ import styled from "styled-components";
 import ItemEach from "@/components/List/ItemEach";
 
 const Carousel = ({ items, holdingAsset }) => {
-  console.log(items);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [realItems, setRealItems] = useState(null);
 
@@ -16,7 +15,6 @@ const Carousel = ({ items, holdingAsset }) => {
   }, [items])
 
   const handlePrevClick = () => {
-    // setCurrentIndex((prevIndex) => (prevIndex - 1 + items.length) % items.length);
     setRealItems(prev => {
       const start = prev.shift();
       return [...prev, start];
@@ -24,7 +22,6 @@ const Carousel = ({ items, holdingAsset }) => {
   };
 
   const handleNextClick = () => {
-    // setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
     setRealItems(prev => {
       const end = prev.pop();
       return [end, ...prev];
@@ -62,13 +59,6 @@ const ListDiv = styled.div`
   -webkit-user-select: none;
 `;
 
-// const ItemEach = styled.div`
-//   height: ${(props) => props.height || "200px"};
-//   width: ${(props) => props.width || "200px"};
-//   background-color: #ccc;
-//   margin: 0 5px;
-// `;
-
 const NextSvgDiv = styled.div`
   height: 100%;
   padding: 0.5rem;
@@ -81,7 +71,6 @@ const NextSvgDiv = styled.div`
   transform: translateY(-50%);
   width: 30px;
   justify-content: center;
-  /* background-color: rgba(255, 255, 255, 0.5); */
   transition: background-color 0.3s ease;
   z-index: 2;
 

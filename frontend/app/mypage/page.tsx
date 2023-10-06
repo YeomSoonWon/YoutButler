@@ -46,21 +46,15 @@ const Profile = () => {
 
   useEffect(() => {
     if (user) {
-      console.log(user);
       getLikes();
       getAllChats();
     }
   }, [user]);
 
-  useEffect(() => {
-    console.log(bookMarkes);
-  }, [bookMarkes])
-
   const configureUser = async (token: String, provider: String) => {
     try {
       let res = await authApi.getUser(token, provider);
       if (res.status === 200) {
-        console.log(res.data);
         setUser(res.data.memberResponse);
       } else {
         alert("비정상적인 접근입니다.");
@@ -75,21 +69,17 @@ const Profile = () => {
   const getAllChats = async () => {
     // @ts-ignore
     let res = await chatApi.getMyAllChats(session?.userData);
-    console.log("mychats : ", res.data)
     setMyChats(res.data);
   }
 
   const getLikes = async () => {
     // @ts-ignore
     let res = await realEstateApi.getLikes(session?.userData);
-    // setBookMarkes(prev => { return res.data.boomarkList });
     setBookMarkes(res.data.boomarkList);
   }
 
   const handleTitleClick = (index) => {
     setSelectedTitleIndex(index);
-    console.log("target : ", myChats[index]);
-    // todo : selectedTitleIndex의 값을 통해 유저의 채팅 목록 중 매물에 맞는 채팅 출력
   };
 
   const deleteUser = async () => {
@@ -97,7 +87,6 @@ const Profile = () => {
     if (realDelete) {
       // @ts-ignore
       let res = await authApi.deleteUser(session?.userData);
-      console.log(res);
       if (res.data === "회원탈퇴 완료") {
         alert("탈퇴되었습니다.");
         // window.location.href="/";
@@ -107,19 +96,6 @@ const Profile = () => {
       }
     }
   };
-
-  const chatMessages = [
-    { text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?", isRight: false },
-    { text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?", isRight: false },
-    { text: "어쩌고 .. 저쩌고...", isRight: true },
-    { text: "어쩌고 .. 저쩌고...", isRight: true },
-    { text: "어쩌고 .. 저쩌고...", isRight: true },
-    { text: "어쩌고 .. 저쩌고...", isRight: true },
-    {
-      text: "당신의집사 챗봇입니다. 무엇을 도와드릴까요?ssssssssssssssssssssssss",
-      isRight: false,
-    },
-  ];
 
   return (
     <main>
@@ -154,31 +130,6 @@ const Profile = () => {
               <BoldP>상담 내역</BoldP>
               <ChatListDiv>
                 <ChatTitleDiv>
-                  {/* <ChatTitleEach
-                    title="송파아이파크 107동 · 중층"
-                    isSelected={selectedTitleIndex === 0}
-                    onClick={() => handleTitleClick(0)}
-                  />
-                  <ChatTitleEach
-                    title="반포롯데캐슬오스카 1동 고층"
-                    isSelected={selectedTitleIndex === 1}
-                    onClick={() => handleTitleClick(1)}
-                  />
-                  <ChatTitleEach
-                    title="더샵반포리버파크(도시형) 3동 저층"
-                    isSelected={selectedTitleIndex === 2}
-                    onClick={() => handleTitleClick(2)}
-                  />
-                  <ChatTitleEach
-                    title="반포센트럴자이 107동 7층 아파트"
-                    isSelected={selectedTitleIndex === 3}
-                    onClick={() => handleTitleClick(3)}
-                  />
-                  <ChatTitleEach
-                    title="아크로리버뷰신반포 103동 7층"
-                    isSelected={selectedTitleIndex === 4}
-                    onClick={() => handleTitleClick(4)}
-                  /> */}
                   {myChats && myChats.map((item, index) => {
                     return <ChatTitleEach
                       title={item?.buildingName}

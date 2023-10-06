@@ -16,7 +16,6 @@ import {
 const DetailCarousel = ({imgList}) => {
   // 사진 캐러셀 기능
   const [currentIdx, setCurrentIdx] = useState(0);
-  // const [list, setList] = useState([]);
 
   const images = [Img1, Img1, Img1, Img1, Img1];
 

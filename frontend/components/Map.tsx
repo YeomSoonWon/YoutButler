@@ -13,23 +13,13 @@ interface MapProps {
 }
 
 const SeoulMap = ({items}) => {
-  console.log("map items : ",items);
   const [map, setMap] = useState<any>(null);
   const [polygons, setPolygons] = useState<any[]>([]);
   const [clusterer, setClusterer] = useState<any>(null);
   const [dummyData, setDummyData] = useState(null);
-  // let dummyData = [];
-  // if(items){
-  //   dummyData = items.map((item: any) => ({
-  //     latitude: item.latitude,
-  //     longitude: item.longitude,
-  //     complexName: item.complexName,
-  //   }));
-  // }
 
   useEffect(()=>{
     if(items){
-      console.log("dummyData setting!!")
       setDummyData(items.map((item: any) => ({
         latitude: item.latitude,
         longitude: item.longitude,
@@ -37,23 +27,6 @@ const SeoulMap = ({items}) => {
       })));
     }
   },[items]);
-
-  useEffect(()=>{
-    if(dummyData){
-      console.log("dummyData : ",dummyData);
-    }
-  },[dummyData])
-  // const dummyData = items.map((item: any) => ({
-  //   latitude: item.latitude,
-  //   longitude: item.longitude,
-  //   complexName: item.complexName,
-  // }));
-
-  // useEffect(()=>{
-  //   if(items){
-  //     setDummy()
-  //   }
-  // },[items])
 
   useEffect(() => {
     const fetchSeoulData = async () => {
@@ -157,19 +130,6 @@ const SeoulMap = ({items}) => {
 
             let markers = [];
 
-            // const markers = dummyData.map((data) => {
-            //   console.log("data : ",data);
-            //   const marker = new window.kakao.maps.Marker({
-            //     position: new window.kakao.maps.LatLng(
-            //       data.latitude,
-            //       data.longitude
-            //     ),
-            //     clickable: true,
-            //   });
-            //   console.log("complexName : ",data.complexName);
-            //   return marker; // 마커 객체 반환
-            // });
-
             if (items) {
               markers = items.map((data) => {
                   const marker = new window.kakao.maps.Marker({
@@ -195,8 +155,6 @@ const SeoulMap = ({items}) => {
               });
           }
 
-            // console.log(markers);
-
             const clusterer = new window.kakao.maps.MarkerClusterer({
               map: null, // 초기에는 지도에 클러스터러를 표시하지 않습니다.
               averageCenter: true,
@@ -205,8 +163,6 @@ const SeoulMap = ({items}) => {
             clusterer.setMap(kakaoMap);
             clusterer.addMarkers(markers); // 클러스터러에 마커 추가
             setClusterer(clusterer);
-
-            console.log(clusterer.getMarkers());
 
             // 레벨 변경 이벤트 감시
             window.kakao.maps.event.addListener(
@@ -223,11 +179,6 @@ const SeoulMap = ({items}) => {
                   polygon.setMap(kakaoMap);
                   clusterer.setMap(null);
                 }
-                console.log(
-                  "zoom_changed event triggered",
-                  currentLevel,
-                  clusterer
-                );
               }
             );
 

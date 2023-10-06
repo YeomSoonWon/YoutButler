@@ -24,27 +24,22 @@ const Create = () => {
   const [credit, setCredit] = useState<Number | null>(null);
 
   const handleAge = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("age : ", e.target.value);
     setAge(parseInt(e.target.value));
   };
 
   const handleHouses = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log("houses : ", e.target.value);
     setHouses(e.target.value);
   };
 
   const handleBudget = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("budget : ", e.target.value);
     setBudget(parseInt(e.target.value));
   };
 
   const handleJasan = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("jasan : ", e.target.value);
     setJasan(parseInt(e.target.value));
   };
 
   const handleCredit = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("credit : ", e.target.value);
     setCredit(parseInt(e.target.value));
   };
 
@@ -61,7 +56,6 @@ const Create = () => {
   };
 
   useEffect(() => {
-    console.log(status);
     if (status === "unauthenticated") {
       alert("잘못된 접근입니다.");
       window.location.href = "/";
@@ -69,8 +63,6 @@ const Create = () => {
   }, [status]);
 
   useEffect(() => {
-    // @ts-ignore
-    console.log(session?.userData);
     if (session) {
       // @ts-ignore
       configureUser(session?.userData.token, session?.userData.socialType);
