@@ -5,6 +5,7 @@ import com.ficrew.yourbutler.member.presentation.response.MemberResponse;
 import com.ficrew.yourbutler.member.presentation.response.SignInResponse;
 
 public class SignInResult {
+
     Token token;
     MemberResponse memberResponse;
     public SignInResult(Token token, MemberResponse memberResponse) {
@@ -15,4 +16,5 @@ public class SignInResult {
     public SignInResponse toResponse() {
         return new SignInResponse(token, memberResponse);
     }
+
 }
