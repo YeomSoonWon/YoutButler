@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { ButtonHTMLAttributes } from "react";
+import { ButtonHTMLAttributes, CSSProperties } from "react";
 import colors from "../../constants/colors";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -13,12 +13,16 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     | "redOutline";
   Kind?: "extraSmall" | "small" | "medium" | "big";
   Rounded?: "square" | "circle";
+  onClick?: () => void;
+  customStyle?: CSSProperties;
 }
 
 export default function Button({
   Kind = "extraSmall",
   Variant = "yellowFilled",
   Rounded,
+  customStyle,
+  onClick,
   ...props
 }: ButtonProps) {
   return (
@@ -26,6 +30,8 @@ export default function Button({
       Kind={Kind}
       Variant={Variant}
       Rounded={Rounded}
+      onClick={onClick}
+      style={customStyle}
       {...props}
     ></StyledButton>
   );

@@ -1,43 +1,48 @@
-import React, { useState } from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import ItemEach from "@/components/List/ItemEach";
 
-const Carousel = ({ items }) => {
+const Carousel = ({ items, holdingAsset }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [realItems, setRealItems] = useState(null);
+
+  useEffect(() => {
+    if (items) {
+      setRealItems([...items]);
+    }
+  }, [items])
 
   const handlePrevClick = () => {
-    setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + items.length) % items.length
-    );
+    setRealItems(prev => {
+      const start = prev.shift();
+      return [...prev, start];
+    });
   };
 
   const handleNextClick = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
+    setRealItems(prev => {
+      const end = prev.pop();
+      return [end, ...prev];
+    });
   };
 
   return (
     <>
       <NextSvgDiv className="prev" onClick={handlePrevClick}>
-        <NextSvg
-          xmlns="http://www.w3.org/2000/svg"
-          height="1em"
-          viewBox="0 0 320 512"
-        >
+        <NextSvg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
           <path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l192 192c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L77.3 256 246.6 86.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-192 192z" />
         </NextSvg>
       </NextSvgDiv>
       {/* {items} */}
       <ListDiv style={{ transform: `translateX(-${currentIndex * 25}%)` }}>
-        {items.map((item, index) => (
-          <ItemEach height={item.height} width={item.width} />
+        {realItems && realItems.map((item, index) => (
+          <ItemEach height="19rem" width="18rem" item={item} holdingAsset={holdingAsset} />
         ))}
       </ListDiv>
       <NextSvgDiv className="next" onClick={handleNextClick}>
-        <NextSvg
-          xmlns="http://www.w3.org/2000/svg"
-          height="1em"
-          viewBox="0 0 320 512"
-        >
+        <NextSvg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 320 512">
           <path d="M310.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-192 192c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L242.7 256 73.4 86.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l192 192z" />
         </NextSvg>
       </NextSvgDiv>
@@ -51,14 +56,8 @@ const ListDiv = styled.div`
   width: 95%;
   display: flex;
   gap: 1rem;
+  -webkit-user-select: none;
 `;
-
-// const ItemEach = styled.div`
-//   height: ${(props) => props.height || "200px"};
-//   width: ${(props) => props.width || "200px"};
-//   background-color: #ccc;
-//   margin: 0 5px;
-// `;
 
 const NextSvgDiv = styled.div`
   height: 100%;
@@ -72,7 +71,6 @@ const NextSvgDiv = styled.div`
   transform: translateY(-50%);
   width: 30px;
   justify-content: center;
-  /* background-color: rgba(255, 255, 255, 0.5); */
   transition: background-color 0.3s ease;
   z-index: 2;
 

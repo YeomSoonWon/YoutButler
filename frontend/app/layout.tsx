@@ -26,7 +26,7 @@ const RootLayout = ({ children }: { children: React.ReactNode }) => {
         <script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js"></script>
         <script
         type="text/javascript"
-        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY}&autoload=false&libraries=services`}></script>
+        src={`//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAOMAP_APPKEY}&autoload=false&libraries=services,clusterer`}></script>
         <Recoil>
           <ReactQuery>
             <AuthSession>

@@ -312,9 +312,9 @@ dist
 .yarn/cache
 .yarn/unplugged
 .yarn/build-state.yml
-.yarn/install-state.gz
+install-state.gz
 .pnp.*
-
+.next
 ### Node Patch ###
 # Serverless Webpack directories
 .webpack/
