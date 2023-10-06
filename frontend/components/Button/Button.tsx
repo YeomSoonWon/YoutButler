@@ -78,27 +78,27 @@ const TYPE_VARIANTS = {
   redFilled: {
     backgroundColor: colors.red,
     color: colors.white,
-    border: "transparent",
+    border: "solid 1px #FF5B5B",
   },
   redOutline: {
     backgroundColor: "transparent",
     color: colors.red,
-    border: "transparent",
+    border: "solid 1px #FF5B5B",
   },
   yellowFilled: {
     backgroundColor: colors.yellow,
     color: colors.white,
-    border: "transparent",
+    border: "solid 1px #FFC436",
   },
   yellowOutline: {
     backgroundColor: "transparent",
     color: colors.yellow,
-    border: "transparent",
+    border: "solid 1px #FFC436",
   },
   yellowTonal: {
     backgroundColor: colors.yellow,
     color: colors.black,
-    border: "transparent",
+    border: "solid 1px #FFC436",
   },
   grayOutline: {
     backgroundColor: "transparent",
