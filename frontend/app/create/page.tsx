@@ -120,7 +120,7 @@ const Create = () => {
               <option value="none">무주택</option>
               <option value="one">1주택</option>
               <option value="two">2주택</option>
-              <option value="more">3주택 이상</option>
+              <option value="more_than_two">3주택 이상</option>
             </StyledSelect>
             <StyledInput
               type="number"
