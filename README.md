@@ -106,7 +106,7 @@
 ## 📂 프로젝트 구성
 
 아키텍처
-![Architecture](./assets/serviceAchitecture.png)
+![Architecture](exec/assets/serviceAchitecture.png)
 
 <br>
 <br>
@@ -135,8 +135,8 @@
 
 ### `마이페이지`
 
-![conference](exec/assets/fullmypage.gif)
-![conference](exec/assets/information_update_full.gif)
+![conference](exec/assets/fullmypage.png)
+![conference](exec/assets/information_update_full.png)
 
 <br>
 
