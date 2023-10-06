@@ -12,7 +12,6 @@ from flask_server.modules.agents.intention_decesion import decide
 app = Flask(__name__)
 
 
-# 국민은행에서 가장 낮은 금리의 주택 담보 대출이 뭔지 알려줘. DSR가 무슨 의미인지 알려줘. 그리고 가장 맛있는 식당 추천해줘
 @app.route("/api/chat", methods=["POST"])
 def chat():
     summary_template = """
@@ -43,10 +42,6 @@ def chat():
     summary_prompt_template = PromptTemplate(
         input_variables=["database_information", "financial_information", "user_message"],
         template=summary_template
-        # 필수 입력 변수의 하위 집합을 지정할 수 있음.
-        # partial_variables={
-        #     "format_instruction": loan_intel_parser.get_format_instructions()
-        # },
     )
 
     llm = ChatOpenAI(temperature=0, model_name="gpt-3.5-turbo-16k")
@@ -62,9 +57,6 @@ def chat():
     print(data)
     print(jsonify(data))
     return jsonify(data)
-    # return result
-    # return loan_intel_parser.parse(result['properties'])
-    # return loan_intel_parser.parse(result)
 
 
 if __name__ == "__main__":
