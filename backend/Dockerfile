@@ -12,4 +12,4 @@ WORKDIR /app
 # ARG JAR_FILE=/build/libs/*.jar
 COPY --from=builder /app/build/libs/*.jar /app/app.jar
 EXPOSE 5000
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
