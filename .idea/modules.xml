@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/S09P22A405.iml" filepath="$PROJECT_DIR$/.idea/S09P22A405.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/yourbutler.main.iml" filepath="$PROJECT_DIR$/.idea/modules/yourbutler.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/gpt_server.iml" filepath="$PROJECT_DIR$/.idea/gpt_server.iml" />
     </modules>
   </component>
 </project>
