@@ -2,6 +2,8 @@ package com.ficrew.yourbutler.member.infrastructure.config;
 
 import com.ficrew.yourbutler.global.auth.JWTProvider;
 import com.ficrew.yourbutler.member.application.CreateMemberProcessor;
+import com.ficrew.yourbutler.member.application.DeleteMemberProcessor;
+import com.ficrew.yourbutler.member.application.EditMemberProcessor;
 import com.ficrew.yourbutler.member.application.SignInMemberProcessor;
 import com.ficrew.yourbutler.member.domain.repository.MemberRepository;
 import com.ficrew.yourbutler.member.infrastructure.encryption.UserSecurityPasswordEncoder;
@@ -31,6 +33,24 @@ public class MemberConfig {
                 memberRepository,
                 new UserSecurityPasswordEncoder(userEncodingAlgorithm()),
                 jwtProvider
+        );
+    }
+
+    @Bean
+    public EditMemberProcessor editMemberProcessor(
+        MemberRepository memberRepository
+    ) {
+        return new EditMemberProcessor(
+                memberRepository
+        );
+    }
+
+    @Bean
+    public DeleteMemberProcessor deleteMemberProcessor(
+        MemberRepository memberRepository
+    ) {
+        return new DeleteMemberProcessor(
+                memberRepository
         );
     }
 

@@ -14,7 +14,6 @@ public class MemberRepositoryAdapter implements MemberRepository {
 
     private final JpaMemberRepository memberRepository;
 
-
     @Override
     public Member save(Member member) {
         return memberRepository.save(member);
@@ -30,4 +29,16 @@ public class MemberRepositoryAdapter implements MemberRepository {
     public boolean existsByEmail(String email) {
         return memberRepository.existsByEmail(email);
     }
+
+    @Override
+    public Member findById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException("Member Entity Not found."));
+    }
+
+    @Override
+    public void delete(Member member) {
+        memberRepository.delete(member);
+    }
+
 }
