@@ -22,4 +22,5 @@ public class CreateMemberProcessor {
 
         memberRepository.save(findMember);
     }
+
 }
